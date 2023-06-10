@@ -149,7 +149,7 @@ const SignIn = () => {
                       <NavLink
                         to="/clients/signup"
                         style={{ color: theme.palette.primary.main, marginLeft: 5 }}
-                      >
+                      > 
                         Registrarse
                       </NavLink>
                     </Paragraph>
