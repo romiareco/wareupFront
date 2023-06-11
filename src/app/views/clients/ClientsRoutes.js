@@ -10,7 +10,7 @@ const clientsRoutes = [
   { path: '/clients/signup', element: <SignUp /> },
   { path: '/clients/signin', element: <SignIn /> },
   { path: '/clients/forgot-password', element: <ForgotPassword /> },
-  { path: '/clients/404', element: <NotFound /> },
+  { path: '/clients/404', element: <NotFound /> }
 ];
 
 export default clientsRoutes;
