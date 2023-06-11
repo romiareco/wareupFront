@@ -172,6 +172,15 @@ const SignUp = () => {
                       Registrar
                     </LoadingButton>
 
+                    <LoadingButton
+                      color="primary"
+                      variant="outlined"
+                      onClick={() => navigate(-1)}
+                      sx={{ mb: 2, mt: 3, ml: 1 }}
+                    >
+                      Cancelar
+                    </LoadingButton>
+
                     <Paragraph>
                       Ya tienes una cuenta?
                       <NavLink

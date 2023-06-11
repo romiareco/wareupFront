@@ -144,6 +144,15 @@ const SignIn = () => {
                       Login
                     </LoadingButton>
 
+                    <LoadingButton
+                      color="primary"
+                      variant="outlined"
+                      onClick={() => navigate(-1)}
+                      sx={{ my: 2, ml: 1 }}
+                    >
+                      Cancelar
+                    </LoadingButton>
+
                     <Paragraph>
                       No tienes una cuenta?
                       <NavLink
