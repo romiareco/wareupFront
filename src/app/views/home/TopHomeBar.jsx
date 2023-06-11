@@ -58,7 +58,7 @@ const TopHomeBar = () => {
                         </Link>
                     </StyledItem>
                     <StyledItem>
-                        <Link to="/clients/singup">
+                        <Link to="/clients/signup">
                             <Span> Registrarse </Span>
                         </Link>
                     </StyledItem>
