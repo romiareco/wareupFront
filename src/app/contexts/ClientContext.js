@@ -122,10 +122,15 @@ export const ClientProvider = ({ children }) => {
     }
 
     const recoverPassword = async (email) => {
-        //Pendiente hacer. Aca se deberia hacer el endpoint que reenvie por mail la password...
-        const response = await axios.post('/clients/recoverPassword', {
+       
+        console.log(email);
+
+        const response = await axios.post('/clients/recover-password', {
             email
         })
+
+        
+        console.log(response);
 
         const { hasError, message } = response.data
 
@@ -193,6 +198,7 @@ export const ClientProvider = ({ children }) => {
                 ...state,
                 signIn,
                 signUp,
+                recoverPassword
             }}>
             {children}
         </ClientContext.Provider>

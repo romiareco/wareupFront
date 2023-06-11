@@ -30,20 +30,15 @@ const ForgotPasswordRoot = styled(JustifyBox)(() => ({
 const ForgotPassword = () => {
   const navigate = useNavigate();
   const { recoverPassword } = useClient();
-  const [ email, setEmail, setLoading] = useState('');
+  const [ email, setEmail] = useState('');
 
-  const handleFormSubmit = () => {
-    setLoading(true);
-
+  const handleFormSubmit = () => {   
     try {
-      recoverPassword(email);
+      recoverPassword(email); 
       navigate('/');
-      setLoading(false);
     } catch (e) {
       console.log(e);
-      setLoading(false);
     }
-    console.log(email);
   };
 
   return (
