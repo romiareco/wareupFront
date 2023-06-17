@@ -2,7 +2,7 @@ import { Avatar, Hidden, Icon, IconButton, MenuItem, useMediaQuery } from '@mui/
 import { Box, styled, useTheme } from '@mui/system';
 import { MatxMenu, MatxSearchBox } from 'app/components';
 import { themeShadows } from 'app/components/MatxTheme/themeColors';
-import useAuth from 'app/hooks/useClient';
+import useUser from 'app/hooks/useUser';
 import useSettings from 'app/hooks/useSettings';
 import { topBarHeight } from 'app/utils/constant';
 import React from 'react';
@@ -71,7 +71,7 @@ const IconBox = styled('div')(({ theme }) => ({
 const Layout1Topbar = () => {
   const theme = useTheme();
   const { settings, updateSettings } = useSettings();
-  const { logout, user } = useAuth();
+  const { logout, user } = useUser();
   const isMdScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   const updateSidebarMode = (sidebarSettings) => {

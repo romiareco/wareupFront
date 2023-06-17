@@ -31,7 +31,7 @@ const LogisticBanner = () => {
             variant="contained"
             size="large"
             component="a"
-            href="/clients/signup/"
+            href="/users/signup/"
             sx={{ minWidth: 200 }}
             >
             Empieza ahora

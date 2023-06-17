@@ -3,13 +3,13 @@ export const navigations = [
   { label: 'PAGES', type: 'label' },
   {name: 'Home', path: '/home', icon: 'home'},
   {
-    name: 'Clients',
+    name: 'Users',
     icon: 'security',
     children: [
-      { name: 'Sign in', iconText: 'SI', path: '/clients/signin' },
-      { name: 'Registrar', iconText: 'SU', path: '/clients/signup' },
-      { name: 'Forgot Password', iconText: 'FP', path: '/clients/forgot-password' },
-      { name: 'Error', iconText: '404', path: '/clients/404' },
+      { name: 'Sign in', iconText: 'SI', path: '/users/signin' },
+      { name: 'Registrar', iconText: 'SU', path: '/users/signup' },
+      { name: 'Forgot Password', iconText: 'FP', path: '/users/forgot-password' },
+      { name: 'Error', iconText: '404', path: '/users/404' },
     ],
   },
   { label: 'Components', type: 'label' },

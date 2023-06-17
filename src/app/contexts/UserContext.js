@@ -71,7 +71,7 @@ const reducer = (state, action) => {
     }
 }
 
-const ClientContext = createContext({
+const UserContext = createContext({
     ...initialState,
     signIn: () => Promise.resolve(),
     logout: () => { },
@@ -79,7 +79,7 @@ const ClientContext = createContext({
     recoverPassword: () => Promise.resolve(),
 })
 
-export const ClientProvider = ({ children }) => {
+export const UserProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState)
 
     const signIn = async (email, password) => {
@@ -101,7 +101,7 @@ export const ClientProvider = ({ children }) => {
     }
 
     const signUp = async (email, name, lastname, password) => {
-        const response = await axios.post('/clients', {
+        const response = await axios.post('/users', {
             email,
             name,
             lastname,
@@ -125,7 +125,7 @@ export const ClientProvider = ({ children }) => {
        
         console.log(email);
 
-        const response = await axios.post('/clients/recover-password', {
+        const response = await axios.post('/users/recover-password', {
             email
         })
 
@@ -193,7 +193,7 @@ export const ClientProvider = ({ children }) => {
     }
 
     return (
-        <ClientContext.Provider
+        <UserContext.Provider
             value={{
                 ...state,
                 signIn,
@@ -201,8 +201,8 @@ export const ClientProvider = ({ children }) => {
                 recoverPassword
             }}>
             {children}
-        </ClientContext.Provider>
+        </UserContext.Provider>
     )
 }
 
-export default ClientContext
+export default UserContext

@@ -1,6 +1,6 @@
 import { Badge, Button, Drawer, Icon, IconButton, ThemeProvider } from '@mui/material';
 import { Box, styled, useTheme } from '@mui/system';
-import useAuth from 'app/hooks/useClient';
+import useUser from 'app/hooks/useUser';
 import useSettings from 'app/hooks/useSettings';
 import {
   deleteProductFromCart,
@@ -82,7 +82,7 @@ function ShoppingCart({ container }) {
   const [panelOpen, setPanelOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user } = useUser();
   const { cartList } = useSelector((state) => state.ecommerce);
   const { settings } = useSettings();
   const theme = useTheme();
