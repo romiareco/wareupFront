@@ -53,12 +53,12 @@ const TopHomeBar = () => {
             <TopbarContainer>
                 <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
                     <StyledItem position="center">
-                        <Link to="/clients/signin">
+                        <Link to="/users/signin">
                             <Span> Login </Span>
                         </Link>
                     </StyledItem>
                     <StyledItem>
-                        <Link to="/clients/signup">
+                        <Link to="/users/signup">
                             <Span> Registrarse </Span>
                         </Link>
                     </StyledItem>

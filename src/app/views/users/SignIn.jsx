@@ -2,7 +2,7 @@ import { LoadingButton } from '@mui/lab';
 import { Card, Checkbox, Grid, TextField } from '@mui/material';
 import { Box, styled, useTheme } from '@mui/system';
 import { Paragraph } from 'app/components/Typography';
-import useClient from 'app/hooks/useClient';
+import useUser from 'app/hooks/useUser';
 import { Formik } from 'formik';
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -52,7 +52,7 @@ const SignIn = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
-  const { signIn } = useClient();
+  const { signIn } = useUser();
 
   const handleFormSubmit = async (values) => {
     setLoading(true);
@@ -127,7 +127,7 @@ const SignIn = () => {
                       </FlexBox>
 
                       <NavLink
-                        to="/clients/forgot-password"
+                        to="/users/forgot-password"
                         style={{ color: theme.palette.primary.main }}
                       >
                         Olvidaste tu contraseña?
@@ -156,7 +156,7 @@ const SignIn = () => {
                     <Paragraph>
                       No tienes una cuenta?
                       <NavLink
-                        to="/clients/signup"
+                        to="/users/signup"
                         style={{ color: theme.palette.primary.main, marginLeft: 5 }}
                       > 
                         Registrarse

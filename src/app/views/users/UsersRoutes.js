@@ -6,11 +6,11 @@ const SignUp = Loadable(lazy(() => import('./SignUp')));
 const ForgotPassword = Loadable(lazy(() => import('./ForgotPassword')));
 const SignIn = Loadable(lazy(() => import('./SignIn')));
 
-const clientsRoutes = [
-  { path: '/clients/signup', element: <SignUp /> },
-  { path: '/clients/signin', element: <SignIn /> },
-  { path: '/clients/forgot-password', element: <ForgotPassword /> },
-  { path: '/clients/404', element: <NotFound /> }
+const usersRoutes = [
+  { path: '/users/signup', element: <SignUp /> },
+  { path: '/users/signin', element: <SignIn /> },
+  { path: '/users/forgot-password', element: <ForgotPassword /> },
+  { path: '/users/404', element: <NotFound /> }
 ];
 
-export default clientsRoutes;
+export default usersRoutes;

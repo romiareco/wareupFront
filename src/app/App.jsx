@@ -2,7 +2,7 @@ import { Provider } from 'react-redux';
 import { useRoutes } from 'react-router-dom';
 import { MatxTheme } from './components';
 import { SettingsProvider } from './contexts/SettingsContext';
-import { ClientProvider } from './contexts/ClientContext';
+import { UserProvider } from './contexts/UserContext';
 import { Store } from './redux/Store';
 import routes from './routes';
 
@@ -13,7 +13,7 @@ const App = () => {
     <Provider store={Store}>
       <SettingsProvider>
         <MatxTheme>
-          <ClientProvider>{content}</ClientProvider>
+          <UserProvider>{content}</UserProvider>
         </MatxTheme>
       </SettingsProvider>
     </Provider>

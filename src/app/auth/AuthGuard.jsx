@@ -1,4 +1,4 @@
-import useAuth from 'app/hooks/useClient';
+import useUser from 'app/hooks/useUser';
 // import { flat } from 'app/utils/utils';
 import { Navigate, useLocation } from 'react-router-dom';
 // import AllPages from '../routes';
@@ -18,7 +18,7 @@ const AuthGuard = ({ children }) => {
   let {
     isAuthenticated,
     // user
-  } = useAuth();
+  } = useUser();
   const { pathname } = useLocation();
 
   //   const routes = flat(AllPages);

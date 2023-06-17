@@ -1,7 +1,7 @@
 import { Box, Button, Card, Grid, styled, TextField } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useClient from 'app/hooks/useClient';
+import useUser from 'app/hooks/useUser';
 
 const FlexBox = styled(Box)(() => ({
   display: 'flex',
@@ -29,7 +29,7 @@ const ForgotPasswordRoot = styled(JustifyBox)(() => ({
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
-  const { recoverPassword } = useClient();
+  const { recoverPassword } = useUser();
   const [ email, setEmail] = useState('');
 
   const handleFormSubmit = () => {   

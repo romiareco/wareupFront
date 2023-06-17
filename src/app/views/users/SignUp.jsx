@@ -3,7 +3,7 @@ import { LoadingButton } from '@mui/lab';
 import { Card, Checkbox, Grid, TextField } from '@mui/material';
 import { Box, styled } from '@mui/system';
 import { Paragraph } from 'app/components/Typography';
-import useClient from 'app/hooks/useClient';
+import useUser from 'app/hooks/useUser';
 import { Formik } from 'formik';
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -51,7 +51,7 @@ const validationSchema = Yup.object().shape({
 
 const SignUp = () => {
   const theme = useTheme();
-  const { signUp } = useClient();
+  const { signUp } = useUser();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -184,7 +184,7 @@ const SignUp = () => {
                     <Paragraph>
                       Ya tienes una cuenta?
                       <NavLink
-                        to="/clients/signin"
+                        to="/users/signin"
                         style={{ color: theme.palette.primary.main, marginLeft: 5 }}
                       >
                         Login
