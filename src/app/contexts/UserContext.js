@@ -100,11 +100,11 @@ export const UserProvider = ({ children }) => {
         })
     }
 
-    const signUp = async (email, name, lastname, password) => {
+    const signUp = async (email, name, last_name, password) => {
         const response = await axios.post('/users', {
             email,
             name,
-            lastname,
+            last_name,
             password
         })
 
