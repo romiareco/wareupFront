@@ -3,6 +3,26 @@ import { ENV } from "../utils/constant";
 export class User {
     baseApi = ENV.BASE_API;
 
+    async getCurrentUserInformation(accessToken, userId) {
+        try {
+          const url = `${this.baseApi}/${ENV.API_ROUTES.USER_INFORMATION}/${userId}`;
+          const params = {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          };
+    
+          const response = await fetch(url, params);
+          const result = await response.json();
+    
+          if (response.status !== 200) throw result;
+    
+          return result;
+        } catch (error) {
+          throw error;
+        }
+      }
+
     async signUp(data) {
         try {
             const url = `${this.baseApi}/${ENV.API_ROUTES.SIGN_UP}`;

@@ -84,10 +84,11 @@ export const UserProvider = ({ children }) => {
 
     const signIn = async (email, password) => {
         //Pendiente hacer.
-        const response = await axios.post('/api/auth/login', {
+        const response = await axios.post('/auth/login', {
             email,
             password,
         })
+        console.log(response)
         const { accessToken, user } = response.data
 
         setSession(accessToken)

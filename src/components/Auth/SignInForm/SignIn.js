@@ -2,11 +2,11 @@ import { LoadingButton } from '@mui/lab';
 import { Card, Checkbox, Grid, TextField } from '@mui/material';
 import { Box, styled, useTheme } from '@mui/system';
 import { Paragraph } from '../../Typography';
-import useUser from '../../../hooks/useUser';
-import { Formik } from 'formik';
-import { useState } from 'react';
+import {useAuth} from '../../../hooks';
 import { NavLink, useNavigate } from 'react-router-dom';
-import * as Yup from 'yup';
+import { useFormik } from "formik";
+import {validationSchema, inititalValues} from "./SignIn.form";
+import { Auth } from "../../../api";
 
 const FlexBox = styled(Box)(() => ({ display: 'flex', alignItems: 'center' }));
 
@@ -32,37 +32,33 @@ const SignInRoot = styled(JustifyBox)(() => ({
   },
 }));
 
-// inital login credentials
-const initialValues = {
-  email: '',
-  password: '',
-  remember: true,
-};
+const authController = new Auth();
 
-// form field validation schema
-const validationSchema = Yup.object().shape({
-  password: Yup.string()
-  .min(6, 'Contraseña debe tener al menos 6 caracteres')
-  .required('La contraseña es requerida!'),
-  email: Yup.string().email('Direccion de email no valida').required('El email es requerido!'),
-});
 
 export function SignIn() {
+  const { login } = useAuth();
+
+
+  const formik = useFormik({
+    initialValues: inititalValues,
+    validationSchema: validationSchema,
+    validateOnChange: false,
+    onSubmit: async (formValue) => {
+      try {
+        const response = await authController.login(formValue);
+
+       // authController.setAccessToken(response.access);
+       // authController.setRefreshToken(response.refresh);
+
+        login(response.access);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  });
+
   const theme = useTheme();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-
-  const { signIn } = useUser();
-
-  const handleFormSubmit = async (values) => {
-    setLoading(true);
-    try {
-      await signIn(values.email, values.password);
-      navigate('/');
-    } catch (e) {
-      setLoading(false);
-    }
-  };
 
   return (
     <SignInRoot>
@@ -76,13 +72,7 @@ export function SignIn() {
 
           <Grid item sm={6} xs={12}>
             <ContentBox>
-              <Formik
-                onSubmit={handleFormSubmit}
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-              >
-                {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
-                  <form onSubmit={handleSubmit}>
+                  <form onSubmit={formik.handleSubmit}>
                     <TextField
                       fullWidth
                       size="small"
@@ -90,14 +80,11 @@ export function SignIn() {
                       name="email"
                       label="Email"
                       variant="outlined"
-                      onBlur={handleBlur}
-                      value={values.email}
-                      onChange={handleChange}
-                      helperText={touched.email && errors.email}
-                      error={Boolean(errors.email && touched.email)}
+                      value={formik.values.email}
+                      onChange={formik.handleChange}
+                      error={formik.errors.email}
                       sx={{ mb: 3 }}
                     />
-
                     <TextField
                       fullWidth
                       size="small"
@@ -105,11 +92,9 @@ export function SignIn() {
                       type="password"
                       label="Contraseña"
                       variant="outlined"
-                      onBlur={handleBlur}
-                      value={values.password}
-                      onChange={handleChange}
-                      helperText={touched.password && errors.password}
-                      error={Boolean(errors.password && touched.password)}
+                      value={formik.values.password}
+                      onChange={formik.handleChange}
+                      error={formik.errors.password}
                       sx={{ mb: 1.5 }}
                     />
 
@@ -118,8 +103,8 @@ export function SignIn() {
                         <Checkbox
                           size="small"
                           name="remember"
-                          onChange={handleChange}
-                          checked={values.remember}
+                          onChange={formik.handleChange}
+                          checked={formik.values.remember}
                           sx={{ padding: 0 }}
                         />
 
@@ -137,7 +122,7 @@ export function SignIn() {
                     <LoadingButton
                       type="submit"
                       color="primary"
-                      loading={loading}
+                      loading={formik.isSubmitting}
                       variant="contained"
                       sx={{ my: 2 }}
                     >
@@ -163,8 +148,6 @@ export function SignIn() {
                       </NavLink>
                     </Paragraph>
                   </form>
-                )}
-              </Formik>
             </ContentBox>
           </Grid>
         </Grid>

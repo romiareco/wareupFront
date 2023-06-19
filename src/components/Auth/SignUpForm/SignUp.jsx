@@ -65,9 +65,7 @@ export function SignUp() {
     setLoading(true);
 
     try {
-      //TODO: revisar de volver atrás como estaba definida SignUp para que vuelva a utilizar el hook que ya tenia
       signUp(values.email, values.name, values.lastname, values.password);
-      await userController.signUp(values)
       navigate('/');
       setLoading(false);
     } catch (e) {

@@ -3,8 +3,11 @@ import { Routes, Route } from "react-router-dom";
 import { UserLayout } from "../layouts";
 import { Home } from "../pages/home";
 import {SignUp, SignIn} from "../pages/users";
+import {useAuth} from "../hooks";
 
 export function WebRouter() {
+  const {user} = useAuth();
+
   const loadLayout = (Layout, Page) => {
     return (
       <Layout>
@@ -15,9 +18,18 @@ export function WebRouter() {
 
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/users/signup" element={loadLayout(UserLayout, SignUp)} />
-      <Route path="/users/signin" element={loadLayout(UserLayout, SignIn)} />
+      {!user? (
+        <>
+          <Route path="/" element={<Home />} />
+          <Route path="/users/signup" element={loadLayout(UserLayout, SignUp)} />
+          <Route path="/users/signin" element={loadLayout(UserLayout, SignIn)} />
+        </>
+       
+      ) : (
+        console.log("Rutas privadas. COMING SOON.")
+      )
+      }
+      
     </Routes>
   );
 }
