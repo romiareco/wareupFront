@@ -110,7 +110,7 @@ export const UserProvider = ({ children }) => {
         })
 
         const { hasError, message } = response.data
-
+        console.log("Estoy en signUp")
         //setSession(accessToken)
 
         dispatch({

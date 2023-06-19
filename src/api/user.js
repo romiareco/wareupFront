@@ -33,7 +33,7 @@ export class User {
                 },
                 body: JSON.stringify({
                     name: data.name,
-                    lastname: data.lastname,
+                    last_name: data.last_name,
                     email: data.email,
                     password: data.password
                 }),

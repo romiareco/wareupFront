@@ -40,7 +40,7 @@ const initialValues = {
   email: '',
   password: '',
   name: '',
-  lastname: '',
+  last_name: '',
   conditionsAccepted: true,
 };
 
@@ -65,7 +65,7 @@ export function SignUp() {
     setLoading(true);
 
     try {
-      signUp(values.email, values.name, values.lastname, values.password);
+      signUp(values.email, values.name, values.last_name, values.password);
       navigate('/');
       setLoading(false);
     } catch (e) {
@@ -115,14 +115,14 @@ export function SignUp() {
                       fullWidth
                       size="small"
                       type="text"
-                      name="lastname"
+                      name="last_name"
                       label="Apellido"
                       variant="outlined"
                       onBlur={handleBlur}
-                      value={values.lastname}
+                      value={values.last_name}
                       onChange={handleChange}
-                      helperText={touched.lastname && errors.lastname}
-                      error={Boolean(errors.lastname && touched.lastname)}
+                      helperText={touched.last_name && errors.last_name}
+                      error={Boolean(errors.last_name && touched.last_name)}
                       sx={{ mb: 3 }}
                     />
                     <TextField

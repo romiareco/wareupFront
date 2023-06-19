@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { UserLayout } from "../layouts";
 import { Welcome } from "../pages/welcome";
-import {SignUp, SignIn} from "../pages/users";
+import {SignUp, SignIn} from "../components/Auth";
 import {useAuth} from "../hooks";
 import {Home} from "../pages/home";
 
