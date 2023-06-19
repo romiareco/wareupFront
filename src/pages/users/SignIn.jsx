@@ -47,7 +47,7 @@ const validationSchema = Yup.object().shape({
   email: Yup.string().email('Direccion de email no valida').required('El email es requerido!'),
 });
 
-const SignIn = () => {
+export function SignIn() {
   const theme = useTheme();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -128,7 +128,7 @@ const SignIn = () => {
 
                       <NavLink
                         to="/users/forgot-password"
-                        style={{ color: theme.palette.primary.main }}
+                        style={{ color: "green" }}
                       >
                         Olvidaste tu contraseña?
                       </NavLink>
@@ -157,7 +157,7 @@ const SignIn = () => {
                       No tienes una cuenta?
                       <NavLink
                         to="/users/signup"
-                        style={{ color: theme.palette.primary.main, marginLeft: 5 }}
+                        style={{ color: "green", marginLeft: 5 }}
                       > 
                         Registrarse
                       </NavLink>
@@ -171,6 +171,4 @@ const SignIn = () => {
       </Card>
     </SignInRoot>
   );
-};
-
-export default SignIn;
+}

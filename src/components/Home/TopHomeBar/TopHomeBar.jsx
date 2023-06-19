@@ -23,7 +23,7 @@ export function TopHomeBar() {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    background: theme.palette.primary.main,
+    background: "black",
     [theme.breakpoints.down('sm')]: {
         paddingLeft: 16,
         paddingRight: 16,
@@ -44,7 +44,7 @@ export function TopHomeBar() {
         alignItems: 'center',
         textDecoration: 'none',
     },
-    '& span': { marginRight: '10px', color: theme.palette.text.primary },
+    '& span': { marginRight: '10px', color: "green" },
     }));
 
     return (

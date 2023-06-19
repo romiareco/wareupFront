@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState, useReducer } from 'react'
 import axios from './axios.js'
-import { Loading } from '../components/MatxLoading'
+import { MatxLoading } from '../components'
 
 const initialState = {
     isAuthenticated: false,
@@ -189,7 +189,7 @@ export const UserProvider = ({ children }) => {
     }, [])
 
     if (!state.isInitialised) {
-        return <Loading/>
+        return <MatxLoading/>
     }
 
     return (

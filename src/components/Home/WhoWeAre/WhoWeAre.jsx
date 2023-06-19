@@ -3,7 +3,7 @@ import Container from '@mui/material/Container';
 import {Grid } from '@mui/material';
 import { H4, H3 } from '../../Typography';
 
-const WhoWeAre = () => {
+export function WhoWeAre() {
 
     const item = {
         display: 'flex',
@@ -69,5 +69,3 @@ const WhoWeAre = () => {
       </Box>
       );
 }
-
-export default WhoWeAre;
