@@ -1,2 +1,2 @@
-export * from "./SignIn";
-export * from "./SignUp";
+export * from "../../components/Auth/SignInForm/SignIn";
+export * from "../../components/Auth/SignUpForm/SignUp";

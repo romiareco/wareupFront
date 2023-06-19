@@ -15,7 +15,7 @@ export function WebRouter() {
 
   return (
     <Routes>
-      <Route path="/" element={loadLayout(UserLayout, Home)} />
+      <Route path="/" element={<Home />} />
       <Route path="/users/signup" element={loadLayout(UserLayout, SignUp)} />
       <Route path="/users/signin" element={loadLayout(UserLayout, SignIn)} />
     </Routes>

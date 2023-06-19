@@ -2,13 +2,16 @@ import { useTheme } from '@emotion/react';
 import { LoadingButton } from '@mui/lab';
 import { Card, Checkbox, Grid, TextField } from '@mui/material';
 import { Box, styled } from '@mui/system';
-import { Paragraph } from '../../components/Typography';
-import useUser from '../../hooks/useUser';
+import { Paragraph } from '../../Typography';
+import useUser from "../../../hooks/useUser";
 import { Formik } from 'formik';
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import {User} from "../../../api/user";
 
+//TODO: Arreglar checkbox de acepto condiciones, quedo fijo en true
+//TODO: ver de agregar doble validación de password, (campo repetir contraseña)
 const FlexBox = styled(Box)(() => ({ display: 'flex', alignItems: 'center' }));
 
 const JustifyBox = styled(FlexBox)(() => ({ justifyContent: 'center' }));
@@ -38,16 +41,19 @@ const initialValues = {
   password: '',
   name: '',
   lastname: '',
-  remember: true,
+  conditionsAccepted: true,
 };
 
+//TODO: ver si lo podemos pasar para otro archivo
 // form field validation schema
 const validationSchema = Yup.object().shape({
   password: Yup.string()
     .min(6, 'Contraseña debe tener al menos 6 caracteres')
     .required('La contraseña es requerida!'),
-  email: Yup.string().email('Direccion de email no valida').required('El email es requerido!'),
+  email: Yup.string().email('Direccion de email no valida').required('El email es requerido!')
 });
+
+const userController = new User();
 
 export function SignUp() {
   const theme = useTheme();
@@ -59,7 +65,9 @@ export function SignUp() {
     setLoading(true);
 
     try {
+      //TODO: revisar de volver atrás como estaba definida SignUp para que vuelva a utilizar el hook que ya tenia
       signUp(values.email, values.name, values.lastname, values.password);
+      await userController.signUp(values)
       navigate('/');
       setLoading(false);
     } catch (e) {
@@ -151,9 +159,9 @@ export function SignUp() {
                     <FlexBox gap={1} alignItems="center">
                       <Checkbox
                         size="small"
-                        name="Recordar"
+                        name="Acepto condiciones"
                         onChange={handleChange}
-                        checked={values.remember}
+                        checked={values.conditionsAccepted}
                         sx={{ padding: 0 }}
                       />
 

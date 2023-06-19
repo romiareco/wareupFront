@@ -1,8 +1,8 @@
 import { LoadingButton } from '@mui/lab';
 import { Card, Checkbox, Grid, TextField } from '@mui/material';
 import { Box, styled, useTheme } from '@mui/system';
-import { Paragraph } from '../../components/Typography';
-import useUser from '../../hooks/useUser';
+import { Paragraph } from '../../Typography';
+import useUser from '../../../hooks/useUser';
 import { Formik } from 'formik';
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
