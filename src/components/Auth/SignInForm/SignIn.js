@@ -35,9 +35,12 @@ const SignInRoot = styled(JustifyBox)(() => ({
 const authController = new Auth();
 
 
+
+
 export function SignIn() {
   const { login } = useAuth();
-
+  const navigate = useNavigate();
+  const theme = useTheme();
 
   const formik = useFormik({
     initialValues: inititalValues,
@@ -51,14 +54,12 @@ export function SignIn() {
        authController.setRefreshToken(response.refresh);
 
         login(response.access);
+        navigate("/home");
       } catch (error) {
         console.error(error);
       }
     },
   });
-
-  const theme = useTheme();
-  const navigate = useNavigate();
 
   return (
     <SignInRoot>

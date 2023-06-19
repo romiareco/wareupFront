@@ -1,7 +1,8 @@
 import { Box } from '@mui/system';
-import Container from '@mui/material/Container';
+import { Container, Image } from "semantic-ui-react";
 import {Grid } from '@mui/material';
 import { H4, H3 } from '../../Typography';
+import {image} from "../../../assets";
 
 export function WhoWeAre() {
 
@@ -27,10 +28,7 @@ export function WhoWeAre() {
           <Grid container spacing={5}>
             <Grid item xs={12} md={4}>
               <Box sx={item}>
-                <Box
-                  component="img"
-                  src="assets/images/who-we-are/who-we-are-1.png"
-                />
+                <Image src={image.whoWeAre1} />
                 <H4>
                   {
                     'Te ofrecemos acceso a una amplia oferta de depósitos'
@@ -46,18 +44,12 @@ export function WhoWeAre() {
             </Grid>
             <Grid>
               <Box sx={item}>
-                <Box
-                  component="img"
-                  src="assets/images/who-we-are/who-we-are-2.png"
-                />
+              <Image src={image.whoWeAre2} />
               </Box>
             </Grid>
             <Grid item xs={12} md={4}>
               <Box sx={item}>
-                <Box
-                  component="img"
-                  src="assets/images/who-we-are/who-we-are-3.png"
-                />
+              <Image src={image.whoWeAre3} />
                 <H3>
                   {'Te ayudamos a capitalizar el espacio ocioso'}
                   {', tranformándolo en una nueva fuente de ingreso.'}

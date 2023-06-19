@@ -1,4 +1,6 @@
 import React from "react";
+import "./UserLayout.scss";
+import { Logout } from "../UserLayout/Logout";
 
 export function UserLayout(props) {
     const { children } = props;
@@ -11,7 +13,7 @@ export function UserLayout(props) {
             </div>
             <div className="user-layout__right">
                 <div className="user-layout__right-header"> 
-                    <span>LOGOUT</span>
+                    <span><Logout /></span>
                 </div>
                 <div className="user-layout__right-content">
                     {children}
