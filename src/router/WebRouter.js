@@ -1,9 +1,10 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { UserLayout } from "../layouts";
-import { Home } from "../pages/home";
+import { Welcome } from "../pages/welcome";
 import {SignUp, SignIn} from "../pages/users";
 import {useAuth} from "../hooks";
+import {Home} from "../pages/home";
 
 export function WebRouter() {
   const {user} = useAuth();
@@ -20,13 +21,12 @@ export function WebRouter() {
     <Routes>
       {!user? (
         <>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Welcome />} />
           <Route path="/users/signup" element={loadLayout(UserLayout, SignUp)} />
           <Route path="/users/signin" element={loadLayout(UserLayout, SignIn)} />
         </>
-       
       ) : (
-        console.log("Rutas privadas. COMING SOON.")
+        <Route path="/home" element={loadLayout(UserLayout, Home)} />
       )
       }
       

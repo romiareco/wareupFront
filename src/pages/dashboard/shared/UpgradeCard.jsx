@@ -1,5 +1,5 @@
 import { Button, Card, styled } from '@mui/material';
-import { convertHexToRGB } from 'app/utils/utils';
+import { convertHexToRGB } from '../../../utils/utils';
 
 const CardRoot = styled(Card)(({ theme }) => ({
   marginBottom: '24px',

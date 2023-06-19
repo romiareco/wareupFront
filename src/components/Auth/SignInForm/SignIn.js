@@ -47,8 +47,8 @@ export function SignIn() {
       try {
         const response = await authController.login(formValue);
 
-       // authController.setAccessToken(response.access);
-       // authController.setRefreshToken(response.refresh);
+       authController.setAccessToken(response.access);
+       authController.setRefreshToken(response.refresh);
 
         login(response.access);
       } catch (error) {

@@ -1,20 +1,9 @@
-import { styled } from '@mui/material';
-import { Fragment } from 'react';
-import {LogisticBanner, TopHomeBar, WhoWeAre} from "../../components/Home";
-
-const ContentBox = styled('div')(({ theme }) => ({
-  margin: '30px',
-  [theme.breakpoints.down('sm')]: { margin: '16px' },
-}));
+import React from "react";
 
 export function Home() {
-  return (
-    <Fragment>
-      <ContentBox className="home">
-        <TopHomeBar />
-        <LogisticBanner />
-        <WhoWeAre />
-      </ContentBox>
-    </Fragment>
-  );
-};
+return (
+    <div>
+        <h1>Estamos dentro de home! Usuario se loggeo</h1>
+    </div>
+)
+}

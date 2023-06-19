@@ -33,7 +33,7 @@ const H4 = styled('h4')(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const Analytics = () => {
+export function Analytics() {
   const { palette } = useTheme();
 
   return (
@@ -68,5 +68,3 @@ const Analytics = () => {
     </Fragment>
   );
 };
-
-export default Analytics;

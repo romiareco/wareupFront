@@ -11,7 +11,7 @@ export function AuthProvider(props) {
   const { children } = props;
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
-  const [laoding, setLaoding] = useState(true);
+  const [loading, setLaoding] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -56,7 +56,6 @@ export function AuthProvider(props) {
 
       const response = await userController.getCurrentUserInformation(accessToken);
       delete response.password;
-      console.log("TOKEN: ", accessToken);
       setUser(response);
       setToken(accessToken);
     } catch (error) {
@@ -74,10 +73,10 @@ export function AuthProvider(props) {
     accessToken: token,
     user,
     login,
-//    logout,
+    logout,
   };
 
-  if (laoding) return null;
+  if (loading) return null;
 
   return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;
 }
