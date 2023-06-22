@@ -31,7 +31,7 @@ export function LogisticBanner() {
             variant="contained"
             size="large"
             component="a"
-            href="/users/signup/"
+            href="/users/register/"
             sx={{ minWidth: 200 }}
             >
             Empieza ahora

@@ -58,7 +58,7 @@ export function TopHomeBar() {
                         </Link>
                     </StyledItem>
                     <StyledItem>
-                        <Link to="/users/signup">
+                        <Link to="/users/register">
                             <Span> Registrarse </Span>
                         </Link>
                     </StyledItem>

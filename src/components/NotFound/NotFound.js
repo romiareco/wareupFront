@@ -24,7 +24,7 @@ const NotFoundRoot = styled(FlexBox)(() => ({
   height: '100vh !important',
 }));
 
-const NotFound = () => {
+export function NotFound() {
   const navigate = useNavigate();
 
   return (
@@ -43,6 +43,4 @@ const NotFound = () => {
       </JustifyBox>
     </NotFoundRoot>
   );
-};
-
-export default NotFound;
+}

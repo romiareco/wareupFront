@@ -23,9 +23,9 @@ export class User {
         }
       }
 
-    async signUp(data) {
+    async register(data) {
         try {
-            const url = `${this.baseApi}/${ENV.API_ROUTES.SIGN_UP}`;
+            const url = `${this.baseApi}/${ENV.API_ROUTES.REGISTER}`;
             const params = {
                 method: "POST",
                 headers: {
@@ -49,5 +49,33 @@ export class User {
             console.log(error);
             throw error;
         }
+    }
+
+    async recoverPassword(email) {
+      try {
+        console.log(email);
+
+        const url = `${this.baseApi}/${ENV.API_ROUTES.RECOVER_PASSWORD}`;
+        const params = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({  
+                email: email
+            }),
+        };
+
+          const response = await fetch(url, params);
+          console.log(response);
+          const result = await response.json();
+
+          if(response.status !== 201) throw result;
+          
+          return result;
+      } catch (error) {
+          console.log(error);
+          throw error;
+      }
     }
 }

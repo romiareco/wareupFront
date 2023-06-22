@@ -3,12 +3,12 @@ import { LoadingButton } from '@mui/lab';
 import { Card, Checkbox, Grid, TextField } from '@mui/material';
 import { Box, styled } from '@mui/system';
 import { Paragraph } from '../../Typography';
-import useUser from "../../../hooks/useUser";
 import { Formik } from 'formik';
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import {User} from "../../../api/user";
+import {OKAlert} from "../../Alerts";
 
 //TODO: Arreglar checkbox de acepto condiciones, quedo fijo en true
 //TODO: ver de agregar doble validación de password, (campo repetir contraseña)
@@ -22,7 +22,7 @@ const ContentBox = styled(JustifyBox)(() => ({
   background: 'rgba(0, 0, 0, 0.01)',
 }));
 
-const SignUpRoot = styled(JustifyBox)(() => ({
+const RegisterRoot = styled(JustifyBox)(() => ({
   background: '#1A2038',
   minHeight: '100vh !important',
   '& .card': {
@@ -55,9 +55,9 @@ const validationSchema = Yup.object().shape({
 
 const userController = new User();
 
-export function SignUp() {
+export function Register() {
   const theme = useTheme();
-  const { signUp } = useUser();
+  const { register } = useUser();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -65,9 +65,10 @@ export function SignUp() {
     setLoading(true);
 
     try {
-      signUp(values.email, values.name, values.last_name, values.password);
+      register(values.email, values.name, values.last_name, values.password);
       navigate('/');
       setLoading(false);
+      OKAlert();
     } catch (e) {
       console.log(e);
       setLoading(false);
@@ -75,7 +76,7 @@ export function SignUp() {
   };
 
   return (
-    <SignUpRoot>
+    <RegisterRoot>
       <Card className="card">
         <Grid container>
           <Grid item sm={6} xs={12}>
@@ -190,7 +191,7 @@ export function SignUp() {
                     <Paragraph>
                       Ya tienes una cuenta?
                       <NavLink
-                        to="/users/signin"
+                        to="/users/login"
                         style={{ color: "green", marginLeft: 5 }}
                       >
                         Login
@@ -203,6 +204,6 @@ export function SignUp() {
           </Grid>
         </Grid>
       </Card>
-    </SignUpRoot>
+    </RegisterRoot>
   );
 }

@@ -1,7 +1,9 @@
-import { Box, Button, Card, Grid, styled, TextField } from '@mui/material';
-import { useState } from 'react';
+import { Box, Card, Grid, styled, TextField } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import { useNavigate } from 'react-router-dom';
-import useUser from "../../../hooks/useUser";
+import {User} from "../../../api/user";
+import {useFormik} from "formik";
+import {validationSchema, inititalValues} from "./ForgotPassword.form";
 
 const FlexBox = styled(Box)(() => ({
   display: 'flex',
@@ -27,19 +29,24 @@ const ForgotPasswordRoot = styled(JustifyBox)(() => ({
   },
 }));
 
-const ForgotPassword = () => {
-  const navigate = useNavigate();
-  const { recoverPassword } = useUser();
-  const [ email, setEmail] = useState('');
+const userController = new User();
 
-  const handleFormSubmit = () => {   
-    try {
-      recoverPassword(email); 
-      navigate('/');
-    } catch (e) {
-      console.log(e);
-    }
-  };
+export function ForgotPassword() {
+  const navigate = useNavigate();
+
+  const formik = useFormik({
+    initialValues: inititalValues,
+    validationSchema: validationSchema,
+    validateOnChange: false,
+    onSubmit: async (formValue) => {
+      try {
+        await userController.recoverPassword(formValue); 
+        navigate("/");
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  });
 
   return (
     <ForgotPasswordRoot>
@@ -51,23 +58,24 @@ const ForgotPassword = () => {
             </JustifyBox>
 
             <ContentBox>
-              <form onSubmit={handleFormSubmit}>
+              <form onSubmit={formik.handleSubmit}>
                 <TextField
                   type="email"
                   name="email"
                   size="small"
                   label="Email"
-                  value={email}
+                  value={formik.values.email}
                   variant="outlined"
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={formik.handleChange}
                   sx={{ mb: 3, width: '100%' }}
+                  error={formik.errors.email}
                 />
 
-                <Button fullWidth variant="contained" color="primary" type="submit">
+                <LoadingButton fullWidth variant="contained" color="primary" type="submit">
                   Recuperar contraseña
-                </Button>
+                </LoadingButton>
 
-                <Button
+                <LoadingButton
                   fullWidth
                   color="primary"
                   variant="outlined"
@@ -75,7 +83,7 @@ const ForgotPassword = () => {
                   sx={{ mt: 2 }}
                 >
                   Regresar
-                </Button>
+                </LoadingButton>
               </form>
             </ContentBox>
           </Grid>
@@ -83,6 +91,4 @@ const ForgotPassword = () => {
       </Card>
     </ForgotPasswordRoot>
   );
-};
-
-export default ForgotPassword;
+}

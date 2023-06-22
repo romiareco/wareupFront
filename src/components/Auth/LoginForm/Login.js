@@ -5,7 +5,7 @@ import { Paragraph } from '../../Typography';
 import {useAuth} from '../../../hooks';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useFormik } from "formik";
-import {validationSchema, inititalValues} from "./SignIn.form";
+import {validationSchema, inititalValues} from "./Login.form";
 import { Auth } from "../../../api";
 
 const FlexBox = styled(Box)(() => ({ display: 'flex', alignItems: 'center' }));
@@ -19,7 +19,7 @@ const ContentBox = styled(Box)(() => ({
   background: 'rgba(0, 0, 0, 0.01)',
 }));
 
-const SignInRoot = styled(JustifyBox)(() => ({
+const LoginRoot = styled(JustifyBox)(() => ({
   background: '#1A2038',
   minHeight: '100% !important',
   '& .card': {
@@ -37,7 +37,7 @@ const authController = new Auth();
 
 
 
-export function SignIn() {
+export function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -50,8 +50,8 @@ export function SignIn() {
       try {
         const response = await authController.login(formValue);
 
-       authController.setAccessToken(response.access);
-       authController.setRefreshToken(response.refresh);
+        authController.setAccessToken(response.access);
+        authController.setRefreshToken(response.refresh);
 
         login(response.access);
         navigate("/home");
@@ -62,7 +62,7 @@ export function SignIn() {
   });
 
   return (
-    <SignInRoot>
+    <LoginRoot>
       <Card className="card">
         <Grid container>
           <Grid item sm={6} xs={12}>
@@ -142,7 +142,7 @@ export function SignIn() {
                     <Paragraph>
                       No tienes una cuenta?
                       <NavLink
-                        to="/users/signup"
+                        to="/users/register"
                         style={{ color: "green", marginLeft: 5 }}
                       > 
                         Registrarse
@@ -153,6 +153,6 @@ export function SignIn() {
           </Grid>
         </Grid>
       </Card>
-    </SignInRoot>
+    </LoginRoot>
   );
 }
