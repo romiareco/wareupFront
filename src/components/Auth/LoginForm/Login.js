@@ -11,10 +11,7 @@ import { useState } from 'react';
 import { Form } from "semantic-ui-react";
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
@@ -22,26 +19,11 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const FlexBox = styled(Box)(() => ({ display: 'flex', alignItems: 'center' }));
 
-const JustifyBox = styled(FlexBox)(() => ({ justifyContent: 'center' }));
-
 const ContentBox = styled(Box)(() => ({
   height: '100%',
   padding: '32px',
   position: 'relative',
   background: 'rgba(0, 0, 0, 0.01)',
-}));
-
-const LoginRoot = styled(JustifyBox)(() => ({
-  background: '#1A2038',
-  minHeight: '100% !important',
-  '& .card': {
-    maxWidth: 800,
-    minHeight: 400,
-    margin: '1rem',
-    display: 'flex',
-    borderRadius: 12,
-    alignItems: 'center',
-  },
 }));
 
 const authController = new Auth();
