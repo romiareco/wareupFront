@@ -1,6 +1,7 @@
 import { styled } from '@mui/material';
 import { Fragment } from 'react';
 import {LogisticBanner, TopHomeBar, WhoWeAre} from "../../components/Home";
+import { StickyFooter } from "../../components";
 
 const ContentBox = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -14,6 +15,7 @@ export function Welcome() {
         <TopHomeBar />
         <LogisticBanner />
         <WhoWeAre />
+        <StickyFooter />
       </ContentBox>
     </Fragment>
   );
