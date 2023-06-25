@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import {User} from "../../../api/user";
 import {useFormik} from "formik";
 import {validationSchema, inititalValues} from "./ForgotPassword.form";
+import { useState } from 'react';
+import { Form } from "semantic-ui-react";
 
 const FlexBox = styled(Box)(() => ({
   display: 'flex',
@@ -33,6 +35,7 @@ const userController = new User();
 
 export function ForgotPassword() {
   const navigate = useNavigate();
+  const [error, setError] = useState("");
 
   const formik = useFormik({
     initialValues: inititalValues,
@@ -40,10 +43,13 @@ export function ForgotPassword() {
     validateOnChange: false,
     onSubmit: async (formValue) => {
       try {
+        setError("");
         await userController.recoverPassword(formValue); 
         navigate("/");
       } catch (error) {
         console.error(error);
+        setError("Error en el servidor", error);
+
       }
     },
   });
@@ -58,7 +64,7 @@ export function ForgotPassword() {
             </JustifyBox>
 
             <ContentBox>
-              <form onSubmit={formik.handleSubmit}>
+              <Form onSubmit={formik.handleSubmit}>
                 <TextField
                   type="email"
                   name="email"
@@ -69,12 +75,17 @@ export function ForgotPassword() {
                   onChange={formik.handleChange}
                   sx={{ mb: 3, width: '100%' }}
                   error={formik.errors.email}
+                  helperText={formik.errors.email}
                 />
-
-                <LoadingButton fullWidth variant="contained" color="primary" type="submit">
-                  Recuperar contraseña
-                </LoadingButton>
-
+                <LoadingButton
+                      type="submit"
+                      color="primary"
+                      loading={formik.isSubmitting}
+                      variant="contained"
+                      sx={{ mb: 2, mt: 3 }}
+                    >
+                      Recuperar contraseña
+                    </LoadingButton>
                 <LoadingButton
                   fullWidth
                   color="primary"
@@ -84,7 +95,8 @@ export function ForgotPassword() {
                 >
                   Regresar
                 </LoadingButton>
-              </form>
+                <p className="register-form__error">{error}</p>
+              </Form>
             </ContentBox>
           </Grid>
         </Grid>

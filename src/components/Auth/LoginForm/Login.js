@@ -1,12 +1,14 @@
 import { LoadingButton } from '@mui/lab';
 import { Card, Checkbox, Grid, TextField } from '@mui/material';
-import { Box, styled, useTheme } from '@mui/system';
+import { Box, styled } from '@mui/system';
 import { Paragraph } from '../../Typography';
 import {useAuth} from '../../../hooks';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useFormik } from "formik";
 import {validationSchema, inititalValues} from "./Login.form";
 import { Auth } from "../../../api";
+import { useState } from 'react';
+import { Form } from "semantic-ui-react";
 
 const FlexBox = styled(Box)(() => ({ display: 'flex', alignItems: 'center' }));
 
@@ -34,13 +36,10 @@ const LoginRoot = styled(JustifyBox)(() => ({
 
 const authController = new Auth();
 
-
-
-
 export function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const theme = useTheme();
+  const [error, setError] = useState("");
 
   const formik = useFormik({
     initialValues: inititalValues,
@@ -48,6 +47,7 @@ export function Login() {
     validateOnChange: false,
     onSubmit: async (formValue) => {
       try {
+        setError("");
         const response = await authController.login(formValue);
 
         authController.setAccessToken(response.access);
@@ -57,6 +57,7 @@ export function Login() {
         navigate("/home");
       } catch (error) {
         console.error(error);
+        setError("Error en el servidor", error);
       }
     },
   });
@@ -73,7 +74,7 @@ export function Login() {
 
           <Grid item sm={6} xs={12}>
             <ContentBox>
-                  <form onSubmit={formik.handleSubmit}>
+                  <Form onSubmit={formik.handleSubmit}>
                     <TextField
                       fullWidth
                       size="small"
@@ -84,6 +85,7 @@ export function Login() {
                       value={formik.values.email}
                       onChange={formik.handleChange}
                       error={formik.errors.email}
+                      helperText={formik.errors.email}
                       sx={{ mb: 3 }}
                     />
                     <TextField
@@ -96,6 +98,7 @@ export function Login() {
                       value={formik.values.password}
                       onChange={formik.handleChange}
                       error={formik.errors.password}
+                      helperText={formik.errors.password}
                       sx={{ mb: 1.5 }}
                     />
 
@@ -133,7 +136,7 @@ export function Login() {
                     <LoadingButton
                       color="primary"
                       variant="outlined"
-                      onClick={() => navigate(-1)}
+                      onClick={() => navigate("/")}
                       sx={{ my: 2, ml: 1 }}
                     >
                       Cancelar
@@ -148,7 +151,8 @@ export function Login() {
                         Registrarse
                       </NavLink>
                     </Paragraph>
-                  </form>
+                    <p className="register-form__error">{error}</p>
+                  </Form>
             </ContentBox>
           </Grid>
         </Grid>
