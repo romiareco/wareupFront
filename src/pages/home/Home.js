@@ -3,7 +3,7 @@ import React from "react";
 export function Home() {
 return (
     <div>
-        <h1>Estamos dentro de home! Usuario se loggeo</h1>
+        <h1>Estamos dentro de home! Acá mostraremos las publicaciones</h1>
     </div>
 )
 }

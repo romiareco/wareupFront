@@ -19,8 +19,7 @@ import {Copyright} from "../../Copyright";
 
 const userController = new User();
 
-export function Register(props) {
-  const { openLogin } = props;
+export function Register() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const defaultTheme = createTheme();
@@ -33,7 +32,6 @@ export function Register(props) {
       try {
         setError("");
         await userController.register(formValue);
-        openLogin();
         navigate('/users/login');
 
       } catch (error) {
