@@ -1,5 +1,4 @@
 import { Box, styled } from '@mui/system';
-import {themeShadows } from "../../MatxTheme/themeColors";
 import {topBarHeight } from "../../../utils/constant";
 import { MenuItem } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -11,7 +10,6 @@ export function TopHomeBar() {
         top: 0,
         zIndex: 96,
         transition: 'all 0.3s ease',
-        boxShadow: themeShadows[8],
         height: topBarHeight,
       }));
     

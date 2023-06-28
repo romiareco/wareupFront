@@ -1,7 +1,8 @@
 import React from "react";
-import { Button, Icon } from "semantic-ui-react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../../hooks";
+import { useAuth } from "../../hooks";
+import MenuItem from '@mui/material/MenuItem';
+import Typography from '@mui/material/Typography';
 
 export function Logout() {
   const { logout } = useAuth();
@@ -13,8 +14,8 @@ export function Logout() {
   };
 
   return (
-    <Button icon basic color="red" onClick={onLogout}>
-      <Icon name="power off" /> Cerrar sesión
-    </Button>
+    <MenuItem onClick={onLogout}>
+    <Typography textAlign="center">Cerrar sesión</Typography>
+  </MenuItem>
   );
 }
