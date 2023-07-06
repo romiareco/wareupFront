@@ -1,24 +1,21 @@
-import { LoadingButton } from "@mui/lab";
-import { Checkbox, Grid, TextField } from "@mui/material";
-import { Box } from "@mui/system";
+import React, { useState } from "react";
+import { TextField, Box, Grid } from "@mui/material";
 import { useFormik } from "formik";
-import { useState } from "react";
+import { initialValues, validationSchema } from "./Contact.form";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import { User } from "../../../api/user";
-import { initialValues, validationSchema } from "./Register.form";
-import * as React from "react";
+import { Contact } from "./../../api";
+import { LoadingButton } from "@mui/lab";
 import Avatar from "@mui/material/Avatar";
 import CssBaseline from "@mui/material/CssBaseline";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Copyright } from "../../Copyright";
 
-const userController = new User();
+const contactController = new Contact();
 
-export function Register() {
+export function ContactForm() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const defaultTheme = createTheme();
@@ -30,8 +27,8 @@ export function Register() {
     onSubmit: async (formValue) => {
       try {
         setError("");
-        await userController.register(formValue);
-        navigate("/users/login");
+        await contactController.contact(formValue);
+        navigate(-1);
       } catch (error) {
         setError("Error en el servidor", error);
       }
@@ -54,7 +51,7 @@ export function Register() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Crear nueva cuenta
+            Contactanos
           </Typography>
           <Box
             component="form"
@@ -75,18 +72,6 @@ export function Register() {
                   error={formik.errors.name}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  type="text"
-                  name="last_name"
-                  label="Apellido"
-                  variant="outlined"
-                  value={formik.values.last_name}
-                  onChange={formik.handleChange}
-                  error={formik.errors.last_name}
-                />
-              </Grid>
               <Grid item xs={12}>
                 <TextField
                   fullWidth
@@ -104,44 +89,15 @@ export function Register() {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  name="password"
-                  type="password"
-                  label="Contraseña"
+                  name="message"
+                  type="text"
+                  label="Mensaje"
                   variant="outlined"
                   required
-                  value={formik.values.password}
+                  value={formik.values.message}
                   onChange={formik.handleChange}
-                  error={formik.errors.password}
-                  helperText={formik.errors.password}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  name="repeatPassword"
-                  type="password"
-                  label="Repetir contraseña"
-                  variant="outlined"
-                  required
-                  value={formik.values.repeatPassword}
-                  onChange={formik.handleChange}
-                  error={formik.errors.repeatPassword}
-                  helperText={formik.errors.repeatPassword}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      name="conditionsAccepted"
-                      color="primary"
-                      onChange={formik.handleChange}
-                      checked={formik.values.conditionsAccepted}
-                      error={formik.errors.conditionsAccepted}
-                      helperText={formik.errors.conditionsAccepted}
-                    />
-                  }
-                  label="He leído y acepto las poíticas de privacidad."
+                  error={formik.errors.message}
+                  helperText={formik.errors.message}
                 />
               </Grid>
             </Grid>
@@ -153,14 +109,14 @@ export function Register() {
                   loading={formik.isSubmitting}
                   variant="contained"
                 >
-                  Registrarse
+                  Enviar
                 </LoadingButton>
               </Grid>
               <Grid item>
                 <LoadingButton
                   color="primary"
                   variant="outlined"
-                  onClick={() => navigate("/")}
+                  onClick={() => navigate(-1)}
                 >
                   Cancelar
                 </LoadingButton>
