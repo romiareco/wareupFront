@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { UserLayout } from "../layouts";
-import { Welcome } from "../pages/welcome";
+import { Welcome, UserProfile } from "../pages";
 import {Login, Register, ForgotPassword} from "../components/Auth";
 import {NotFound} from "../components";
 import {useAuth} from "../hooks";
@@ -29,8 +29,11 @@ export function WebRouter() {
           <Route path="/users/404" element={< NotFound />} />
         </>
       ) : (
+        <>
         <Route path="/home" element={loadLayout(UserLayout, Home)} />
-      )
+        <Route path="/users/profile" element={loadLayout(UserLayout, UserProfile)} />
+        </>
+        )
       }
       
     </Routes>

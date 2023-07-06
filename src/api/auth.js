@@ -23,8 +23,9 @@ export class Auth {
       if (response.status !== 200) throw result;
 
       return result;
-    } catch (error) {
-      throw error;
+    } catch (exception) {
+      console.error("Hubo un error en la respuesta del servidor. Error: " + exception.msg)
+      throw exception;
     }
   }
 

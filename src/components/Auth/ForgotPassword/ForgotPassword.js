@@ -38,10 +38,9 @@ export function ForgotPassword() {
         setError("");
         await userController.recoverPassword(formValue); 
         navigate("/");
-      } catch (error) {
-        console.error(error);
-        setError("Error en el servidor", error);
-
+      } catch (exception) {
+        console.error(exception.msg);
+        setError(exception.msg, error);
       }
     },
   });

@@ -58,8 +58,8 @@ export function AuthProvider(props) {
       delete response.password;
       setUser(response);
       setToken(accessToken);
-    } catch (error) {
-      console.error(error);
+    } catch (exception) {
+      console.error(exception);
     }
   };
 
