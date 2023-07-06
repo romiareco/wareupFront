@@ -1,7 +1,8 @@
 import React from 'react'
 import {Routes, Route} from "react-router-dom";
-import {Auth, Storages} from "../pages/admin";
+import {Auth, Storages} from "../pages";
 import { AuthLayout } from "../layouts";
+
 
 /**
  * TODO:
