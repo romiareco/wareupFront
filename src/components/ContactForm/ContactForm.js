@@ -11,7 +11,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { Copyright } from "../../Copyright";
+import { Copyright } from "../Copyright";
+import TextareaAutosize from "@mui/material/TextareaAutosize";
 
 const contactController = new Contact();
 
@@ -60,7 +61,7 @@ export function ContactForm() {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
                   fullWidth
                   type="text"
@@ -89,8 +90,10 @@ export function ContactForm() {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
+                  multiline
+                  minRows={4}
+                  maxRows={10}
                   name="message"
-                  type="text"
                   label="Mensaje"
                   variant="outlined"
                   required
@@ -98,10 +101,25 @@ export function ContactForm() {
                   onChange={formik.handleChange}
                   error={formik.errors.message}
                   helperText={formik.errors.message}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "4px",
+                    },
+                    "& .MuiOutlinedInput-input": {
+                      padding: "8px",
+                      fontSize: "16px",
+                      resize: "vertical",
+                      fontFamily: "inherit",
+                    },
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#ccc",
+                    },
+                  }}
                 />
               </Grid>
             </Grid>
-            <Grid container spacing={2} justifyContent="center">
+
+            <Grid container spacing={2} justifyContent="center" sx={{ marginTop: "16px" }}>
               <Grid item>
                 <LoadingButton
                   type="submit"
@@ -124,7 +142,7 @@ export function ContactForm() {
             </Grid>
           </Box>
         </Box>
-        <p className="register-form__error">{error}</p>
+        <p className="contacts-form__error">{error}</p>
         <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
