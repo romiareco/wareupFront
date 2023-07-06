@@ -73,9 +73,9 @@ export class User {
           if(response.status !== 201) throw result;
           
           return result;
-      } catch (error) {
-          console.log(error);
-          throw error;
+      } catch (exception) {
+          console.log(exception);
+          throw exception;
       }
     }
 }

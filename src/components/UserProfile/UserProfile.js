@@ -5,16 +5,15 @@ import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 
 export function UserProfile() {
-    const { logout } = useAuth();
     const navigate = useNavigate();
   
-    const onLogout = () => {
-      logout();
-      navigate("/");
+    const userProfile = () => {
+      console.log("Entre a autogestionar el perfil del usuario")
+      navigate("/users/profile");
     };
   
     return (
-      <MenuItem onClick={onLogout}>
+      <MenuItem onClick={userProfile}>
       <Typography textAlign="center">Autogestión de perfil</Typography>
     </MenuItem>
     );

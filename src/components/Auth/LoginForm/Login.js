@@ -1,6 +1,6 @@
 import { LoadingButton } from '@mui/lab';
-import { Card, Checkbox, Grid, TextField } from '@mui/material';
-import { Box, styled, useTheme } from '@mui/system';
+import { Checkbox, Grid, TextField } from '@mui/material';
+import { Box, styled } from '@mui/system';
 import { Paragraph } from '../../Typography';
 import {useAuth} from '../../../hooks';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -48,9 +48,9 @@ export function Login() {
 
         login(response.access);
         navigate("/home");
-      } catch (error) {
-        console.error(error);
-        setError("Error en el servidor", error);
+      } catch (exception) {
+        console.error(exception.msg);
+        setError(exception.msg, error);
       }
     },
   });
