@@ -11,6 +11,7 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
+import { RequestStorageForm } from "../../components/Forms";
 
 export function UserLayout(props) {
   const { children } = props;
@@ -52,7 +53,7 @@ export function UserLayout(props) {
 
                 <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                   <Button
-                    href="/users/new-storage"
+                    href="/users/has-storage"
                     sx={{ my: 2, color: "white", display: "block" }}
                   >
                     Tengo espacio

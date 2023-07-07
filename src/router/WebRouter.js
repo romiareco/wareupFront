@@ -8,7 +8,7 @@ import {
   UserHasStorage,
   Contact,
 } from "../pages";
-import { Login, Register, ForgotPassword } from "../components/Auth";
+import { Login, Register, ForgotPassword } from "../components/Forms";
 import { NotFound } from "../components";
 import { useAuth } from "../hooks";
 import { Home } from "../pages/home";
@@ -47,7 +47,7 @@ export function WebRouter() {
             element={loadLayout(UserLayout, UserStorages)}
           />
           <Route
-            path="/users/new-storage"
+            path="/users/has-storage"
             element={loadLayout(UserLayout, UserHasStorage)}
           />
           <Route path="/contacts" element={loadLayout(UserLayout, Contact)} />
