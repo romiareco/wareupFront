@@ -4,15 +4,14 @@ import { useFormik } from "formik";
 import { initialValues, validationSchema } from "./Contact.form";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import { Contact } from "./../../api";
+import { Contact } from "../../../api";
 import { LoadingButton } from "@mui/lab";
 import Avatar from "@mui/material/Avatar";
 import CssBaseline from "@mui/material/CssBaseline";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { Copyright } from "../Copyright";
-import TextareaAutosize from "@mui/material/TextareaAutosize";
+import { Copyright } from "../../Copyright";
 
 const contactController = new Contact();
 
