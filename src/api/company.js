@@ -5,7 +5,7 @@ export class Company {
 
     async register(accessToken, user, data) {
         try {
-            const url = `${this.baseApi}${ENV.API_ROUTES.COMPANY}`;
+            const url = `${this.baseApi}/${ENV.API_ROUTES.COMPANY}`;
             const params = {
                 method: "POST",
                 headers: {
