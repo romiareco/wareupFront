@@ -14,13 +14,18 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Copyright } from "../../Copyright";
+import { useLocation } from "react-router-dom";
 
 const userController = new User();
 
-export function ResetPassword() {
+export function PasswordRecovery() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const defaultTheme = createTheme();
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const tokenParam = queryParams.getAll("")[0];
 
   const formik = useFormik({
     initialValues: initialValues(),
@@ -29,7 +34,7 @@ export function ResetPassword() {
     onSubmit: async (formValue) => {
       try {
         setError("");
-        await userController.updatePassword(formValue);
+        await userController.updatePassword(formValue, tokenParam);
       } catch (error) {
         setError("Error en el servidor", error);
       }

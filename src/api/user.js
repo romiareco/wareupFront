@@ -112,7 +112,7 @@ export class User {
     }
   }
 
-  async updatePassword(data) {
+  async updatePassword(data, tokenParam) {
     console.log(data);
 
     const url = `${this.baseApi}/${ENV.API_ROUTES.UPDATE_PASSWORD}`;
@@ -122,8 +122,8 @@ export class User {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: data.email,
-        linkEncrypt: data.linkEncrypt,
+        password: data.password,
+        linkEncrypt: tokenParam,
       }),
     };
 
