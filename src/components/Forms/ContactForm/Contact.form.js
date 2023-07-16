@@ -5,6 +5,7 @@ export function initialValues() {
     name: "",
     email: "",
     message: "",
+    phoneNumber: "",
   };
 }
 
@@ -17,5 +18,9 @@ export function validationSchema() {
     message: Yup.string()
       .max(250, "El mensaje no puede superar los 250 caracteres")
       .required("Campo obligatorio"),
+    phoneNumber: Yup.string().matches(
+      /^[0-9()+-]*$/,
+      "El número de teléfono contiene caracteres no válidos"
+    ),
   });
 }

@@ -65,11 +65,13 @@ export function ContactForm() {
                   fullWidth
                   type="text"
                   name="name"
+                  required
                   label="Nombre"
                   variant="outlined"
                   value={formik.values.name}
                   onChange={formik.handleChange}
                   error={formik.errors.name}
+                  helperText={formik.errors.name}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -86,6 +88,20 @@ export function ContactForm() {
                   helperText={formik.errors.email}
                 />
               </Grid>
+              <Grid item xs={12}>
+              <TextField
+                  fullWidth
+                  type="tel"
+                  name="phoneNumber"
+                  label="Celular/Teléfono"
+                  variant="outlined"
+                  value={formik.values.phoneNumber}
+                  onChange={formik.handleChange}
+                  error={formik.errors.phoneNumber}
+                  helperText={formik.errors.phoneNumber}
+                />
+              </Grid>
+              
               <Grid item xs={12}>
                 <TextField
                   fullWidth
