@@ -1,23 +1,34 @@
-import { LoadingButton } from "@mui/lab";
-import { Checkbox, Grid, TextField } from "@mui/material";
-import { Box, styled } from "@mui/system";
-import { Paragraph } from "../../Typography";
-import { useAuth } from "../../../hooks";
-import { NavLink, useNavigate } from "react-router-dom";
+import { LoadingButton } from '@mui/lab';
+import { Checkbox, Grid, TextField } from '@mui/material';
+import { Box, styled } from '@mui/system';
+import { Paragraph } from '../../Typography';
+import {useAuth} from '../../../hooks';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useFormik } from "formik";
-import { validationSchema, inititalValues } from "./Login.form";
+import {validationSchema, inititalValues} from "./Login.form";
 import { Auth } from "../../../api";
-import { useState } from "react";
+import { useState } from 'react';
 import { Form } from "semantic-ui-react";
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import CssBaseline from "@mui/material/CssBaseline";
-import Paper from "@mui/material/Paper";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { Dialog, DialogContent, DialogTitle, Button } from "@mui/material";
+import * as React from 'react';
+import Avatar from '@mui/material/Avatar';
+import CssBaseline from '@mui/material/CssBaseline';
+import Paper from '@mui/material/Paper';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-const FlexBox = styled(Box)(() => ({ display: "flex", alignItems: "center" }));
+const FlexBox = styled(Box)(() => ({ display: 'flex', alignItems: 'center' }));
+
+const ContentBox = styled(Box)(() => ({
+  height: '100%',
+  padding: '32px',
+  position: 'relative',
+  background: 'rgba(0, 0, 0, 0.01)',
+}));
+
+
 const authController = new Auth();
+const defaultTheme = createTheme();
 
 export function Login() {
   const { login } = useAuth();
