@@ -7,8 +7,9 @@ import {
   UserStorages,
   UserHasStorage,
   Contact,
+  UserCompanies,
 } from "../pages";
-import { Login, Register, ForgotPassword } from "../components/Forms";
+import { Login, RegisterUser, ForgotPassword, RegisterCompany } from "../components/Forms";
 import { NotFound } from "../components";
 import { useAuth } from "../hooks";
 import { Home } from "../pages/home";
@@ -29,7 +30,7 @@ export function WebRouter() {
       {!user ? (
         <>
           <Route path="/" element={<Welcome />} />
-          <Route path="/users/register" element={<Register />} />
+          <Route path="/users/register" element={<RegisterUser />} />
           <Route path="/users/login" element={<Login />} />
           <Route path="/users/forgot-password" element={<ForgotPassword />} />
           <Route path="/users/404" element={<NotFound />} />
@@ -49,6 +50,14 @@ export function WebRouter() {
           <Route
             path="/users/has-storage"
             element={loadLayout(UserLayout, UserHasStorage)}
+          />
+          <Route
+            path="/users/my-companies"
+            element={loadLayout(UserLayout, UserCompanies)}
+          />
+           <Route
+            path="/users/my-companies/register"
+            element={loadLayout(UserLayout, RegisterCompany)}
           />
           <Route path="/contacts" element={loadLayout(UserLayout, Contact)} />
         </>

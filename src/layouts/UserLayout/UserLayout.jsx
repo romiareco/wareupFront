@@ -54,19 +54,52 @@ export function UserLayout(props) {
                 <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                   <Button
                     href="/users/has-storage"
-                    sx={{ my: 2, color: "white", display: "block" }}
+                    sx={{
+                      my: 2,
+                      color: "white",
+                      display: "block",
+                      ml: 1,
+                      "&:hover": {
+                        backgroundColor: "#0056b3",
+                      },
+                    }}
                   >
                     Tengo espacio
                   </Button>
                   <Button
                     href="/users/my-storages"
-                    sx={{ my: 2, color: "white", display: "block" }}
+                    sx={{
+                      my: 2,
+                      color: "white",
+                      display: "block",
+                      ml: 1,
+                      "&:hover": {
+                        backgroundColor: "#0056b3",
+                      },
+                    }}
                   >
                     Gestionar mis espacios
                   </Button>
                   <Button
+                    href="/users/my-companies"
+                    sx={{ my: 2, color: "white", display: "block",  ml: 1,
+                    "&:hover": {
+                      backgroundColor: "#0056b3",
+                    }, }}
+                  >
+                    Gestionar mis empresas
+                  </Button>
+                  <Button
                     href="/contacts"
-                    sx={{ my: 2, color: "white", display: "block" }}
+                    sx={{
+                      my: 2,
+                      color: "white",
+                      display: "block",
+                      ml: 1,
+                      "&:hover": {
+                        backgroundColor: "#0056b3",
+                      },
+                    }}
                   >
                     Contactanos
                   </Button>

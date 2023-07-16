@@ -1,3 +1,4 @@
 export * from "./UserProfile";
 export * from "./UserStorages";
-export * from "./UserHasStorage";
+export * from "./UserRequestStorage";
+export * from "./UserCompanies";

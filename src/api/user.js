@@ -25,7 +25,7 @@ export class User {
 
     async register(data) {
         try {
-            const url = `${this.baseApi}/${ENV.API_ROUTES.REGISTER}`;
+            const url = `${this.baseApi}/${ENV.API_ROUTES.REGISTER_USER}`;
             const params = {
                 method: "POST",
                 headers: {
@@ -87,5 +87,26 @@ export class User {
          console.error("Hubo un error en la respuesta del servidor. Error: " + exception.msg)
          throw exception;
        }
+    }
+
+    async getUserCompanies(accessToken, userId) {
+      try {
+        const url = `${this.baseApi}/${ENV.API_ROUTES.USER_COMPANY}/${userId}`;
+        console.log("GetUserCompanies URL: "+url);
+        const params = {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        };
+  
+        const response = await fetch(url, params);
+        const result = await response.json();
+  
+        if (response.status !== 200) throw result;
+  
+        return result;
+      } catch (error) {
+        throw error;
+      }
     }
 }

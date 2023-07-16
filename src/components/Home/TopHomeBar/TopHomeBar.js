@@ -19,7 +19,10 @@ export function TopHomeBar() {
           href="/users/login"
           variant="outlined"
           color="inherit"
-          sx={{ color: "#ffffff", borderColor: "#ffffff", mr: 1 }}
+          sx={{ color: "#ffffff", borderColor: "#ffffff", mr: 1,  ml: 1,
+          "&:hover": {
+            backgroundColor: "#0056b3",
+          }, }}
         >
           Iniciar sesión
         </Button>
@@ -27,7 +30,10 @@ export function TopHomeBar() {
           href="/users/register"
           variant="outlined"
           color="inherit"
-          sx={{ color: "#ffffff", borderColor: "#ffffff" }}
+          sx={{ color: "#ffffff", borderColor: "#ffffff",  ml: 1,
+              "&:hover": {
+                backgroundColor: "#0056b3",
+              }, }}
         >
           Registrarse
         </Button>
