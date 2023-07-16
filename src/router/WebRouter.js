@@ -9,7 +9,7 @@ import {
   Contact,
   UserCompanies,
 } from "../pages";
-import { Login, RegisterUser, ForgotPassword, RegisterCompany } from "../components/Forms";
+import { Login, RegisterUser, ForgotPassword, RegisterCompany, PasswordRecovery } from "../components/Forms";
 import { NotFound } from "../components";
 import { useAuth } from "../hooks";
 import { Home } from "../pages/home";
@@ -35,6 +35,7 @@ export function WebRouter() {
           <Route path="/users/forgot-password" element={<ForgotPassword />} />
           <Route path="/users/404" element={<NotFound />} />
           <Route path="/contacts" element={<Contact />} />
+          <Route path="/users/password-recovery" element={<PasswordRecovery />}/>
         </>
       ) : (
         <>
