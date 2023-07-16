@@ -26,6 +26,7 @@ const ContentBox = styled(Box)(() => ({
   background: 'rgba(0, 0, 0, 0.01)',
 }));
 
+
 const authController = new Auth();
 const defaultTheme = createTheme();
 
@@ -43,10 +44,10 @@ export function Login() {
         setError("");
         const response = await authController.login(formValue);
 
-        authController.setAccessToken(response.access);
-        authController.setRefreshToken(response.refresh);
+        authController.setAccessToken(response.tokens.access);
+        authController.setRefreshToken(response.tokens.refresh);
 
-        login(response.access);
+        login(response.tokens.access);
         navigate("/home");
       } catch (exception) {
         console.error(exception.msg);
@@ -57,117 +58,120 @@ export function Login() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: '100vh' }}>
+      <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
-            item
-            xs={false}
-            sm={4}
-            md={7}
-            sx={{
-              backgroundImage: 'url(https://wareup.com.uy/wp-content/uploads/2021/07/banner-1.jpg)',
-              backgroundRepeat: 'no-repeat',
-              backgroundColor: (t) =>
-                t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }}
-          />
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage:
+              "url(https://wareup.com.uy/wp-content/uploads/2021/07/banner-1.jpg)",
+            backgroundRepeat: "no-repeat",
+            backgroundColor: (t) =>
+              t.palette.mode === "light"
+                ? t.palette.grey[50]
+                : t.palette.grey[900],
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
               my: 8,
               mx: 4,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
               Iniciar sesión
             </Typography>
             <ContentBox>
-                  <Form onSubmit={formik.handleSubmit}>
-                    <TextField
-                      fullWidth
+              <Form onSubmit={formik.handleSubmit}>
+                <TextField
+                  fullWidth
+                  size="small"
+                  type="email"
+                  name="email"
+                  label="Email"
+                  variant="outlined"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  error={formik.errors.email}
+                  helperText={formik.errors.email}
+                  sx={{ mb: 3 }}
+                />
+                <TextField
+                  fullWidth
+                  size="small"
+                  name="password"
+                  type="password"
+                  label="Contraseña"
+                  variant="outlined"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  error={formik.errors.password}
+                  helperText={formik.errors.password}
+                  sx={{ mb: 1.5 }}
+                />
+
+                <FlexBox justifyContent="space-between">
+                  <FlexBox gap={1}>
+                    <Checkbox
                       size="small"
-                      type="email"
-                      name="email"
-                      label="Email"
-                      variant="outlined"
-                      value={formik.values.email}
+                      name="remember"
                       onChange={formik.handleChange}
-                      error={formik.errors.email}
-                      helperText={formik.errors.email}
-                      sx={{ mb: 3 }}
-                    />
-                    <TextField
-                      fullWidth
-                      size="small"
-                      name="password"
-                      type="password"
-                      label="Contraseña"
-                      variant="outlined"
-                      value={formik.values.password}
-                      onChange={formik.handleChange}
-                      error={formik.errors.password}
-                      helperText={formik.errors.password}
-                      sx={{ mb: 1.5 }}
+                      checked={formik.values.remember}
+                      sx={{ padding: 0 }}
                     />
 
-                    <FlexBox justifyContent="space-between">
-                      <FlexBox gap={1}>
-                        <Checkbox
-                          size="small"
-                          name="remember"
-                          onChange={formik.handleChange}
-                          checked={formik.values.remember}
-                          sx={{ padding: 0 }}
-                        />
+                    <Paragraph>Recuerdame</Paragraph>
+                  </FlexBox>
 
-                        <Paragraph>Recuerdame</Paragraph>
-                      </FlexBox>
+                  <NavLink
+                    to="/users/forgot-password"
+                    style={{ color: "green" }}
+                  >
+                    ¿Olvidaste tu contraseña?
+                  </NavLink>
+                </FlexBox>
 
-                      <NavLink
-                        to="/users/forgot-password"
-                        style={{ color: "green" }}
-                      >
-                        ¿Olvidaste tu contraseña?
-                      </NavLink>
-                    </FlexBox>
-                    
-                    <LoadingButton
-                      type="submit"
-                      color="primary"
-                      loading={formik.isSubmitting}
-                      variant="contained"
-                      sx={{ my: 2 }}
-                    >
-                      Login
-                    </LoadingButton>
+                <LoadingButton
+                  type="submit"
+                  color="primary"
+                  loading={formik.isSubmitting}
+                  variant="contained"
+                  sx={{ my: 2 }}
+                >
+                  Login
+                </LoadingButton>
 
-                    <LoadingButton
-                      color="primary"
-                      variant="outlined"
-                      onClick={() => navigate("/")}
-                      sx={{ my: 2, ml: 1 }}
-                    >
-                      Cancelar
-                    </LoadingButton>
-                    <Paragraph>
-                      ¿No tienes una cuenta?
-                      <NavLink
-                        to="/users/register"
-                        style={{ color: "green", marginLeft: 5 }}
-                      > 
-                        Registrarse
-                      </NavLink>
-                    </Paragraph>
-                    <p className="register-form__error">{error}</p>
-                  </Form>
+                <LoadingButton
+                  color="primary"
+                  variant="outlined"
+                  onClick={() => navigate("/")}
+                  sx={{ my: 2, ml: 1 }}
+                >
+                  Cancelar
+                </LoadingButton>
+                <Paragraph>
+                  ¿No tienes una cuenta?
+                  <NavLink
+                    to="/users/register"
+                    style={{ color: "green", marginLeft: 5 }}
+                  >
+                    Registrarse
+                  </NavLink>
+                </Paragraph>
+                <p className="register-form__error">{error}</p>
+              </Form>
             </ContentBox>
           </Box>
         </Grid>

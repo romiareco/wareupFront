@@ -15,7 +15,7 @@ export class User {
           const response = await fetch(url, params);
           const result = await response.json();
     
-          if (response.status !== 201) throw result;
+          if (response.status !== 200) throw result;
     
           return result;
         } catch (error) {
@@ -33,7 +33,7 @@ export class User {
                 },
                 body: JSON.stringify({
                     name: data.name,
-                    last_name: data.last_name,
+                    lastName: data.lastName,
                     email: data.email,
                     password: data.password
                 }),

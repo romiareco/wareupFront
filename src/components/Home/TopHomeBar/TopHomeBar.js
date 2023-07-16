@@ -1,68 +1,37 @@
-import { Box, styled } from '@mui/system';
-import {topBarHeight } from "../../../utils/constant";
-import { MenuItem } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { Span } from '../../Typography';
+import { Box, styled } from "@mui/system";
+import { topBarHeight } from "../../../utils/constant";
+import { MenuItem } from "@mui/material";
+import { Link } from "react-router-dom";
+import { Span } from "../../Typography";
+import React from "react";
+import { AppBar, Toolbar, Button } from "@mui/material";
 
+const Topbar = styled(AppBar)(({ theme }) => ({
+  backgroundColor: "#007bff", // Cambia este color a tu tono azul elegante deseado
+}));
 
-export function TopHomeBar() {  
-    const TopbarRoot = styled('div')(({ theme }) => ({
-        top: 0,
-        zIndex: 96,
-        transition: 'all 0.3s ease',
-        height: topBarHeight,
-      }));
-    
-    const TopbarContainer = styled(Box)(({ theme }) => ({
-    padding: '8px',
-    paddingLeft: 18,
-    paddingRight: 20,
-    height: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    background: "black",
-    [theme.breakpoints.down('sm')]: {
-        paddingLeft: 16,
-        paddingRight: 16,
-    },
-    [theme.breakpoints.down('xs')]: {
-        paddingLeft: 14,
-        paddingRight: 16,
-    },
-    }));
-
-    const StyledItem = styled(MenuItem)(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    minWidth: 185,
-    '& a': {
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        textDecoration: 'none',
-    },
-    '& span': { marginRight: '10px', color: "green" },
-    }));
-
-    return (
-         /*Deberia fijar la bar pero no se fija... hay que revisar porque*/
-        <TopbarRoot position="fixed">
-            <TopbarContainer>
-                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                    <StyledItem position="center">
-                        <Link to="/users/login">
-                            <Span> Login </Span>
-                        </Link>
-                    </StyledItem>
-                    <StyledItem>
-                        <Link to="/users/register">
-                            <Span> Registrarse </Span>
-                        </Link>
-                    </StyledItem>
-                </Box>
-            </TopbarContainer>
-        </TopbarRoot> 
-    );
-  }
-  
+//TODO: cambiar como estamos usando los botones con href y tener alguna variable que importemos y reutilicemos la declaración de URIs
+export function TopHomeBar() {
+  return (
+    <Topbar position="fixed">
+      <Toolbar sx={{ justifyContent: "flex-end" }}>
+        <Button
+          href="/users/login"
+          variant="outlined"
+          color="inherit"
+          sx={{ color: "#ffffff", borderColor: "#ffffff", mr: 1 }}
+        >
+          Iniciar sesión
+        </Button>
+        <Button
+          href="/users/register"
+          variant="outlined"
+          color="inherit"
+          sx={{ color: "#ffffff", borderColor: "#ffffff" }}
+        >
+          Registrarse
+        </Button>
+      </Toolbar>
+    </Topbar>
+  );
+}

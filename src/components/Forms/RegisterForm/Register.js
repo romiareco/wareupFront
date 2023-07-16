@@ -79,12 +79,13 @@ export function Register() {
                 <TextField
                   fullWidth
                   type="text"
-                  name="last_name"
+                  name="lastName"
                   label="Apellido"
                   variant="outlined"
-                  value={formik.values.last_name}
+                  value={formik.values.lastName}
                   onChange={formik.handleChange}
-                  error={formik.errors.last_name}
+                  error={formik.errors.lastName}
+                  helperText={formik.errors.lastName}
                 />
               </Grid>
               <Grid item xs={12}>

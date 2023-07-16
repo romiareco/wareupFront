@@ -3,7 +3,7 @@ import * as Yup from "yup";
 export function initialValues() {
   return {
     name: "",
-    last_name: "",
+    lastName: "",
     email: "",
     password: "",
     repeatPassword: "",

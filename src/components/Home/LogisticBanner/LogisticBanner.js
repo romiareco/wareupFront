@@ -8,7 +8,7 @@ const backgroundImage =
 
 export function LogisticBanner() {
     return (
-        <LogisticBannerLayout
+        <LogisticBannerLayout sx={{ marginTop: '64px' }}
         sxBackground={{
         backgroundImage: `url(${backgroundImage})`,
         backgroundColor: '#7fc7d9', // Average color of the background image.

@@ -16,8 +16,10 @@ export function AuthProvider(props) {
   useEffect(() => {
     (async () => {
       const accessToken = authController.getAccessToken();
+      console.log("AccessToken en useEffect: " + accessToken)
       const refreshToken = authController.getRefreshToken();
-
+      console.log("RefreshToken en useEffect: " + refreshToken)
+      
       if (!accessToken || !refreshToken) {
         logout();
         setLaoding(false);
@@ -53,10 +55,12 @@ export function AuthProvider(props) {
   const login = async (accessToken) => {
     try {
       console.log("Login Context");
+      console.log("AccessToken: " + accessToken)
 
       const response = await userController.getCurrentUserInformation(accessToken);
-      delete response.password;
-      setUser(response);
+      console.log("Response: " + response)
+      delete response.user.password;
+      setUser(response.user);
       setToken(accessToken);
     } catch (exception) {
       console.error(exception);
