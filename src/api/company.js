@@ -3,26 +3,28 @@ import { ENV } from "../utils/constant";
 export class Company {
     baseApi = ENV.BASE_API;
 
-    async register(data) {
+    async register(accessToken, user, data) {
         try {
-            const url = `${this.baseApi}/${ENV.API_ROUTES.COMPANY}`;
+            const url = `${this.baseApi}${ENV.API_ROUTES.COMPANY}`;
             const params = {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    Authorization: `Bearer ${accessToken}`,
                 },
                 body: JSON.stringify({
-                    userId: data.userId,
+                    userId: user.id,
                     businessName: data.businessName,
                     name: data.name,
-                    RUT: data.RUT,
+                    position: data.position,
+                    RUT: data.rut,
                     email: data.email,
-                    phone: data.phone,
-                    contactName: data.contactName
+                    phone: data.phoneNumber,
+                    address: data.address
                 }),
             };
 
-            console.log("Registrar compañia: "+ params)
+            console.log("Registrar compañia: "+ params.body)
             const response = await fetch(url, params);
             const result = await response.json();
 

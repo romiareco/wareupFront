@@ -4,3 +4,4 @@ export { default as MatxProgressBar } from './MatxProgressBar';
 export { NotFound} from './NotFound';
 export { StickyFooter } from './Footer';
 export { UserCompaniesTable } from './Companies';
+export {RegisterCompany} from './Buttons';

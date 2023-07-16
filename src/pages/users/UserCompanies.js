@@ -1,30 +1,15 @@
 import { UserCompaniesTable } from "../../components";
-import { Button } from "@mui/material";
+import { RegisterCompany } from "../../components/Buttons";
 
 export function UserCompanies() {
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center" }}>
         <h2 style={{ flex: 1 }}>
-          Estoy en la página de gestionar mis propias empresas
+          Mis empresas
         </h2>
         <div>
-          <Button
-            href="/users/my-companies/register"
-            variant="outlined"
-            color="primary"
-            sx={{
-              color: "#ffffff",
-              borderColor: "#ffffff",
-              backgroundColor: "#007bff",
-              ml: 1,
-              "&:hover": {
-                backgroundColor: "#0056b3",
-              },
-            }}
-          >
-            Registrar nueva empresa
-          </Button>
+          <RegisterCompany />
         </div>
       </div>
       <UserCompaniesTable />

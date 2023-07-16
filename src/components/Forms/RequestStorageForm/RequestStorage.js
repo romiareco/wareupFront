@@ -4,7 +4,7 @@ import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { User } from "../../../api/user";
+import { User, Storage } from "../../../api";
 import { initialValues, validationSchema } from "./RequestStorage.form";
 import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -14,8 +14,47 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Copyright } from "../../Copyright";
 import { blue } from "@mui/material/colors";
 import { Select, MenuItem } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import { RegisterCompany } from "../../Buttons";
+import { useAuth } from "../../../hooks";
 
 const userController = new User();
+const storageController = new Storage();
+
+//TODO: usar el userController para cargar las empresas del usuario
+const names = [
+  "Oliver Hansen",
+  "Van Henry",
+  "April Tucker",
+  "Ralph Hubbard",
+  "Omar Alexander",
+  "Carlos Abbott",
+  "Miriam Wagner",
+  "Bradley Wilkerson",
+  "Virginia Andrews",
+  "Kelly Snyder",
+];
+
+function getStyles(name, personName, theme) {
+  return {
+    fontWeight:
+      personName.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 
 export function RequestStorageForm() {
   const [error, setError] = useState("");
@@ -24,9 +63,23 @@ export function RequestStorageForm() {
   //TODO: Ver si podemos guardar en la BD los barrios para hacer la request y no tenerlos hardcodeados
   const barrios = [{ value: "Malvin" }, { value: "Barrio Sur" }];
 
+  const { accessToken } = useAuth();
+
+  const theme = useTheme();
+  const [company, setCompany] = React.useState([]);
+
+  const handleCompanyChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setCompany(
+      typeof value === "string" ? value.split(",") : value
+    );
+  };
+
   const [barrio, setBarrio] = React.useState(barrios[0].value);
 
-  const handleChange = (event) => {
+  const handleBarrioChange = (event) => {
     setBarrio(event.target.value);
   };
 
@@ -37,7 +90,7 @@ export function RequestStorageForm() {
     onSubmit: async (formValue) => {
       try {
         setError("");
-        await userController.requestStorageRegistration(formValue);
+        await storageController.requestStoragePublication(accessToken, formValue);
         //TODO: definir que debe pasar cuando se registra un nuevo espacio. Seguimos en registrar espacios? O redireccionamos a otro lado?
       } catch (error) {
         setError("Error en el servidor", error);
@@ -78,112 +131,50 @@ export function RequestStorageForm() {
             </Typography>
           </Paper>
           <Typography component="h1" variant="h5">
-            Datos del referente{" "}
+            Solicitud para crear nueva publicación de espacio{" "}
           </Typography>
           <Box
             component="form"
             noValidate
             onSubmit={formik.handleSubmit}
-            sx={{ mt: 3 }}
+            sx={{ mt: 3, width: "100%" }}
           >
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  type="text"
-                  name="name"
-                  label="Nombre completo"
-                  variant="outlined"
-                  required
-                  value={formik.values.name}
-                  onChange={formik.handleChange}
-                  error={formik.errors.name}
-                  helperText={formik.errors.name}
-                />
+            <Grid container spacing={2} alignItems="center">
+              <Grid item xs={9}>
+                <FormControl sx={{ m: 1, width: "100%", mt: 3 }}>
+                  <Select
+                    name="company"
+                    multiple={false}
+                    displayEmpty
+                    value={company}
+                    onChange={handleCompanyChange}
+                    error={formik.touched.company && Boolean(formik.errors.company)}
+                    helperText={formik.touched.company && formik.errors.company}
+                    input={<OutlinedInput />}
+                    renderValue={(selected) => {
+                      if (selected.length === 0) {
+                        return <em>Seleccione una empresa</em>;
+                      }
+
+                      return selected.join(", ");
+                    }}
+                    MenuProps={MenuProps}
+                    inputProps={{ "aria-label": "Without label" }}
+                  >
+                    {names.map((name) => (
+                      <MenuItem
+                        key={name}
+                        value={name}
+                        style={getStyles(name, company, theme)}
+                      >
+                        {name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  type="text"
-                  required
-                  name="postition"
-                  label="Cargo"
-                  variant="outlined"
-                  value={formik.values.postition}
-                  onChange={formik.handleChange}
-                  error={formik.errors.position}
-                  helperText={formik.errors.position}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  type="email"
-                  name="email"
-                  label="Email"
-                  variant="outlined"
-                  required
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  error={formik.errors.email}
-                  helperText={formik.errors.email}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  type="text"
-                  name="rut"
-                  label="RUT"
-                  variant="outlined"
-                  required
-                  value={formik.values.rut}
-                  onChange={formik.handleChange}
-                  error={formik.errors.rut}
-                  helperText={formik.errors.rut}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  name="businessName"
-                  type="text"
-                  label="Razón social"
-                  variant="outlined"
-                  required
-                  value={formik.values.businessName}
-                  onChange={formik.handleChange}
-                  error={formik.errors.businessName}
-                  helperText={formik.errors.businessName}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  name="address"
-                  type="text"
-                  label="Dirección de facturación"
-                  variant="outlined"
-                  required
-                  value={formik.values.address}
-                  onChange={formik.handleChange}
-                  error={formik.errors.address}
-                  helperText={formik.errors.address}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  name="phoneNumber"
-                  type="tel"
-                  label="Celular/Teléfono"
-                  variant="outlined"
-                  required
-                  value={formik.values.phoneNumber}
-                  onChange={formik.handleChange}
-                  error={formik.errors.phoneNumber}
-                  helperText={formik.errors.phoneNumber}
-                />
+              <Grid item xs={3}>
+                <RegisterCompany />
               </Grid>
             </Grid>
             <Typography
@@ -226,7 +217,11 @@ export function RequestStorageForm() {
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
                   <InputLabel>Barrio</InputLabel>
-                  <Select value={barrio} label="Barrio" onChange={handleChange}>
+                  <Select
+                    value={barrio}
+                    label="Barrio"
+                    onChange={handleBarrioChange}
+                  >
                     {barrios.map((item) => (
                       <MenuItem value={item.value}>{item.value}</MenuItem>
                     ))}

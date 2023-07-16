@@ -2,7 +2,7 @@ export const columns = [
   { id: "businessName", label: "Razón social", minWidth: 170 },
   { id: "RUT", label: "RUT", minWidth: 100 },
   {
-    id: "name",
+    id: "contactName",
     label: "Nombre completo",
     minWidth: 170,
   },

@@ -11,18 +11,17 @@ import { columns } from "./CompaniesTableColumns";
 import { User } from "../../api";
 import { useAuth } from "../../hooks";
 import { useState, useEffect } from "react";
-import { Loader } from "semantic-ui-react";
 
 function createData(
   businessName,
   RUT,
-  name,
+  contactName,
   position,
   email,
   address,
   phoneNumber
 ) {
-  return { businessName, RUT, name, position, email, address, phoneNumber };
+  return { businessName, RUT, contactName, position, email, address, phoneNumber };
 }
 
 //TODO: sacar datos dummy y poner correctos

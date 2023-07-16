@@ -13,10 +13,13 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Copyright } from "../../Copyright";
 import { blue } from "@mui/material/colors";
+import { useAuth } from "../../../hooks";
 
 const companyController = new Company();
 
 export function RegisterCompany() {
+  const { accessToken, user } = useAuth();
+
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const defaultTheme = createTheme();
@@ -28,7 +31,8 @@ export function RegisterCompany() {
     onSubmit: async (formValue) => {
       try {
         setError("");
-        await companyController.register(formValue);
+        await companyController.register(accessToken, user, formValue);
+        //TODO: redirigirnos a las empresas
         //TODO: definir que debe pasar cuando se registra un nuevo espacio. Seguimos en registrar espacios? O redireccionamos a otro lado?
       } catch (error) {
         console.log("Error: " + error);
@@ -83,14 +87,14 @@ export function RegisterCompany() {
                 <TextField
                   fullWidth
                   type="text"
-                  name="name"
+                  name="contactname"
                   label="Nombre completo"
                   variant="outlined"
                   required
-                  value={formik.values.name}
+                  value={formik.values.contactName}
                   onChange={formik.handleChange}
-                  error={formik.errors.name}
-                  helperText={formik.errors.name}
+                  error={formik.errors.contactname}
+                  helperText={formik.errors.contactname}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -98,10 +102,10 @@ export function RegisterCompany() {
                   fullWidth
                   type="text"
                   required
-                  name="postition"
+                  name="position"
                   label="Cargo"
                   variant="outlined"
-                  value={formik.values.postition}
+                  value={formik.values.position}
                   onChange={formik.handleChange}
                   error={formik.errors.position}
                   helperText={formik.errors.position}

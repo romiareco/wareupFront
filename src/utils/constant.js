@@ -16,7 +16,8 @@ export const ENV = {
         REGISTER_USER: "users",
         RECOVER_PASSWORD: "/users/recover-password",
         COMPANY: "/companies",
-        USER_COMPANY: "/companies/byUser"
+        USER_COMPANY: "/companies/byUser",
+        STORAGE_REQUEST: "/depositRequests",
     },
     JWT: {
         ACCESS: "access",
