@@ -2,13 +2,6 @@ import * as Yup from "yup";
 
 export function initialValues() {
   return {
-    name: "",
-    position: "",
-    rut: "",
-    email: "",
-    businessName: "",
-    address: "",
-    phoneNumber: "",
     storagePhoneNumber: "",
     storageAddress: "",
   };
@@ -16,11 +9,8 @@ export function initialValues() {
 
 export function validationSchema() {
   return Yup.object({
-    email: Yup.string()
-      .email("El email no es válido"),
-    rut:  Yup.string()
-    .matches(/^[0-9]+$/, "RUT solo puede contener números"),
-    phoneNumber: Yup.string()
-    .matches(/^[0-9()+-]*$/, "El número de teléfono contiene caracteres no válidos")
-  }).required();
+    storagePhoneNumber: Yup.string().required("Campo obligatorio"),
+    storageAddress: Yup.string().required("Campo obligatorio"),
+    company: Yup.string().required("Seleccione una empresa"),
+  });
 }

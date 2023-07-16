@@ -4,31 +4,25 @@ import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { User } from "../../../api/user";
-import { initialValues, validationSchema } from "./RequestStorage.form";
+import { Company } from "../../../api/company";
+import { initialValues, validationSchema } from "./RegisterCompany.form";
 import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Typography, Paper, InputLabel, FormControl } from "@mui/material";
+import { Typography, Paper } from "@mui/material";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Copyright } from "../../Copyright";
 import { blue } from "@mui/material/colors";
-import { Select, MenuItem } from "@mui/material";
+import { useAuth } from "../../../hooks";
 
-const userController = new User();
+const companyController = new Company();
 
-export function RequestStorageForm() {
+export function RegisterCompany() {
+  const { accessToken, user } = useAuth();
+
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const defaultTheme = createTheme();
-  //TODO: Ver si podemos guardar en la BD los barrios para hacer la request y no tenerlos hardcodeados
-  const barrios = [{ value: "Malvin" }, { value: "Barrio Sur" }];
-
-  const [barrio, setBarrio] = React.useState(barrios[0].value);
-
-  const handleChange = (event) => {
-    setBarrio(event.target.value);
-  };
 
   const formik = useFormik({
     initialValues: initialValues(),
@@ -37,9 +31,11 @@ export function RequestStorageForm() {
     onSubmit: async (formValue) => {
       try {
         setError("");
-        await userController.requestStorageRegistration(formValue);
+        await companyController.register(accessToken, user, formValue);
+        //TODO: redirigirnos a las empresas
         //TODO: definir que debe pasar cuando se registra un nuevo espacio. Seguimos en registrar espacios? O redireccionamos a otro lado?
       } catch (error) {
+        console.log("Error: " + error);
         setError("Error en el servidor", error);
       }
     },
@@ -91,14 +87,14 @@ export function RequestStorageForm() {
                 <TextField
                   fullWidth
                   type="text"
-                  name="name"
+                  name="contactname"
                   label="Nombre completo"
                   variant="outlined"
                   required
-                  value={formik.values.name}
+                  value={formik.values.contactName}
                   onChange={formik.handleChange}
-                  error={formik.errors.name}
-                  helperText={formik.errors.name}
+                  error={formik.errors.contactname}
+                  helperText={formik.errors.contactname}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -106,10 +102,10 @@ export function RequestStorageForm() {
                   fullWidth
                   type="text"
                   required
-                  name="postition"
+                  name="position"
                   label="Cargo"
                   variant="outlined"
-                  value={formik.values.postition}
+                  value={formik.values.position}
                   onChange={formik.handleChange}
                   error={formik.errors.position}
                   helperText={formik.errors.position}
@@ -184,54 +180,6 @@ export function RequestStorageForm() {
                   error={formik.errors.phoneNumber}
                   helperText={formik.errors.phoneNumber}
                 />
-              </Grid>
-            </Grid>
-            <Typography
-              component="h1"
-              variant="h5"
-              align="center"
-              sx={{ marginTop: "16px", marginBottom: "16px" }}
-            >
-              Datos del depósito
-            </Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  type="text"
-                  name="storageAddress"
-                  label="Dirección"
-                  variant="outlined"
-                  required
-                  value={formik.values.storageAddress}
-                  onChange={formik.handleChange}
-                  error={formik.errors.storageAddress}
-                  helperText={formik.errors.storageAddress}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  type="text"
-                  required
-                  name="storagePhoneNumber"
-                  label="Teléfono"
-                  variant="outlined"
-                  value={formik.values.storagePhoneNumber}
-                  onChange={formik.handleChange}
-                  error={formik.errors.storagePhoneNumber}
-                  helperText={formik.errors.storagePhoneNumber}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <FormControl fullWidth>
-                  <InputLabel>Barrio</InputLabel>
-                  <Select value={barrio} label="Barrio" onChange={handleChange}>
-                    {barrios.map((item) => (
-                      <MenuItem value={item.value}>{item.value}</MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
               </Grid>
             </Grid>
             <Grid

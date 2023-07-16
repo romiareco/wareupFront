@@ -1,1 +1,1 @@
-export * from "./RequestStorageForm";
+export * from "./RequestStorage";

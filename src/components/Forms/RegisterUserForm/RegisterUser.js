@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { User } from "../../../api/user";
-import { initialValues, validationSchema } from "./Register.form";
+import { initialValues, validationSchema } from "./RegisterUser.form";
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -18,7 +18,7 @@ import { Copyright } from "../../Copyright";
 
 const userController = new User();
 
-export function Register() {
+export function RegisterUser() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const defaultTheme = createTheme();
