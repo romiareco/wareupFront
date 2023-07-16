@@ -6,6 +6,7 @@ export const containedLayoutWidth = 1200
 
 const SERVER_IP = "localhost:3001";
 
+//TODO: separar API_ROUTES por entidad
 export const ENV = {
     BASE_PATH: `http://${SERVER_IP}`,
     BASE_API: `http://${SERVER_IP}/api/v1`,
@@ -19,6 +20,7 @@ export const ENV = {
         USER_COMPANY: "companies/byUser",
         STORAGE_REQUEST: "depositRequests",
         CONTACT: "users/contact",
+        UPDATE_PASSWORD: "users/update-password",
     },
     JWT: {
         ACCESS: "access",
