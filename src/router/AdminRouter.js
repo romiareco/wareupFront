@@ -19,7 +19,7 @@ export function AdminRouter() {
 
     return (
         <Routes>
-            <Route path="/admin/*" element={loadLayout(AuthLayout, Auth)} />
+            <Route path="/admin/" element={loadLayout(AuthLayout, Auth)} />
             <Route path="/admin/storages" element={loadLayout(AuthLayout, Storages)} />
         </Routes>
     );
