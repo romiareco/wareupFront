@@ -3,9 +3,9 @@ import { Grid, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { User } from "../../../api/user";
-import { initialValues, validationSchema } from "./RegisterUser.form";
+import { initialValues, validationSchema } from "./PasswordRecovery.form";
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -22,10 +22,8 @@ export function PasswordRecovery() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const defaultTheme = createTheme();
-
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const tokenParam = queryParams.getAll("")[0];
+  const tokenParam = location.search.substring(1); // Eliminar el primer caracter "?" de la búsqueda
 
   const formik = useFormik({
     initialValues: initialValues(),
