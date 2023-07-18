@@ -51,9 +51,9 @@ export class User {
     }
   }
 
-  async recoverPassword(email) {
+  async recoverPassword(data) {
     try {
-      console.log(email);
+      console.log(data);
 
       const url = `${this.baseApi}/${ENV.API_ROUTES.RECOVER_PASSWORD}`;
       const params = {
@@ -62,7 +62,7 @@ export class User {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: email,
+          email: data.email,
         }),
       };
 
