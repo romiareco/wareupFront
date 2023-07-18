@@ -1,6 +1,6 @@
 import React from "react";
 import { Logout } from "../../components/Logout";
-import { UserProfile } from "../../components/UserProfile";
+import { UserProfileBttn } from "../../components/Buttons";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -11,7 +11,6 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
-import { RequestStorageForm } from "../../components/Forms";
 
 export function UserLayout(props) {
   const { children } = props;
@@ -130,7 +129,7 @@ export function UserLayout(props) {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                   >
-                    <UserProfile />
+                    <UserProfileBttn />
                     <Logout />
                   </Menu>
                 </Box>

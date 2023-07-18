@@ -64,7 +64,6 @@ export function AuthProvider(props) {
       );
 
       console.log("User info: " + response.user.email);
-      delete response.user.password;
       setUser(response.user);
       console.log("User en login: " + JSON.stringify(user));
       console.log("Response login: " + JSON.stringify(response));
