@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Grid,
   Box,
@@ -13,6 +12,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useAuth } from "../../../hooks";
+import { User } from "../../../api/user";
+import React, { useState } from "react";
 
 const CardContainer = styled(Card)`
   height: 100%;
@@ -26,29 +27,22 @@ const ProfileIcon = styled(EditIcon)`
   margin-right: 8px;
 `;
 
-const validationSchema = Yup.object().shape({
-  name: Yup.string().when("$isEditing", {
-    is: true,
-    then: Yup.string().required("Campo requerido"),
-  }),
-  lastName: Yup.string().when("$isEditing", {
-    is: true,
-    then: Yup.string().required("Campo requerido"),
-  }),
-  email: Yup.string()
-    .email("Email inválido")
-    .when("$isEditing", {
-      is: true,
-      then: Yup.string().required("Campo requerido"),
-    }),
-  password: Yup.string().when("$isEditing", {
-    is: true,
-    then: Yup.string().required("Campo requerido"),
-  }),
-});
+export function validationSchema() {
+  return Yup.object().shape({
+    name: Yup.string().required("Campo requerido"),
+    lastName: Yup.string().required("Campo requerido"),
+    password: Yup.string()
+      .min(6, "La contraseña debe tener al menos 6 caracteres")
+      .required("Campo obligatorio"),
+  });
+}
+
+const userController = new User();
 
 export function UserInformationProfile() {
   const { user } = useAuth();
+  const [isEditing, setIsEditing] = useState(false); // Nuevo estado para controlar la edición
+  const [error, setError] = useState("");
 
   const formik = useFormik({
     initialValues: {
@@ -57,25 +51,36 @@ export function UserInformationProfile() {
       email: user.email || "",
       password: user.password || "",
     },
-    validationSchema: Yup.lazy((values) =>
-      validationSchema.clone().meta({ isEditing: !!values.name })
-    ),
-    onSubmit: (values) => {
-      // Aquí puedes agregar la lógica para guardar los cambios en la base de datos o hacer otras acciones necesarias
+    validationSchema: validationSchema(),
+    onSubmit: async (values) => {
+      try {
+        setError("");
+        values.id = user.id;
+        await userController.updateUser(values);
+      } catch (error) {
+        setError("Error en el servidor", error);
+      }
       console.log(values);
     },
-    validateOnMount: false,
   });
 
-  const handleCancel = () => {
-    formik.setSubmitting(false); // Establecer isSubmitting en false
+  const handleEdit = () => {
+    setIsEditing(true); 
   };
 
-  //TODO: hacer que el titulo esté más alejado del form
+  const handleCancel = () => {
+    setIsEditing(false); 
+    formik.resetForm(); 
+  };
+
   return (
     <CardContainer>
       <CardContent>
-        <Typography variant="h5" component="div">
+        <Typography
+          variant="h5"
+          component="div"
+          style={{ marginTop: "8px", marginBottom: "16px" }}
+        >
           <ProfileIcon />
           Perfil de Usuario
         </Typography>
@@ -88,7 +93,7 @@ export function UserInformationProfile() {
               value={formik.values.name}
               error={formik.touched.name && formik.errors.name}
               helperText={formik.touched.name && formik.errors.name}
-              disabled={!formik.isSubmitting}
+              disabled={!isEditing}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
@@ -101,7 +106,7 @@ export function UserInformationProfile() {
               value={formik.values.lastName}
               error={formik.touched.lastName && formik.errors.lastName}
               helperText={formik.touched.lastName && formik.errors.lastName}
-              disabled={!formik.isSubmitting}
+              disabled={!isEditing}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
@@ -127,7 +132,7 @@ export function UserInformationProfile() {
               value={formik.values.password}
               error={formik.touched.password && formik.errors.password}
               helperText={formik.touched.password && formik.errors.password}
-              disabled={!formik.isSubmitting}
+              disabled={!isEditing}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
@@ -135,18 +140,21 @@ export function UserInformationProfile() {
         </Grid>
 
         <Box mt={2} display="flex" justifyContent="center" gap={2}>
-          {!formik.isSubmitting ? (
-            <Button variant="contained" onClick={formik.handleSubmit}>
+          {!isEditing ? (
+            <Button variant="contained" onClick={handleEdit}>
               Editar perfil
             </Button>
           ) : (
-            <Button variant="contained" onClick={formik.handleSubmit}>
-              Guardar cambios
-            </Button>
+            <React.Fragment>
+              <Button variant="contained" onClick={formik.handleSubmit}>
+                Guardar cambios
+              </Button>
+              <Button variant="contained" onClick={handleCancel}>
+                Cancelar
+              </Button>
+            </React.Fragment>
           )}
-          <Button variant="contained" onClick={handleCancel}>
-            Cancelar
-          </Button>
+          <p className="update-user-form__error">{error}</p>
         </Box>
       </CardContent>
     </CardContainer>
