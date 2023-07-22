@@ -51,11 +51,9 @@
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "ghp": "react-scripts build && gh-pages -d build",
-    "predeploy" : "npm run build",
-    "deploy" : "gh-pages -d build"
+    "ghp": "react-scripts build && gh-pages -d build"
   },
-  "homepage": "http://romiareco.github.io/wareupFront",
+  "homepage": ".",
   "proxy": "http://localhost:3001/api/v1",
   "eslintConfig": {
     "extends": [
