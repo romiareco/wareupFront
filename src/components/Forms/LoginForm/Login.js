@@ -48,7 +48,6 @@ export function Login() {
         authController.setRefreshToken(response.tokens.refresh);
 
         login(response.tokens.access);
-        navigate("/home");
       } catch (exception) {
         console.error(exception.msg);
         setError(exception.msg, error);

@@ -1,6 +1,6 @@
 import React from "react";
-import { Logout } from "../../components/Logout";
-import { UserProfileBttn } from "../../components/Buttons";
+import { Logout } from "../components/Logout";
+import { UserProfileBttn } from "../components/Buttons";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";

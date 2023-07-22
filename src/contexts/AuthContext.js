@@ -1,6 +1,8 @@
 import { useState, useEffect, createContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { User, Auth } from "../api";
 import { hasExpiredToken } from "../utils";
+import { role } from "../utils";
 
 const userController = new User();
 const authController = new Auth();
@@ -9,19 +11,16 @@ export const AuthContext = createContext();
 
 export function AuthProvider(props) {
   const { children } = props;
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [loading, setLaoding] = useState(true);
 
-  console.log("User: " + user);
-
   useEffect(() => {
     (async () => {
       const accessToken = authController.getAccessToken();
-      console.log("AccessToken en useEffect: " + accessToken);
       const refreshToken = authController.getRefreshToken();
-      console.log("RefreshToken en useEffect: " + refreshToken);
-
+  
       if (!accessToken || !refreshToken) {
         logout();
         setLaoding(false);
@@ -56,19 +55,19 @@ export function AuthProvider(props) {
 
   const login = async (accessToken) => {
     try {
-      console.log("Login Context");
-      console.log("AccessToken: " + accessToken);
-
       const response = await userController.getCurrentUserInformation(
         accessToken
       );
 
-      console.log("User info: " + response.user.email);
       setUser(response.user);
-      console.log("User en login: " + JSON.stringify(user));
-      console.log("Response login: " + JSON.stringify(response));
-
       setToken(accessToken);
+
+      if (user.role === role.ADMIN) {
+        loginAdmin();
+      } else {
+        loginUser();
+      }
+
     } catch (exception) {
       console.error(exception);
     }
@@ -88,6 +87,14 @@ export function AuthProvider(props) {
   };
 
   if (loading) return null;
+
+  const loginAdmin = () => {
+    navigate("/admin/home");
+  }
+
+  const loginUser = () => {
+    navigate("/users/home");
+  }
 
   return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;
 }
