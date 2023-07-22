@@ -1,1 +1,2 @@
-export * from "./RegisterCompany";
+export * from "./RegisterCompanyBttn";
+export * from "./UserProfileBttn";
