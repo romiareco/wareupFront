@@ -1,5 +1,5 @@
 import { UserCompaniesTable } from "../../components";
-import { RegisterCompany } from "../../components/Buttons";
+import { RegisterCompanyBttn } from "../../components/Buttons";
 
 export function UserCompanies() {
   return (
@@ -9,7 +9,7 @@ export function UserCompanies() {
           Mis empresas
         </h2>
         <div>
-          <RegisterCompany />
+          <RegisterCompanyBttn />
         </div>
       </div>
       <UserCompaniesTable />
