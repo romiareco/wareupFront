@@ -2,14 +2,18 @@ import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { WebRouter, AdminRouter } from "./router";
 import { AuthProvider } from "./contexts";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from './theme/theme'; // Ajusta la ruta del import
 
 export default function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <WebRouter />
-        <AdminRouter />
-      </BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <WebRouter />
+          <AdminRouter />
+        </BrowserRouter>
+      </ThemeProvider>
     </AuthProvider>
   );
 }

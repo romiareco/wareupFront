@@ -1,43 +1,44 @@
-import { Box, styled } from "@mui/system";
-import { topBarHeight } from "../../../utils/constant";
-import { MenuItem } from "@mui/material";
-import { Link } from "react-router-dom";
-import { Span } from "../../Typography";
-import React from "react";
 import { AppBar, Toolbar, Button } from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "../../../theme/theme";
+import React from "react";
 
-const Topbar = styled(AppBar)(({ theme }) => ({
-  backgroundColor: "#007bff", // Cambia este color a tu tono azul elegante deseado
-}));
-
-//TODO: cambiar como estamos usando los botones con href y tener alguna variable que importemos y reutilicemos la declaración de URIs
 export function TopHomeBar() {
   return (
-    <Topbar position="fixed">
-      <Toolbar sx={{ justifyContent: "flex-end" }}>
-        <Button
-          href="/users/login"
-          variant="outlined"
-          color="inherit"
-          sx={{ color: "#ffffff", borderColor: "#ffffff", mr: 1,  ml: 1,
-          "&:hover": {
-            backgroundColor: "#0056b3",
-          }, }}
-        >
-          Iniciar sesión
-        </Button>
-        <Button
-          href="/users/register"
-          variant="outlined"
-          color="inherit"
-          sx={{ color: "#ffffff", borderColor: "#ffffff",  ml: 1,
+    <ThemeProvider theme={theme}>
+      <AppBar position="fixed">
+        <Toolbar sx={{ justifyContent: "flex-end" }}>
+          <Button
+            href="/users/login"
+            variant="outlined"
+            color="secondary" // Usa el color secundario definido en el theme.js
+            sx={{
+              borderColor: theme.palette.secondary.main, // Establece el borde del botón al color secundario
+              mr: 1,
+              ml: 1,
               "&:hover": {
-                backgroundColor: "#0056b3",
-              }, }}
-        >
-          Registrarse
-        </Button>
-      </Toolbar>
-    </Topbar>
+                backgroundColor: theme.palette.secondary.dark, // Establece el color de fondo al color secundario oscuro al pasar el ratón por encima
+              },
+            }}
+          >
+            Iniciar sesión
+          </Button>
+          <Button
+            href="/users/register"
+            variant="outlined"
+            color="secondary" // Usa el color secundario definido en el theme.js
+            sx={{
+              borderColor: theme.palette.secondary.main, // Establece el borde del botón al color secundario
+              ml: 1,
+              "&:hover": {
+                backgroundColor: theme.palette.secondary.dark, // Establece el color de fondo al color secundario oscuro al pasar el ratón por encima
+              },
+            }}
+          >
+            Registrarse
+          </Button>
+        </Toolbar>
+      </AppBar>
+    </ThemeProvider>
   );
 }

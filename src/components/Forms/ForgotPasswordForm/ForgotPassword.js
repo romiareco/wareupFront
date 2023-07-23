@@ -6,13 +6,14 @@ import { useFormik } from "formik";
 import { validationSchema, inititalValues } from "./ForgotPassword.form";
 import { useState } from "react";
 import { Form } from "semantic-ui-react";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import LockResetOutlinedIcon from "@mui/icons-material/LockResetOutlined";
 import CssBaseline from "@mui/material/CssBaseline";
 import Paper from "@mui/material/Paper";
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
+import theme from "../../../theme/theme";
 
 const ContentBox = styled(Box)(({ theme }) => ({
   padding: 32,
@@ -24,7 +25,6 @@ const userController = new User();
 export function ForgotPassword() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
-  const defaultTheme = createTheme();
 
   const formik = useFormik({
     initialValues: inititalValues,
@@ -43,7 +43,7 @@ export function ForgotPassword() {
   });
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid

@@ -1,8 +1,8 @@
-import { RequestStorageForm } from "../../components/Forms";
+import { RequestStorage } from "../../components/Forms/RequestStorageForm";
 
 export function UserHasStorage() {
     return (
-        <RequestStorageForm />
+        <RequestStorage />
     
     )
   };

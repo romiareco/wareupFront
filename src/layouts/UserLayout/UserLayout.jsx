@@ -7,15 +7,15 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
+import { useTheme } from "@mui/material/styles";
 
 export function UserLayout(props) {
   const { children } = props;
-
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const theme = useTheme();
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -25,12 +25,20 @@ export function UserLayout(props) {
     setAnchorElUser(null);
   };
 
+  // Definir la lista de botones
+  const buttons = [
+    { label: "Tengo espacio", href: "/users/has-storage" },
+    { label: "Gestionar mis espacios", href: "/users/my-storages" },
+    { label: "Gestionar mis empresas", href: "/users/my-companies" },
+    { label: "Contactanos", href: "/contacts" },
+  ];
+
   return (
     <div className="user-layout">
       <div className="user-layout__right">
         <div className="u-header">
           <AppBar position="static">
-            <Container maxWidth="xl">
+            <Box width="100%"> {/* Hacer que la Toolbar ocupe todo el ancho del monitor */}
               <Toolbar disableGutters>
                 <Typography
                   variant="h6"
@@ -39,7 +47,7 @@ export function UserLayout(props) {
                   href="/home"
                   sx={{
                     mr: 2,
-                    display: { xs: "none", md: "flex" },
+                    ml: 2,
                     fontFamily: "monospace",
                     fontWeight: 700,
                     letterSpacing: ".3rem",
@@ -51,62 +59,27 @@ export function UserLayout(props) {
                 </Typography>
 
                 <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                  <Button
-                    href="/users/has-storage"
-                    sx={{
-                      my: 2,
-                      color: "white",
-                      display: "block",
-                      ml: 1,
-                      "&:hover": {
-                        backgroundColor: "#0056b3",
-                      },
-                    }}
-                  >
-                    Tengo espacio
-                  </Button>
-                  <Button
-                    href="/users/my-storages"
-                    sx={{
-                      my: 2,
-                      color: "white",
-                      display: "block",
-                      ml: 1,
-                      "&:hover": {
-                        backgroundColor: "#0056b3",
-                      },
-                    }}
-                  >
-                    Gestionar mis espacios
-                  </Button>
-                  <Button
-                    href="/users/my-companies"
-                    sx={{ my: 2, color: "white", display: "block",  ml: 1,
-                    "&:hover": {
-                      backgroundColor: "#0056b3",
-                    }, }}
-                  >
-                    Gestionar mis empresas
-                  </Button>
-                  <Button
-                    href="/contacts"
-                    sx={{
-                      my: 2,
-                      color: "white",
-                      display: "block",
-                      ml: 1,
-                      "&:hover": {
-                        backgroundColor: "#0056b3",
-                      },
-                    }}
-                  >
-                    Contactanos
-                  </Button>
+                  {buttons.map((button, index) => (
+                    <Button
+                      key={index}
+                      href={button.href}
+                      sx={{
+                        my: 2,
+                        color:
+                          theme.components.MuiButton.styleOverrides
+                            .containedPrimary,
+                        display: "block",
+                        ml: index > 0 ? 1 : 0, // Aplicar margen izquierdo solo a partir del segundo botón
+                      }}
+                    >
+                      {button.label}
+                    </Button>
+                  ))}
                 </Box>
 
                 <Box sx={{ flexGrow: 0 }}>
                   <Tooltip title="Open settings">
-                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, marginRight: 2 }}>
                       <Avatar
                         alt="Remy Sharp"
                         src="/static/images/avatar/2.jpg"
@@ -114,7 +87,16 @@ export function UserLayout(props) {
                     </IconButton>
                   </Tooltip>
                   <Menu
-                    sx={{ mt: "45px" }}
+                    sx={{
+                      mt: "45px",
+                      right: 0, // Alinear el menú hacia la derecha
+                      "& .MuiListItem-root": {
+                        color: theme.palette.text.primary,
+                        "&:hover": {
+                          backgroundColor: theme.palette.action.hover,
+                        },
+                      },
+                    }}
                     id="menu-appbar"
                     anchorEl={anchorElUser}
                     anchorOrigin={{
@@ -134,7 +116,7 @@ export function UserLayout(props) {
                   </Menu>
                 </Box>
               </Toolbar>
-            </Container>
+            </Box>
           </AppBar>
         </div>
         <div className="user-layout__right-content">{children}</div>
