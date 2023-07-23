@@ -1,28 +1,24 @@
+import React, { useState } from "react";
 import { LoadingButton } from "@mui/lab";
 import { Grid, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { User, Storage } from "../../../api";
 import { initialValues, validationSchema } from "./RequestStorage.form";
-import * as React from "react";
-import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider } from "@mui/material/styles";
 import { Typography, Paper, InputLabel, FormControl } from "@mui/material";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Copyright } from "../../Copyright";
 import { blue } from "@mui/material/colors";
 import { Select, MenuItem } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import { RegisterCompanyBttn } from "../../Buttons";
 import { useAuth } from "../../../hooks";
+import theme from "./../../../theme/theme"; // Importa el theme.js aquí
 
 const userController = new User();
 const storageController = new Storage();
 
-//TODO: usar el userController para cargar las empresas del usuario
 const names = [
   "Oliver Hansen",
   "Van Henry",
@@ -36,15 +32,6 @@ const names = [
   "Kelly Snyder",
 ];
 
-function getStyles(name, personName, theme) {
-  return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
-
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -56,25 +43,21 @@ const MenuProps = {
   },
 };
 
-export function RequestStorageForm() {
+export function RequestStorage() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const defaultTheme = createTheme();
-  //TODO: Ver si podemos guardar en la BD los barrios para hacer la request y no tenerlos hardcodeados
+
   const barrios = [{ value: "Malvin" }, { value: "Barrio Sur" }];
 
   const { accessToken } = useAuth();
 
-  const theme = useTheme();
   const [company, setCompany] = React.useState([]);
 
   const handleCompanyChange = (event) => {
     const {
       target: { value },
     } = event;
-    setCompany(
-      typeof value === "string" ? value.split(",") : value
-    );
+    setCompany(typeof value === "string" ? value.split(",") : value);
   };
 
   const [barrio, setBarrio] = React.useState(barrios[0].value);
@@ -99,9 +82,8 @@ export function RequestStorageForm() {
   });
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <Container component="main">
-        <CssBaseline />
         <Box
           sx={{
             marginTop: 2,
@@ -165,7 +147,7 @@ export function RequestStorageForm() {
                       <MenuItem
                         key={name}
                         value={name}
-                        style={getStyles(name, company, theme)}
+                        style={theme.menuItemGetStyles(name, company)}
                       >
                         {name}
                       </MenuItem>
@@ -258,7 +240,6 @@ export function RequestStorageForm() {
           </Box>
         </Box>
         <p className="register-form__error">{error}</p>
-        <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
   );
