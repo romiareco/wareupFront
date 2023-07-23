@@ -25,7 +25,7 @@ export class User {
 
   async register(data) {
     try {
-      const url = `${this.baseApi}/${ENV.API_ROUTES.USER}`;
+      const url = `${this.baseApi}/${ENV.API_ROUTES.REGISTER_USER}`;
       const params = {
         method: "POST",
         headers: {
@@ -114,58 +114,29 @@ export class User {
 
   async updatePassword(data, tokenParam) {
     console.log(data);
-    try {
-      const url = `${this.baseApi}/${ENV.API_ROUTES.UPDATE_PASSWORD}`;
-      const params = {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          password: data.password,
-          linkEncrypt: tokenParam,
-        }),
-      };
 
-      const response = await fetch(url, params);
-      console.log(response);
-      const result = await response.json();
+    const url = `${this.baseApi}/${ENV.API_ROUTES.UPDATE_PASSWORD}`;
+    const params = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        password: data.password,
+        linkEncrypt: tokenParam,
+      }),
+    };
 
-      if (response.status !== 201) throw result;
+    const response = await fetch(url, params);
+    console.log(response);
+    const result = await response.json();
 
-      return result;
-    } catch (exception) {
-      console.log(exception);
-      throw exception;
-    }
+    if (response.status !== 201) throw result;
+
+    return result;
   }
-
-  async updateUser(data) {
-    try {
-      const url = `${this.baseApi}/${ENV.API_ROUTES.USER}`;
-      const params = {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: data.id,
-          name: data.name,
-          email: data.email,
-          lastName: data.lastName,
-          password: data.password,
-        }),
-      };
-
-      const response = await fetch(url, params);
-      const result = await response.json();
-
-      if (response.status !== 201) throw result;
-
-      return result;
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
+  catch(exception) {
+    console.log(exception);
+    throw exception;
   }
 }

@@ -16,7 +16,7 @@ import { blue } from "@mui/material/colors";
 import { Select, MenuItem } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import { RegisterCompanyBttn } from "../../Buttons";
+import { RegisterCompany } from "../../Buttons";
 import { useAuth } from "../../../hooks";
 
 const userController = new User();
@@ -174,7 +174,7 @@ export function RequestStorageForm() {
                 </FormControl>
               </Grid>
               <Grid item xs={3}>
-                <RegisterCompanyBttn />
+                <RegisterCompany />
               </Grid>
             </Grid>
             <Typography

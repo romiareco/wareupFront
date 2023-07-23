@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 
-export function RegisterCompanyBttn() {
+export function RegisterCompany() {
     return (
         <Button
             href="/users/my-companies/register"
