@@ -8,6 +8,7 @@ import {
   UserHasStorage,
   Contact,
   UserCompanies,
+  Auth,
 } from "../pages";
 import {
   Login,
@@ -76,19 +77,19 @@ export function WebRouter() {
             <>
               <Route
                 path="/admin/home"
-                element={loadLayout(AdminLayout, AdminDashboard)}
+                element={loadLayout(AdminLayout, Auth)}
               />
               <Route
                 path="/admin/manage-users"
-                element={loadLayout(AdminLayout, AdminUsers)}
+                element={loadLayout(AdminLayout, Auth)}
               />
               <Route
                 path="/admin/manage-deposits"
-                element={loadLayout(AdminLayout, AdminCompanies)}
+                element={loadLayout(AdminLayout, Auth)}
               />
               <Route
                 path="/admin/manage-requests"
-                element={loadLayout(AdminLayout, AdminCompanies)}
+                element={loadLayout(AdminLayout, Auth)}
               />
             </>
           )}

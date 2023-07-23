@@ -39,7 +39,7 @@ export function AuthProvider(props) {
 
       setLaoding(false);
     })();
-  }, []);
+  }, [accessToken]);
 
   const reLogin = async (refreshToken) => {
     try {

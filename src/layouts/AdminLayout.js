@@ -1,6 +1,6 @@
 import React from "react";
-import { Logout } from "../../components/Logout";
-import { UserProfileBttn } from "../../components/Buttons";
+import { Logout } from "../components/Logout";
+import { UserProfileBttn } from "../components/Buttons";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -13,7 +13,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 
 
-export function AuthLayout(props) {
+export function AdminLayout(props) {
     const { children } = props;
   
     const [anchorElUser, setAnchorElUser] = React.useState(null);
