@@ -1,8 +1,6 @@
 import { useState, useEffect, createContext } from "react";
-import { useNavigate } from "react-router-dom";
 import { User, Auth } from "../api";
 import { hasExpiredToken } from "../utils";
-import { role } from "../utils";
 
 const userController = new User();
 const authController = new Auth();
@@ -11,7 +9,6 @@ export const AuthContext = createContext();
 
 export function AuthProvider(props) {
   const { children } = props;
-  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [loading, setLaoding] = useState(true);
@@ -39,7 +36,7 @@ export function AuthProvider(props) {
 
       setLaoding(false);
     })();
-  }, [accessToken]);
+  }, []);
 
   const reLogin = async (refreshToken) => {
     try {
@@ -62,12 +59,7 @@ export function AuthProvider(props) {
       setUser(response.user);
       setToken(accessToken);
 
-      if (user.role === role.ADMIN) {
-        loginAdmin();
-      } else {
-        loginUser();
-      }
-
+      return response.user;
     } catch (exception) {
       console.error(exception);
     }
@@ -87,14 +79,6 @@ export function AuthProvider(props) {
   };
 
   if (loading) return null;
-
-  const loginAdmin = () => {
-    navigate("/admin/home");
-  }
-
-  const loginUser = () => {
-    navigate("/users/home");
-  }
 
   return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;
 }
