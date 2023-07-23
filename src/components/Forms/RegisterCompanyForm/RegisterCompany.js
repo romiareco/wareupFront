@@ -10,10 +10,11 @@ import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Typography, Paper } from "@mui/material";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import { Copyright } from "../../Copyright";
 import { blue } from "@mui/material/colors";
 import { useAuth } from "../../../hooks";
+import theme from "./../../../theme/theme"; // Importa el theme.js aquí
 
 const companyController = new Company();
 
@@ -22,7 +23,6 @@ export function RegisterCompany() {
 
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const defaultTheme = createTheme();
 
   const formik = useFormik({
     initialValues: initialValues(),
@@ -42,7 +42,7 @@ export function RegisterCompany() {
   });
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <Container component="main">
         <CssBaseline />
         <Box
