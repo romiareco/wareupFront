@@ -1,11 +1,11 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { UserLayout, AdminLayout } from "../layouts";
-import { Welcome, UserProfile, UserStorages, UserHasStorage, Contact, UserCompanies, Auth } from "../pages";
+import { Welcome, UserProfile, UserStorages, UserHasStorage, Contact, UserCompanies, UserHome, AdminHome } from "../pages";
+import {ManageUsers, ManageRequests, ManageDeposits} from "../pages/admin";
 import { Login, RegisterUser, ForgotPassword, RegisterCompany, PasswordRecovery } from "../components/Forms";
 import { NotFound } from "../components";
 import { useAuth } from "../hooks";
-import { Home } from "../pages/home";
 import { role } from "../utils";
 
 export function WebRouter() {
@@ -32,7 +32,7 @@ export function WebRouter() {
   );
 
   const userRoutes = [
-    { path: "home", component: Home },
+    { path: "home", component: UserHome },
     { path: "profile", component: UserProfile },
     { path: "my-storages", component: UserStorages },
     { path: "has-storage", component: UserHasStorage },
@@ -42,10 +42,10 @@ export function WebRouter() {
   ];
 
   const adminRoutes = [
-    { path: "home", component: Auth },
-    { path: "manage-users", component: Auth },
-    { path: "manage-deposits", component: Auth },
-    { path: "manage-requests", component: Auth },
+    { path: "home", component: AdminHome },
+    { path: "manage-users", component: ManageUsers },
+    { path: "manage-deposits", component: ManageDeposits },
+    { path: "manage-requests", component: ManageRequests },
   ];
 
   return (

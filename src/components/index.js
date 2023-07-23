@@ -6,3 +6,4 @@ export { UserCompaniesTable } from "./Companies";
 export { RegisterCompanyBttn } from "./Buttons";
 export { UserProfileBttn } from "./Buttons";
 export { UserInformationProfile } from "./Users/UserInformationProfile";
+export * from "./SiteUnderConstruction";
