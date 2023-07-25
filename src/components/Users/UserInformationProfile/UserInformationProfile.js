@@ -49,7 +49,6 @@ export function UserInformationProfile() {
       name: user.name || "",
       lastName: user.lastName || "",
       email: user.email || "",
-      password: user.password || "",
     },
     validationSchema: validationSchema(),
     onSubmit: async (values) => {
@@ -58,7 +57,7 @@ export function UserInformationProfile() {
         values.id = user.id;
         await userController.updateUser(values);
       } catch (error) {
-        setError("Error en el servidor", error);
+        setError("Error en el servidor: " + error);
       }
       console.log(values);
     },
@@ -120,20 +119,6 @@ export function UserInformationProfile() {
               disabled
               error={formik.touched.email && formik.errors.email}
               helperText={formik.touched.email && formik.errors.email}
-              onBlur={formik.handleBlur}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Contraseña"
-              name="password"
-              type="password"
-              fullWidth
-              value={formik.values.password}
-              error={formik.touched.password && formik.errors.password}
-              helperText={formik.touched.password && formik.errors.password}
-              disabled={!isEditing}
-              onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
           </Grid>
