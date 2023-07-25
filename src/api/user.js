@@ -153,7 +153,6 @@ export class User {
           name: data.name,
           email: data.email,
           lastName: data.lastName,
-          password: data.password,
         }),
       };
 
