@@ -17,6 +17,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from "../../../theme/theme";
+import {role} from "../../../utils";
 
 const FlexBox = styled(Box)(() => ({ display: 'flex', alignItems: 'center' }));
 
@@ -47,8 +48,15 @@ export function Login() {
         authController.setAccessToken(response.tokens.access);
         authController.setRefreshToken(response.tokens.refresh);
 
-        login(response.tokens.access);
-        navigate("/home");
+        const userLogged = await login(response.tokens.access);
+        
+        if (userLogged) {
+          if (parseInt(userLogged.role) === role.ADMIN) {
+            navigate("/admin/home");
+          } else {
+            navigate("/users/home");
+          }
+        }
       } catch (exception) {
         console.error(exception.msg);
         setError(exception.msg, error);

@@ -3,7 +3,7 @@ import { Grid, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { User } from "../../../api/user";
 import { initialValues, validationSchema } from "./PasswordRecovery.form";
 import * as React from "react";

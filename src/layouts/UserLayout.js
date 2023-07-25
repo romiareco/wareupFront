@@ -1,6 +1,6 @@
 import React from "react";
-import { Logout } from "../../components/Logout";
-import { UserProfileBttn } from "../../components/Buttons";
+import { Logout } from "../components/Logout";
+import { UserProfileBttn } from "../components/Buttons";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -30,7 +30,7 @@ export function UserLayout(props) {
     { label: "Tengo espacio", href: "/users/has-storage" },
     { label: "Gestionar mis espacios", href: "/users/my-storages" },
     { label: "Gestionar mis empresas", href: "/users/my-companies" },
-    { label: "Contactanos", href: "/contacts" },
+    { label: "Contactanos", href: "/users/contacts" },
   ];
 
   return (
@@ -44,7 +44,7 @@ export function UserLayout(props) {
                   variant="h6"
                   noWrap
                   component="a"
-                  href="/home"
+                  href="/users/home"
                   sx={{
                     mr: 2,
                     ml: 2,
