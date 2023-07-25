@@ -1,36 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { LoadingButton } from "@mui/lab";
 import { Grid, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
+import InputLabel from "@mui/material/InputLabel";
 import { useNavigate } from "react-router-dom";
-import { User, Storage } from "../../../api";
+import { User, Storage, Common } from "../../../api";
 import { initialValues, validationSchema } from "./RequestStorage.form";
 import { ThemeProvider } from "@mui/material/styles";
-import { Typography, Paper, InputLabel, FormControl } from "@mui/material";
+import { Typography, Paper, FormControl } from "@mui/material";
 import Container from "@mui/material/Container";
 import { blue } from "@mui/material/colors";
 import { Select, MenuItem } from "@mui/material";
-import OutlinedInput from "@mui/material/OutlinedInput";
 import { RegisterCompanyBttn } from "../../Buttons";
 import { useAuth } from "../../../hooks";
 import theme from "./../../../theme/theme"; // Importa el theme.js aquí
+import OutlinedInput from "@mui/material/OutlinedInput";
 
 const userController = new User();
 const storageController = new Storage();
-
-const names = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder",
-];
+const commonController = new Common();
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -43,28 +32,61 @@ const MenuProps = {
   },
 };
 
+function getStyles(name, personName, theme) {
+  return {
+    fontWeight:
+      personName.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
+
 export function RequestStorage() {
-  const [error, setError] = useState("");
+  const { accessToken, user } = useAuth();
   const navigate = useNavigate();
 
-  const barrios = [{ value: "Malvin" }, { value: "Barrio Sur" }];
+  const [error, setError] = useState("");
+  const [userCompanies, setUserCompanies] = React.useState([]);
+  const [departments, setDepartments] = React.useState([]);
 
-  const { accessToken } = useAuth();
+  const [selectedUserCompany, setSelectedUserCompany] = useState("");
+  const [selectedDepartment, setSelectedDepartment] = useState({});
 
-  const [company, setCompany] = React.useState([]);
+  const [age, setAge] = React.useState("");
 
-  const handleCompanyChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setCompany(typeof value === "string" ? value.split(",") : value);
+  const handleChange = (event) => {
+    setAge(event.target.value);
   };
 
-  const [barrio, setBarrio] = React.useState(barrios[0].value);
+  useEffect(() => {
+    (async () => {
+      try {
+        const commonResponse = await commonController.getDepartments(
+          accessToken
+        );
+        const departmentsData = commonResponse.departments;
 
-  const handleBarrioChange = (event) => {
-    setBarrio(event.target.value);
-  };
+        if (departmentsData.length > 0) {
+          setSelectedDepartment(departmentsData[0].id); // Establecer solo el id del primer elemento
+        }
+        setDepartments(departmentsData);
+
+        const userCompaniesResponse = await userController.getUserCompanies(
+          accessToken,
+          user.id
+        );
+
+        const userCompaniesData = userCompaniesResponse.companies;
+
+        if (userCompaniesData.length > 0) {
+          setSelectedUserCompany(userCompaniesData[0]);
+        }
+        setUserCompanies(userCompaniesData);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, [accessToken, user.id]);
 
   const formik = useFormik({
     initialValues: initialValues(),
@@ -73,7 +95,10 @@ export function RequestStorage() {
     onSubmit: async (formValue) => {
       try {
         setError("");
-        await storageController.requestStoragePublication(accessToken, formValue);
+        await storageController.requestStoragePublication(
+          accessToken,
+          formValue
+        );
         //TODO: definir que debe pasar cuando se registra un nuevo espacio. Seguimos en registrar espacios? O redireccionamos a otro lado?
       } catch (error) {
         setError("Error en el servidor", error);
@@ -123,33 +148,16 @@ export function RequestStorage() {
           >
             <Grid container spacing={2} alignItems="center">
               <Grid item xs={9}>
-                <FormControl sx={{ m: 1, width: "100%", mt: 3 }}>
+                <FormControl fullWidth>
                   <Select
-                    name="company"
-                    multiple={false}
-                    displayEmpty
-                    value={company}
-                    onChange={handleCompanyChange}
-                    error={formik.touched.company && Boolean(formik.errors.company)}
-                    helperText={formik.touched.company && formik.errors.company}
-                    input={<OutlinedInput />}
-                    renderValue={(selected) => {
-                      if (selected.length === 0) {
-                        return <em>Seleccione una empresa</em>;
-                      }
-
-                      return selected.join(", ");
-                    }}
-                    MenuProps={MenuProps}
-                    inputProps={{ "aria-label": "Without label" }}
+                    value={selectedUserCompany}
+                    onChange={(event) =>
+                      setSelectedUserCompany(event.target.value)
+                    }
                   >
-                    {names.map((name) => (
-                      <MenuItem
-                        key={name}
-                        value={name}
-                        style={theme.menuItemGetStyles(name, company)}
-                      >
-                        {name}
+                    {userCompanies.map((company) => (
+                      <MenuItem key={company.id} value={company.id}>
+                        {company.name}
                       </MenuItem>
                     ))}
                   </Select>
@@ -198,15 +206,22 @@ export function RequestStorage() {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
-                  <InputLabel>Barrio</InputLabel>
+                  <InputLabel id="demo-simple-select-helper-label">
+                    Departamento
+                  </InputLabel>
                   <Select
-                    value={barrio}
-                    label="Barrio"
-                    onChange={handleBarrioChange}
+                    labelId="demo-simple-select-helper-label"
+                    id="demo-simple-select-helper"
+                    value={age}
+                    label="Departamento"
+                    onChange={handleChange}
                   >
-                    {barrios.map((item) => (
-                      <MenuItem value={item.value}>{item.value}</MenuItem>
-                    ))}
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
