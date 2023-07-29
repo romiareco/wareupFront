@@ -15,7 +15,9 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Paper from '@mui/material/Paper';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from "../../../theme/theme";
+import {role} from "../../../utils";
 
 const FlexBox = styled(Box)(() => ({ display: 'flex', alignItems: 'center' }));
 
@@ -28,7 +30,6 @@ const ContentBox = styled(Box)(() => ({
 
 
 const authController = new Auth();
-const defaultTheme = createTheme();
 
 export function Login() {
   const { login } = useAuth();
@@ -47,8 +48,15 @@ export function Login() {
         authController.setAccessToken(response.tokens.access);
         authController.setRefreshToken(response.tokens.refresh);
 
-        login(response.tokens.access);
-        navigate("/home");
+        const userLogged = await login(response.tokens.access);
+        
+        if (userLogged) {
+          if (parseInt(userLogged.role) === role.ADMIN) {
+            navigate("/admin/home");
+          } else {
+            navigate("/users/home");
+          }
+        }
       } catch (exception) {
         console.error(exception.msg);
         setError(exception.msg, error);
@@ -57,7 +65,7 @@ export function Login() {
   });
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid

@@ -3,7 +3,7 @@ import { Grid, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { User } from "../../../api/user";
 import { initialValues, validationSchema } from "./PasswordRecovery.form";
 import * as React from "react";
@@ -12,16 +12,16 @@ import CssBaseline from "@mui/material/CssBaseline";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import { Copyright } from "../../Copyright";
 import { useLocation } from "react-router-dom";
+import theme from "../../../theme/theme";
 
 const userController = new User();
 
 export function PasswordRecovery() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const defaultTheme = createTheme();
   const location = useLocation();
   const tokenParam = location.search.substring(1); // Eliminar el primer caracter "?" de la búsqueda
 
@@ -40,7 +40,7 @@ export function PasswordRecovery() {
   });
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
