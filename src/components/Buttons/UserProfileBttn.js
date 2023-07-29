@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 
-export function UserProfile() {
+export function UserProfileBttn() {
     const navigate = useNavigate();
   
     const userProfile = () => {

@@ -12,7 +12,7 @@ import Container from "@mui/material/Container";
 import { blue } from "@mui/material/colors";
 import { Select, MenuItem } from "@mui/material";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import { RegisterCompany } from "../../Buttons";
+import { RegisterCompanyBttn } from "../../Buttons";
 import { useAuth } from "../../../hooks";
 import theme from "./../../../theme/theme"; // Importa el theme.js aquí
 
@@ -156,7 +156,7 @@ export function RequestStorage() {
                 </FormControl>
               </Grid>
               <Grid item xs={3}>
-                <RegisterCompany />
+                <RegisterCompanyBttn />
               </Grid>
             </Grid>
             <Typography
