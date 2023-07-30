@@ -1,5 +1,5 @@
 import { LoadingButton } from "@mui/lab";
-import { Checkbox, Grid, TextField } from "@mui/material";
+import { Checkbox, Grid, TextField, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@mui/material";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import { useState } from "react";
@@ -22,6 +22,11 @@ const userController = new User();
 export function RegisterUser() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(false);
+
+  const handleSuccessDialogClose = () => {
+    setIsSuccessDialogOpen(false);
+  };
 
   const formik = useFormik({
     initialValues: initialValues(),
@@ -31,9 +36,9 @@ export function RegisterUser() {
       try {
         setError("");
         await userController.register(formValue);
-        navigate("/users/login");
+        setIsSuccessDialogOpen(true);
       } catch (error) {
-        setError("Error en el servidor", error);
+        setError("Error en el servidor: " + JSON.stringify(error.message));
       }
     },
   });
@@ -142,7 +147,7 @@ export function RegisterUser() {
                       helperText={formik.errors.conditionsAccepted}
                     />
                   }
-                  label="He leído y acepto las poíticas de privacidad."
+                  label="He leído y acepto las políticas de privacidad."
                 />
               </Grid>
             </Grid>
@@ -172,6 +177,21 @@ export function RegisterUser() {
         <p className="register-form__error">{error}</p>
         <Copyright sx={{ mt: 5 }} />
       </Container>
+
+      {/* Diálogo para mostrar el mensaje de éxito */}
+      <Dialog open={isSuccessDialogOpen} onClose={handleSuccessDialogClose}>
+        <DialogTitle>¡Usuario registrado exitosamente!</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            El usuario ha sido registrado exitosamente. ¡Bienvenido!
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleSuccessDialogClose} color="primary">
+            Cerrar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </ThemeProvider>
   );
 }
