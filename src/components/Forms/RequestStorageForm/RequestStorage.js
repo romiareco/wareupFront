@@ -48,14 +48,39 @@ export function RequestStorage() {
   const [error, setError] = useState("");
   const [userCompanies, setUserCompanies] = React.useState([]);
   const [departments, setDepartments] = React.useState([]);
+  const [cities, setCities] = React.useState([]);
 
   const [selectedUserCompany, setSelectedUserCompany] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState({});
+  const [selectedCity, setSelectedCity] = useState({});
 
-  const [age, setAge] = React.useState("");
+  const handleDepartmentChange = (event) => {
+    const departmentId = event.target.value;
+    const department = departments.find((dep) => dep.id === departmentId);
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
+    const cities = department.cities;
+    setSelectedDepartment(department);
+    setCities(cities);
+
+    console.log("SelectedDepartment: " + JSON.stringify(selectedDepartment));
+    console.log("cities: " + JSON.stringify(cities));
+  };
+
+  const handleCityChange = (event) => {
+    const cityId = event.target.value;
+    const city = cities.find((cit) => cit.id === cityId);
+
+    setSelectedCity(city);
+    console.log("SelectedCity: " + JSON.stringify(selectedCity));
+  };
+
+  const handleUserCompanyChange = (event) => {
+    const userCompanyId = event.target.value;
+    const userCompany = userCompanies.find(
+      (company) => company.id === userCompanyId
+    );
+
+    setSelectedUserCompany(userCompany);
   };
 
   useEffect(() => {
@@ -76,7 +101,7 @@ export function RequestStorage() {
           user.id
         );
 
-        const userCompaniesData = userCompaniesResponse.companies;
+        const userCompaniesData = userCompaniesResponse.companies || [];
 
         if (userCompaniesData.length > 0) {
           setSelectedUserCompany(userCompaniesData[0]);
@@ -149,17 +174,28 @@ export function RequestStorage() {
             <Grid container spacing={2} alignItems="center">
               <Grid item xs={9}>
                 <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-helper-label">
+                    Empresa
+                  </InputLabel>
                   <Select
-                    value={selectedUserCompany}
-                    onChange={(event) =>
-                      setSelectedUserCompany(event.target.value)
-                    }
+                    labelId="demo-simple-select-helper-label"
+                    id="demo-simple-select-helper"
+                    label="Empresa"
+                    value={selectedUserCompany.id || ""}
+                    onChange={handleUserCompanyChange}
                   >
-                    {userCompanies.map((company) => (
-                      <MenuItem key={company.id} value={company.id}>
-                        {company.name}
+                    {userCompanies.length > 0 ? (
+                      userCompanies.map((company) => (
+                        <MenuItem key={company.id} value={company.id}>
+                          {company.name}
+                        </MenuItem>
+                      ))
+                    ) : (
+                      <MenuItem disabled value="">
+                        {userCompanies.length === 0 &&
+                          "No hay compañías registradas"}
                       </MenuItem>
-                    ))}
+                    )}
                   </Select>
                 </FormControl>
               </Grid>
@@ -176,7 +212,7 @@ export function RequestStorage() {
               Datos del depósito
             </Typography>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid item xs={12} md={8}>
                 <TextField
                   fullWidth
                   type="text"
@@ -190,7 +226,7 @@ export function RequestStorage() {
                   helperText={formik.errors.storageAddress}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={4}>
                 <TextField
                   fullWidth
                   type="text"
@@ -212,16 +248,35 @@ export function RequestStorage() {
                   <Select
                     labelId="demo-simple-select-helper-label"
                     id="demo-simple-select-helper"
-                    value={age}
+                    value={selectedDepartment.id || ""}
                     label="Departamento"
-                    onChange={handleChange}
+                    onChange={handleDepartmentChange}
                   >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
+                    {departments.map((department) => (
+                      <MenuItem key={department.id} value={department.id}>
+                        {department.title}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-helper-label">
+                    Barrio
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-helper-label"
+                    id="demo-simple-select-helper"
+                    value={selectedCity.id || ""}
+                    label="Barrio"
+                    onChange={handleCityChange}
+                  >
+                    {cities.map((city) => (
+                      <MenuItem key={city.id} value={city.id}>
+                        {city.title}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </Grid>
