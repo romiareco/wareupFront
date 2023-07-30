@@ -5,8 +5,25 @@ export class Storage {
 
   async register(data) {
     try {
-      //TODO: pending backend endpoint
-      console.log(data);
+      const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSITS}`;
+      const params = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`
+        },
+        body: JSON.stringify({
+          //TODO: definir parámetros a pasar
+        }),
+      };
+
+      const response = await fetch(url, params);
+      const result = await response.json();
+
+      if (response.status !== 201) throw result;
+
+      return result;
+
     } catch (exception) {
       console.error(
         "Hubo un error en la respuesta del servidor. Error: " + exception.msg
