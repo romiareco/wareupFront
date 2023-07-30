@@ -9,7 +9,6 @@ import { Avatar, CssBaseline, Typography, Container } from "@mui/material";
 const contactController = new Contact();
 
 export function ContactForm() {
-
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: validationSchema(),
@@ -18,7 +17,7 @@ export function ContactForm() {
         await contactController.contact(formValue);
         resetForm();
       } catch (error) {
-        console.error("Error en el servidor", error);
+        console.error("Error en el servidor: " + JSON.stringify(error));
       }
     },
   });
@@ -37,7 +36,12 @@ export function ContactForm() {
         <Typography component="h1" variant="h5">
           Contactanos
         </Typography>
-        <Box component="form" noValidate onSubmit={formik.handleSubmit} sx={{ mt: 3 }}>
+        <Box
+          component="form"
+          noValidate
+          onSubmit={formik.handleSubmit}
+          sx={{ mt: 3 }}
+        >
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -112,7 +116,12 @@ export function ContactForm() {
             </Grid>
           </Grid>
 
-          <Grid container spacing={2} justifyContent="center" sx={{ mt: "16px" }}>
+          <Grid
+            container
+            spacing={2}
+            justifyContent="center"
+            sx={{ mt: "16px" }}
+          >
             <Grid item>
               <LoadingButton
                 type="submit"

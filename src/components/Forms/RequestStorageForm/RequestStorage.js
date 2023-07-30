@@ -23,7 +23,6 @@ const commonController = new Common();
 
 export function RequestStorage() {
   const { accessToken, user } = useAuth();
-  const [formSubmitted, setFormSubmitted] = useState(false);
   const navigate = useNavigate();
 
   const [error, setError] = useState("");
@@ -42,6 +41,14 @@ export function RequestStorage() {
     const cities = department.cities;
     setSelectedDepartment(department);
     setCities(cities);
+    formik.setFieldValue("departmentId", departmentId); // Actualiza el valor en formik
+  };
+
+  const handleCancelClick = () => {
+    formik.resetForm();
+    setSelectedUserCompany("");
+    setSelectedDepartment("");
+    setSelectedCity("");
   };
 
   const handleCityChange = (event) => {
@@ -49,6 +56,7 @@ export function RequestStorage() {
     const city = cities.find((cit) => cit.id === cityId);
 
     setSelectedCity(city);
+    formik.setFieldValue("cityId", cityId); // Actualiza el valor en formik
   };
 
   const handleUserCompanyChange = (event) => {
@@ -58,6 +66,7 @@ export function RequestStorage() {
     );
 
     setSelectedUserCompany(userCompany);
+    formik.setFieldValue("userCompanyId", userCompanyId); // Actualiza el valor en formik
   };
 
   useEffect(() => {
@@ -81,7 +90,7 @@ export function RequestStorage() {
         const userCompaniesData = userCompaniesResponse.companies || [];
 
         if (userCompaniesData.length > 0) {
-          setSelectedUserCompany(userCompaniesData[0]);
+          setSelectedUserCompany(userCompaniesData[0].id);
         }
         setUserCompanies(userCompaniesData);
       } catch (error) {
@@ -94,18 +103,18 @@ export function RequestStorage() {
     initialValues: initialValues(),
     validationSchema,
     validateOnChange: false,
-    onSubmit: async (formValue) => {
+    onSubmit: async (formValue, { resetForm }) => {
       try {
         setError("");
-        setFormSubmitted(true);
         await storageController.requestStoragePublication(
           accessToken,
           formValue,
           user
         );
+        resetForm();
         //TODO: definir que debe pasar cuando se registra un nuevo espacio. Seguimos en registrar espacios? O redireccionamos a otro lado?
       } catch (error) {
-        setError("Error en el servidor: " + error);
+        setError("Error en el servidor: " + JSON.stringify(error));
       }
     },
   });
@@ -155,8 +164,7 @@ export function RequestStorage() {
                 <FormControl
                   fullWidth
                   error={
-                    (formik.touched.userCompanyId || formSubmitted) &&
-                    Boolean(formik.errors.userCompanyId)
+                    formik.touched.userCompanyId && formik.errors.userCompanyId
                   }
                 >
                   <InputLabel id="demo-simple-select-helper-label">
@@ -174,7 +182,7 @@ export function RequestStorage() {
                     {userCompanies.length > 0 ? (
                       userCompanies.map((company) => (
                         <MenuItem key={company.id} value={company.id}>
-                          {company.name}
+                          {company.businessName}
                         </MenuItem>
                       ))
                     ) : (
@@ -184,8 +192,9 @@ export function RequestStorage() {
                       </MenuItem>
                     )}
                   </Select>
-                  {(formik.touched.userCompanyId || formSubmitted) &&
-                    formik.errors.userCompanyId && (
+                  {formik.touched.userCompanyId &&
+                    formik.errors.userCompanyId &&
+                    !selectedUserCompany && (
                       <FormHelperText>
                         {formik.errors.userCompanyId}
                       </FormHelperText>
@@ -249,7 +258,7 @@ export function RequestStorage() {
                 <FormControl
                   fullWidth
                   error={
-                    (formik.touched.departmentId || formSubmitted) &&
+                    formik.touched.departmentId &&
                     Boolean(formik.errors.userCompanyId)
                   }
                 >
@@ -271,7 +280,7 @@ export function RequestStorage() {
                       </MenuItem>
                     ))}
                   </Select>
-                  {(formik.touched.departmentId || formSubmitted) &&
+                  {formik.touched.departmentId &&
                     formik.errors.departmentId && (
                       <FormHelperText>
                         {formik.errors.departmentId}
@@ -282,10 +291,7 @@ export function RequestStorage() {
               <Grid item xs={12} sm={6}>
                 <FormControl
                   fullWidth
-                  error={
-                    (formik.touched.cityId || formSubmitted) &&
-                    Boolean(formik.errors.cityId)
-                  }
+                  error={formik.touched.cityId && Boolean(formik.errors.cityId)}
                 >
                   <InputLabel id="demo-simple-select-helper-label">
                     Barrio
@@ -305,11 +311,71 @@ export function RequestStorage() {
                       </MenuItem>
                     ))}
                   </Select>
-                  {(formik.touched.cityId || formSubmitted) &&
-                    formik.errors.cityId && (
-                      <FormHelperText>{formik.errors.cityId}</FormHelperText>
-                    )}
+                  {formik.touched.cityId && formik.errors.cityId && (
+                    <FormHelperText>{formik.errors.cityId}</FormHelperText>
+                  )}
                 </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container justifyContent="center">
+                  <Typography
+                    component="h1"
+                    variant="h5"
+                    align="center"
+                    sx={{ marginTop: "16px", marginBottom: "16px" }}
+                  >
+                    Cuéntanos un poco sobre tu solicitud
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  type="text"
+                  name="title"
+                  label="Título"
+                  variant="outlined"
+                  required
+                  value={formik.values.title}
+                  onChange={formik.handleChange}
+                  error={formik.touched.title && Boolean(formik.errors.title)}
+                  helperText={formik.touched.title && formik.errors.title}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  multiline
+                  minRows={4}
+                  maxRows={10}
+                  name="description"
+                  label="Descripción"
+                  variant="outlined"
+                  required
+                  value={formik.values.description}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.description &&
+                    Boolean(formik.errors.description)
+                  }
+                  helperText={
+                    formik.touched.description && formik.errors.description
+                  }
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "4px",
+                    },
+                    "& .MuiOutlinedInput-input": {
+                      padding: "8px",
+                      fontSize: "16px",
+                      resize: "vertical",
+                      fontFamily: "inherit",
+                    },
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#ccc",
+                    },
+                  }}
+                />
               </Grid>
             </Grid>
             <Grid
@@ -332,7 +398,7 @@ export function RequestStorage() {
                 <LoadingButton
                   color="primary"
                   variant="outlined"
-                  onClick={() => navigate(-1)}
+                  onClick={handleCancelClick}
                 >
                   Cancelar
                 </LoadingButton>
@@ -340,7 +406,7 @@ export function RequestStorage() {
             </Grid>
           </Box>
         </Box>
-        <p className="register-form__error">{error}</p>
+        <p className="request-deposit-form__error">{error}</p>
       </Container>
     </ThemeProvider>
   );

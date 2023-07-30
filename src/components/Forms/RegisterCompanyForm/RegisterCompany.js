@@ -36,7 +36,7 @@ export function RegisterCompany() {
         //TODO: definir que debe pasar cuando se registra un nuevo espacio. Seguimos en registrar espacios? O redireccionamos a otro lado?
       } catch (error) {
         console.log("Error: " + error);
-        setError("Error en el servidor", error);
+        setError("Error en el servidor: " + error);
       }
     },
   });
