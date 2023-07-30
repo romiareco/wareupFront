@@ -4,13 +4,23 @@ export function initialValues() {
   return {
     storagePhoneNumber: "",
     storageAddress: "",
+    userCompanyId: "",
+    departmentId: "",
+    cityId: "",
+    title: "",
+    description: "",
   };
 }
 
-export function validationSchema() {
+export function validationSchema(departments, cities, userCompanies) {
   return Yup.object({
-    storagePhoneNumber: Yup.string().required("Campo obligatorio"),
-    storageAddress: Yup.string().required("Campo obligatorio"),
-    company: Yup.string().required("Seleccione una empresa"),
+    storageAddress: Yup.string().required("La dirección es obligatoria."),
+    storagePhoneNumber: Yup.string().required("El teléfono es obligatorio."),
+    title: Yup.string().required(
+      "Debe cargar un título para la solicitud de depósito."
+    ),
+    description: Yup.string().required(
+      "Debe cargar una breve descripción de su solicitud."
+    ),
   });
 }

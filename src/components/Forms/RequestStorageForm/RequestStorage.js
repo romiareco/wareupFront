@@ -1,82 +1,120 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { LoadingButton } from "@mui/lab";
-import { Grid, TextField } from "@mui/material";
+import { Grid, TextField, FormHelperText } from "@mui/material";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
+import * as Yup from "yup"; // Importa Yup para las validaciones
+import InputLabel from "@mui/material/InputLabel";
 import { useNavigate } from "react-router-dom";
-import { User, Storage } from "../../../api";
+import { User, Storage, Common } from "../../../api";
 import { initialValues, validationSchema } from "./RequestStorage.form";
 import { ThemeProvider } from "@mui/material/styles";
-import { Typography, Paper, InputLabel, FormControl } from "@mui/material";
+import { Typography, Paper, FormControl } from "@mui/material";
 import Container from "@mui/material/Container";
 import { blue } from "@mui/material/colors";
 import { Select, MenuItem } from "@mui/material";
-import OutlinedInput from "@mui/material/OutlinedInput";
 import { RegisterCompanyBttn } from "../../Buttons";
 import { useAuth } from "../../../hooks";
 import theme from "./../../../theme/theme"; // Importa el theme.js aquí
 
 const userController = new User();
 const storageController = new Storage();
-
-const names = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder",
-];
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
+const commonController = new Common();
 
 export function RequestStorage() {
-  const [error, setError] = useState("");
+  const { accessToken, user } = useAuth();
   const navigate = useNavigate();
 
-  const barrios = [{ value: "Malvin" }, { value: "Barrio Sur" }];
+  const [error, setError] = useState("");
+  const [userCompanies, setUserCompanies] = React.useState([]);
+  const [departments, setDepartments] = React.useState([]);
+  const [cities, setCities] = React.useState([]);
 
-  const { accessToken } = useAuth();
+  const [selectedUserCompany, setSelectedUserCompany] = useState("");
+  const [selectedDepartment, setSelectedDepartment] = useState({});
+  const [selectedCity, setSelectedCity] = useState({});
 
-  const [company, setCompany] = React.useState([]);
+  const handleDepartmentChange = (event) => {
+    const departmentId = event.target.value;
+    const department = departments.find((dep) => dep.id === departmentId);
 
-  const handleCompanyChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setCompany(typeof value === "string" ? value.split(",") : value);
+    const cities = department.cities;
+    setSelectedDepartment(department);
+    setCities(cities);
+    formik.setFieldValue("departmentId", departmentId); // Actualiza el valor en formik
   };
 
-  const [barrio, setBarrio] = React.useState(barrios[0].value);
-
-  const handleBarrioChange = (event) => {
-    setBarrio(event.target.value);
+  const handleCancelClick = () => {
+    formik.resetForm();
+    setSelectedUserCompany("");
+    setSelectedDepartment("");
+    setSelectedCity("");
   };
+
+  const handleCityChange = (event) => {
+    const cityId = event.target.value;
+    const city = cities.find((cit) => cit.id === cityId);
+
+    setSelectedCity(city);
+    formik.setFieldValue("cityId", cityId); // Actualiza el valor en formik
+  };
+
+  const handleUserCompanyChange = (event) => {
+    const userCompanyId = event.target.value;
+    const userCompany = userCompanies.find(
+      (company) => company.id === userCompanyId
+    );
+
+    setSelectedUserCompany(userCompany);
+    formik.setFieldValue("userCompanyId", userCompanyId); // Actualiza el valor en formik
+  };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const commonResponse = await commonController.getDepartments(
+          accessToken
+        );
+        const departmentsData = commonResponse.departments;
+
+        if (departmentsData.length > 0) {
+          setSelectedDepartment(departmentsData[0].id); // Establecer solo el id del primer elemento
+        }
+        setDepartments(departmentsData);
+
+        const userCompaniesResponse = await userController.getUserCompanies(
+          accessToken,
+          user.id
+        );
+
+        const userCompaniesData = userCompaniesResponse.companies || [];
+
+        if (userCompaniesData.length > 0) {
+          setSelectedUserCompany(userCompaniesData[0].id);
+        }
+        setUserCompanies(userCompaniesData);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, [accessToken, user.id]);
 
   const formik = useFormik({
     initialValues: initialValues(),
-    validationSchema: validationSchema(),
+    validationSchema,
     validateOnChange: false,
-    onSubmit: async (formValue) => {
+    onSubmit: async (formValue, { resetForm }) => {
       try {
         setError("");
-        await storageController.requestStoragePublication(accessToken, formValue);
+        await storageController.requestStoragePublication(
+          accessToken,
+          formValue,
+          user
+        );
+        resetForm();
         //TODO: definir que debe pasar cuando se registra un nuevo espacio. Seguimos en registrar espacios? O redireccionamos a otro lado?
       } catch (error) {
-        setError("Error en el servidor", error);
+        setError("Error en el servidor: " + JSON.stringify(error));
       }
     },
   });
@@ -123,36 +161,44 @@ export function RequestStorage() {
           >
             <Grid container spacing={2} alignItems="center">
               <Grid item xs={9}>
-                <FormControl sx={{ m: 1, width: "100%", mt: 3 }}>
+                <FormControl
+                  fullWidth
+                  error={
+                    formik.touched.userCompanyId && formik.errors.userCompanyId
+                  }
+                >
+                  <InputLabel id="demo-simple-select-helper-label">
+                    Empresa
+                  </InputLabel>
                   <Select
-                    name="company"
-                    multiple={false}
-                    displayEmpty
-                    value={company}
-                    onChange={handleCompanyChange}
-                    error={formik.touched.company && Boolean(formik.errors.company)}
-                    helperText={formik.touched.company && formik.errors.company}
-                    input={<OutlinedInput />}
-                    renderValue={(selected) => {
-                      if (selected.length === 0) {
-                        return <em>Seleccione una empresa</em>;
-                      }
-
-                      return selected.join(", ");
-                    }}
-                    MenuProps={MenuProps}
-                    inputProps={{ "aria-label": "Without label" }}
+                    labelId="demo-simple-select-helper-label"
+                    id="demo-simple-select-helper"
+                    label="Empresa"
+                    value={selectedUserCompany.id || ""}
+                    onChange={handleUserCompanyChange}
+                    onBlur={formik.handleBlur} // Agregar esta línea
+                    name="userCompanyId"
                   >
-                    {names.map((name) => (
-                      <MenuItem
-                        key={name}
-                        value={name}
-                        style={theme.menuItemGetStyles(name, company)}
-                      >
-                        {name}
+                    {userCompanies.length > 0 ? (
+                      userCompanies.map((company) => (
+                        <MenuItem key={company.id} value={company.id}>
+                          {company.businessName}
+                        </MenuItem>
+                      ))
+                    ) : (
+                      <MenuItem disabled value="">
+                        {userCompanies.length === 0 &&
+                          "No hay compañías registradas"}
                       </MenuItem>
-                    ))}
+                    )}
                   </Select>
+                  {formik.touched.userCompanyId &&
+                    formik.errors.userCompanyId &&
+                    !selectedUserCompany && (
+                      <FormHelperText>
+                        {formik.errors.userCompanyId}
+                      </FormHelperText>
+                    )}
                 </FormControl>
               </Grid>
               <Grid item xs={3}>
@@ -168,7 +214,7 @@ export function RequestStorage() {
               Datos del depósito
             </Typography>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid item xs={12} md={8}>
                 <TextField
                   fullWidth
                   type="text"
@@ -178,11 +224,17 @@ export function RequestStorage() {
                   required
                   value={formik.values.storageAddress}
                   onChange={formik.handleChange}
-                  error={formik.errors.storageAddress}
-                  helperText={formik.errors.storageAddress}
+                  error={
+                    formik.touched.storageAddress &&
+                    Boolean(formik.errors.storageAddress)
+                  }
+                  helperText={
+                    formik.touched.storageAddress &&
+                    formik.errors.storageAddress
+                  }
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={4}>
                 <TextField
                   fullWidth
                   type="text"
@@ -192,23 +244,138 @@ export function RequestStorage() {
                   variant="outlined"
                   value={formik.values.storagePhoneNumber}
                   onChange={formik.handleChange}
-                  error={formik.errors.storagePhoneNumber}
-                  helperText={formik.errors.storagePhoneNumber}
+                  error={
+                    formik.touched.storagePhoneNumber &&
+                    Boolean(formik.errors.storagePhoneNumber)
+                  }
+                  helperText={
+                    formik.touched.storagePhoneNumber &&
+                    formik.errors.storagePhoneNumber
+                  }
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <FormControl fullWidth>
-                  <InputLabel>Barrio</InputLabel>
+                <FormControl
+                  fullWidth
+                  error={
+                    formik.touched.departmentId &&
+                    Boolean(formik.errors.userCompanyId)
+                  }
+                >
+                  <InputLabel id="demo-simple-select-helper-label">
+                    Departamento
+                  </InputLabel>
                   <Select
-                    value={barrio}
-                    label="Barrio"
-                    onChange={handleBarrioChange}
+                    labelId="demo-simple-select-helper-label"
+                    id="demo-simple-select-helper"
+                    value={selectedDepartment.id || ""}
+                    label="Departamento"
+                    onChange={handleDepartmentChange}
+                    onBlur={formik.handleBlur} // Agregar esta línea
+                    name="departmentId"
                   >
-                    {barrios.map((item) => (
-                      <MenuItem value={item.value}>{item.value}</MenuItem>
+                    {departments.map((department) => (
+                      <MenuItem key={department.id} value={department.id}>
+                        {department.title}
+                      </MenuItem>
                     ))}
                   </Select>
+                  {formik.touched.departmentId &&
+                    formik.errors.departmentId && (
+                      <FormHelperText>
+                        {formik.errors.departmentId}
+                      </FormHelperText>
+                    )}
                 </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl
+                  fullWidth
+                  error={formik.touched.cityId && Boolean(formik.errors.cityId)}
+                >
+                  <InputLabel id="demo-simple-select-helper-label">
+                    Barrio
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-helper-label"
+                    id="demo-simple-select-helper"
+                    value={selectedCity.id || ""}
+                    label="Barrio"
+                    onChange={handleCityChange}
+                    onBlur={formik.handleBlur} // Agregar esta línea
+                    name="cityId"
+                  >
+                    {cities.map((city) => (
+                      <MenuItem key={city.id} value={city.id}>
+                        {city.title}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {formik.touched.cityId && formik.errors.cityId && (
+                    <FormHelperText>{formik.errors.cityId}</FormHelperText>
+                  )}
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container justifyContent="center">
+                  <Typography
+                    component="h1"
+                    variant="h5"
+                    align="center"
+                    sx={{ marginTop: "16px", marginBottom: "16px" }}
+                  >
+                    Cuéntanos un poco sobre tu solicitud
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  type="text"
+                  name="title"
+                  label="Título"
+                  variant="outlined"
+                  required
+                  value={formik.values.title}
+                  onChange={formik.handleChange}
+                  error={formik.touched.title && Boolean(formik.errors.title)}
+                  helperText={formik.touched.title && formik.errors.title}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  multiline
+                  minRows={4}
+                  maxRows={10}
+                  name="description"
+                  label="Descripción"
+                  variant="outlined"
+                  required
+                  value={formik.values.description}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.description &&
+                    Boolean(formik.errors.description)
+                  }
+                  helperText={
+                    formik.touched.description && formik.errors.description
+                  }
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "4px",
+                    },
+                    "& .MuiOutlinedInput-input": {
+                      padding: "8px",
+                      fontSize: "16px",
+                      resize: "vertical",
+                      fontFamily: "inherit",
+                    },
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#ccc",
+                    },
+                  }}
+                />
               </Grid>
             </Grid>
             <Grid
@@ -231,7 +398,7 @@ export function RequestStorage() {
                 <LoadingButton
                   color="primary"
                   variant="outlined"
-                  onClick={() => navigate(-1)}
+                  onClick={handleCancelClick}
                 >
                   Cancelar
                 </LoadingButton>
@@ -239,7 +406,7 @@ export function RequestStorage() {
             </Grid>
           </Box>
         </Box>
-        <p className="register-form__error">{error}</p>
+        <p className="request-deposit-form__error">{error}</p>
       </Container>
     </ThemeProvider>
   );
