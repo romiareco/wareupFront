@@ -7,10 +7,14 @@ export function initialValues() {
   };
 }
 
-export function validationSchema() {
+export function validationSchema(departments, cities, userCompanies) {
   return Yup.object({
-    storagePhoneNumber: Yup.string().required("Campo obligatorio"),
-    storageAddress: Yup.string().required("Campo obligatorio"),
-    company: Yup.string().required("Seleccione una empresa"),
+    userCompanyId: Yup.string()
+    .required("Debe seleccionar una empresa"),
+    storageAddress: Yup.string().required("La dirección es obligatoria."),
+    storagePhoneNumber: Yup.string().required("El teléfono es obligatorio."),
+    departmentId: Yup.string().required("Debe seleccionar un departamento."),
+    cityId: Yup.string()
+      .required("Debe seleccionar un barrio"),
   });
 }

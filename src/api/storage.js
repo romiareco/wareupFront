@@ -15,7 +15,7 @@ export class Storage {
     }
   }
 
-  async requestStoragePublication(accessToken, data) {
+  async requestStoragePublication(accessToken, data, user) {
     try {
       const url = `${this.baseApi}/${ENV.API_ROUTES.STORAGE_REQUEST}`;
       const params = {
@@ -25,10 +25,13 @@ export class Storage {
           Authorization: `Bearer ${accessToken}`
         },
         body: JSON.stringify({
-          companyId: data.companyId,
-          storageAddress: data.storageAddress,
-          storage: data.email,
-          password: data.password,
+          companyId: data.userCompanyId,
+          address: data.storageAddress,
+          phone: data.storagePhoneNumber,
+          cityId: data.cityId,
+          email: user.email,
+          title: data.title,
+          description: data.description,
         }),
       };
 

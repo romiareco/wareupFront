@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { LoadingButton } from "@mui/lab";
-import { Grid, TextField } from "@mui/material";
+import { Grid, TextField, FormHelperText } from "@mui/material";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
+import * as Yup from "yup"; // Importa Yup para las validaciones
 import InputLabel from "@mui/material/InputLabel";
 import { useNavigate } from "react-router-dom";
 import { User, Storage, Common } from "../../../api";
@@ -15,34 +16,14 @@ import { Select, MenuItem } from "@mui/material";
 import { RegisterCompanyBttn } from "../../Buttons";
 import { useAuth } from "../../../hooks";
 import theme from "./../../../theme/theme"; // Importa el theme.js aquí
-import OutlinedInput from "@mui/material/OutlinedInput";
 
 const userController = new User();
 const storageController = new Storage();
 const commonController = new Common();
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-function getStyles(name, personName, theme) {
-  return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
-
 export function RequestStorage() {
   const { accessToken, user } = useAuth();
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const navigate = useNavigate();
 
   const [error, setError] = useState("");
@@ -61,9 +42,6 @@ export function RequestStorage() {
     const cities = department.cities;
     setSelectedDepartment(department);
     setCities(cities);
-
-    console.log("SelectedDepartment: " + JSON.stringify(selectedDepartment));
-    console.log("cities: " + JSON.stringify(cities));
   };
 
   const handleCityChange = (event) => {
@@ -71,7 +49,6 @@ export function RequestStorage() {
     const city = cities.find((cit) => cit.id === cityId);
 
     setSelectedCity(city);
-    console.log("SelectedCity: " + JSON.stringify(selectedCity));
   };
 
   const handleUserCompanyChange = (event) => {
@@ -115,18 +92,20 @@ export function RequestStorage() {
 
   const formik = useFormik({
     initialValues: initialValues(),
-    validationSchema: validationSchema(),
+    validationSchema,
     validateOnChange: false,
     onSubmit: async (formValue) => {
       try {
         setError("");
+        setFormSubmitted(true);
         await storageController.requestStoragePublication(
           accessToken,
-          formValue
+          formValue,
+          user
         );
         //TODO: definir que debe pasar cuando se registra un nuevo espacio. Seguimos en registrar espacios? O redireccionamos a otro lado?
       } catch (error) {
-        setError("Error en el servidor", error);
+        setError("Error en el servidor: " + error);
       }
     },
   });
@@ -173,7 +152,13 @@ export function RequestStorage() {
           >
             <Grid container spacing={2} alignItems="center">
               <Grid item xs={9}>
-                <FormControl fullWidth>
+                <FormControl
+                  fullWidth
+                  error={
+                    (formik.touched.userCompanyId || formSubmitted) &&
+                    Boolean(formik.errors.userCompanyId)
+                  }
+                >
                   <InputLabel id="demo-simple-select-helper-label">
                     Empresa
                   </InputLabel>
@@ -183,6 +168,8 @@ export function RequestStorage() {
                     label="Empresa"
                     value={selectedUserCompany.id || ""}
                     onChange={handleUserCompanyChange}
+                    onBlur={formik.handleBlur} // Agregar esta línea
+                    name="userCompanyId"
                   >
                     {userCompanies.length > 0 ? (
                       userCompanies.map((company) => (
@@ -197,6 +184,12 @@ export function RequestStorage() {
                       </MenuItem>
                     )}
                   </Select>
+                  {(formik.touched.userCompanyId || formSubmitted) &&
+                    formik.errors.userCompanyId && (
+                      <FormHelperText>
+                        {formik.errors.userCompanyId}
+                      </FormHelperText>
+                    )}
                 </FormControl>
               </Grid>
               <Grid item xs={3}>
@@ -222,8 +215,14 @@ export function RequestStorage() {
                   required
                   value={formik.values.storageAddress}
                   onChange={formik.handleChange}
-                  error={formik.errors.storageAddress}
-                  helperText={formik.errors.storageAddress}
+                  error={
+                    formik.touched.storageAddress &&
+                    Boolean(formik.errors.storageAddress)
+                  }
+                  helperText={
+                    formik.touched.storageAddress &&
+                    formik.errors.storageAddress
+                  }
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
@@ -236,12 +235,24 @@ export function RequestStorage() {
                   variant="outlined"
                   value={formik.values.storagePhoneNumber}
                   onChange={formik.handleChange}
-                  error={formik.errors.storagePhoneNumber}
-                  helperText={formik.errors.storagePhoneNumber}
+                  error={
+                    formik.touched.storagePhoneNumber &&
+                    Boolean(formik.errors.storagePhoneNumber)
+                  }
+                  helperText={
+                    formik.touched.storagePhoneNumber &&
+                    formik.errors.storagePhoneNumber
+                  }
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <FormControl fullWidth>
+                <FormControl
+                  fullWidth
+                  error={
+                    (formik.touched.departmentId || formSubmitted) &&
+                    Boolean(formik.errors.userCompanyId)
+                  }
+                >
                   <InputLabel id="demo-simple-select-helper-label">
                     Departamento
                   </InputLabel>
@@ -251,6 +262,8 @@ export function RequestStorage() {
                     value={selectedDepartment.id || ""}
                     label="Departamento"
                     onChange={handleDepartmentChange}
+                    onBlur={formik.handleBlur} // Agregar esta línea
+                    name="departmentId"
                   >
                     {departments.map((department) => (
                       <MenuItem key={department.id} value={department.id}>
@@ -258,10 +271,22 @@ export function RequestStorage() {
                       </MenuItem>
                     ))}
                   </Select>
+                  {(formik.touched.departmentId || formSubmitted) &&
+                    formik.errors.departmentId && (
+                      <FormHelperText>
+                        {formik.errors.departmentId}
+                      </FormHelperText>
+                    )}
                 </FormControl>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <FormControl fullWidth>
+                <FormControl
+                  fullWidth
+                  error={
+                    (formik.touched.cityId || formSubmitted) &&
+                    Boolean(formik.errors.cityId)
+                  }
+                >
                   <InputLabel id="demo-simple-select-helper-label">
                     Barrio
                   </InputLabel>
@@ -271,6 +296,8 @@ export function RequestStorage() {
                     value={selectedCity.id || ""}
                     label="Barrio"
                     onChange={handleCityChange}
+                    onBlur={formik.handleBlur} // Agregar esta línea
+                    name="cityId"
                   >
                     {cities.map((city) => (
                       <MenuItem key={city.id} value={city.id}>
@@ -278,6 +305,10 @@ export function RequestStorage() {
                       </MenuItem>
                     ))}
                   </Select>
+                  {(formik.touched.cityId || formSubmitted) &&
+                    formik.errors.cityId && (
+                      <FormHelperText>{formik.errors.cityId}</FormHelperText>
+                    )}
                 </FormControl>
               </Grid>
             </Grid>
