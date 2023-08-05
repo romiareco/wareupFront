@@ -7,31 +7,20 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { columns } from "./CompaniesTableColumns";
+import { columns } from "./StorageTableColumns";
 import { User } from "../../api";
 import { useAuth } from "../../hooks";
 import { useState, useEffect } from "react";
 
-function createData(
-  businessName,
-  RUT,
-  contactName,
-  position,
-  email,
-  address,
-  phoneNumber
-) {
-  return { businessName, RUT, contactName, position, email, address, phoneNumber };
-}
-
+ 
 const userController = new User();
 
-export function UserCompaniesTable() {
+export function UserStorageTable() {
   const { accessToken, user } = useAuth();
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [companies, setCompanies] = useState(null);
+  const [storages, setStorages] = useState(null);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -47,20 +36,19 @@ export function UserCompaniesTable() {
   useEffect(() => {
     (async () => {
       try {
-        const response = await userController.getUserCompanies(
+        const response = await userController.getUserDeposits(
           accessToken,
           user.id
         );
-        setCompanies(response.companies);
+        setStorages(response.deposits);
       } catch (error) {
         console.error(error);
       }
     })();
   }, [accessToken, user.id]);
 
-  //TODO: cambiar el userId que le pasamos una vez confirmemos los props
-
-  console.log("company rows: " + JSON.stringify(companies));
+  //TODO: cambiar el userId que le pasamos una vez confirmemos los props 
+  console.log("deposits rows: " + JSON.stringify(storages));
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -80,8 +68,8 @@ export function UserCompaniesTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {companies && companies.length > 0 ? (
-              companies
+            {storages && storages.length > 0 ? (
+              storages
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
                   return (
@@ -107,9 +95,9 @@ export function UserCompaniesTable() {
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length}>
-                  {companies === null
+                  {storages === null
                     ? "Cargando datos..."
-                    : "No se han registrado empresas para este usuario."}
+                    : "No se han registrado depositos para este usuario."}
                 </TableCell>
               </TableRow>
             )}
@@ -119,7 +107,7 @@ export function UserCompaniesTable() {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={companies === null ? 0 : companies.length}
+        count={storages === null ? 0 : storages.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
