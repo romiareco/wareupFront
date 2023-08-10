@@ -5,24 +5,45 @@ import { initialValues, validationSchema } from "./Contact.form";
 import { Contact } from "../../../api";
 import { LoadingButton } from "@mui/lab";
 import { Avatar, CssBaseline, Typography, Container } from "@mui/material";
+import theme from "../../../theme/theme";
+import { NotificationSnackbar } from "../../NotificationSnackbar";
+import { useState } from "react";
+import { ThemeProvider } from "@mui/material/styles";
 
 const contactController = new Contact();
 
 export function ContactForm() {
+  const [notificationOpen, setNotificationOpen] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
+
+
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: validationSchema(),
     onSubmit: async (formValue, { resetForm }) => {
       try {
         await contactController.contact(formValue);
+
+        setNotificationMessage("Mensaje enviado exitosamente");
+        setNotificationSeverity("success");
+        setNotificationOpen(true);
+
         resetForm();
       } catch (error) {
-        console.error("Error en el servidor: " + JSON.stringify(error));
+        const errorMessage =
+        "Error en el servidor: " + JSON.stringify(error.message);
+        console.log(errorMessage);
+      setNotificationMessage(errorMessage);
+      setNotificationSeverity("error");
+      setNotificationOpen(true);
       }
     },
   });
 
   return (
+    <ThemeProvider theme={theme}>
+
     <Container component="main" maxWidth="xs" sx={{ width: "100%" }}>
       <CssBaseline />
       <Box
@@ -144,6 +165,10 @@ export function ContactForm() {
           </Grid>
         </Box>
       </Box>
+      
     </Container>
+    </ThemeProvider>
+
+    
   );
 }

@@ -16,7 +16,6 @@ import Container from "@mui/material/Container";
 import { ThemeProvider } from "@mui/material/styles";
 import { Copyright } from "../../Copyright";
 import theme from "./../../../theme/theme"; // Importa el theme.js aquí
-import { Snackbar } from "@mui/material";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
 
 const userController = new User();

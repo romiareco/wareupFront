@@ -7,11 +7,6 @@ const Alert = React.forwardRef((props, ref) => {
       elevation={6}
       variant="filled"
       ref={ref}
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
       {...props}
     />
   );
