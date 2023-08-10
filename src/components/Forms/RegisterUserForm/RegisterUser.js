@@ -1,5 +1,5 @@
 import { LoadingButton } from "@mui/lab";
-import { Checkbox, Grid, TextField, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@mui/material";
+import { Checkbox, Grid, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import { useState } from "react";
@@ -16,29 +16,35 @@ import Container from "@mui/material/Container";
 import { ThemeProvider } from "@mui/material/styles";
 import { Copyright } from "../../Copyright";
 import theme from "./../../../theme/theme"; // Importa el theme.js aquí
+import { Snackbar } from "@mui/material";
+import { NotificationSnackbar } from "../../NotificationSnackbar";
 
 const userController = new User();
 
 export function RegisterUser() {
-  const [error, setError] = useState("");
   const navigate = useNavigate();
-  const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(false);
-
-  const handleSuccessDialogClose = () => {
-    setIsSuccessDialogOpen(false);
-  };
+  const [notificationOpen, setNotificationOpen] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
 
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: validationSchema(),
     validateOnChange: false,
-    onSubmit: async (formValue) => {
+    onSubmit: async (formValue, { resetForm }) => {
       try {
-        setError("");
-        const response = await userController.register(formValue);
-        setIsSuccessDialogOpen(true);
+        await userController.register(formValue);
+        setNotificationMessage("Registro exitoso");
+        setNotificationSeverity("success");
+        setNotificationOpen(true);
+
+        resetForm();
       } catch (error) {
-        setError("Error en el servidor: " + JSON.stringify(error.message));
+        const errorMessage =
+          "Error en el servidor: " + JSON.stringify(error.message);
+        setNotificationMessage(errorMessage);
+        setNotificationSeverity("error");
+        setNotificationOpen(true);
       }
     },
   });
@@ -174,24 +180,15 @@ export function RegisterUser() {
             </Grid>
           </Box>
         </Box>
-        <p className="register-form__error">{error}</p>
         <Copyright sx={{ mt: 5 }} />
       </Container>
-
-      {/* Diálogo para mostrar el mensaje de éxito */}
-      <Dialog open={isSuccessDialogOpen} onClose={handleSuccessDialogClose}>
-        <DialogTitle>¡Usuario registrado exitosamente!</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            El usuario ha sido registrado exitosamente. ¡Bienvenido!
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleSuccessDialogClose} color="primary">
-            Cerrar
-          </Button>
-        </DialogActions>
-      </Dialog>
+      {/* Utiliza el nuevo componente NotificationSnackbar */}
+      <NotificationSnackbar
+        open={notificationOpen}
+        onClose={() => setNotificationOpen(false)}
+        severity={notificationSeverity}
+        message={notificationMessage}
+      />
     </ThemeProvider>
   );
 }

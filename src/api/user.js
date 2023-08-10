@@ -42,11 +42,12 @@ export class User {
       const response = await fetch(url, params);
       const result = await response.json();
 
-      if (response.status !== 201) throw result;
+      if (response.status !== 201) throw response;
+      if (result && result.hasError) throw result;
 
       return result;
     } catch (error) {
-      console.log(error);
+      console.log(JSON.stringify(error.message));
       throw error;
     }
   }
