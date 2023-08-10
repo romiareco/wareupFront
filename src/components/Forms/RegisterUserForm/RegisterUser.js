@@ -35,7 +35,7 @@ export function RegisterUser() {
     onSubmit: async (formValue) => {
       try {
         setError("");
-        await userController.register(formValue);
+        const response = await userController.register(formValue);
         setIsSuccessDialogOpen(true);
       } catch (error) {
         setError("Error en el servidor: " + JSON.stringify(error.message));
