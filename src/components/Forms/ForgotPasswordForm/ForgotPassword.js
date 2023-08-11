@@ -33,7 +33,7 @@ export function ForgotPassword() {
     initialValues: inititalValues,
     validationSchema: validationSchema,
     validateOnChange: false,
-    onSubmit: async (formValue) => {
+    onSubmit: async (formValue, {resetForm}) => {
       try {
         await userController.recoverPassword(formValue);
 
@@ -41,7 +41,7 @@ export function ForgotPassword() {
         setNotificationSeverity("success");
         setNotificationOpen(true);
 
-        navigate("/");
+        resetForm();
       } catch (error) {
         const errorMessage =
           "Error en el servidor: " + JSON.stringify(error.message);
@@ -49,6 +49,7 @@ export function ForgotPassword() {
         setNotificationMessage(errorMessage);
         setNotificationSeverity("error");
         setNotificationOpen(true);
+        resetForm();
       }
     },
   });

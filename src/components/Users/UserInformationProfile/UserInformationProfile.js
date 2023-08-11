@@ -14,6 +14,7 @@ import * as Yup from "yup";
 import { useAuth } from "../../../hooks";
 import { User } from "../../../api/user";
 import React, { useState } from "react";
+import { NotificationSnackbar } from "../../NotificationSnackbar";
 
 const CardContainer = styled(Card)`
   height: 100%;
@@ -42,7 +43,9 @@ const userController = new User();
 export function UserInformationProfile() {
   const { user } = useAuth();
   const [isEditing, setIsEditing] = useState(false); // Nuevo estado para controlar la edición
-  const [error, setError] = useState("");
+  const [notificationOpen, setNotificationOpen] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
 
   const formik = useFormik({
     initialValues: {
@@ -51,25 +54,32 @@ export function UserInformationProfile() {
       email: user.email || "",
     },
     validationSchema: validationSchema(),
-    onSubmit: async (values) => {
+    onSubmit: async (formValue) => {
       try {
-        setError("");
-        values.id = user.id;
-        await userController.updateUser(values);
+        formValue.id = user.id;
+        await userController.updateUser(formValue);
+
+        setNotificationMessage(
+          "Usuario actualizado exitosamente"
+        );
+        setNotificationSeverity("success");
+        setNotificationOpen(true);
+
       } catch (error) {
-        setError("Error en el servidor: " + error);
+        setNotificationMessage(error.message);
+        setNotificationSeverity("error");
+        setNotificationOpen(true);
       }
-      console.log(values);
     },
   });
 
   const handleEdit = () => {
-    setIsEditing(true); 
+    setIsEditing(true);
   };
 
   const handleCancel = () => {
-    setIsEditing(false); 
-    formik.resetForm(); 
+    setIsEditing(false);
+    formik.resetForm();
   };
 
   return (
@@ -139,9 +149,14 @@ export function UserInformationProfile() {
               </Button>
             </React.Fragment>
           )}
-          <p className="update-user-form__error">{error}</p>
         </Box>
       </CardContent>
+      <NotificationSnackbar
+        open={notificationOpen}
+        onClose={() => setNotificationOpen(false)}
+        severity={notificationSeverity}
+        message={notificationMessage}
+      />
     </CardContainer>
   );
 }
