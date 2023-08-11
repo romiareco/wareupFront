@@ -39,7 +39,7 @@ export class Storage {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
           companyId: data.userCompanyId,
@@ -55,11 +55,15 @@ export class Storage {
       const response = await fetch(url, params);
       const result = await response.json();
 
-      if (response.status !== 201) throw result;
+      if (response.status !== 201) throw response;
+      if (result && result.hasError) throw result;
 
       return result;
     } catch (error) {
-      console.log(error);
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
       throw error;
     }
   }

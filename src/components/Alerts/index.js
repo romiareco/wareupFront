@@ -1,1 +1,1 @@
-export * from "./OKAlert";
+export * from "./Alert";

@@ -1,40 +1,42 @@
-import { LoadingButton } from '@mui/lab';
-import { Checkbox, Grid, TextField } from '@mui/material';
-import { Box, styled } from '@mui/system';
-import { Paragraph } from '../../Typography';
-import {useAuth} from '../../../hooks';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { LoadingButton } from "@mui/lab";
+import { Checkbox, Grid, TextField } from "@mui/material";
+import { Box, styled } from "@mui/system";
+import { Paragraph } from "../../Typography";
+import { useAuth } from "../../../hooks";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import {validationSchema, inititalValues} from "./Login.form";
+import { validationSchema, inititalValues } from "./Login.form";
 import { Auth } from "../../../api";
-import { useState } from 'react';
+import { useState } from "react";
 import { Form } from "semantic-ui-react";
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import CssBaseline from '@mui/material/CssBaseline';
-import Paper from '@mui/material/Paper';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import { ThemeProvider } from '@mui/material/styles';
+import * as React from "react";
+import Avatar from "@mui/material/Avatar";
+import CssBaseline from "@mui/material/CssBaseline";
+import Paper from "@mui/material/Paper";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import { ThemeProvider } from "@mui/material/styles";
 import theme from "../../../theme/theme";
-import {role} from "../../../utils";
+import { role } from "../../../utils";
+import { NotificationSnackbar } from "../../NotificationSnackbar";
 
-const FlexBox = styled(Box)(() => ({ display: 'flex', alignItems: 'center' }));
+const FlexBox = styled(Box)(() => ({ display: "flex", alignItems: "center" }));
 
 const ContentBox = styled(Box)(() => ({
-  height: '100%',
-  padding: '32px',
-  position: 'relative',
-  background: 'rgba(0, 0, 0, 0.01)',
+  height: "100%",
+  padding: "32px",
+  position: "relative",
+  background: "rgba(0, 0, 0, 0.01)",
 }));
-
 
 const authController = new Auth();
 
 export function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const [error, setError] = useState("");
+  const [notificationOpen, setNotificationOpen] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
 
   const formik = useFormik({
     initialValues: inititalValues,
@@ -42,14 +44,13 @@ export function Login() {
     validateOnChange: false,
     onSubmit: async (formValue) => {
       try {
-        setError("");
         const response = await authController.login(formValue);
 
         authController.setAccessToken(response.tokens.access);
         authController.setRefreshToken(response.tokens.refresh);
 
         const userLogged = await login(response.tokens.access);
-        
+
         if (userLogged) {
           if (parseInt(userLogged.role) === role.ADMIN) {
             navigate("/admin/home");
@@ -57,9 +58,13 @@ export function Login() {
             navigate("/users/home");
           }
         }
-      } catch (exception) {
-        console.error(exception.msg);
-        setError(exception.msg, error);
+      } catch (error) {
+        const errorMessage =
+          "Error en el servidor: " + JSON.stringify(error.message);
+        console.log(errorMessage);
+        setNotificationMessage(errorMessage);
+        setNotificationSeverity("error");
+        setNotificationOpen(true);
       }
     },
   });
@@ -178,12 +183,17 @@ export function Login() {
                     Registrarse
                   </NavLink>
                 </Paragraph>
-                <p className="register-form__error">{error}</p>
               </Form>
             </ContentBox>
           </Box>
         </Grid>
       </Grid>
+      <NotificationSnackbar
+        open={notificationOpen}
+        onClose={() => setNotificationOpen(false)}
+        severity={notificationSeverity}
+        message={notificationMessage}
+      />
     </ThemeProvider>
   );
 }
