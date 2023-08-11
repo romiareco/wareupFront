@@ -16,14 +16,17 @@ import { ThemeProvider } from "@mui/material/styles";
 import { Copyright } from "../../Copyright";
 import { useLocation } from "react-router-dom";
 import theme from "../../../theme/theme";
+import { NotificationSnackbar } from "../../NotificationSnackbar";
 
 const userController = new User();
 
 export function PasswordRecovery() {
-  const [error, setError] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const tokenParam = location.search.substring(1); // Eliminar el primer caracter "?" de la búsqueda
+  const [notificationOpen, setNotificationOpen] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
 
   const formik = useFormik({
     initialValues: initialValues(),
@@ -31,10 +34,17 @@ export function PasswordRecovery() {
     validateOnChange: false,
     onSubmit: async (formValue) => {
       try {
-        setError("");
         await userController.updatePassword(formValue, tokenParam);
+        setNotificationMessage("Contraseña reiniciada exitosamente");
+        setNotificationSeverity("success");
+        setNotificationOpen(true);
       } catch (error) {
-        setError("Error en el servidor", error);
+        const errorMessage =
+          "Error en el servidor: " + JSON.stringify(error.message);
+          console.log(errorMessage);
+        setNotificationMessage(errorMessage);
+        setNotificationSeverity("error");
+        setNotificationOpen(true);
       }
     },
   });
@@ -116,9 +126,14 @@ export function PasswordRecovery() {
             </Grid>
           </Box>
         </Box>
-        <p className="reset_password-form__error">{error}</p>
         <Copyright sx={{ mt: 5 }} />
       </Container>
+      <NotificationSnackbar
+        open={notificationOpen}
+        onClose={() => setNotificationOpen(false)}
+        severity={notificationSeverity}
+        message={notificationMessage}
+      />
     </ThemeProvider>
   );
 }

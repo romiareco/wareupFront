@@ -3,9 +3,7 @@ import { LoadingButton } from "@mui/lab";
 import { Grid, TextField, FormHelperText } from "@mui/material";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
-import * as Yup from "yup"; // Importa Yup para las validaciones
 import InputLabel from "@mui/material/InputLabel";
-import { useNavigate } from "react-router-dom";
 import { User, Storage, Common } from "../../../api";
 import { initialValues, validationSchema } from "./RequestStorage.form";
 import { ThemeProvider } from "@mui/material/styles";
@@ -16,6 +14,7 @@ import { Select, MenuItem } from "@mui/material";
 import { RegisterCompanyBttn } from "../../Buttons";
 import { useAuth } from "../../../hooks";
 import theme from "./../../../theme/theme"; // Importa el theme.js aquí
+import { NotificationSnackbar } from "../../NotificationSnackbar";
 
 const userController = new User();
 const storageController = new Storage();
@@ -23,9 +22,11 @@ const commonController = new Common();
 
 export function RequestStorage() {
   const { accessToken, user } = useAuth();
-  const navigate = useNavigate();
 
-  const [error, setError] = useState("");
+  const [notificationOpen, setNotificationOpen] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
+
   const [userCompanies, setUserCompanies] = React.useState([]);
   const [departments, setDepartments] = React.useState([]);
   const [cities, setCities] = React.useState([]);
@@ -105,16 +106,23 @@ export function RequestStorage() {
     validateOnChange: false,
     onSubmit: async (formValue, { resetForm }) => {
       try {
-        setError("");
         await storageController.requestStoragePublication(
           accessToken,
           formValue,
           user
         );
+
+        setNotificationMessage("Empresa registrada exitosamente");
+        setNotificationSeverity("success");
+        setNotificationOpen(true);
+
         resetForm();
         //TODO: definir que debe pasar cuando se registra un nuevo espacio. Seguimos en registrar espacios? O redireccionamos a otro lado?
       } catch (error) {
-        setError("Error en el servidor: " + JSON.stringify(error));
+        console.log(error.message);
+        setNotificationMessage(error.message);
+        setNotificationSeverity("error");
+        setNotificationOpen(true);
       }
     },
   });
@@ -406,8 +414,13 @@ export function RequestStorage() {
             </Grid>
           </Box>
         </Box>
-        <p className="request-deposit-form__error">{error}</p>
       </Container>
+      <NotificationSnackbar
+        open={notificationOpen}
+        onClose={() => setNotificationOpen(false)}
+        severity={notificationSeverity}
+        message={notificationMessage}
+      />
     </ThemeProvider>
   );
 }

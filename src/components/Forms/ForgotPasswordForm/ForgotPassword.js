@@ -14,6 +14,7 @@ import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import theme from "../../../theme/theme";
+import { NotificationSnackbar } from "../../NotificationSnackbar";
 
 const ContentBox = styled(Box)(({ theme }) => ({
   padding: 32,
@@ -24,20 +25,31 @@ const userController = new User();
 
 export function ForgotPassword() {
   const navigate = useNavigate();
-  const [error, setError] = useState("");
+  const [notificationOpen, setNotificationOpen] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
 
   const formik = useFormik({
     initialValues: inititalValues,
     validationSchema: validationSchema,
     validateOnChange: false,
-    onSubmit: async (formValue) => {
+    onSubmit: async (formValue, {resetForm}) => {
       try {
-        setError("");
         await userController.recoverPassword(formValue);
-        navigate("/");
-      } catch (exception) {
-        console.error(exception.msg);
-        setError(exception.msg, error);
+
+        setNotificationMessage("Solicitud de reinicio de contraseña enviado exitosamente");
+        setNotificationSeverity("success");
+        setNotificationOpen(true);
+
+        resetForm();
+      } catch (error) {
+        const errorMessage =
+          "Error en el servidor: " + JSON.stringify(error.message);
+        console.log(errorMessage);
+        setNotificationMessage(errorMessage);
+        setNotificationSeverity("error");
+        setNotificationOpen(true);
+        resetForm();
       }
     },
   });
@@ -114,12 +126,17 @@ export function ForgotPassword() {
                     </LoadingButton>
                   </Grid>
                 </Grid>
-                <p className="register-form__error">{error}</p>
               </Form>
             </ContentBox>
           </Box>
         </Grid>
       </Grid>
+      <NotificationSnackbar
+        open={notificationOpen}
+        onClose={() => setNotificationOpen(false)}
+        severity={notificationSeverity}
+        message={notificationMessage}
+      />
     </ThemeProvider>
   );
 }

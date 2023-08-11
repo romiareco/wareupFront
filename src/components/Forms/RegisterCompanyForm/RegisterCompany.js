@@ -15,28 +15,39 @@ import { Copyright } from "../../Copyright";
 import { blue } from "@mui/material/colors";
 import { useAuth } from "../../../hooks";
 import theme from "./../../../theme/theme"; // Importa el theme.js aquí
+import { NotificationSnackbar } from "../../NotificationSnackbar";
 
 const companyController = new Company();
 
 export function RegisterCompany() {
   const { accessToken, user } = useAuth();
 
-  const [error, setError] = useState("");
+  const [notificationOpen, setNotificationOpen] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
   const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: validationSchema(),
     validateOnChange: false,
-    onSubmit: async (formValue) => {
+    onSubmit: async (formValue, {resetForm}) => {
       try {
-        setError("");
         await companyController.register(accessToken, user, formValue);
         //TODO: redirigirnos a las empresas
         //TODO: definir que debe pasar cuando se registra un nuevo espacio. Seguimos en registrar espacios? O redireccionamos a otro lado?
+
+        setNotificationMessage(
+          "Empresa registrada exitosamente"
+        );
+        setNotificationSeverity("success");
+        setNotificationOpen(true);
+
+        resetForm();
       } catch (error) {
-        console.log("Error: " + error);
-        setError("Error en el servidor: " + error);
+        setNotificationMessage(error.message);
+        setNotificationSeverity("error");
+        setNotificationOpen(true);
       }
     },
   });
@@ -210,9 +221,14 @@ export function RegisterCompany() {
             </Grid>
           </Box>
         </Box>
-        <p className="register-form__error">{error}</p>
         <Copyright sx={{ mt: 5 }} />
       </Container>
+      <NotificationSnackbar
+        open={notificationOpen}
+        onClose={() => setNotificationOpen(false)}
+        severity={notificationSeverity}
+        message={notificationMessage}
+      />
     </ThemeProvider>
   );
 }

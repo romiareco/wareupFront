@@ -15,10 +15,12 @@ export class User {
       const response = await fetch(url, params);
       const result = await response.json();
 
-      if (response.status !== 200) throw result;
+      if (response.status !== 200) throw response;
+      if (result && result.hasError) throw result;
 
       return result;
     } catch (error) {
+      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
       throw error;
     }
   }
@@ -42,11 +44,12 @@ export class User {
       const response = await fetch(url, params);
       const result = await response.json();
 
-      if (response.status !== 201) throw result;
+      if (response.status !== 201) throw response;
+      if (result && result.hasError) throw result;
 
       return result;
     } catch (error) {
-      console.log(error);
+      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
       throw error;
     }
   }
@@ -70,15 +73,17 @@ export class User {
       console.log(response);
       const result = await response.json();
 
-      if (response.status !== 201) throw result;
+      if (response.status !== 200) throw response;
+      if (result && result.hasError) throw result;
 
       return result;
-    } catch (exception) {
-      console.log(exception);
-      throw exception;
+    } catch (error) {
+      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
+      throw error;
     }
   }
 
+  //TODO: hacer método o ver de eliminarlo sino sirve
   async requestStorageRegistration(data) {
     try {
       //TODO: pending backend endpoint
@@ -104,10 +109,12 @@ export class User {
       const response = await fetch(url, params);
       const result = await response.json();
 
-      if (response.status !== 200) throw result;
+      if (response.status !== 200) throw response;
+      if (result && result.hasError) throw result;
 
       return result;
     } catch (error) {
+      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message));
       throw error;
     }
   }
@@ -131,12 +138,13 @@ export class User {
       console.log(response);
       const result = await response.json();
 
-      if (response.status !== 201) throw result;
+      if (response.status !== 201) throw response;
+      if (result && result.hasError) throw result;
 
       return result;
-    } catch (exception) {
-      console.log(exception);
-      throw exception;
+    } catch (error) {
+      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
+      throw error;
     }
   }
 
@@ -159,11 +167,12 @@ export class User {
       const response = await fetch(url, params);
       const result = await response.json();
 
-      if (response.status !== 201) throw result;
+      if (response.status !== 201) throw response;
+      if (result && result.hasError) throw result;
 
       return result;
     } catch (error) {
-      console.log(error);
+      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
       throw error;
     }
   }
@@ -181,10 +190,12 @@ export class User {
       const response = await fetch(url, params);
       const result = await response.json();
 
-      if (response.status !== 200) throw result;
+      if (response.status !== 200) throw response;
+      if (result && result.hasError) throw result;
 
       return result;
     } catch (error) {
+      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
       throw error;
     }
   }
