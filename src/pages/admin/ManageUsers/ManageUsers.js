@@ -1,7 +1,7 @@
-import { SiteUnderConstruction } from "../../../components";
+import { RegisteredUsersTable } from "../../../components";
 
 export function ManageUsers() {
   return (
-   <SiteUnderConstruction />
+   <RegisteredUsersTable />
   );
 }

@@ -59,12 +59,9 @@ export function UserInformationProfile() {
         formValue.id = user.id;
         await userController.updateUser(formValue);
 
-        setNotificationMessage(
-          "Usuario actualizado exitosamente"
-        );
+        setNotificationMessage("Usuario actualizado exitosamente");
         setNotificationSeverity("success");
         setNotificationOpen(true);
-
       } catch (error) {
         setNotificationMessage(error.message);
         setNotificationSeverity("error");
@@ -91,7 +88,7 @@ export function UserInformationProfile() {
           style={{ marginTop: "8px", marginBottom: "16px" }}
         >
           <ProfileIcon />
-          Perfil de Usuario
+          Editar perfil de usuario
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12}>

@@ -7,39 +7,69 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { columns } from "./CompaniesTableColumns";
-import { User } from "../../api";
-import { useAuth } from "../../hooks";
+import { User } from "../../../api";
+import { useAuth } from "../../../hooks";
 import { useState, useEffect } from "react";
-
-function createData(
-  businessName,
-  RUT,
-  contactName,
-  position,
-  email,
-  address,
-  phoneNumber
-) {
-  return {
-    businessName,
-    RUT,
-    contactName,
-    position,
-    email,
-    address,
-    phoneNumber,
-  };
-}
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import { UserInformationProfile } from "../UserInformationProfile";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 const userController = new User();
 
-export function UserCompaniesTable() {
-  const { accessToken, user } = useAuth();
+export function RegisteredUsersTable() {
+  const handleEdit = () => {
+    setIsDialogOpen(true); // Abre el diálogo cuando se hace clic en "Editar"
+  };
+
+  const handleCancel = () => {
+    setIsDialogOpen(false);
+  };
+
+  const columns = [
+    { id: "name", label: "Nombre", minWidth: 170 },
+    { id: "lastName", label: "Apellido", minWidth: 170 },
+    {
+      id: "email",
+      label: "Email",
+      minWidth: 170,
+    },
+    {
+      id: "role",
+      label: "Rol",
+      minWidth: 170,
+    },
+    {
+      id: "status",
+      label: "Status",
+      minWidth: 170,
+    },
+    {
+      id: "actions",
+      label: "Acciones",
+      minWidth: 170,
+      align: "center",
+      format: (value, row) => (
+        <div>
+          <IconButton onClick={() => handleEdit(row)}>
+            <EditIcon />
+          </IconButton>
+        </div>
+      ),
+    },
+  ];
+
+  const { accessToken } = useAuth();
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [companies, setCompanies] = useState(null);
+  const [users, setUsers] = useState(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -50,25 +80,16 @@ export function UserCompaniesTable() {
     setPage(0);
   };
 
-  console.log("User en companies table: " + JSON.stringify(user));
-
   useEffect(() => {
     (async () => {
       try {
-        const response = await userController.getUserCompanies(
-          accessToken,
-          user.id
-        );
-        setCompanies(response.companies);
+        const response = await userController.getAllUsers(accessToken);
+        setUsers(response.users);
       } catch (error) {
         console.error(error);
       }
     })();
-  }, [accessToken, user.id]);
-
-  //TODO: cambiar el userId que le pasamos una vez confirmemos los props
-
-  console.log("company rows: " + JSON.stringify(companies));
+  }, [accessToken]);
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -88,8 +109,8 @@ export function UserCompaniesTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {companies && companies.length > 0 ? (
-              companies
+            {users && users.length > 0 ? (
+              users
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
                   return (
@@ -103,9 +124,7 @@ export function UserCompaniesTable() {
                         const value = row[column.id];
                         return (
                           <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === "number"
-                              ? column.format(value)
-                              : value}
+                            {column.format ? column.format(value, row) : value}
                           </TableCell>
                         );
                       })}
@@ -115,19 +134,30 @@ export function UserCompaniesTable() {
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length}>
-                  {companies === null
+                  {users === null
                     ? "Cargando datos..."
-                    : "No se han registrado empresas para este usuario."}
+                    : "No se han registrado usuarios."}
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </TableContainer>
+      {/* Diálogo para mostrar UserInformationProfile */}
+      <Dialog open={isDialogOpen} onClose={handleCancel}>
+        <DialogContent>
+         
+        <IconButton onClick={() => handleCancel()} >
+            <CloseIcon />
+          </IconButton>
+          <UserInformationProfile />
+          
+        </DialogContent>
+      </Dialog>
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={companies === null ? 0 : companies.length}
+        count={users === null ? 0 : users.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
