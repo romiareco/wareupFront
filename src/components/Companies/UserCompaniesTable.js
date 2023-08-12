@@ -21,7 +21,15 @@ function createData(
   address,
   phoneNumber
 ) {
-  return { businessName, RUT, contactName, position, email, address, phoneNumber };
+  return {
+    businessName,
+    RUT,
+    contactName,
+    position,
+    email,
+    address,
+    phoneNumber,
+  };
 }
 
 const userController = new User();
