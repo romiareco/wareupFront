@@ -1,2 +1,3 @@
-export * from "./UserCompaniesTable";
-export * from "./CompaniesTableColumns";
+export * from "./EditCompanyDialog";
+export * from "./RemoveCompanyDialog";
+export * from "./UserCompanies";

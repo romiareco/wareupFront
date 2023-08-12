@@ -39,4 +39,17 @@ export class Company {
       throw error;
     }
   }
+
+  //TODO: definir método
+  async delete(accessToken, user, data) {
+    try {     
+      console.log("Hola entre a eliminar la empresa")
+    } catch (error) {
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
+      throw error;
+    }
+  }
 }
