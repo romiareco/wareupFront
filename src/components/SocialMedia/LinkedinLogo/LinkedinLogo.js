@@ -8,7 +8,7 @@ export function LinkedinLogo() {
         target="_blank" // Abre enlace en una nueva pestaña
         rel="noopener noreferrer" // Buenas prácticas para seguridad
       >
-        <LinkedInIcon />
+        <LinkedInIcon color="primary"  fontSize="large"/>
       </a>
   );
 }

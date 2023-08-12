@@ -4,72 +4,67 @@ import { Copyright } from "../Copyright";
 import { Container, Grid, Link, Typography } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../../theme/theme";
+import { LinkedinLogo } from "../SocialMedia";
+import { LogoAvatar } from "../Avatars/LogoAvatar";
+import { LinkSpacer } from "../Links"; // Importa el nuevo componente
 
 export function Footer() {
-  
   return (
     <ThemeProvider theme={theme}>
-      <footer>
-        <Container maxWidth="lg">
-          <Grid container spacing={4}>
+      {/* Aplica el tema personalizado */}
+      <Box // Utiliza el componente Box para cubrir todo el ancho del monitor
+        component="footer"
+        sx={{
+          backgroundColor: theme.palette.footer.main,
+          width: '100%',
+          paddingTop: theme.spacing(3), // Ajusta el espaciado superior según tus necesidades
+        }}
+      >
+        <Container>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Grid item xs={12} sm={6}>
+              <LogoAvatar />
+            </Grid>
             <Grid item xs={12} sm={6} md={4}>
               <Typography variant="h6" gutterBottom>
-                About Us
+                Empresa
               </Typography>
-              <Typography>
-                A short description about your company and its values.
+              <Typography variant="link">
+                <Link href="#">Home</Link>
+              </Typography>
+              <LinkSpacer /> {/* Agrega el espacio aquí */}
+              <Typography variant="link">
+                <Link href="#">Quienes somos</Link>
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
               <Typography variant="h6" gutterBottom>
-                Links
+                Ayuda & Soporte
               </Typography>
-              <Link href="#" >
-                Home
-              </Link>
-              <br />
-              <Link href="#" >
-                About
-              </Link>
-              <br />
-              <Link href="#">
-                Services
-              </Link>
-              <br />
-              <Link href="#" >
-                Contact
-              </Link>
+              <Typography variant="link">
+                <Link href="#">Contáctanos</Link>
+              </Typography>
+              <LinkSpacer /> {/* Agrega el espacio aquí */}
+              <Typography variant="link">
+                <Link href="#">Términos y condiciones</Link>
+              </Typography>
             </Grid>
             <Grid item xs={12} md={4}>
               <Typography variant="h6" gutterBottom>
-                Contact Us
+                Social Media
               </Typography>
-              <Typography>1234 Street, City</Typography>
-              <Typography>Email: info@example.com</Typography>
-              <Typography>Phone: (123) 456-7890</Typography>
+              <LinkedinLogo />
             </Grid>
-          </Grid>
+          </Box>
+          <Box mt={2}>
+            <Copyright />
+          </Box>
         </Container>
-      </footer>
+      </Box>
     </ThemeProvider>
   );
 }
-
-/* return (
-      <Box
-        component="footer"
-        sx={{
-          py: 3,
-          px: 2,
-          mt: 'auto',
-          backgroundColor: (theme) =>
-            theme.palette.mode === 'light'
-              ? theme.palette.grey[200]
-              : theme.palette.grey[800],
-        }}
-      >
-        <Container maxWidth="sm">
-          <Copyright />
-        </Container>
-      </Box>
-    );*/

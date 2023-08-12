@@ -1,6 +1,5 @@
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
-import { LinkedinLogo } from "../SocialMedia";
 
 const styles = {
   linkedinLogo: {
@@ -17,14 +16,8 @@ export function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://wareup.com/">
-        Your Website
-      </Link>{" "}
       {new Date().getFullYear()}
-      {"."}
-      <span className={styles.linkedinLogo}>
-        <LinkedinLogo />
-      </span>
+      {". "}
     </Typography>
   );
 }

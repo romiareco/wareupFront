@@ -8,14 +8,33 @@ const theme = createTheme({
     secondary: {
       main: '#fdede0', // Color secundario
     },
+    footer: {
+      main: '#f0f0f0', // Ajusta el color de fondo que desees
+    },
     // Aquí puedes definir más colores según tus necesidades
   },
   typography: {
     // Puedes personalizar la tipografía según tus preferencias
     fontFamily: 'Arial, sans-serif',
+    link: {
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '14px', // Ajusta el tamaño de la fuente según tus preferencias
+      // Otros estilos de fuente aquí
+    }
   },
   // Personalización de los botones
   components: {
+    MuiLink: {
+      styleOverrides: {
+        root: {
+          marginBottom: '20px', // Ajusta el valor según tus necesidades
+          textDecoration: 'none', // Evita el subrayado por defecto
+          '&:hover': {
+            textDecoration: 'underline',
+          },
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         // Estilos generales para todos los botones
