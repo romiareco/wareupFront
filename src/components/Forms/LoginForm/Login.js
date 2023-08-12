@@ -5,7 +5,7 @@ import { Paragraph } from "../../Typography";
 import { useAuth } from "../../../hooks";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { validationSchema, inititalValues } from "./Login.form";
+import { validationSchema, inititalValues } from "../Forms/Login.form";
 import { Auth } from "../../../api";
 import { useState } from "react";
 import { Form } from "semantic-ui-react";

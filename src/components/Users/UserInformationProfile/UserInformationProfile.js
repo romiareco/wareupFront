@@ -15,6 +15,7 @@ import { useAuth } from "../../../hooks";
 import { User } from "../../../api/user";
 import React, { useState } from "react";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
+import { initialValues } from "../../Forms/Forms/Company.form";
 
 const CardContainer = styled(Card)`
   height: 100%;
@@ -48,11 +49,7 @@ export function UserInformationProfile({ user }) {
   const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
 
   const formik = useFormik({
-    initialValues: {
-      name: user.name || "",
-      lastName: user.lastName || "",
-      email: user.email || "",
-    },
+    initialValues: initialValues(user),
     validationSchema: validationSchema(),
     onSubmit: async (formValue) => {
       try {

@@ -15,9 +15,9 @@ export class Company {
         body: JSON.stringify({
           userId: user.id,
           businessName: data.businessName,
-          contactName: data.contactname,
+          contactName: data.contactName,
           position: data.position,
-          RUT: data.rut,
+          RUT: data.RUT,
           email: data.email,
           phone: data.phoneNumber,
           address: data.address,

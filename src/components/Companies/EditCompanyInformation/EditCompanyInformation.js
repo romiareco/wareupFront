@@ -10,12 +10,12 @@ import {
   import { styled } from "@mui/system";
   import EditIcon from "@mui/icons-material/Edit";
   import { useFormik } from "formik";
-  import * as Yup from "yup";
   import { useAuth } from "../../../hooks";
   import { Company } from "../../../api";
   import React, { useState } from "react";
   import { NotificationSnackbar } from "../../NotificationSnackbar";
-  
+  import { initialValues, validationSchema } from "../../Forms/Forms/Company.form";
+
   const CardContainer = styled(Card)`
     height: 100%;
     width: 100%;
@@ -28,16 +28,6 @@ import {
     margin-right: 8px;
   `;
   
-  export function validationSchema() {
-    return Yup.object().shape({
-      name: Yup.string().required("Campo requerido"),
-      lastName: Yup.string().required("Campo requerido"),
-      password: Yup.string()
-        .min(6, "La contraseña debe tener al menos 6 caracteres")
-        .required("Campo obligatorio"),
-    });
-  }
-  
   const companyController = new Company();
   
   export function EditCompanyInformation({ company }) {
@@ -48,18 +38,11 @@ import {
     const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
   
     const formik = useFormik({
-      initialValues: {
-        businessName: company.businessName || "",
-        RUT: company.RUT || "",
-        contactName: company.contactName || "",
-        position : company.position || "",
-        email: company.email || "",
-        address: company.address || "",
-        phone : company.phone || ""
-      },
+      initialValues: initialValues(company),
       validationSchema: validationSchema(),
       onSubmit: async (formValue) => {
         try {
+          //TODO: pendiente a que esté pronto del lado del backend
           formValue.id = company.id;
           await companyController.update(accessToken, formValue);
   
@@ -99,14 +82,16 @@ import {
                 <TextField
                   fullWidth
                   type="text"
-                  name="contactname"
+                  name="contactName"
                   label="Nombre completo"
                   variant="outlined"
                   required
                   value={formik.values.contactName}
                   onChange={formik.handleChange}
-                  error={formik.errors.contactName}
-                  helperText={formik.errors.contactName}
+                  error={formik.touched.contactName && formik.errors.contactName}
+                  helperText={formik.touched.contactName && formik.errors.contactName}
+                  disabled={!isEditing}
+                  onBlur={formik.handleBlur}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -119,8 +104,10 @@ import {
                   variant="outlined"
                   value={formik.values.position}
                   onChange={formik.handleChange}
-                  error={formik.errors.position}
-                  helperText={formik.errors.position}
+                  error={formik.touched.position && formik.errors.position}
+                  helperText={formik.touched.position && formik.errors.position}
+                  disabled={!isEditing}
+                  onBlur={formik.handleBlur}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -133,22 +120,26 @@ import {
                   required
                   value={formik.values.email}
                   onChange={formik.handleChange}
-                  error={formik.errors.email}
-                  helperText={formik.errors.email}
+                  error={formik.touched.email && formik.errors.email}
+                  helperText={formik.touched.email && formik.errors.email}
+                  disabled={!isEditing}
+                  onBlur={formik.handleBlur}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   fullWidth
                   type="text"
-                  name="rut"
+                  name="RUT"
                   label="RUT"
                   variant="outlined"
                   required
-                  value={formik.values.rut}
+                  value={formik.values.RUT}
                   onChange={formik.handleChange}
-                  error={formik.errors.rut}
-                  helperText={formik.errors.rut}
+                  error={formik.touched.RUT && formik.errors.RUT}
+                  helperText={formik.touched.RUT && formik.errors.RUT}
+                  disabled={!isEditing}
+                  onBlur={formik.handleBlur}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -161,8 +152,10 @@ import {
                   required
                   value={formik.values.businessName}
                   onChange={formik.handleChange}
-                  error={formik.errors.businessName}
-                  helperText={formik.errors.businessName}
+                  error={formik.touched.businessName && formik.errors.businessName}
+                  helperText={formik.touched.businessName && formik.errors.businessName}
+                  disabled={!isEditing}
+                  onBlur={formik.handleBlur}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -175,8 +168,10 @@ import {
                   required
                   value={formik.values.address}
                   onChange={formik.handleChange}
-                  error={formik.errors.address}
-                  helperText={formik.errors.address}
+                  error={formik.touched.address && formik.errors.address}
+                  helperText={formik.touched.address && formik.errors.address}
+                  disabled={!isEditing}
+                  onBlur={formik.handleBlur}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -189,8 +184,10 @@ import {
                   required
                   value={formik.values.phoneNumber}
                   onChange={formik.handleChange}
-                  error={formik.errors.phoneNumber}
-                  helperText={formik.errors.phoneNumber}
+                  error={formik.touched.phoneNumber && formik.errors.phoneNumber}
+                  helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
+                  disabled={!isEditing}
+                  onBlur={formik.handleBlur}
                 />
               </Grid>
             </Grid>

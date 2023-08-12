@@ -5,7 +5,7 @@ import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import InputLabel from "@mui/material/InputLabel";
 import { User, Storage, Common } from "../../../api";
-import { initialValues, validationSchema } from "./RequestStorage.form";
+import { initialValues, validationSchema } from "../Forms/RequestStorage.form";
 import { ThemeProvider } from "@mui/material/styles";
 import { Typography, Paper, FormControl } from "@mui/material";
 import Container from "@mui/material/Container";

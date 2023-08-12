@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Company } from "../../../api/company";
-import { initialValues, validationSchema } from "./RegisterCompany.form";
+import { initialValues, validationSchema } from "../Forms/Company.form";
 import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Typography, Paper } from "@mui/material";
@@ -98,14 +98,14 @@ export function RegisterCompany() {
                 <TextField
                   fullWidth
                   type="text"
-                  name="contactname"
+                  name="contactName"
                   label="Nombre completo"
                   variant="outlined"
                   required
-                  value={formik.values.contactname}
+                  value={formik.values.contactName}
                   onChange={formik.handleChange}
-                  error={formik.errors.contactname}
-                  helperText={formik.errors.contactname}
+                  error={formik.errors.contactName}
+                  helperText={formik.errors.contactName}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -140,14 +140,14 @@ export function RegisterCompany() {
                 <TextField
                   fullWidth
                   type="text"
-                  name="rut"
+                  name="RUT"
                   label="RUT"
                   variant="outlined"
                   required
-                  value={formik.values.rut}
+                  value={formik.values.RUT}
                   onChange={formik.handleChange}
-                  error={formik.errors.rut}
-                  helperText={formik.errors.rut}
+                  error={formik.errors.RUT}
+                  helperText={formik.errors.RUT}
                 />
               </Grid>
               <Grid item xs={12}>
