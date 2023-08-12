@@ -10,28 +10,33 @@ import TableRow from "@mui/material/TableRow";
 import { User } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { useState, useEffect } from "react";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import { UserInformationProfile } from "../UserInformationProfile";
+import { UserInformationDialog } from "../UserInformationDialog";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
 
 const userController = new User();
 
 export function RegisteredUsersTable() {
-  const handleEdit = () => {
+  const { accessToken } = useAuth();
+
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [users, setUsers] = useState(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  const handleEdit = (row) => {
+    setSelectedUser(row);
     setIsDialogOpen(true); // Abre el diálogo cuando se hace clic en "Editar"
   };
 
-  const handleCancel = () => {
-    setIsDialogOpen(false);
+  const handleDialogOpenChange = (isOpen) => {
+    setIsDialogOpen(isOpen);
   };
 
   const columns = [
+    { id: "id", label: "ID", minWidth: 170 },
     { id: "name", label: "Nombre", minWidth: 170 },
     { id: "lastName", label: "Apellido", minWidth: 170 },
     {
@@ -63,13 +68,6 @@ export function RegisteredUsersTable() {
       ),
     },
   ];
-
-  const { accessToken } = useAuth();
-
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [users, setUsers] = useState(null);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -141,19 +139,13 @@ export function RegisteredUsersTable() {
               </TableRow>
             )}
           </TableBody>
+          <UserInformationDialog
+            selectedUser={selectedUser}
+            openDialog={isDialogOpen}
+            onDialogOpenChange={handleDialogOpenChange} // Pasa la función de devolución de llamada
+          />
         </Table>
       </TableContainer>
-      {/* Diálogo para mostrar UserInformationProfile */}
-      <Dialog open={isDialogOpen} onClose={handleCancel}>
-        <DialogContent>
-         
-        <IconButton onClick={() => handleCancel()} >
-            <CloseIcon />
-          </IconButton>
-          <UserInformationProfile />
-          
-        </DialogContent>
-      </Dialog>
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"

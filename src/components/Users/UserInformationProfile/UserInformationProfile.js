@@ -13,7 +13,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useAuth } from "../../../hooks";
 import { User } from "../../../api/user";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
 
 const CardContainer = styled(Card)`
@@ -40,8 +40,8 @@ export function validationSchema() {
 
 const userController = new User();
 
-export function UserInformationProfile() {
-  const { user } = useAuth();
+export function UserInformationProfile({ user }) {
+  const { accessToken } = useAuth();
   const [isEditing, setIsEditing] = useState(false); // Nuevo estado para controlar la edición
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
@@ -57,7 +57,7 @@ export function UserInformationProfile() {
     onSubmit: async (formValue) => {
       try {
         formValue.id = user.id;
-        await userController.updateUser(formValue);
+        await userController.updateUser(accessToken, formValue);
 
         setNotificationMessage("Usuario actualizado exitosamente");
         setNotificationSeverity("success");
