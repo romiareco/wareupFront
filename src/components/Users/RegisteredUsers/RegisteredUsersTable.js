@@ -10,10 +10,11 @@ import TableRow from "@mui/material/TableRow";
 import { User } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { useState, useEffect } from "react";
-import { UserInformationDialog } from "../UserInformationDialog";
+import { EditUserInformationDialog } from "../EditUserInformationDialog";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
+import {RemoveUserDialog} from "../RemoveUserDialog";
 
 const userController = new User();
 
@@ -23,16 +24,30 @@ export function RegisteredUsersTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [users, setUsers] = useState(null);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [selectedEditUser, setSelectedEditUser] = useState(null);
+  const [selectedDeleteUser, setSelectedDeleteUser] = useState(null);
+    const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false);
 
   const handleEdit = (row) => {
-    setSelectedUser(row);
-    setIsDialogOpen(true); // Abre el diálogo cuando se hace clic en "Editar"
+    setSelectedEditUser(row);
+    setSelectedDeleteUser(null); // Cerrar el diálogo de eliminación si está abierto
+    setIsEditDialogOpen(true);
+    setIsRemoveDialogOpen(false); 
   };
 
-  const handleDialogOpenChange = (isOpen) => {
-    setIsDialogOpen(isOpen);
+  const handleDelete = (row) => {
+    setSelectedDeleteUser(row);
+    setSelectedEditUser(null); // Cerrar el diálogo de edición si está abierto
+    setIsRemoveDialogOpen(true);
+    setIsEditDialogOpen(false); // Ce
+  }
+  const handleEditDialogOpenChange = (isOpen) => {
+    setIsEditDialogOpen(isOpen);
+  };
+
+  const handleRemoveDialogOpenChange = (isOpen) => {
+    setIsRemoveDialogOpen(isOpen);
   };
 
   const columns = [
@@ -63,6 +78,9 @@ export function RegisteredUsersTable() {
         <div>
           <IconButton onClick={() => handleEdit(row)}>
             <EditIcon />
+          </IconButton>
+          <IconButton onClick={() => handleDelete(row)}>
+            <DeleteIcon />
           </IconButton>
         </div>
       ),
@@ -139,10 +157,15 @@ export function RegisteredUsersTable() {
               </TableRow>
             )}
           </TableBody>
-          <UserInformationDialog
-            selectedUser={selectedUser}
-            openDialog={isDialogOpen}
-            onDialogOpenChange={handleDialogOpenChange} // Pasa la función de devolución de llamada
+          <EditUserInformationDialog
+            selectedUser={selectedEditUser}
+            openDialog={isEditDialogOpen}
+            onDialogOpenChange={handleEditDialogOpenChange} // Pasa la función de devolución de llamada
+          />
+           <RemoveUserDialog
+            selectedUser={selectedDeleteUser}
+            openDialog={isRemoveDialogOpen}
+            onDialogOpenChange={handleRemoveDialogOpenChange} // Pasa la función de devolución de llamada
           />
         </Table>
       </TableContainer>
