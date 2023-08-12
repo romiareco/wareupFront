@@ -102,7 +102,7 @@ export function RegisterCompany() {
                   label="Nombre completo"
                   variant="outlined"
                   required
-                  value={formik.values.contactName}
+                  value={formik.values.contactname}
                   onChange={formik.handleChange}
                   error={formik.errors.contactname}
                   helperText={formik.errors.contactname}

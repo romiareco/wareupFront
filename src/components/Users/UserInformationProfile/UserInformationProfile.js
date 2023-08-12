@@ -13,7 +13,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useAuth } from "../../../hooks";
 import { User } from "../../../api/user";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
 
 const CardContainer = styled(Card)`

@@ -52,4 +52,17 @@ export class Company {
       throw error;
     }
   }
+
+   //TODO: definir método
+   async update(accessToken, data) {
+    try {     
+      console.log("Hola entre a actualizar la empresa")
+    } catch (error) {
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
+      throw error;
+    }
+  }
 }
