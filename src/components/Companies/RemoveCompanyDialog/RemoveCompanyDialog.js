@@ -6,12 +6,12 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useState, useEffect } from "react";
-import { User } from "../../../api";
+import { Company } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
 
-export function RemoveUserDialog({
-  selectedUser,
+export function RemoveCompanyDialog({
+  selectedCompany,
   openDialog,
   onDialogOpenChange,
 }) {
@@ -34,11 +34,11 @@ export function RemoveUserDialog({
   };
 
   const handleAccept = async () => {
-    const userController = new User();
+    const companyController = new Company();
     try {
-      await userController.deleteUser(accessToken, selectedUser.id);
+      await companyController.delete(accessToken, selectedCompany.id);
 
-      setNotificationMessage("Usuario actualizado exitosamente");
+      setNotificationMessage("Empresa eliminada exitosamente");
       setNotificationSeverity("success");
       setNotificationOpen(true);
     } catch (error) {
@@ -55,11 +55,11 @@ export function RemoveUserDialog({
       aria-labelledby="responsive-dialog-title"
     >
       <DialogTitle id="responsive-dialog-title">
-        {"Eliminar usuario"}
+        {"Eliminar empresa"}
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
-        {selectedUser ? `¿Desea eliminar el usuario ${selectedUser.name}?` : ""}
+        {selectedCompany ? `¿Desea eliminar la empresa ${selectedCompany.businessName}?` : ""} 
         </DialogContentText>
       </DialogContent>
       <DialogActions>

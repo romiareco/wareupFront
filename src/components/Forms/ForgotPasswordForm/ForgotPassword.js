@@ -3,7 +3,7 @@ import { LoadingButton } from "@mui/lab";
 import { useNavigate } from "react-router-dom";
 import { User } from "../../../api/user";
 import { useFormik } from "formik";
-import { validationSchema, inititalValues } from "./ForgotPassword.form";
+import { validationSchema, inititalValues } from "../Forms/ForgotPassword.form";
 import { useState } from "react";
 import { Form } from "semantic-ui-react";
 import { ThemeProvider } from "@mui/material/styles";
