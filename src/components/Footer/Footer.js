@@ -16,7 +16,7 @@ export function Footer() {
         component="footer"
         sx={{
           backgroundColor: theme.palette.footer.main,
-          width: '100%',
+          width: "100%",
           paddingTop: theme.spacing(3), // Ajusta el espaciado superior según tus necesidades
         }}
       >
@@ -34,7 +34,7 @@ export function Footer() {
                 Empresa
               </Typography>
               <Typography variant="link">
-                <Link href="#">Home</Link>
+                <Link href="/">Home</Link>
               </Typography>
               <LinkSpacer /> {/* Agrega el espacio aquí */}
               <Typography variant="link">
@@ -46,7 +46,7 @@ export function Footer() {
                 Ayuda & Soporte
               </Typography>
               <Typography variant="link">
-                <Link href="#">Contáctanos</Link>
+                <Link href="/contacts">Contáctanos</Link>
               </Typography>
               <LinkSpacer /> {/* Agrega el espacio aquí */}
               <Typography variant="link">
