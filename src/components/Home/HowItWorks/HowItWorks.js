@@ -10,7 +10,7 @@ export function HowItWorks() {
       <Container fullWidth>
         <Typography
           variant="h5"
-          sx={theme.typography.h5Custom} // Utiliza el estilo personalizado definido en theme.js
+          sx={theme.typography.montserratFont} // Utiliza el estilo personalizado definido en theme.js
         >
           Generamos un impacto positivo en resultados empresariales de nuestros
           clientes, en dos{" "}

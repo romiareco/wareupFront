@@ -4,3 +4,4 @@ export { RegisterCompanyBttn } from "./Buttons";
 export { UserProfileBttn } from "./Buttons";
 export { UserInformationProfile, RegisteredUsersTable } from "./Users";
 export * from "./SiteUnderConstruction";
+export * from "./Typography";
