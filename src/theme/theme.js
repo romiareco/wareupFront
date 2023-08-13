@@ -9,13 +9,12 @@ const theme = createTheme({
       main: "#fdede0", // Color secundario
     },
     footer: {
-      main: "#f0f0f0", // Ajusta el color de fondo que desees
+      main: "#F2F2F2", // Ajusta el color de fondo que desees
     },
   },
   welcome_palette: {
     primary: {
-      main: "#000000", // Color de fondo principal (negro)
-      contrastText: "#ffffff", // Color del texto en contraste (blanco)
+      main: "#9BB8F2", // Color de fondo principal (negro)
     },
   },
   typography: {
