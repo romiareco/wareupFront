@@ -1,6 +1,6 @@
 import React from "react";
 import { Logout } from "../components/Logout";
-import { UserProfileBttn } from "../components/Buttons";
+import { UserProfileButton } from "../components/Button";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -111,7 +111,7 @@ export function UserLayout(props) {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                   >
-                    <UserProfileBttn />
+                    <UserProfileButton />
                     <Logout />
                   </Menu>
                 </Box>

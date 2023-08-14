@@ -12,11 +12,6 @@ const theme = createTheme({
       main: "#F2F2F2", // Ajusta el color de fondo que desees
     },
   },
-  welcome_palette: {
-    primary: {
-      main: "#9BB8F2", // Color de fondo principal (negro)
-    },
-  },
   typography: {
     // Puedes personalizar la tipografía según tus preferencias
     fontFamily: "Arial, sans-serif",
@@ -31,7 +26,24 @@ const theme = createTheme({
       marginBottom: 2, // Ajusta el valor según el espacio deseado
     },
   },
-  // Personalización de los botones
+  welcomePage: {
+    palette: {
+      primary: {
+        main: "#9BB8F2", // Color de fondo principal (negro)
+      },
+    },
+    sloganPaper: {
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      padding: "50px", // Ajusta el padding según tus necesidades
+      textAlign: "left", // Cambia la alineación del texto a la izquierda
+      color: "white", // Color de texto en el fondo de imagen
+      minHeight: "500px", // Establece una altura mínima para el Paper
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center", // Centra verticalmente el contenido
+    },
+  },
   components: {
     MuiLink: {
       styleOverrides: {

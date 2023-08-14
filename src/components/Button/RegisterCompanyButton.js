@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
-export function RegisterCompanyBttn() {
+export function RegisterCompanyButton() {
   const theme = useTheme(); // Obtén el tema desde el hook useTheme()
 
   return (

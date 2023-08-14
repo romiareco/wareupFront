@@ -1,18 +1,15 @@
+import { Typography } from "@mui/material";
 import { UserCompaniesTable } from "../../components";
-import { RegisterCompanyBttn } from "../../components/Buttons";
+import { RegisterCompanyButton } from "../../components/Button";
+import { ThemeProvider } from "@emotion/react";
+import theme from "../../theme/theme";
 
 export function UserCompanies() {
   return (
-    <div>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <h2 style={{ flex: 1 }}>
-            Mis empresas
-          </h2>
-          <div>
-            <RegisterCompanyBttn />
-          </div>
-      </div>
+    <ThemeProvider theme={theme}>
+      <Typography style={{ flex: 1 }}>Mis empresas</Typography>
+      <RegisterCompanyButton />
       <UserCompaniesTable />
-    </div>
+    </ThemeProvider>
   );
 }

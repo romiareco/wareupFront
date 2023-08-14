@@ -30,8 +30,8 @@ export function ValueProposal() {
           flexDirection: "column",
           alignItems: "center",
           textAlign: "center",
-          backgroundColor: theme.welcome_palette.primary.main, // Fondo negro
-          color: theme.welcome_palette.primary.contrastText, // Letras blancas
+          backgroundColor: theme.welcomePage.palette.primary.main, // Fondo negro
+          color: theme.welcomePage.palette.primary.contrastText, // Letras blancas
           padding: "1rem", // Ajusta el padding según tus necesidades
         }}
       >
