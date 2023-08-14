@@ -28,9 +28,7 @@ export function TopHomeBar() {
             </Box>
           </Toolbar>
         </AppBar>
-        <Box component="main" sx={{ p: 3 }}>
           <Toolbar />
-        </Box>
       </Box>
     </ThemeProvider>
   );

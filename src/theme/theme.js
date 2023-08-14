@@ -43,6 +43,13 @@ const theme = createTheme({
       flexDirection: "column",
       justifyContent: "center", // Centra verticalmente el contenido
     },
+    divider: {
+      width: "100%",
+      maxWidth: "500px",
+      bgcolor: "background.paper",
+      height: 3, // Ajusta el valor para aumentar el grosor
+      margin: "20px 0", // Agrega margen superior e inferior
+    },
   },
   components: {
     MuiLink: {
