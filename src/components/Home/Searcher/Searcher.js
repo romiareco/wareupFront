@@ -66,7 +66,7 @@ export function Searcher() {
 
         <Divider sx={theme.welcomePage.divider} />
 
-        <SignUpButton textName={"Se parte de nosotros"} />
+        <SignUpButton textName={"Se parte de la comunidad"} />
       </Box>
     </ThemeProvider>
   );
