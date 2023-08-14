@@ -25,14 +25,15 @@ export function ValueProposal() {
   return (
     <ThemeProvider theme={theme}>
       <Box
+      
         sx={{
+          padding: "30px", // Ajusta el relleno superior según tus necesidades
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           textAlign: "center",
           backgroundColor: theme.welcomePage.palette.primary.main, // Fondo negro
           color: theme.welcomePage.palette.primary.contrastText, // Letras blancas
-          padding: "1rem", // Ajusta el padding según tus necesidades
         }}
       >
         <Typography variant="h4" sx={theme.typography.montserratFont}>
