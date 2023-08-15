@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { User } from "../../../api/user";
-import { initialValues, validationSchema } from "./PasswordRecovery.form";
+import { initialValues, validationSchema } from "../Forms/PasswordRecovery.form";
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import CssBaseline from "@mui/material/CssBaseline";

@@ -15,6 +15,7 @@ import { useAuth } from "../../../hooks";
 import { User } from "../../../api/user";
 import React, { useState } from "react";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
+import { initialValues } from "../../Forms/Forms/Company.form";
 
 const CardContainer = styled(Card)`
   height: 100%;
@@ -40,31 +41,24 @@ export function validationSchema() {
 
 const userController = new User();
 
-export function UserInformationProfile() {
-  const { user } = useAuth();
+export function UserInformationProfile({ user }) {
+  const { accessToken } = useAuth();
   const [isEditing, setIsEditing] = useState(false); // Nuevo estado para controlar la edición
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
 
   const formik = useFormik({
-    initialValues: {
-      name: user.name || "",
-      lastName: user.lastName || "",
-      email: user.email || "",
-    },
+    initialValues: initialValues(user),
     validationSchema: validationSchema(),
     onSubmit: async (formValue) => {
       try {
         formValue.id = user.id;
-        await userController.updateUser(formValue);
+        await userController.updateUser(accessToken, formValue);
 
-        setNotificationMessage(
-          "Usuario actualizado exitosamente"
-        );
+        setNotificationMessage("Usuario actualizado exitosamente");
         setNotificationSeverity("success");
         setNotificationOpen(true);
-
       } catch (error) {
         setNotificationMessage(error.message);
         setNotificationSeverity("error");
@@ -91,7 +85,7 @@ export function UserInformationProfile() {
           style={{ marginTop: "8px", marginBottom: "16px" }}
         >
           <ProfileIcon />
-          Perfil de Usuario
+          Editar perfil de usuario
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12}>

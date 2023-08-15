@@ -1,7 +1,7 @@
 import React from "react";
 import { TextField, Box, Grid } from "@mui/material";
 import { useFormik } from "formik";
-import { initialValues, validationSchema } from "./Contact.form";
+import { initialValues, validationSchema } from "../Forms/Contact.form";
 import { Contact } from "../../../api";
 import { LoadingButton } from "@mui/lab";
 import { Avatar, CssBaseline, Typography, Container } from "@mui/material";

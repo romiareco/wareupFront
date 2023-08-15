@@ -148,12 +148,13 @@ export class User {
     }
   }
 
-  async updateUser(data) {
+  async updateUser(accessToken, data) {
     try {
       const url = `${this.baseApi}/${ENV.API_ROUTES.USER}`;
       const params = {
         method: "PUT",
         headers: {
+          Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -181,6 +182,73 @@ export class User {
     try {
       const url = `${this.baseApi}/${ENV.API_ROUTES.STORAGE}/byUser/${userId}`;
       console.log("GetUserDeposits URL: " + url);
+      const params = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+
+      const response = await fetch(url, params);
+      const result = await response.json();
+
+      if (response.status !== 200) throw response;
+      if (result && result.hasError) throw result;
+
+      return result;
+    } catch (error) {
+      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
+      throw error;
+    }
+  }
+
+  async getAllUsers(accessToken) {
+    try {
+      const url = `${this.baseApi}/${ENV.API_ROUTES.USER}`;
+      const params = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+
+      const response = await fetch(url, params);
+      const result = await response.json();
+
+      if (response.status !== 200) throw response;
+      if (result && result.hasError) throw result;
+
+      return result;
+    } catch (error) {
+      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
+      throw error;
+    }
+  }
+
+  async getUserById(accessToken, userId) {
+    try {
+      const url = `${this.baseApi}/${ENV.API_ROUTES.USER}/${userId}`;
+      const params = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+
+      const response = await fetch(url, params);
+      const result = await response.json();
+
+      if (response.status !== 200) throw response;
+      if (result && result.hasError) throw result;
+
+      return result;
+    } catch (error) {
+      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
+      throw error;
+    }
+  }
+
+  //TODO: pendiente definir
+  async deleteUser(accessToken, userId) {
+    try {
+      const url = `${this.baseApi}/${ENV.API_ROUTES.USER}/${userId}`;
       const params = {
         headers: {
           Authorization: `Bearer ${accessToken}`,
