@@ -161,7 +161,7 @@ export function Login() {
                 >
                   Cancelar
                 </LoadingButton>
-              
+                  <Box>
                   ¿No tienes una cuenta?
                   <NavLink
                     to="/users/register"
@@ -169,7 +169,7 @@ export function Login() {
                   >
                     Registrarse
                   </NavLink>
-              
+                  </Box>
               </Form>
             </ContentBox>
           </Box>

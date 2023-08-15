@@ -23,7 +23,7 @@ const theme = createTheme({
     montserratFont: {
       fontFamily: "Montserrat, sans-serif",
       textAlign: "center",
-      marginBottom: 2, // Ajusta el valor según el espacio deseado
+      margin: 2, // Ajusta el valor según el espacio deseado
     },
   },
   welcomePage: {
