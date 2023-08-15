@@ -11,7 +11,7 @@ import { Typography, Paper, FormControl } from "@mui/material";
 import Container from "@mui/material/Container";
 import { blue } from "@mui/material/colors";
 import { Select, MenuItem } from "@mui/material";
-import { RegisterCompanyBttn } from "../../Buttons";
+import { RegisterCompanyButton } from "../../Button";
 import { useAuth } from "../../../hooks";
 import theme from "./../../../theme/theme"; // Importa el theme.js aquí
 import { NotificationSnackbar } from "../../NotificationSnackbar";
@@ -210,7 +210,7 @@ export function RequestStorage() {
                 </FormControl>
               </Grid>
               <Grid item xs={3}>
-                <RegisterCompanyBttn />
+                <RegisterCompanyButton />
               </Grid>
             </Grid>
             <Typography

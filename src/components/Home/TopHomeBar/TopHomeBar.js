@@ -1,44 +1,35 @@
-import { AppBar, Toolbar, Button } from "@mui/material";
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../../../theme/theme";
-import React from "react";
+import { LoginButton, SignUpButton } from "../../Button";
 
 export function TopHomeBar() {
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="fixed">
-        <Toolbar sx={{ justifyContent: "flex-end" }}>
-          <Button
-            href="/users/login"
-            variant="outlined"
-            color="secondary" // Usa el color secundario definido en el theme.js
-            sx={{
-              borderColor: theme.palette.secondary.main, // Establece el borde del botón al color secundario
-              mr: 1,
-              ml: 1,
-              "&:hover": {
-                backgroundColor: theme.palette.secondary.dark, // Establece el color de fondo al color secundario oscuro al pasar el ratón por encima
-              },
-            }}
-          >
-            Iniciar sesión
-          </Button>
-          <Button
-            href="/users/register"
-            variant="outlined"
-            color="secondary" // Usa el color secundario definido en el theme.js
-            sx={{
-              borderColor: theme.palette.secondary.main, // Establece el borde del botón al color secundario
-              ml: 1,
-              "&:hover": {
-                backgroundColor: theme.palette.secondary.dark, // Establece el color de fondo al color secundario oscuro al pasar el ratón por encima
-              },
-            }}
-          >
-            Registrarse
-          </Button>
-        </Toolbar>
-      </AppBar>
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        <AppBar component="nav">
+          <Toolbar>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            >
+              WARE UP
+            </Typography>
+            <Box sx={{ display: { xs: "none", sm: "block" } }}>
+              <LoginButton />
+              <SignUpButton textName={"Registrarse"} />
+            </Box>
+          </Toolbar>
+        </AppBar>
+          <Toolbar />
+      </Box>
     </ThemeProvider>
   );
 }

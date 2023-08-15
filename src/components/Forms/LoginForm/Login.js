@@ -1,7 +1,6 @@
 import { LoadingButton } from "@mui/lab";
-import { Checkbox, Grid, TextField } from "@mui/material";
+import { Grid, TextField } from "@mui/material";
 import { Box, styled } from "@mui/system";
-import { Paragraph } from "../../Typography";
 import { useAuth } from "../../../hooks";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -136,18 +135,6 @@ export function Login() {
                 />
 
                 <FlexBox justifyContent="space-between">
-                  <FlexBox gap={1}>
-                    <Checkbox
-                      size="small"
-                      name="remember"
-                      onChange={formik.handleChange}
-                      checked={formik.values.remember}
-                      sx={{ padding: 0 }}
-                    />
-
-                    <Paragraph>Recuerdame</Paragraph>
-                  </FlexBox>
-
                   <NavLink
                     to="/users/forgot-password"
                     style={{ color: "green" }}
@@ -174,7 +161,7 @@ export function Login() {
                 >
                   Cancelar
                 </LoadingButton>
-                <Paragraph>
+                  <Box>
                   ¿No tienes una cuenta?
                   <NavLink
                     to="/users/register"
@@ -182,7 +169,7 @@ export function Login() {
                   >
                     Registrarse
                   </NavLink>
-                </Paragraph>
+                  </Box>
               </Form>
             </ContentBox>
           </Box>
