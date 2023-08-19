@@ -7,7 +7,7 @@ import { CardMedia, Box } from "@mui/material";
 export function HowItWorks() {
   return (
     <ThemeProvider theme={theme}>
-      <Container fullWidth>
+      <Container>
         <Box marginTop={5}>
           {" "}
           {/* Agrega margen en la parte superior */}

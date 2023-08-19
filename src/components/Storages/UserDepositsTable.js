@@ -7,7 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { columns } from "./StorageTableColumns";
+import { columns } from "./DepositTableColumns";
 import { User } from "../../api";
 import { useAuth } from "../../hooks";
 import { useState, useEffect } from "react";
@@ -15,7 +15,7 @@ import { useState, useEffect } from "react";
  
 const userController = new User();
 
-export function UserStorageTable() {
+export function UserDepositsTable() {
   const { accessToken, user } = useAuth();
 
   const [page, setPage] = React.useState(0);

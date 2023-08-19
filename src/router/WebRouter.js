@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { UserLayout, AdminLayout } from "../layouts";
-import { Welcome, UserProfile, UserStorages, UserHasStorage, Contact, UserCompanies, UserHome, AdminHome } from "../pages";
+import { Welcome, UserProfile, UserDeposits, UserRequestDeposit, Contact, UserCompanies, UserHome, AdminHome } from "../pages";
 import {ManageUsers, ManageRequests, ManageDeposits} from "../pages/admin";
 import { Login, RegisterUser, ForgotPassword, RegisterCompany, PasswordRecovery } from "../components/Forms";
 import { NotFound } from "../components";
@@ -34,8 +34,8 @@ export function WebRouter() {
   const userRoutes = [
     { path: "home", component: UserHome },
     { path: "profile", component: UserProfile },
-    { path: "my-storages", component: UserStorages },
-    { path: "has-storage", component: UserHasStorage },
+    { path: "my-deposits", component: UserDeposits },
+    { path: "request-deposit", component: UserRequestDeposit },
     { path: "my-companies", component: UserCompanies },
     { path: "my-companies/register", component: RegisterCompany },
     { path: "contacts", component: Contact },

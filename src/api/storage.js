@@ -41,7 +41,7 @@ export class Storage {
     }
   }
 
-  async requestStoragePublication(accessToken, data, user) {
+  async requestDepositPublication(accessToken, data, user) {
     try {
       const url = `${this.baseApi}/${ENV.API_ROUTES.STORAGE_REQUEST}`;
       const params = {

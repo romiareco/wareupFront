@@ -5,7 +5,7 @@ import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import InputLabel from "@mui/material/InputLabel";
 import { User, Storage, Common } from "../../../api";
-import { initialValues, validationSchema } from "../Forms/RequestStorage.form";
+import { initialValues, validationSchema } from "../Forms/RequestDeposit.form";
 import { ThemeProvider } from "@mui/material/styles";
 import { Typography, Paper, FormControl } from "@mui/material";
 import Container from "@mui/material/Container";
@@ -13,14 +13,14 @@ import { blue } from "@mui/material/colors";
 import { Select, MenuItem } from "@mui/material";
 import { RegisterCompanyButton } from "../../Button";
 import { useAuth } from "../../../hooks";
-import theme from "./../../../theme/theme"; // Importa el theme.js aquí
+import theme from "../../../theme/theme"; // Importa el theme.js aquí
 import { NotificationSnackbar } from "../../NotificationSnackbar";
 
 const userController = new User();
 const storageController = new Storage();
 const commonController = new Common();
 
-export function RequestStorage() {
+export function RequestDeposit() {
   const { accessToken, user } = useAuth();
 
   const [notificationOpen, setNotificationOpen] = useState(false);
@@ -106,7 +106,7 @@ export function RequestStorage() {
     validateOnChange: false,
     onSubmit: async (formValue, { resetForm }) => {
       try {
-        await storageController.requestStoragePublication(
+        await storageController.requestDepositPublication(
           accessToken,
           formValue,
           user
@@ -267,7 +267,7 @@ export function RequestStorage() {
                   fullWidth
                   error={
                     formik.touched.departmentId &&
-                    Boolean(formik.errors.userCompanyId)
+                    Boolean(formik.errors.departmentId)
                   }
                 >
                   <InputLabel id="demo-simple-select-helper-label">

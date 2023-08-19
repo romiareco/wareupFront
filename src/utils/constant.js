@@ -22,7 +22,8 @@ export const ENV = {
         CONTACT: "users/contact",
         UPDATE_PASSWORD: "users/update-password",
         DEPARTMENTS: "common/departments",
-        STORAGE: "deposits"
+        STORAGE: "deposits",
+        SERVICES: "serviceGroups",
     },
     JWT: {
         ACCESS: "access",

@@ -1,175 +1,123 @@
-import { LoadingButton } from "@mui/lab";
-import { Checkbox, Grid, TextField } from "@mui/material";
-import { Box } from "@mui/system";
-import { useFormik } from "formik";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Storage } from "../../../api/storage";
-import { initialValues, validationSchema } from "./RegisterUser.form";
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import CssBaseline from "@mui/material/CssBaseline";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Box from "@mui/material/Box";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { ThemeProvider } from "@mui/material/styles";
-import { Copyright } from "../../Copyright";
-import theme from "./../../../theme/theme"; // Importa el theme.js aquí
+import { ColorlibConnector, ColorlibStepIcon } from "./RegisterDeposit.design";
+import { BasicDepositData } from "./BasicDepositData";
+import { RegisterDepositServices } from "./RegisterDepositServices";
 
-const storageController = new Storage();
+const steps = [
+  "Agregar información del depósito",
+  "Agregar servicios",
+  "Agregar disponibilidad",
+];
 
 export function RegisterDeposit() {
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
+  const [activeStep, setActiveStep] = React.useState(0);
+  const [formData, setFormData] = React.useState({}); // Almacena la información de todos los pasos
+  const [stepData, setStepData] = React.useState({}); // Almacena los datos de cada paso
 
-  const formik = useFormik({
-    initialValues: initialValues(),
-    validationSchema: validationSchema(),
-    validateOnChange: false,
-    onSubmit: async (formValue) => {
-      try {
-        setError("");
-        await userController.register(formValue);
-      } catch (error) {
-        setError("Error en el servidor", error);
-      }
-    },
-  });
+  const handleStepSubmit = (data) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [steps[activeStep]]: data,
+    }));
+    setStepData((prevStepData) => ({
+      ...prevStepData,
+      [steps[activeStep]]: data,
+    }));
+  };
+
+  const handleNext = () => {
+    if (isStepValid(activeStep)) {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    }
+  };
+
+  const isStepValid = (stepIndex) => {
+    const stepKey = steps[stepIndex];
+    const stepData = formData[stepKey]; // Datos del primer paso
+
+    switch (stepIndex) {
+      case 0:
+        return (
+          stepData &&
+          stepData.hasOwnProperty("companyId") &&
+          stepData.hasOwnProperty("expectedPrice") &&
+          stepData.hasOwnProperty("description") &&
+          stepData.hasOwnProperty("cityId") &&
+          stepData.hasOwnProperty("departmentId")
+        );
+      case 1:
+        return true;
+      default:
+        return false;
+    }
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Crear nueva cuenta
+    <Box sx={{ width: "100%" }}>
+      <Stepper
+        alternativeLabel
+        activeStep={activeStep}
+        connector={<ColorlibConnector />}
+      >
+        {steps.map((label, index) => {
+          const stepProps = {};
+
+          return (
+            <Step key={label} {...stepProps}>
+              <StepLabel StepIconComponent={ColorlibStepIcon}>
+                {label}
+              </StepLabel>
+            </Step>
+          );
+        })}
+      </Stepper>
+      {activeStep === steps.length ? (
+        <React.Fragment>
+          <Typography sx={{ mt: 2, mb: 1 }}>
+            All steps completed - you&apos;re finished
           </Typography>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={formik.handleSubmit}
-            sx={{ mt: 3 }}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  type="text"
-                  name="name"
-                  label="Nombre"
-                  variant="outlined"
-                  value={formik.values.name}
-                  onChange={formik.handleChange}
-                  error={formik.errors.name}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  type="text"
-                  name="lastName"
-                  label="Apellido"
-                  variant="outlined"
-                  value={formik.values.lastName}
-                  onChange={formik.handleChange}
-                  error={formik.errors.lastName}
-                  helperText={formik.errors.lastName}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  type="email"
-                  name="email"
-                  label="Email"
-                  variant="outlined"
-                  required
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  error={formik.errors.email}
-                  helperText={formik.errors.email}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  name="password"
-                  type="password"
-                  label="Contraseña"
-                  variant="outlined"
-                  required
-                  value={formik.values.password}
-                  onChange={formik.handleChange}
-                  error={formik.errors.password}
-                  helperText={formik.errors.password}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  name="repeatPassword"
-                  type="password"
-                  label="Repetir contraseña"
-                  variant="outlined"
-                  required
-                  value={formik.values.repeatPassword}
-                  onChange={formik.handleChange}
-                  error={formik.errors.repeatPassword}
-                  helperText={formik.errors.repeatPassword}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      name="conditionsAccepted"
-                      color="primary"
-                      onChange={formik.handleChange}
-                      checked={formik.values.conditionsAccepted}
-                      error={formik.errors.conditionsAccepted}
-                      helperText={formik.errors.conditionsAccepted}
-                    />
-                  }
-                  label="He leído y acepto las poíticas de privacidad."
-                />
-              </Grid>
-            </Grid>
-            <Grid container spacing={2} justifyContent="center">
-              <Grid item>
-                <LoadingButton
-                  type="submit"
-                  color="primary"
-                  loading={formik.isSubmitting}
-                  variant="contained"
-                >
-                  Registrarse
-                </LoadingButton>
-              </Grid>
-              <Grid item>
-                <LoadingButton
-                  color="primary"
-                  variant="outlined"
-                  onClick={() => navigate("/")}
-                >
-                  Cancelar
-                </LoadingButton>
-              </Grid>
-            </Grid>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
+          {activeStep === 0 && (
+            <BasicDepositData
+              formInformation={handleStepSubmit}
+              initialValues={stepData[steps[0]] || {}}
+            />
+          )}
+          {activeStep === 1 && (
+            <RegisterDepositServices
+              formInformation={handleStepSubmit}
+              initialValues={stepData[steps[1]] || {}}
+            />
+          )}
+          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+            <Button
+              color="inherit"
+              disabled={activeStep === 0}
+              onClick={handleBack}
+              sx={{ mr: 1 }}
+            >
+              Back
+            </Button>
+            <Box sx={{ flex: "1 1 auto" }} />
+            <Button onClick={handleNext} disabled={!isStepValid(activeStep)}>
+              {activeStep === steps.length - 1 ? "Finish" : "Next"}
+            </Button>
           </Box>
-        </Box>
-        <p className="register-form__error">{error}</p>
-        <Copyright sx={{ mt: 5 }} />
-      </Container>
-    </ThemeProvider>
+        </React.Fragment>
+      )}
+    </Box>
   );
 }

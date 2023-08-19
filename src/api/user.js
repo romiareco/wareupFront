@@ -84,7 +84,7 @@ export class User {
   }
 
   //TODO: hacer método o ver de eliminarlo sino sirve
-  async requestStorageRegistration(data) {
+  async requestDepositRegistration(data) {
     try {
       //TODO: pending backend endpoint
       console.log(data);

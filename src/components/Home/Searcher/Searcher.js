@@ -37,7 +37,7 @@ export function Searcher() {
         <Typography variant="h4" sx={theme.typography.montserratFont}>
           Comienza tu búsqueda
         </Typography>
-        <Stack direction={"horizontal"} sx={{ width: "60%" }}>
+        <Stack direction={"row"} sx={{ width: "60%" }}>
           <Autocomplete
             fullWidth
             freeSolo
