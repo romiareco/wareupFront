@@ -11,9 +11,10 @@ import { RegisterDepositServices } from "./RegisterDepositServices";
 
 const steps = [
   "Agregar información del depósito",
-  "Agregar servicios",
-  "Agregar disponibilidad",
+  "Agregar servicios"
 ];
+
+//TODO: pendiente agregar paso  "Agregar disponibilidad"
 
 export function RegisterDeposit() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -52,7 +53,7 @@ export function RegisterDeposit() {
           stepData.hasOwnProperty("departmentId")
         );
       case 1:
-        return true;
+        return stepData && stepData.length !== 0;
       default:
         return false;
     }
@@ -99,7 +100,6 @@ export function RegisterDeposit() {
           {activeStep === 1 && (
             <RegisterDepositServices
               formInformation={handleStepSubmit}
-              initialValues={stepData[steps[1]] || {}}
             />
           )}
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
