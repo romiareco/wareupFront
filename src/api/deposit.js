@@ -1,11 +1,11 @@
 import { ENV } from "../utils";
 
-export class Storage {
+export class Deposit {
   baseApi = ENV.BASE_API;
 
-  async register(accessToken, data, user) {
+  async register(accessToken, data) {
     try {
-      const url = `${this.baseApi}/${ENV.API_ROUTES.STORAGE}`;
+      const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT}`;
       const params = {
         method: "POST",
         headers: {
@@ -22,7 +22,7 @@ export class Storage {
           cityId: data.cityId,
           companyId: data.companyId,
           postalCode: data.postalCode,
-          serviceId: data.serviceId,
+          servicesId: data.servicesId,
         }),
       };
 
@@ -66,6 +66,63 @@ export class Storage {
       const result = await response.json();
 
       if (response.status !== 201) throw response;
+      if (result && result.hasError) throw result;
+
+      return result;
+    } catch (error) {
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
+      throw error;
+    }
+  }
+
+  async getDepositImages(accessToken, depositId) {
+    try {
+      const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT_IMAGES}/${depositId}`;
+      const params = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+
+      const response = await fetch(url, params);
+      const result = await response.json();
+
+      if (response.status !== 200) throw response;
+      if (result && result.hasError) throw result;
+
+      return result;
+    } catch (error) {
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
+      throw error;
+    }
+  }
+
+  async addDepositImages(accessToken, depositId, images) {
+    try {
+      const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT_IMAGES}`;
+      const params = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          images: images,
+          depositId: depositId
+        }),
+      };
+
+      const response = await fetch(url, params);
+      const result = await response.json();
+
+      if (response.status !== 200) throw response;
       if (result && result.hasError) throw result;
 
       return result;

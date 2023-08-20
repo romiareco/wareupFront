@@ -12,7 +12,7 @@ export function buildStructuredBodyData(steps, data) {
       structuredData.expectedPrice = stepData.expectedPrice;
       structuredData.description = stepData.description;
     } else if (stepIndex === 1) {
-      structuredData.serviceId = stepData;
+      structuredData.servicesId = stepData;
     }
 
     console.log(structuredData);

@@ -1,12 +1,12 @@
 import * as Yup from "yup";
 
-export function initialValues() {
+export function initialValues(user = {}) {
   return {
-    name: "",
-    lastName: "",
-    email: "",
-    password: "",
-    repeatPassword: "",
+    name: user.name || "",
+    lastName: user.lastName || "",
+    email: user.email || "",
+    password: user.password || "",
+    repeatPassword: user.repeatPassword || "",
     conditionsAccepted: false,
   };
 }

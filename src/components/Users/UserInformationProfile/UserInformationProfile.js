@@ -15,7 +15,7 @@ import { useAuth } from "../../../hooks";
 import { User } from "../../../api/user";
 import React, { useState } from "react";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
-import { initialValues } from "../../Forms/Forms/Company.form";
+import { initialValues } from "../../Forms/Forms/User.form";
 
 const CardContainer = styled(Card)`
   height: 100%;

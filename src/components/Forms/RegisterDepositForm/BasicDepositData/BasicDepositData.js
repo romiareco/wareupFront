@@ -176,7 +176,7 @@ export function BasicDepositData({ formInformation, initialValues }) {
               value={formik.values.postalCode}
               onChange={(e) => {
                 formik.handleChange(e);
-                handleFieldChange("street", e.target.value);
+                handleFieldChange("postalCode", e.target.value);
               }}
               onBlur={formik.handleBlur}
               variant="outlined"

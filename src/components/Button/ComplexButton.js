@@ -70,7 +70,13 @@ const ImageMarked = styled("span")(({ theme }) => ({
   transition: theme.transitions.create("opacity"),
 }));
 
-export function ComplexButton({ imageTitle, imageUrl, imageWidth }) {
+export function ComplexButton({ imageTitle, imageUrl, imageWidth, onClick }) {
+  const handleClick = () => {
+    if (onClick) {
+      onClick(); // Llama a la función onClick si está definida
+    }
+  };
+
   return (
     <Box
       sx={{ display: "flex", flexWrap: "wrap", minWidth: 300, width: "100%" }}
@@ -82,6 +88,7 @@ export function ComplexButton({ imageTitle, imageUrl, imageWidth }) {
           style={{
             width: imageWidth,
           }}
+          onClick={handleClick} // Agrega el evento de clic al botón
         >
           <ImageSrc style={{ backgroundImage: `url(${imageUrl})` }} />
           <ImageBackdrop className="MuiImageBackdrop-root" />
