@@ -23,7 +23,7 @@ export function DepositManager() {
         <Typography variant="h4" sx={theme.typography.montserratFont}>
           ¿Cómo podemos ayudarte?
         </Typography>
-        <Stack direction="horizontal">
+        <Stack direction="row">
           <ComplexButton
             imageTitle={"NECESITO ESPACIO"}
             imageUrl={needDeposit}

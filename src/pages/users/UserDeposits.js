@@ -1,6 +1,6 @@
-import { UserStorageTable } from "../../components/Storages/UserStorageTable";
+import { UserDepositsTable } from "../../components/Storages/UserDepositsTable";
 
-export function UserStorages() {
+export function UserDeposits() {
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center" }}>
@@ -8,7 +8,7 @@ export function UserStorages() {
           Mis depositos
         </h2> 
       </div>
-      <UserStorageTable />
+      <UserDepositsTable />
   </div>
   );
 }

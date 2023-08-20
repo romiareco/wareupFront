@@ -27,8 +27,8 @@ export function UserLayout(props) {
 
   // Definir la lista de botones
   const buttons = [
-    { label: "Tengo espacio", href: "/users/has-storage" },
-    { label: "Gestionar mis espacios", href: "/users/my-storages" },
+    { label: "Tengo espacio", href: "/users/request-deposit" },
+    { label: "Gestionar mis espacios", href: "/users/my-deposits" },
     { label: "Gestionar mis empresas", href: "/users/my-companies" },
     { label: "Contactanos", href: "/users/contacts" },
   ];

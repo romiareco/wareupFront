@@ -1,7 +1,7 @@
 export const columns = [
   //{ id: "company.businessName", label: "Compania", minWidth: 170 },
   { id: "title", label: "Titulo", minWidth: 170 },
-  { id: "description", label: "Descripcion", minWidth: 100 },
+  { id: "description", label: "Descripción", minWidth: 100 },
   {
     id: "totalM3",
     label: "M3",
@@ -9,18 +9,18 @@ export const columns = [
   },
   {
     id: "minimumBusinessPeriod",
-    label: "Periodo minimo",
+    label: "Período mínimo",
     minWidth: 170
   },
   {
     id: "minimumBusinessVolume",
-    label: "V3 minimo",
+    label: "V3 mínimo",
     minWidth: 170
   },
   //{ id: "city.title", label: "Ciudad/Barrio", minWidth: 170 },
   {
     id: "street",
-    label: "Direccion",
+    label: "Dirección",
     minWidth: 170
   }
 ];

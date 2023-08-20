@@ -43,6 +43,11 @@ const resultCodes = {
     requiredData: 4, 
 }
 
+const currencies = [
+    { value: "USD", label: "Dólar estadounidense (USD)" },
+    { value: "UYU", label: "Peso uruguayo (UYU)" },
+  ];
+
 module.exports = {
     userStatus,
     role,
@@ -50,5 +55,6 @@ module.exports = {
     depositStatus,
     resultCodes,
     companyStatus,
-    depositRequestStatus
+    depositRequestStatus,
+    currencies
 }
