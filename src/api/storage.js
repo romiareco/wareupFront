@@ -21,14 +21,15 @@ export class Storage {
           expectedPrice: data.expectedPrice,
           cityId: data.cityId,
           companyId: data.companyId,
-          userId: user.id,
+          postalCode: data.postalCode,
+          serviceId: data.serviceId,
         }),
       };
 
       const response = await fetch(url, params);
       const result = await response.json();
 
-      if (response.status !== 201) throw response;
+      if (response.status !== 200) throw response;
       if (result && result.hasError) throw result;
 
       return result;

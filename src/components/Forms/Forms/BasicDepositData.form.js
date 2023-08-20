@@ -1,25 +1,14 @@
 import * as Yup from "yup";
 
-export function initialValues() {
-  return {
-    description: "",
-    totalM3: "",
-    companyId: "",
-    departmentId: "",
-    cityId: "",
-    expectedPrice: "",
-    postalCode: "",
-  };
-}
-
 export function validationSchema() {
   return Yup.object({
-    description: Yup.string().required("La dirección es obligatoria."),
-    totalM3: Yup.string().required(
-      "Debe cargar un título para la solicitud de depósito."
-    ),
-    expectedPrice: Yup.string().required(
-      "Debe cargar una breve descripción de su solicitud."
-    ),
+    companyId: Yup.number().required("Debe seleccionar una empresa"),
+    expectedPrice: Yup.number().required("Debe cargar el precio"),
+    description: Yup.string().required("Debe cargar una descripción para la publicación del depósito"),
+    cityId: Yup.number().required("Barrio/Ciudad es requerida"),
+    departmentId: Yup.number().required("Departamento es requerido"),
+    totalM3: Yup.number().required("Debe cargar sus metros cúbicos"),
+    currency: Yup.string().required("Debe seleccionar una moneda"),
+    street: Yup.string().required("Debe completarse la dirección del depósito"),
   });
 }
