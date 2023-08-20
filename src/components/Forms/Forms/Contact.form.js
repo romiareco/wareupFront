@@ -6,12 +6,14 @@ export function initialValues() {
     email: "",
     message: "",
     phoneNumber: "",
+    subject: "",
   };
 }
 
 export function validationSchema() {
   return Yup.object({
     name: Yup.string().required("Campo obligatorio"),
+    subject: Yup.string().required("Campo obligatorio"),
     email: Yup.string()
       .email("El email no es valido")
       .required("Campo obligatorio"),

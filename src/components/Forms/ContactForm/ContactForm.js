@@ -106,6 +106,19 @@ export function ContactForm() {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
+                  type="text"
+                  name="subject"
+                  label="Asunto"
+                  variant="outlined"
+                  value={formik.values.subject}
+                  onChange={formik.handleChange}
+                  error={formik.errors.subject}
+                  helperText={formik.errors.subject}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
                   multiline
                   minRows={4}
                   maxRows={10}
