@@ -32,11 +32,11 @@ export function BasicDepositData({ formInformation, initialValues }) {
   const [formData, setFormData] = React.useState({
     companyId: "",
     street: "",
-    postalCode: "",
-    totalM3: "",
+    postalCode: 0,
+    totalM3: 0,
     departmentId: "",
     cityId: "",
-    expectedPrice: "",
+    expectedPrice: 0,
     description: "",
     currency: "",
   });

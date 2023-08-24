@@ -50,7 +50,9 @@ export function RegisterDeposit() {
   const [showDepositImages, setShowDepositImages] = React.useState(false);
 
   const handleAddDepositImage = () => {
-    setShowDepositImages(true);
+    return (
+      <DepositImages depositCreated={depositCreated} />
+     );
   };
 
   const handleFormSubmit = () => {

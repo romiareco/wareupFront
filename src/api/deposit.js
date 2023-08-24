@@ -106,7 +106,7 @@ export class Deposit {
 
   async addDepositImages(accessToken, depositId, images) {
     try {
-      const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT_IMAGES}`;
+      const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT_IMAGES}/${depositId}`;
       const params = {
         method: "POST",
         headers: {
@@ -114,8 +114,7 @@ export class Deposit {
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
-          images: images,
-          depositId: depositId
+          images: images
         }),
       };
 
