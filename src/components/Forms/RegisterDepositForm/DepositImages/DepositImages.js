@@ -55,7 +55,7 @@ export function DepositImages({ depositCreated }) {
             convertedImages
           );
 
-          setNotificationMessage("Depósito registrado exitosamente");
+          setNotificationMessage("Se han agregado imágenes al depósito exitosamente");
           setNotificationSeverity("success");
           setNotificationOpen(true);
         }

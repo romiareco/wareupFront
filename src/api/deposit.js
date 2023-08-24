@@ -22,6 +22,7 @@ export class Deposit {
           cityId: data.cityId,
           companyId: data.companyId,
           postalCode: data.postalCode,
+          currency : data.currency,
           servicesId: data.servicesId,
         }),
       };
@@ -80,7 +81,8 @@ export class Deposit {
 
   async getDepositImages(accessToken, depositId) {
     try {
-      const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT_IMAGES}/${depositId}`;
+      const numberDepositId = parseInt(depositId);
+      const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT_IMAGES}/${numberDepositId}`;
       const params = {
         headers: {
           "Content-Type": "application/json",
@@ -106,7 +108,8 @@ export class Deposit {
 
   async addDepositImages(accessToken, depositId, images) {
     try {
-      const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT_IMAGES}/${depositId}`;
+      const numberDepositId = parseInt(depositId);
+      const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT_IMAGES}/${numberDepositId}`;
       const params = {
         method: "POST",
         headers: {
