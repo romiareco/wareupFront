@@ -22,7 +22,6 @@ import {
 import { NotFound } from "../components";
 import { useAuth } from "../hooks";
 import { role } from "../utils";
-import { DepositImages } from "../components/Forms/RegisterDepositForm/DepositImages";
 
 export function WebRouter() {
   const { user } = useAuth();

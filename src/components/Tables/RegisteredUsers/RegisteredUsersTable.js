@@ -74,12 +74,11 @@ export function RegisteredUsersTable() {
       <Paper
         sx={{
           width: "90%",
-          overflow: "hidden",
-          backgroundColor: "transparent",
+          overflow: "hidden"
         }}
       >
         <TableContainer>
-          <Table stickyHeader style={{ backgroundColor: "transparent" }}>
+          <Table stickyHeader>
             <TableHead>
               <TableRow>
                 {columns(handleEdit, handleDelete).map((column) => (
@@ -90,7 +89,7 @@ export function RegisteredUsersTable() {
                       minWidth: column.minWidth,
                       fontWeight: "bold",
                       fontFamily: "Montserrat, sans-serif", // Cambia la fuente aqu
-                      backgroundColor: "rgba(128, 128, 128, 0.5)", // Gris con 50% de opacidad
+                      backgroundColor: "lightgray", // Gris con 50% de opacidad
                     }}
                   >
                     {column.label}

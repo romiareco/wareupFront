@@ -1,5 +1,3 @@
-
-
 import * as React from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -64,7 +62,7 @@ export function RegisteredDepositsTable() {
     (async () => {
       try {
         const response = await depositController.getAllDeposits(accessToken);
-        setDeposits(response.users);
+        setDeposits(response.deposits);
       } catch (error) {
         console.error(error);
       }
@@ -77,7 +75,6 @@ export function RegisteredDepositsTable() {
         sx={{
           width: "90%",
           overflow: "hidden",
-          backgroundColor: "transparent",
         }}
       >
         <TableContainer>
@@ -92,7 +89,7 @@ export function RegisteredDepositsTable() {
                       minWidth: column.minWidth,
                       fontWeight: "bold",
                       fontFamily: "Montserrat, sans-serif", // Cambia la fuente aqu
-                      backgroundColor: "rgba(128, 128, 128, 0.5)", // Gris con 50% de opacidad
+                      backgroundColor: "lightgray", // Gris con 50% de opacidad
                     }}
                   >
                     {column.label}
@@ -112,11 +109,8 @@ export function RegisteredDepositsTable() {
                         tabIndex={-1}
                         key={row.code}
                         sx={{
-                          "&:hover": {
-                            backgroundColor: "lightgray", // Color al pasar el mouse sobre la fila
-                          },
-                          backgroundColor: index % 2 === 0 ? "lightgray" : "white",
-                          
+                          backgroundColor:
+                            index % 2 === 0 ? "lightgray" : "white",
                         }}
                       >
                         {columns(handleEdit, handleDelete).map((column) => {
@@ -167,3 +161,5 @@ export function RegisteredDepositsTable() {
     </ThemeProvider>
   );
 }
+
+//TODO: cambiar los botones de Acciones a los de deposito: modificar deposito, eliminar deposito y agregar imagenes
