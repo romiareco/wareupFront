@@ -65,7 +65,6 @@ export function WebRouter() {
     { path: "manage-users", component: ManageUsers },
     { path: "manage-deposits", component: ManageDeposits },
     { path: "manage-requests", component: ManageRequests },
-    { path: "deposit-images", component: DepositImages },
     { path: "contacts", component: Contact },
   ];
 
