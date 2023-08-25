@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Carousel from "react-material-ui-carousel";
 import { Paper, Button, Typography, Box } from "@mui/material";
-
 import "./style/Settings.scss";
-import { Settings, DefaultSettingsT } from "./Settings";
+import { NotificationSnackbar } from "../NotificationSnackbar";
 import { Deposit } from "../../api";
 import { useAuth } from "../../hooks";
 import { ThemeProvider } from "@emotion/react";
@@ -15,13 +14,25 @@ export function DepositImageCarousel({ depositId }) {
   const { accessToken } = useAuth();
   const [images, setImages] = useState([]);
 
+  const [notificationOpen, setNotificationOpen] = React.useState(false);
+  const [notificationMessage, setNotificationMessage] = React.useState("");
+  const [notificationSeverity, setNotificationSeverity] =
+    React.useState("success");
+
   useEffect(() => {
     (async () => {
-      const response = await depositController.getDepositImages(
-        accessToken,
-        depositId
-      );
-      setImages(response.depositImages);
+      try {
+        const response = await depositController.getDepositImages(
+          accessToken,
+          depositId
+        );
+        setImages(response.depositImages);
+      } catch (error) {
+        console.log(error.message);
+        setNotificationMessage(error.message);
+        setNotificationSeverity("error");
+        setNotificationOpen(true);
+      }
     })();
   }, [accessToken, depositId]);
 
@@ -29,18 +40,18 @@ export function DepositImageCarousel({ depositId }) {
     <ThemeProvider theme={theme}>
       <Box
         style={{
-          marginTop: "50px",
           color: "#494949",
         }}
       >
-        <Typography sx={theme.typography.montserratFont}>
+        <Typography variant="subtitle1" sx={theme.typography.montserratFont}>
           Imágenes actuales del depósito
         </Typography>
-        <Carousel className="DepositImageCarousel">
+        <Carousel>
           {images.length === 0 ? (
-            <Typography>
-              No se registraron imágenes para este depósito
-            </Typography>
+           
+              <Typography sx={theme.typography.montserratFont}>
+                No se han agregado imágenes aún..
+              </Typography>
           ) : (
             images.map((image) => {
               return <Project item={image} key={image.id} />;
@@ -48,6 +59,12 @@ export function DepositImageCarousel({ depositId }) {
           )}
         </Carousel>
       </Box>
+      <NotificationSnackbar
+        open={notificationOpen}
+        onClose={() => setNotificationOpen(false)}
+        severity={notificationSeverity}
+        message={notificationMessage}
+      />
     </ThemeProvider>
   );
 }

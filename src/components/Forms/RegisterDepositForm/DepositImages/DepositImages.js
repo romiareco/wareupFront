@@ -7,6 +7,7 @@ import { Deposit } from "../../../../api";
 import { useAuth } from "../../../../hooks";
 import { NotificationSnackbar } from "../../../NotificationSnackbar";
 import theme from "../../../../theme/theme";
+import { Grid } from "@mui/material";
 
 const depositController = new Deposit();
 
@@ -55,7 +56,9 @@ export function DepositImages({ depositCreated }) {
             convertedImages
           );
 
-          setNotificationMessage("Se han agregado imágenes al depósito exitosamente");
+          setNotificationMessage(
+            "Se han agregado imágenes al depósito exitosamente"
+          );
           setNotificationSeverity("success");
           setNotificationOpen(true);
         }
@@ -70,22 +73,18 @@ export function DepositImages({ depositCreated }) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Typography variant="h5" sx={theme.typography.montserratFont}>
-        Gestión de imágenes para depósitos
-      </Typography>
-      <Box
-        justifyContent="center"
-        alignItems="center"
-        flexDirection="row" // Alinear los elementos horizontalmente
-      >
-        <DepositImageCarousel depositId={depositCreated} />
-      </Box>
+      <Grid container justifyContent="center" alignItems="center">
+        <Grid item xs={12}>
+          <DepositImageCarousel depositId={depositCreated} />
+        </Grid>
+      </Grid>
 
       <Box
         display="flex"
         justifyContent="center"
         alignItems="center"
-        flexDirection="row" // Alinear los elementos horizontalmente
+        flexDirection="column"
+        mt={2} // Agregar espacio en la parte superior
       >
         <input
           type="file"
@@ -95,30 +94,34 @@ export function DepositImages({ depositCreated }) {
           id="image-input"
           multiple
         />
-        <label htmlFor="image-input">
-          <Button
-            variant="contained"
-            color="primary"
-            component="span"
-            startIcon={<CloudUploadIcon />}
-          >
-            Seleccionar imágenes
-          </Button>
-        </label>
+        <Grid container spacing={1} alignItems="center">
+          <Grid item>
+            <label htmlFor="image-input">
+              <Button
+                variant="contained"
+                color="primary"
+                component="span"
+                startIcon={<CloudUploadIcon />}
+              >
+                Seleccionar imágenes
+              </Button>
+            </label>
+          </Grid>
+          <Grid item>
+            <Button
+              variant="outlined"
+              disabled={!selectedFiles.length}
+              onClick={handleUpload}
+            >
+              Subir imágenes
+            </Button>
+          </Grid>
+        </Grid>
         <div>
           {selectedFiles.map((file, index) => (
             <p key={index}>{file.name}</p>
           ))}
         </div>
-        <Button
-          variant="outlined"
-          color="secondary"
-          disabled={!selectedFiles.length}
-          onClick={handleUpload}
-          style={{ marginLeft: "10px" }} // Agregar espacio a la izquierda del botón
-        >
-          Subir imágenes
-        </Button>
       </Box>
 
       <NotificationSnackbar
