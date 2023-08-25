@@ -1,5 +1,5 @@
 import { ThemeProvider, Typography, Box } from "@mui/material";
-import { RegisteredUsersTable } from "../../../components";
+import { RegisteredUsersTable } from "../../../components/Tables";
 import banner from "../../../assets/official-images/banner-1.jpg";
 
 import theme from "../../../theme/theme";

@@ -8,8 +8,8 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { columns } from "./DepositTableColumns";
-import { User } from "../../api";
-import { useAuth } from "../../hooks";
+import { User } from "../../../api";
+import { useAuth } from "../../../hooks";
 import { useState, useEffect } from "react";
 
  

@@ -1,4 +1,4 @@
-import { UserDepositsTable } from "../../components/Storages/UserDepositsTable";
+import { UserDepositsTable } from "../../components/Tables/DepositUsers";
 
 export function UserDeposits() {
   return (

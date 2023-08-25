@@ -10,9 +10,8 @@ import TableRow from "@mui/material/TableRow";
 import { User } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { useState, useEffect } from "react";
-import { EditUserInformationDialog } from "../EditUserInformationDialog";
 import { columns } from "./RegisteredUsersTableColumns";
-import { RemoveUserDialog } from "../RemoveUserDialog";
+import { RemoveUserDialog, EditUserInformationDialog } from "../../Dialogs";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
 
