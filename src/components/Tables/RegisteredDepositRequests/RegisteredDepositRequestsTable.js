@@ -10,44 +10,44 @@ import TableRow from "@mui/material/TableRow";
 import { Deposit } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { useState, useEffect } from "react";
-import { columns } from "./RegisteredDepositsTableColumns";
+import { columns } from "./RegisteredDepositRequestsTableColumns";
 import { RemoveUserDialog, EditUserInformationDialog } from "../../Dialogs";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
-import { mapDepositStatus } from "../../../utils/mapFunctions";
+import { mapDepositRequestStatus } from "../../../utils/mapFunctions";
 
 const depositController = new Deposit();
 
-export function RegisteredDepositsTable() {
+export function RegisteredDepositRequestsTable() {
   const { accessToken } = useAuth();
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [deposits, setDeposits] = useState(null);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [selectedEditDeposit, setSelectedEditDeposit] = useState(null);
-  const [selectedDeleteDeposit, setSelectedDeleteDeposit] = useState(null);
-  const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false);
+  const [requestDeposits, setRequestDeposits] = useState(null);
+  const [isAcceptDialogOpen, setIsAcceptDialogOpen] = useState(false);
+  const [selectedAcceptRequest, setSelectedAcceptRequest] = useState(null);
+  const [selectedRejectRequest, setSelectedRejectRequest] = useState(null);
+  const [isRejectDialogOpen, setIsRejectDialogOpen] = useState(false);
 
-  const handleEdit = (row) => {
-    setSelectedEditDeposit(row);
-    setSelectedDeleteDeposit(null); // Cerrar el diálogo de eliminación si está abierto
-    setIsEditDialogOpen(true);
-    setIsRemoveDialogOpen(false);
+  const handleAccept = (row) => {
+    setSelectedAcceptRequest(row);
+    setSelectedRejectRequest(null); // Cerrar el diálogo de eliminación si está abierto
+    setIsAcceptDialogOpen(true);
+    setIsRejectDialogOpen(false);
   };
 
-  const handleDelete = (row) => {
-    setSelectedDeleteDeposit(row);
-    setSelectedEditDeposit(null); // Cerrar el diálogo de edición si está abierto
-    setIsRemoveDialogOpen(true);
-    setIsEditDialogOpen(false); // Ce
+  const handleReject = (row) => {
+    setSelectedRejectRequest(row);
+    setSelectedAcceptRequest(null); // Cerrar el diálogo de edición si está abierto
+    setIsRejectDialogOpen(true);
+    setIsAcceptDialogOpen(false); // Ce
   };
   const handleEditDialogOpenChange = (isOpen) => {
-    setIsEditDialogOpen(isOpen);
+    setIsAcceptDialogOpen(isOpen);
   };
 
   const handleRemoveDialogOpenChange = (isOpen) => {
-    setIsRemoveDialogOpen(isOpen);
+    setIsRejectDialogOpen(isOpen);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -62,8 +62,10 @@ export function RegisteredDepositsTable() {
   useEffect(() => {
     (async () => {
       try {
-        const response = await depositController.getAllDeposits(accessToken);
-        setDeposits(response.deposits);
+        const response = await depositController.getAllRequestDeposits(
+          accessToken
+        );
+        setRequestDeposits(response.depositRequests);
       } catch (error) {
         console.error(error);
       }
@@ -82,7 +84,7 @@ export function RegisteredDepositsTable() {
           <Table stickyHeader style={{ backgroundColor: "transparent" }}>
             <TableHead>
               <TableRow>
-                {columns(handleEdit, handleDelete).map((column) => (
+                {columns(handleAccept, handleReject).map((column) => (
                   <TableCell
                     key={column.id}
                     align={column.align}
@@ -99,8 +101,8 @@ export function RegisteredDepositsTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {deposits && deposits.length > 0 ? (
-                deposits
+              {requestDeposits && requestDeposits.length > 0 ? (
+                requestDeposits
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     return (
@@ -114,14 +116,14 @@ export function RegisteredDepositsTable() {
                             index % 2 === 0 ? "lightgray" : "white",
                         }}
                       >
-                        {columns(handleEdit, handleDelete).map((column) => {
+                        {columns(handleAccept, handleReject).map((column) => {
                           const value = row[column.id];
                           return (
                             <TableCell key={column.id} align={column.align}>
-                               {column.format
+                              {column.format
                                 ? column.format(value, row)
                                 : column.id === "status"
-                                ? mapDepositStatus(value)
+                                ? mapDepositRequestStatus(value)
                                 : value}
                             </TableCell>
                           );
@@ -132,21 +134,21 @@ export function RegisteredDepositsTable() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={columns.length}>
-                    {deposits === null
+                    {requestDeposits === null
                       ? "Cargando datos..."
-                      : "No se han registrado depósitos."}
+                      : "No se han registrado solicitudes de depósitos."}
                   </TableCell>
                 </TableRow>
               )}
             </TableBody>
             <EditUserInformationDialog
-              selectedUser={selectedEditDeposit}
-              openDialog={isEditDialogOpen}
+              selectedUser={selectedAcceptRequest}
+              openDialog={isAcceptDialogOpen}
               onDialogOpenChange={handleEditDialogOpenChange} // Pasa la función de devolución de llamada
             />
             <RemoveUserDialog
-              selectedUser={selectedDeleteDeposit}
-              openDialog={isRemoveDialogOpen}
+              selectedUser={selectedRejectRequest}
+              openDialog={isRejectDialogOpen}
               onDialogOpenChange={handleRemoveDialogOpenChange} // Pasa la función de devolución de llamada
             />
           </Table>
@@ -154,7 +156,7 @@ export function RegisteredDepositsTable() {
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
-          count={deposits === null ? 0 : deposits.length}
+          count={requestDeposits === null ? 0 : requestDeposits.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
@@ -164,5 +166,3 @@ export function RegisteredDepositsTable() {
     </ThemeProvider>
   );
 }
-
-//TODO: cambiar los botones de Acciones a los de deposito: modificar deposito, eliminar deposito y agregar imagenes

@@ -1,60 +1,42 @@
-//TODO: analizar si deberiamos poner en mayusculas el nombre de los ENUMS
-const userStatus = {
+export const userStatus = {
     ACTIVE: 1,
     DELETED: 2,
     PENDING: 3,
     BLOCKED: 4
 }
 
-const role = {
+export const role = {
     ADMIN: 1,
     CLIENT: 2
 }
 
-const logsType = {
-    database: 1,
-    service: 2,
-    routes: 3
-}
-
-const companyStatus = {
+export const companyStatus = {
     ACTIVE: 1, 
     DELETED: 2,
     PENDING: 3 
 }
  
-const depositStatus = {
+export const depositStatus = {
     ACTIVE: 1,
     DELETED: 2,
     PENDING: 3,
     PAUSED: 4
 }
 
-const depositRequestStatus = { 
+export const depositRequestStatus = { 
     PENDING: 1,
     COMPLETED: 2,
     CANCELED: 3
 }
 
-const resultCodes = {
+export const resultCodes = {
     OK: 1,
     genericError: 2,
     invalidData: 3, 
     requiredData: 4, 
 }
 
-const currencies = [
+export const currencies = [
     { value: "USD", label: "Dólar estadounidense (USD)" },
     { value: "UYU", label: "Peso uruguayo (UYU)" },
   ];
-
-module.exports = {
-    userStatus,
-    role,
-    logsType,
-    depositStatus,
-    resultCodes,
-    companyStatus,
-    depositRequestStatus,
-    currencies
-}

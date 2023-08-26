@@ -18,13 +18,13 @@ export const ENV = {
         RECOVER_PASSWORD: "users/recover-password",
         COMPANY: "companies",
         USER_COMPANY: "companies/byUser",
-        STORAGE_REQUEST: "depositRequests",
         CONTACT: "users/contact",
         UPDATE_PASSWORD: "users/update-password",
         DEPARTMENTS: "common/departments",
         DEPOSIT: "deposits",
         SERVICES: "serviceGroups",
-        DEPOSIT_IMAGES: "deposits/images"
+        DEPOSIT_IMAGES: "deposits/images",
+        DEPOSIT_REQUEST: "depositRequests"
     },
     JWT: {
         ACCESS: "access",

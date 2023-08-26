@@ -22,7 +22,7 @@ export class Deposit {
           cityId: data.cityId,
           companyId: data.companyId,
           postalCode: data.postalCode,
-          currency : data.currency,
+          currency: data.currency,
           servicesId: data.servicesId,
         }),
       };
@@ -45,7 +45,7 @@ export class Deposit {
 
   async requestDepositPublication(accessToken, data, user) {
     try {
-      const url = `${this.baseApi}/${ENV.API_ROUTES.STORAGE_REQUEST}`;
+      const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT_REQUEST}`;
       const params = {
         method: "POST",
         headers: {
@@ -117,7 +117,7 @@ export class Deposit {
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
-          images: images
+          images: images,
         }),
       };
 
@@ -140,6 +140,32 @@ export class Deposit {
   async getAllDeposits(accessToken) {
     try {
       const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT}`;
+      const params = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+
+      const response = await fetch(url, params);
+      const result = await response.json();
+
+      if (response.status !== 200) throw response;
+      if (result && result.hasError) throw result;
+
+      return result;
+    } catch (error) {
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
+      throw error;
+    }
+  }
+
+  async getAllRequestDeposits(accessToken) {
+    try {
+      const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT_REQUEST}`;
       const params = {
         headers: {
           "Content-Type": "application/json",

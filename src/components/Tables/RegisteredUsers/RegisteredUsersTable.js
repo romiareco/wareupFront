@@ -14,6 +14,7 @@ import { columns } from "./RegisteredUsersTableColumns";
 import { RemoveUserDialog, EditUserInformationDialog } from "../../Dialogs";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
+import { mapUserRole, mapUserStatus } from "../../../utils/mapFunctions";
 
 const userController = new User();
 
@@ -74,7 +75,7 @@ export function RegisteredUsersTable() {
       <Paper
         sx={{
           width: "90%",
-          overflow: "hidden"
+          overflow: "hidden",
         }}
       >
         <TableContainer>
@@ -112,8 +113,8 @@ export function RegisteredUsersTable() {
                           "&:hover": {
                             backgroundColor: "lightgray", // Color al pasar el mouse sobre la fila
                           },
-                          backgroundColor: index % 2 === 0 ? "lightgray" : "white",
-                          
+                          backgroundColor:
+                            index % 2 === 0 ? "lightgray" : "white",
                         }}
                       >
                         {columns(handleEdit, handleDelete).map((column) => {
@@ -122,6 +123,10 @@ export function RegisteredUsersTable() {
                             <TableCell key={column.id} align={column.align}>
                               {column.format
                                 ? column.format(value, row)
+                                : column.id === "status"
+                                ? mapUserStatus(value)
+                                : column.id === "role"
+                                ? mapUserRole(value)
                                 : value}
                             </TableCell>
                           );

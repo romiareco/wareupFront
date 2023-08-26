@@ -26,11 +26,7 @@ export const columns = (handleEdit, handleDelete) => [
     label: "Dirección",
     minWidth: 100,
   },
-  {
-    id: "status",
-    label: "Status",
-    minWidth: 50,
-  },
+
   {
     id: "companyId",
     label: "Empresa",
@@ -39,6 +35,11 @@ export const columns = (handleEdit, handleDelete) => [
   {
     id: "cityId",
     label: "Barrio/Ciudad",
+    minWidth: 50,
+  },
+  {
+    id: "status",
+    label: "Status",
     minWidth: 50,
   },
   {
