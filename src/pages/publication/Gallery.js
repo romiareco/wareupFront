@@ -10,17 +10,51 @@ import thumb1 from "../Pictures/image-product-1-thumbnail.jpg";
 import thumb2 from "../Pictures/image-product-2-thumbnail.jpg";
 import thumb3 from "../Pictures/image-product-3-thumbnail.jpg";
 import thumb4 from "../Pictures/image-product-4-thumbnail.jpg";
+import { Deposit } from "../../api";
+import { useAuth } from "../../hooks";
+import { mapBase64ToImage } from "../../utils/mapFunctions";
+import noImage from "../../assets/deposit-images/producto-sin-imagen.png";
 
-const IMAGES = [prod1, prod2, prod3, prod4];
-const THUMBS = [thumb1, thumb2, thumb3, thumb4];
+// const IMAGES = [prod1, prod2, prod3, prod4];
+//const THUMBS = [thumb1, thumb2, thumb3, thumb4];
+
+const depositController = new Deposit();
 
 export function Gallery({ depositId }) {
-  const [currentImage, setCurrentImage] = useState(prod1);
-  const [currentPassedImage, setCurrentPassedImage] = useState(prod1);
+  const { accessToken } = useAuth();
+  const [currentImage, setCurrentImage] = useState({});
+  const [currentPassedImage, setCurrentPassedImage] = useState({});
   const [open, setOpen] = useState(false);
+  const [depositImages, setDepositImages] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await depositController.getDepositImages(
+          accessToken,
+          depositId
+        );
+
+        if (response.depositImages.length > 0) {
+          const processedImages = response.depositImages.map(
+            (depositImage) => (
+                mapBase64ToImage(depositImage.image)
+            )
+          );
+          setDepositImages(processedImages);
+          setCurrentImage(processedImages[0]);
+        } else {
+          setDepositImages(noImage);
+          setCurrentImage(noImage);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, [accessToken, depositId]);
 
   const handleClick = (index) => {
-    setCurrentImage(IMAGES[index]);
+    setCurrentImage(depositImages[index]);
   };
 
   const handleToggle = () => {
@@ -54,7 +88,7 @@ export function Gallery({ depositId }) {
           currentPassedImage={currentPassedImage}
         />
         <div className="thumbnails">
-          {THUMBS.map((th, index) => {
+          {depositImages.map((th, index) => {
             return (
               <div
                 className="img-holder"

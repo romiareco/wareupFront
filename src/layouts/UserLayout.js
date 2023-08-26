@@ -129,7 +129,7 @@ export function UserLayout(props) {
                 display: "block",
               }}
               component={Link} // Usa el componente Link en lugar de href
-              to="/users/publication-view?id=1" // Cambia el valor del depositId si es dinámico
+              to="/users/publication-view?id=28" // Cambia el valor del depositId si es dinámico
             >
               Publicacion
             </Button>

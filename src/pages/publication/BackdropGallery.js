@@ -1,53 +1,41 @@
 import React, { useState, useEffect } from "react";
 import { Backdrop, IconButton } from "@mui/material";
-import prod1 from "../Pictures/image-product-1.jpg";
-import prod2 from "../Pictures/image-product-2.jpg";
-import prod3 from "../Pictures/image-product-3.jpg";
-import prod4 from "../Pictures/image-product-4.jpg";
-
-import thumb1 from "../Pictures/image-product-1-thumbnail.jpg";
-import thumb2 from "../Pictures/image-product-2-thumbnail.jpg";
-import thumb3 from "../Pictures/image-product-3-thumbnail.jpg";
-import thumb4 from "../Pictures/image-product-4-thumbnail.jpg";
 import NavigateNextRoundedIcon from '@mui/icons-material/NavigateNextRounded';
 import NavigateBeforeRoundedIcon from '@mui/icons-material/NavigateBeforeRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
-const IMAGES = [prod1, prod2, prod3, prod4];
-const THUMBS = [thumb1, thumb2, thumb3, thumb4];
-
-export function BackdropGallery({ open, handleClose, currentPassedImage }) {
+export function BackdropGallery({ open, handleClose, currentPassedImage, depositImages }) {
   const [backdropImage, setBackdropImage] = useState(currentPassedImage);
   const [currentPassedImageIndex, setCurrentPassedImageIndex] = useState(1);
 
   useEffect(() => {
     setBackdropImage(currentPassedImage);
-    IMAGES.forEach((imgg, index) => {
+    depositImages.forEach((imgg, index) => {
       imgg === currentPassedImage && setCurrentPassedImageIndex(index);
     });
-  }, [currentPassedImage]);
+  }, [currentPassedImage, depositImages]);
 
   const handleClick = (index = null) => {
-    setBackdropImage(IMAGES[index]);
+    setBackdropImage(depositImages[index]);
     setCurrentPassedImageIndex(index);
   };
 
   const handleIncrement = () => {
-    if (currentPassedImageIndex === IMAGES.length - 1) {
-      setBackdropImage(IMAGES[0]);
+    if (currentPassedImageIndex === depositImages.length - 1) {
+      setBackdropImage(depositImages[0]);
       setCurrentPassedImageIndex(0);
     } else {
-      setBackdropImage(IMAGES[currentPassedImageIndex + 1]);
+      setBackdropImage(depositImages[currentPassedImageIndex + 1]);
       setCurrentPassedImageIndex(currentPassedImageIndex + 1);
     }
   };
 
   const handleDecrement = () => {
     if (currentPassedImageIndex === 0) {
-      setBackdropImage(IMAGES[IMAGES.length - 1]);
-      setCurrentPassedImageIndex(IMAGES.length - 1);
+      setBackdropImage(depositImages[depositImages.length - 1]);
+      setCurrentPassedImageIndex(depositImages.length - 1);
     } else {
-      setBackdropImage(IMAGES[currentPassedImageIndex - 1]);
+      setBackdropImage(depositImages[currentPassedImageIndex - 1]);
       setCurrentPassedImageIndex(currentPassedImageIndex - 1);
     }
   };
@@ -114,7 +102,7 @@ export function BackdropGallery({ open, handleClose, currentPassedImage }) {
           />
         </div>
         <div className="thumbnails">
-          {THUMBS.map((th, index) => {
+          {depositImages.map((th, index) => {
             return (
               <div
                 className="img-holder-backd"
@@ -140,3 +128,4 @@ export function BackdropGallery({ open, handleClose, currentPassedImage }) {
   );
 };
 
+//TODO: revisar porque no funciona el backdrop gallery
