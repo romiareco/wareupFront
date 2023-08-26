@@ -177,30 +177,7 @@ export class User {
       throw error;
     }
   }
-
-  async getUserDeposits(accessToken, userId) {
-    try {
-      const url = `${this.baseApi}/${ENV.API_ROUTES.STORAGE}/byUser/${userId}`;
-      console.log("GetUserDeposits URL: " + url);
-      const params = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
-
-      const response = await fetch(url, params);
-      const result = await response.json();
-
-      if (response.status !== 200) throw response;
-      if (result && result.hasError) throw result;
-
-      return result;
-    } catch (error) {
-      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
-      throw error;
-    }
-  }
-
+  
   async getAllUsers(accessToken) {
     try {
       const url = `${this.baseApi}/${ENV.API_ROUTES.USER}`;

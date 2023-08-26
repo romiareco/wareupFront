@@ -1,4 +1,5 @@
 export * from "./RegisteredUsers";
-export * from "./DepositUsers";
+export * from "./UserDeposits";
 export * from "./RegisteredDeposits";
 export * from "./RegisteredDepositRequests";
+export * from "./UserRequestRegisterDeposit";
