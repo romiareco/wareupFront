@@ -62,7 +62,7 @@ export function RegisteredUsersTable() {
   useEffect(() => {
     (async () => {
       try {
-        const response = await userController.getAllUsers(accessToken);
+        const response = await userController.getAllActiveUsers(accessToken);
         setUsers(response.users);
       } catch (error) {
         console.error(error);
