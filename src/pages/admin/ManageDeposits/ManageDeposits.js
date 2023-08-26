@@ -8,9 +8,6 @@ import { Footer } from "../../../components/Footer";
 import { Button, Divider } from "@mui/material";
 
 export function ManageDeposits() {
-  const handleAddDeposit = () => {
-    return <RegisterDeposit />;
-  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -30,23 +27,7 @@ export function ManageDeposits() {
         >
           Depósitos registrados
         </Typography>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-          padding={2}
-        >
-          <Button
-            variant="outlined"
-            startIcon={<AddCircleOutlineTwoToneIcon />}
-            onClick={handleAddDeposit}
-          >
-            Agregar depósito
-          </Button>
-        </Box>
+       
 
         <Divider light variant="middle" sx={{ borderBottomWidth: "3px" }} />
 

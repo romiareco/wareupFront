@@ -1,4 +1,4 @@
-import { ThemeProvider, Typography, Box } from "@mui/material";
+import { ThemeProvider, Typography, Box, Divider } from "@mui/material";
 import { RegisteredUsersTable } from "../../../components/Tables";
 import banner from "../../../assets/official-images/banner-1.jpg";
 
@@ -10,10 +10,6 @@ export function ManageUsers() {
     <ThemeProvider theme={theme}>
       <Box
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
           backgroundImage: `url(${banner})`,
           paddingBottom: "40px",
           paddingTop: "20px",
@@ -28,7 +24,19 @@ export function ManageUsers() {
         >
           Usuarios registrados
         </Typography>
+        <Divider light variant="middle" sx={{ borderBottomWidth: "3px" }} />
+
+        <Box
+          padding={2}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
         <RegisteredUsersTable />
+        </Box>
       </Box>
       <Footer />
     </ThemeProvider>

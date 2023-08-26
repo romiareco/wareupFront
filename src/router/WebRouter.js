@@ -10,6 +10,7 @@ import {
   UserCompanies,
   UserHome,
   AdminHome,
+  RegisterDeposits
 } from "../pages";
 import { ManageUsers, ManageRequests, ManageDeposits } from "../pages/admin";
 import {
@@ -65,6 +66,7 @@ export function WebRouter() {
     { path: "manage-deposits", component: ManageDeposits },
     { path: "manage-requests", component: ManageRequests },
     { path: "contacts", component: Contact },
+    {path: "register-deposit", component: RegisterDeposits }
   ];
 
   return (
