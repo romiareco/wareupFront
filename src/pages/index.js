@@ -4,3 +4,4 @@ export * from "./welcome";
 export * from "./users";
 export * from "./contact";
 export * from "./deposits";
+export * from "./publication";
