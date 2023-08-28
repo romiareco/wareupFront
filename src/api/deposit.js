@@ -189,7 +189,6 @@ export class Deposit {
     }
   }
 
-  
   async getDepositsByUserId(accessToken, userId) {
     try {
       const url = `${this.baseApi}/${ENV.API_ROUTES.USER_DEPOSITS}/${userId}`;
@@ -234,5 +233,34 @@ export class Deposit {
     }
   }
 
+  async updateRequestDepositStatus(accessToken, requestDepositId, status) {
+    try {
+      const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT_REQUEST}/${requestDepositId}`;
+      const params = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          status: status
+        }),
+      };
+
+      const response = await fetch(url, params);
+      const result = await response.json();
+
+      if (response.status !== 200) throw response;
+      if (result && result.hasError) throw result;
+
+      return result;
+    } catch (error) {
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
+      throw error;
+    }
+  }
 
 }

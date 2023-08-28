@@ -75,6 +75,7 @@ export function WebRouter() {
 
       {!user ? (
         <>
+          <Route path="/" element={<Welcome />} />
           <Route path="/users/register" element={<RegisterUser />} />
           <Route path="/users/login" element={<Login />} />
           <Route path="/users/forgot-password" element={<ForgotPassword />} />

@@ -11,7 +11,7 @@ export const columns = (handleEdit, handleDelete) => [
   },
   {
     id: "position",
-    label: "Position",
+    label: "Cargo",
   },
   {
     id: "email",
