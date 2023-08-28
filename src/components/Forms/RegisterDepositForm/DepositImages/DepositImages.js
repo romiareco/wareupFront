@@ -52,7 +52,7 @@ export function DepositImages({ depositCreated }) {
         if (convertedImages) {
           await depositController.addDepositImages(
             accessToken,
-            depositCreated,
+            depositCreated.id,
             convertedImages
           );
 
@@ -75,7 +75,7 @@ export function DepositImages({ depositCreated }) {
     <ThemeProvider theme={theme}>
       <Grid container justifyContent="center" alignItems="center">
         <Grid item xs={12}>
-          <DepositImageCarousel depositId={depositCreated} />
+          <DepositImageCarousel depositId={depositCreated.id} />
         </Grid>
       </Grid>
 

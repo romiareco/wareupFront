@@ -42,7 +42,7 @@ export function AddDepositImageDialog({
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          {"¿Desea agregar imágenes al depósito recién creado?"}
+          {`¿Desea agregar imágenes al depósito con id ${deposit.id}?`}
         </DialogContentText>
       </DialogContent>
       <DialogActions>

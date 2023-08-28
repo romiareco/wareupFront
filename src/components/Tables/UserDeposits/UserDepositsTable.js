@@ -11,7 +11,7 @@ import { Deposit } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { useState, useEffect } from "react";
 import { columns } from "./UserDepositsTableColumns";
-import { RemoveUserDialog, EditUserInformationDialog, RemoveUserDepositDialog } from "../../Dialogs";
+import { RemoveUserDialog, EditUserInformationDialog, RemoveUserDepositDialog, AddDepositImageDialog } from "../../Dialogs";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
 import {
@@ -27,32 +27,80 @@ export function UserDepositsTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [deposits, setDeposits] = useState(null);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+
   const [selectedEditDeposit, setSelectedEditDeposit] = useState(null);
   const [selectedDeleteDeposit, setSelectedDeleteDeposit] = useState(null);
-  const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false);
+  const [selectedAddImageDeposit, setSelectedAddImageDeposit] = useState(null);
+  const [selectedDepositPreview, setSelectedDepositPreview] = useState(null);
 
-  const handleImage = (row) => {};
+  const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isAddImageDialogOpen, setIsAddImageDialogOpen] = useState(false);
+  const [isDepositPreviewDialogOpen, setIsDepositPreviewDialogOpen] = useState(false);
+
+  const handlePreview = (row) => {
+    setSelectedEditDeposit(null);
+    setSelectedDeleteDeposit(null);
+    setSelectedAddImageDeposit(null);
+    setSelectedDepositPreview(row);
+
+    setIsEditDialogOpen(false);
+    setIsRemoveDialogOpen(false);
+    setIsAddImageDialogOpen(false);
+    setIsDepositPreviewDialogOpen(true);
+  };
+
+
+  const handleImage = (row) => {
+    setSelectedEditDeposit(null);
+    setSelectedDeleteDeposit(null);
+    setSelectedAddImageDeposit(row);
+    setSelectedDepositPreview(null);
+
+    setIsEditDialogOpen(false);
+    setIsRemoveDialogOpen(false);
+    setIsAddImageDialogOpen(true);
+    setIsDepositPreviewDialogOpen(false);
+  };
 
   const handleEdit = (row) => {
     setSelectedEditDeposit(row);
-    setSelectedDeleteDeposit(null); // Cerrar el diálogo de eliminación si está abierto
+    setSelectedDeleteDeposit(null);
+    setSelectedAddImageDeposit(null);
+    setSelectedDepositPreview(null);
+
     setIsEditDialogOpen(true);
     setIsRemoveDialogOpen(false);
+    setIsAddImageDialogOpen(false);
+    setIsDepositPreviewDialogOpen(false);
   };
 
   const handleDelete = (row) => {
+    setSelectedEditDeposit(null);
     setSelectedDeleteDeposit(row);
-    setSelectedEditDeposit(null); // Cerrar el diálogo de edición si está abierto
+    setSelectedAddImageDeposit(null);
+    setSelectedDepositPreview(null);
+
+    setIsEditDialogOpen(false);
     setIsRemoveDialogOpen(true);
-    setIsEditDialogOpen(false); // Ce
+    setIsAddImageDialogOpen(false);
+    setIsDepositPreviewDialogOpen(false);
   };
+
   const handleEditDialogOpenChange = (isOpen) => {
     setIsEditDialogOpen(isOpen);
   };
 
   const handleRemoveDialogOpenChange = (isOpen) => {
     setIsRemoveDialogOpen(isOpen);
+  };
+
+  const handleAddImageDialogOpenChange = (isOpen) => {
+    setIsAddImageDialogOpen(isOpen);
+  };
+
+  const handleDepositPreviewDialogOpenChange = (isOpen) => {
+    setIsDepositPreviewDialogOpen(isOpen);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -94,7 +142,7 @@ export function UserDepositsTable() {
           <Table stickyHeader style={{ backgroundColor: "transparent" }}>
             <TableHead>
               <TableRow>
-                {columns(handleEdit, handleDelete, handleImage).map(
+                {columns(handleEdit, handleDelete, handleImage, handlePreview).map(
                   (column) => (
                     <TableCell
                       key={column.id}
@@ -128,7 +176,7 @@ export function UserDepositsTable() {
                             index % 2 === 0 ? "lightgray" : "white",
                         }}
                       >
-                        {columns(handleEdit, handleDelete, handleImage).map(
+                        {columns(handleEdit, handleDelete, handleImage, handlePreview).map(
                           (column) => {
                             const value = row[column.id];
                             return (
@@ -158,12 +206,17 @@ export function UserDepositsTable() {
             <EditUserInformationDialog
               selectedUser={selectedEditDeposit}
               openDialog={isEditDialogOpen}
-              onDialogOpenChange={handleEditDialogOpenChange} // Pasa la función de devolución de llamada
+              onDialogOpenChange={handleEditDialogOpenChange}
             />
             <RemoveUserDepositDialog
               selectedDeposit={selectedDeleteDeposit}
               openDialog={isRemoveDialogOpen}
-              onDialogOpenChange={handleRemoveDialogOpenChange} // Pasa la función de devolución de llamada
+              onDialogOpenChange={handleRemoveDialogOpenChange} 
+            />
+            <AddDepositImageDialog
+              deposit={selectedAddImageDeposit}
+              openDialog={isAddImageDialogOpen}
+              onDialogOpenChange={handleAddImageDialogOpenChange} 
             />
           </Table>
         </TableContainer>
