@@ -11,7 +11,7 @@ import { Deposit } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { useState, useEffect } from "react";
 import { columns } from "./UserDepositsTableColumns";
-import { RemoveUserDialog, EditUserInformationDialog } from "../../Dialogs";
+import { RemoveUserDialog, EditUserInformationDialog, RemoveUserDepositDialog } from "../../Dialogs";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
 import {
@@ -160,8 +160,8 @@ export function UserDepositsTable() {
               openDialog={isEditDialogOpen}
               onDialogOpenChange={handleEditDialogOpenChange} // Pasa la función de devolución de llamada
             />
-            <RemoveUserDialog
-              selectedUser={selectedDeleteDeposit}
+            <RemoveUserDepositDialog
+              selectedDeposit={selectedDeleteDeposit}
               openDialog={isRemoveDialogOpen}
               onDialogOpenChange={handleRemoveDialogOpenChange} // Pasa la función de devolución de llamada
             />
