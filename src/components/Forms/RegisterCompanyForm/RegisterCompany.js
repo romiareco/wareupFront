@@ -181,15 +181,15 @@ export function RegisterCompany() {
               <Grid item xs={12}>
                 <TextField
                   fullWidth
-                  name="phoneNumber"
+                  name="phone"
                   type="tel"
                   label="Celular/Teléfono"
                   variant="outlined"
                   required
-                  value={formik.values.phoneNumber}
+                  value={formik.values.phone}
                   onChange={formik.handleChange}
-                  error={formik.errors.phoneNumber}
-                  helperText={formik.errors.phoneNumber}
+                  error={formik.errors.phone}
+                  helperText={formik.errors.phone}
                 />
               </Grid>
             </Grid>

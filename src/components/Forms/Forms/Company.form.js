@@ -14,7 +14,7 @@ export function initialValues(company = {}) {
 
 export function validationSchema(company = {}) {
   return Yup.object({
-    contactname: Yup.string().required("Campo obligatorio"),
+    contactName: Yup.string().required("Campo obligatorio"),
     position: Yup.string().required("Campo obligatorio"),
     email: Yup.string()
       .email("El email no es válido")
@@ -24,7 +24,7 @@ export function validationSchema(company = {}) {
       .required("Campo obligatorio"),
     businessName: Yup.string().required("Campo obligatorio"),
     address: Yup.string().required("Campo obligatorio"),
-    phoneNumber: Yup.string()
+    phone: Yup.string()
       .matches(
         /^[0-9()+-]*$/,
         "El número de teléfono contiene caracteres no válidos"

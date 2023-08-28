@@ -165,7 +165,7 @@ export class User {
 
   async updateUser(accessToken, data) {
     try {
-      const url = `${this.baseApi}/${ENV.API_ROUTES.USER}`;
+      const url = `${this.baseApi}/${ENV.API_ROUTES.USER}/${data.id}`;
       const params = {
         method: "PUT",
         headers: {
@@ -173,7 +173,6 @@ export class User {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          id: data.id,
           name: data.name,
           email: data.email,
           lastName: data.lastName,

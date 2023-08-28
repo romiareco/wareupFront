@@ -26,6 +26,10 @@ export const columns = (handleEdit, handleDelete) => [
     label: "Celular/Teléfono",
   },
   {
+    id: "status",
+    label: "Status"
+  },
+  {
     id: "actions",
     label: "Acciones",
     align: "center",

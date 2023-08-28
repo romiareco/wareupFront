@@ -8,7 +8,6 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/system";
-import EditIcon from "@mui/icons-material/Edit";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useAuth } from "../../../hooks";
@@ -22,11 +21,6 @@ const CardContainer = styled(Card)`
   width: 100%;
   display: flex;
   justify-content: center;
-`;
-
-const ProfileIcon = styled(EditIcon)`
-  vertical-align: middle;
-  margin-right: 8px;
 `;
 
 export function validationSchema() {
@@ -59,6 +53,8 @@ export function UserInformationProfile({ user }) {
         setNotificationMessage("Usuario actualizado exitosamente");
         setNotificationSeverity("success");
         setNotificationOpen(true);
+
+        setIsEditing(false);
       } catch (error) {
         setNotificationMessage(error.message);
         setNotificationSeverity("error");
