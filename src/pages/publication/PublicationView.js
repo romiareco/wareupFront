@@ -1,8 +1,9 @@
 import { Container, Divider, Stack } from "@mui/material";
 import { Gallery } from "./Gallery";
 import { Description } from "./Description";
+import { Services } from "./Services";
 import React, { useState, useEffect } from "react";
-import "./PublicationView.css";
+import "../../theme/PublicationView.css";
 
 import { Box } from "@mui/system";
 import { useAuth } from "../../hooks";
@@ -21,8 +22,10 @@ export function PublicationView() {
         <Gallery depositId={depositId} />
         <Description depositId={depositId} />
       </Box>
+      <Divider />
+      <Box className="core">
+        <Services depositId={depositId} />
+      </Box>
     </Container>
   );
 }
-
-//  <Services depositId={depositId} />

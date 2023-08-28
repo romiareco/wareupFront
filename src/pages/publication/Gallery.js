@@ -4,9 +4,7 @@ import { Deposit } from "../../api";
 import { useAuth } from "../../hooks";
 import { mapBase64ToImage } from "../../utils/mapFunctions";
 import noImage from "../../assets/deposit-images/producto-sin-imagen.png";
-
-// const IMAGES = [prod1, prod2, prod3, prod4];
-//const THUMBS = [thumb1, thumb2, thumb3, thumb4];
+import "../../theme/PublicationView.css";
 
 const depositController = new Deposit();
 
@@ -26,15 +24,13 @@ export function Gallery({ depositId }) {
         );
 
         if (response.depositImages.length > 0) {
-          const processedImages = response.depositImages.map(
-            (depositImage) => (
-                mapBase64ToImage(depositImage.image)
-            )
+          const processedImages = response.depositImages.map((depositImage) =>
+            mapBase64ToImage(depositImage.image)
           );
           setDepositImages(processedImages);
           setCurrentImage(processedImages[0]);
         } else {
-          setDepositImages(noImage);
+          setDepositImages([noImage]);
           setCurrentImage(noImage);
         }
       } catch (error) {
@@ -70,12 +66,18 @@ export function Gallery({ depositId }) {
     <section className="gallery-holder hide-in-mobile">
       <section className="gallery">
         <div className="image">
-          <img src={currentImage} alt="product-1" onClick={handleToggle} />
+          <img
+            src={currentImage}
+            alt="product-1"
+            onClick={handleToggle}
+            className="current-image"
+          />
         </div>
         <BackdropGallery
           handleClose={handleClose}
           open={open}
           currentPassedImage={currentPassedImage}
+          depositImages={depositImages}
         />
         <div className="thumbnails">
           {depositImages.map((th, index) => {
@@ -90,7 +92,11 @@ export function Gallery({ depositId }) {
                 }}
               >
                 <div className={`outlay ${index === 0 && "activated"}`}></div>
-                <img src={th} alt={`product-${index + 1}`} />
+                <img
+                  src={th}
+                  alt={`product-${index + 1}`}
+                  className="thumbnail-image"
+                />
               </div>
             );
           })}

@@ -622,3 +622,17 @@ footer a {
     font-size: 16px;
   }
 }
+
+/* Estilos para las imágenes de miniaturas en la galería */
+.thumbnail-image {
+  width: 100px; /* Cambia el valor al tamaño deseado */
+  height: 100px; /* Cambia el valor al tamaño deseado */
+  object-fit: cover; /* Ajusta la imagen manteniendo la relación de aspecto y recortándola si es necesario */
+}
+
+/* Estilos para las imágenes de miniaturas en la galería */
+.current-image {
+  width: 450px; /* Cambia el valor al tamaño deseado */
+  height: 450px; /* Cambia el valor al tamaño deseado */
+  object-fit: cover; /* Ajusta la imagen manteniendo la relación de aspecto y recortándola si es necesario */
+}
