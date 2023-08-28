@@ -20,7 +20,10 @@ export class User {
 
       return result;
     } catch (error) {
-      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
       throw error;
     }
   }
@@ -49,7 +52,10 @@ export class User {
 
       return result;
     } catch (error) {
-      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
       throw error;
     }
   }
@@ -78,7 +84,10 @@ export class User {
 
       return result;
     } catch (error) {
-      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
       throw error;
     }
   }
@@ -114,7 +123,10 @@ export class User {
 
       return result;
     } catch (error) {
-      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message));
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
       throw error;
     }
   }
@@ -143,7 +155,10 @@ export class User {
 
       return result;
     } catch (error) {
-      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
       throw error;
     }
   }
@@ -173,14 +188,18 @@ export class User {
 
       return result;
     } catch (error) {
-      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
       throw error;
     }
   }
-  
-  async getAllUsers(accessToken) {
+
+  async getUserDeposits(accessToken, userId) {
     try {
-      const url = `${this.baseApi}/${ENV.API_ROUTES.USER}`;
+      const url = `${this.baseApi}/${ENV.API_ROUTES.STORAGE}/byUser/${userId}`;
+      console.log("GetUserDeposits URL: " + url);
       const params = {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -195,7 +214,43 @@ export class User {
 
       return result;
     } catch (error) {
-      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
+      throw error;
+    }
+  }
+
+  async getAllActiveUsers(accessToken) {
+    try {
+      const url = `${this.baseApi}/${ENV.API_ROUTES.USER}`;
+
+      const queryParams = {
+        status: "1",
+      };
+      const queryString = new URLSearchParams(queryParams).toString();
+
+      const fullUrl = `${url}?${queryString}`;
+
+      const params = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+
+      const response = await fetch(fullUrl, params);
+      const result = await response.json();
+
+      if (response.status !== 200) throw response;
+      if (result && result.hasError) throw result;
+
+      return result;
+    } catch (error) {
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
       throw error;
     }
   }
@@ -217,7 +272,10 @@ export class User {
 
       return result;
     } catch (error) {
-      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
       throw error;
     }
   }
@@ -227,6 +285,7 @@ export class User {
     try {
       const url = `${this.baseApi}/${ENV.API_ROUTES.USER}/${userId}`;
       const params = {
+        method: "DELETE",
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -240,7 +299,10 @@ export class User {
 
       return result;
     } catch (error) {
-      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
       throw error;
     }
   }
