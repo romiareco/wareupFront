@@ -10,7 +10,8 @@ import {
   UserCompanies,
   UserHome,
   AdminHome,
-  RegisterDeposits
+  RegisterDeposits,
+  UserListRequestDeposits
 } from "../pages";
 import { ManageUsers, ManageRequests, ManageDeposits } from "../pages/admin";
 import {
@@ -58,6 +59,7 @@ export function WebRouter() {
     { path: "my-companies", component: UserCompanies },
     { path: "my-companies/register", component: RegisterCompany },
     { path: "contacts", component: Contact },
+    {path: "my-deposit-requests", component: UserListRequestDeposits}
   ];
 
   const adminRoutes = [

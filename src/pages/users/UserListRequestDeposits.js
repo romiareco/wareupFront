@@ -2,9 +2,12 @@ import { ThemeProvider, Typography, Box } from "@mui/material";
 import theme from "../../theme/theme";
 import { Footer } from "../../components/Footer";
 import { Button, Divider } from "@mui/material";
-import { UserDepositsTable } from "../../components/Tables";
+import {
+  UserDepositsTable,
+  UserRequestRegisterDepositTable,
+} from "../../components/Tables";
 
-export function UserDeposits() {
+export function UserListRequestDeposits() {
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -19,7 +22,7 @@ export function UserDeposits() {
             ...theme.typography.montserratFont,
           }}
         >
-          Mis depósitos
+          Solicitudes de registro de nuevo depósito{" "}
         </Typography>
         <Divider light variant="middle" sx={{ borderBottomWidth: "3px" }} />
         <Box
@@ -31,7 +34,7 @@ export function UserDeposits() {
             justifyContent: "center",
           }}
         >
-          <UserDepositsTable />
+          <UserRequestRegisterDepositTable />
         </Box>
       </Box>
       <Footer />
