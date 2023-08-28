@@ -13,6 +13,8 @@ import { CustomValueProposalAvatar } from "../../Avatars";
 import { CustomValueProposalTypography } from "../../Typography";
 import { ThemeProvider, Typography, Box, Stack } from "@mui/material";
 
+import backgroundImage from "../../../assets/official-images/productCurvyLines.png";
+
 const ValueComponent = ({ avatarSrc, avatarAlt, title, description }) => (
   <Box>
     <CustomValueProposalAvatar src={avatarSrc} alt={avatarAlt} />
@@ -32,8 +34,9 @@ export function ValueProposal() {
           flexDirection: "column",
           alignItems: "center",
           textAlign: "center",
-          backgroundColor: theme.welcomePage.palette.primary.main, // Fondo negro
+       //   backgroundColor: theme.welcomePage.palette.primary.main, // Fondo negro
           color: theme.welcomePage.palette.primary.contrastText, // Letras blancas
+          backgroundImage: `url(${backgroundImage})`,
         }}
       >
         <Typography variant="h4" sx={theme.typography.montserratFont}>
