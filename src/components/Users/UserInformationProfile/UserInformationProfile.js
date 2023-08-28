@@ -15,8 +15,8 @@ import { useAuth } from "../../../hooks";
 import { User } from "../../../api/user";
 import React, { useState } from "react";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
-import { initialValues } from "../../Forms/Forms/Company.form";
-
+import { initialValues } from "../../Forms/Forms/User.form";
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
 const CardContainer = styled(Card)`
   height: 100%;
   width: 100%;
@@ -84,8 +84,7 @@ export function UserInformationProfile({ user }) {
           component="div"
           style={{ marginTop: "8px", marginBottom: "16px" }}
         >
-          <ProfileIcon />
-          Editar perfil de usuario
+          Datos personales
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -130,7 +129,7 @@ export function UserInformationProfile({ user }) {
 
         <Box mt={2} display="flex" justifyContent="center" gap={2}>
           {!isEditing ? (
-            <Button variant="contained" onClick={handleEdit}>
+            <Button variant="contained" onClick={handleEdit} startIcon={<EditRoundedIcon />}>
               Editar perfil
             </Button>
           ) : (

@@ -20,7 +20,10 @@ export class User {
 
       return result;
     } catch (error) {
-      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
       throw error;
     }
   }
@@ -49,7 +52,10 @@ export class User {
 
       return result;
     } catch (error) {
-      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
       throw error;
     }
   }
@@ -78,7 +84,10 @@ export class User {
 
       return result;
     } catch (error) {
-      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
       throw error;
     }
   }
@@ -114,7 +123,10 @@ export class User {
 
       return result;
     } catch (error) {
-      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message));
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
       throw error;
     }
   }
@@ -143,7 +155,10 @@ export class User {
 
       return result;
     } catch (error) {
-      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
       throw error;
     }
   }
@@ -173,7 +188,10 @@ export class User {
 
       return result;
     } catch (error) {
-      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
       throw error;
     }
   }
@@ -196,7 +214,10 @@ export class User {
 
       return result;
     } catch (error) {
-      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
       throw error;
     }
   }
@@ -204,13 +225,21 @@ export class User {
   async getAllActiveUsers(accessToken) {
     try {
       const url = `${this.baseApi}/${ENV.API_ROUTES.USER}`;
+
+      const queryParams = {
+        status: "1",
+      };
+      const queryString = new URLSearchParams(queryParams).toString();
+
+      const fullUrl = `${url}?${queryString}`;
+
       const params = {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       };
 
-      const response = await fetch(url, params);
+      const response = await fetch(fullUrl, params);
       const result = await response.json();
 
       if (response.status !== 200) throw response;
@@ -218,7 +247,10 @@ export class User {
 
       return result;
     } catch (error) {
-      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
       throw error;
     }
   }
@@ -240,7 +272,10 @@ export class User {
 
       return result;
     } catch (error) {
-      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
       throw error;
     }
   }
@@ -264,7 +299,10 @@ export class User {
 
       return result;
     } catch (error) {
-      console.error("Hubo un error en la respuesta del servidor. Error: " + JSON.stringify(error.message))
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
       throw error;
     }
   }

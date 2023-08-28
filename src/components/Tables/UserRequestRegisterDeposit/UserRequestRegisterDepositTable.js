@@ -7,47 +7,47 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { User } from "../../../api";
+import { Deposit } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { useState, useEffect } from "react";
-import { EditUserInformationDialog } from "../EditUserInformationDialog";
-import { columns } from "./RegisteredUsersTableColumns";
-import { RemoveUserDialog } from "../RemoveUserDialog";
+import { columns } from "./UserRequestRegisterDepositTableColumns";
+import { RemoveUserDialog, EditUserInformationDialog } from "../../Dialogs";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
+import { mapDepositRequestStatus } from "../../../utils/mapFunctions";
 
-const userController = new User();
+const depositController = new Deposit();
 
-export function RegisteredUsersTable() {
-  const { accessToken } = useAuth();
+export function UserRequestRegisterDepositTable() {
+  const { accessToken, user } = useAuth();
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [users, setUsers] = useState(null);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [selectedEditUser, setSelectedEditUser] = useState(null);
-  const [selectedDeleteUser, setSelectedDeleteUser] = useState(null);
-  const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false);
+  const [requestDeposits, setRequestDeposits] = useState(null);
+  const [isAcceptDialogOpen, setIsAcceptDialogOpen] = useState(false);
+  const [selectedAcceptRequest, setSelectedAcceptRequest] = useState(null);
+  const [selectedRejectRequest, setSelectedRejectRequest] = useState(null);
+  const [isRejectDialogOpen, setIsRejectDialogOpen] = useState(false);
 
-  const handleEdit = (row) => {
-    setSelectedEditUser(row);
-    setSelectedDeleteUser(null); // Cerrar el diálogo de eliminación si está abierto
-    setIsEditDialogOpen(true);
-    setIsRemoveDialogOpen(false);
+  const handleAccept = (row) => {
+    setSelectedAcceptRequest(row);
+    setSelectedRejectRequest(null); // Cerrar el diálogo de eliminación si está abierto
+    setIsAcceptDialogOpen(true);
+    setIsRejectDialogOpen(false);
   };
 
-  const handleDelete = (row) => {
-    setSelectedDeleteUser(row);
-    setSelectedEditUser(null); // Cerrar el diálogo de edición si está abierto
-    setIsRemoveDialogOpen(true);
-    setIsEditDialogOpen(false); // Ce
+  const handleReject = (row) => {
+    setSelectedRejectRequest(row);
+    setSelectedAcceptRequest(null); // Cerrar el diálogo de edición si está abierto
+    setIsRejectDialogOpen(true);
+    setIsAcceptDialogOpen(false); // Ce
   };
   const handleEditDialogOpenChange = (isOpen) => {
-    setIsEditDialogOpen(isOpen);
+    setIsAcceptDialogOpen(isOpen);
   };
 
   const handleRemoveDialogOpenChange = (isOpen) => {
-    setIsRemoveDialogOpen(isOpen);
+    setIsRejectDialogOpen(isOpen);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -62,13 +62,16 @@ export function RegisteredUsersTable() {
   useEffect(() => {
     (async () => {
       try {
-        const response = await userController.getAllActiveUsers(accessToken);
-        setUsers(response.users);
+        const response = await depositController.getDepositsRequestsByUserId(
+          accessToken,
+          user.id
+        );
+        setRequestDeposits(response.depositRequests);
       } catch (error) {
         console.error(error);
       }
     })();
-  }, [accessToken]);
+  }, [accessToken, user.id]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -76,14 +79,13 @@ export function RegisteredUsersTable() {
         sx={{
           width: "90%",
           overflow: "hidden",
-          backgroundColor: "transparent",
         }}
       >
         <TableContainer>
           <Table stickyHeader style={{ backgroundColor: "transparent" }}>
             <TableHead>
               <TableRow>
-                {columns(handleEdit, handleDelete).map((column) => (
+                {columns(handleReject).map((column) => (
                   <TableCell
                     key={column.id}
                     align={column.align}
@@ -91,7 +93,7 @@ export function RegisteredUsersTable() {
                       minWidth: column.minWidth,
                       fontWeight: "bold",
                       fontFamily: "Montserrat, sans-serif", // Cambia la fuente aqu
-                      backgroundColor: "rgba(128, 128, 128, 0.5)", // Gris con 50% de opacidad
+                      backgroundColor: "lightgray", // Gris con 50% de opacidad
                     }}
                   >
                     {column.label}
@@ -100,8 +102,8 @@ export function RegisteredUsersTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {users && users.length > 0 ? (
-                users
+              {requestDeposits && requestDeposits.length > 0 ? (
+                requestDeposits
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     return (
@@ -111,19 +113,18 @@ export function RegisteredUsersTable() {
                         tabIndex={-1}
                         key={row.code}
                         sx={{
-                          "&:hover": {
-                            backgroundColor: "lightgray", // Color al pasar el mouse sobre la fila
-                          },
-                          backgroundColor: index % 2 === 0 ? "lightgray" : "white",
-                          
+                          backgroundColor:
+                            index % 2 === 0 ? "lightgray" : "white",
                         }}
                       >
-                        {columns(handleEdit, handleDelete).map((column) => {
+                        {columns(handleReject).map((column) => {
                           const value = row[column.id];
                           return (
                             <TableCell key={column.id} align={column.align}>
                               {column.format
                                 ? column.format(value, row)
+                                : column.id === "status"
+                                ? mapDepositRequestStatus(value)
                                 : value}
                             </TableCell>
                           );
@@ -134,21 +135,21 @@ export function RegisteredUsersTable() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={columns.length}>
-                    {users === null
+                  {requestDeposits === null
                       ? "Cargando datos..."
-                      : "No se han registrado usuarios."}
+                      : "No se han registrado solicitudes de depósitos."}
                   </TableCell>
                 </TableRow>
               )}
             </TableBody>
             <EditUserInformationDialog
-              selectedUser={selectedEditUser}
-              openDialog={isEditDialogOpen}
+              selectedUser={selectedAcceptRequest}
+              openDialog={isAcceptDialogOpen}
               onDialogOpenChange={handleEditDialogOpenChange} // Pasa la función de devolución de llamada
             />
             <RemoveUserDialog
-              selectedUser={selectedDeleteUser}
-              openDialog={isRemoveDialogOpen}
+              selectedUser={selectedRejectRequest}
+              openDialog={isRejectDialogOpen}
               onDialogOpenChange={handleRemoveDialogOpenChange} // Pasa la función de devolución de llamada
             />
           </Table>
@@ -156,7 +157,7 @@ export function RegisteredUsersTable() {
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
-          count={users === null ? 0 : users.length}
+          count={requestDeposits === null ? 0 : requestDeposits.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

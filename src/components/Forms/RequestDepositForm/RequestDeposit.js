@@ -4,7 +4,7 @@ import { Grid, TextField, FormHelperText } from "@mui/material";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import InputLabel from "@mui/material/InputLabel";
-import { User, Storage, Common } from "../../../api";
+import { User, Storage, Common, Deposit } from "../../../api";
 import { initialValues, validationSchema } from "../Forms/RequestDeposit.form";
 import { ThemeProvider } from "@mui/material/styles";
 import { Typography, Paper, FormControl } from "@mui/material";
@@ -17,7 +17,7 @@ import theme from "../../../theme/theme"; // Importa el theme.js aquí
 import { NotificationSnackbar } from "../../NotificationSnackbar";
 
 const userController = new User();
-const storageController = new Storage();
+const storageController = new Deposit();
 const commonController = new Common();
 
 export function RequestDeposit() {

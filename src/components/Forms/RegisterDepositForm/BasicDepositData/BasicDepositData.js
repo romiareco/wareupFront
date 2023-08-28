@@ -32,11 +32,11 @@ export function BasicDepositData({ formInformation, initialValues }) {
   const [formData, setFormData] = React.useState({
     companyId: "",
     street: "",
-    postalCode: "",
-    totalM3: "",
+    postalCode: 0,
+    totalM3: 0,
     departmentId: "",
     cityId: "",
-    expectedPrice: "",
+    expectedPrice: 0,
     description: "",
     currency: "",
   });
@@ -176,7 +176,7 @@ export function BasicDepositData({ formInformation, initialValues }) {
               value={formik.values.postalCode}
               onChange={(e) => {
                 formik.handleChange(e);
-                handleFieldChange("street", e.target.value);
+                handleFieldChange("postalCode", parseInt(e.target.value));
               }}
               onBlur={formik.handleBlur}
               variant="outlined"
@@ -285,7 +285,7 @@ export function BasicDepositData({ formInformation, initialValues }) {
               value={formik.values.expectedPrice}
               onChange={(e) => {
                 formik.handleChange(e);
-                handleFieldChange("expectedPrice", e.target.value);
+                handleFieldChange("expectedPrice", parseInt(e.target.value));
               }}
               onBlur={formik.handleBlur}
               variant="outlined"
@@ -303,7 +303,8 @@ export function BasicDepositData({ formInformation, initialValues }) {
               value={formik.values.totalM3}
               onChange={(e) => {
                 formik.handleChange(e);
-                handleFieldChange("totalM3", e.target.value);
+                
+                handleFieldChange("totalM3", parseInt(e.target.value));
               }}
               onBlur={formik.handleBlur}
               variant="outlined"

@@ -3,6 +3,7 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import ButtonBase from "@mui/material/ButtonBase";
 import Typography from "@mui/material/Typography";
+import { Link, useNavigate } from 'react-router-dom';
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: "relative",
@@ -70,7 +71,14 @@ const ImageMarked = styled("span")(({ theme }) => ({
   transition: theme.transitions.create("opacity"),
 }));
 
-export function ComplexButton({ imageTitle, imageUrl, imageWidth }) {
+export function ComplexButton({ imageTitle, imageUrl, imageWidth, onClick, targetUrl, depositCreated }) {
+
+  const handleClick = () => {
+    if (onClick) {
+      onClick(depositCreated); // Pasa el depositCreated a la función onClick si está definida
+    }
+  };
+
   return (
     <Box
       sx={{ display: "flex", flexWrap: "wrap", minWidth: 300, width: "100%" }}
@@ -82,6 +90,7 @@ export function ComplexButton({ imageTitle, imageUrl, imageWidth }) {
           style={{
             width: imageWidth,
           }}
+          onClick={handleClick} // Agrega el evento de clic al botón
         >
           <ImageSrc style={{ backgroundImage: `url(${imageUrl})` }} />
           <ImageBackdrop className="MuiImageBackdrop-root" />
