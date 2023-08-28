@@ -201,7 +201,7 @@ export class User {
     }
   }
 
-  async getAllUsers(accessToken) {
+  async getAllActiveUsers(accessToken) {
     try {
       const url = `${this.baseApi}/${ENV.API_ROUTES.USER}`;
       const params = {
@@ -250,6 +250,7 @@ export class User {
     try {
       const url = `${this.baseApi}/${ENV.API_ROUTES.USER}/${userId}`;
       const params = {
+        method: "DELETE",
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

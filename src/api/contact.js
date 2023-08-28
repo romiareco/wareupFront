@@ -17,6 +17,7 @@ export class Contact {
           phone: data.phoneNumber,
           email: data.email,
           message: data.message,
+          subject: data.subject,
         }),
       };
 
