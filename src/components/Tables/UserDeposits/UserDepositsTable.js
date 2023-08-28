@@ -14,7 +14,10 @@ import { columns } from "./UserDepositsTableColumns";
 import { RemoveUserDialog, EditUserInformationDialog } from "../../Dialogs";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
-import { mapDepositStatus } from "../../../utils/mapFunctions";
+import {
+  mapDepositInformation,
+  mapDepositStatus,
+} from "../../../utils/mapFunctions";
 
 const depositController = new Deposit();
 
@@ -29,10 +32,8 @@ export function UserDepositsTable() {
   const [selectedDeleteDeposit, setSelectedDeleteDeposit] = useState(null);
   const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false);
 
-  const handleImage = (row) => {
+  const handleImage = (row) => {};
 
-  }
-  
   const handleEdit = (row) => {
     setSelectedEditDeposit(row);
     setSelectedDeleteDeposit(null); // Cerrar el diálogo de eliminación si está abierto
@@ -66,8 +67,15 @@ export function UserDepositsTable() {
   useEffect(() => {
     (async () => {
       try {
-        const response = await depositController.getDepositsByUserId(accessToken, user.id);
-        setDeposits(response.deposits);
+        const response = await depositController.getDepositsByUserId(
+          accessToken,
+          user.id
+        );
+
+        if (response.deposits) {
+          const filteredInformation = mapDepositInformation(response.deposits);
+          setDeposits(filteredInformation);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -86,20 +94,22 @@ export function UserDepositsTable() {
           <Table stickyHeader style={{ backgroundColor: "transparent" }}>
             <TableHead>
               <TableRow>
-                {columns(handleEdit, handleDelete, handleImage).map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align={column.align}
-                    style={{
-                      minWidth: column.minWidth,
-                      fontWeight: "bold",
-                      fontFamily: "Montserrat, sans-serif", // Cambia la fuente aqu
-                      backgroundColor: "lightgray", // Gris con 50% de opacidad
-                    }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
+                {columns(handleEdit, handleDelete, handleImage).map(
+                  (column) => (
+                    <TableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{
+                        minWidth: column.minWidth,
+                        fontWeight: "bold",
+                        fontFamily: "Montserrat, sans-serif", // Cambia la fuente aqu
+                        backgroundColor: "lightgray", // Gris con 50% de opacidad
+                      }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  )
+                )}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -118,18 +128,20 @@ export function UserDepositsTable() {
                             index % 2 === 0 ? "lightgray" : "white",
                         }}
                       >
-                        {columns(handleEdit, handleDelete, handleImage).map((column) => {
-                          const value = row[column.id];
-                          return (
-                            <TableCell key={column.id} align={column.align}>
-                               {column.format
-                                ? column.format(value, row)
-                                : column.id === "status"
-                                ? mapDepositStatus(value)
-                                : value}
-                            </TableCell>
-                          );
-                        })}
+                        {columns(handleEdit, handleDelete, handleImage).map(
+                          (column) => {
+                            const value = row[column.id];
+                            return (
+                              <TableCell key={column.id} align={column.align}>
+                                {column.format
+                                  ? column.format(value, row)
+                                  : column.id === "status"
+                                  ? mapDepositStatus(value)
+                                  : value}
+                              </TableCell>
+                            );
+                          }
+                        )}
                       </TableRow>
                     );
                   })

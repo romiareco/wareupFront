@@ -14,7 +14,7 @@ import { columns } from "./UserRequestRegisterDepositTableColumns";
 import { RemoveUserDialog, EditUserInformationDialog } from "../../Dialogs";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
-import { mapDepositRequestStatus } from "../../../utils/mapFunctions";
+import { mapDepositRequestInformation, mapDepositRequestStatus } from "../../../utils/mapFunctions";
 
 const depositController = new Deposit();
 
@@ -28,13 +28,6 @@ export function UserRequestRegisterDepositTable() {
   const [selectedAcceptRequest, setSelectedAcceptRequest] = useState(null);
   const [selectedRejectRequest, setSelectedRejectRequest] = useState(null);
   const [isRejectDialogOpen, setIsRejectDialogOpen] = useState(false);
-
-  const handleAccept = (row) => {
-    setSelectedAcceptRequest(row);
-    setSelectedRejectRequest(null); // Cerrar el diálogo de eliminación si está abierto
-    setIsAcceptDialogOpen(true);
-    setIsRejectDialogOpen(false);
-  };
 
   const handleReject = (row) => {
     setSelectedRejectRequest(row);
@@ -66,7 +59,11 @@ export function UserRequestRegisterDepositTable() {
           accessToken,
           user.id
         );
-        setRequestDeposits(response.depositRequests);
+
+        if(response.depositRequests) {
+          const filteredInformation = mapDepositRequestInformation(response.depositRequests);
+          setRequestDeposits(filteredInformation);
+        }
       } catch (error) {
         console.error(error);
       }

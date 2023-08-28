@@ -15,7 +15,7 @@ export const columns = (handleReject) => [
     minWidth: 40,
   },
   {
-    id: "companyId",
+    id: "businessName",
     label: "Empresa",
     minWidth: 50,
   },
@@ -28,11 +28,6 @@ export const columns = (handleReject) => [
     id: "address",
     label: "Dirección",
     minWidth: 100,
-  },
-  {
-    id: "userId",
-    label: "Usuario",
-    minWidth: 50,
   },
   {
     id: "status",

@@ -30,7 +30,7 @@ export const columns = (handleEdit, handleDelete, handleImage) => [
   },
 
   {
-    id: "companyId",
+    id: "businessName",
     label: "Empresa",
     minWidth: 50,
   },
