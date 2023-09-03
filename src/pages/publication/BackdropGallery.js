@@ -127,5 +127,3 @@ export function BackdropGallery({ open, handleClose, currentPassedImage, deposit
     </Backdrop>
   );
 };
-
-//TODO: revisar porque no funciona el backdrop gallery
