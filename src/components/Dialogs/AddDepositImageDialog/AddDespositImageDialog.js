@@ -1,15 +1,14 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import { useState, useEffect } from "react";
 import { DepositImages } from "../../Forms/RegisterDepositForm/DepositImages";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 export function AddDepositImageDialog({
-  deposit,
+  selectedDeposit,
   openDialog,
   onDialogOpenChange,
 }) {
@@ -27,32 +26,14 @@ export function AddDepositImageDialog({
     onDialogOpenChange(false);
   };
 
-  const handleAccept = () => {
-    <DepositImages deposit={deposit} />;
-  };
-
   return (
-    <Dialog
-      open={isDialogOpen}
-      onClose={handleCancel}
-      aria-labelledby="responsive-dialog-title"
-    >
-      <DialogTitle id="responsive-dialog-title">
-        {"Agregar imágenes"}
-      </DialogTitle>
+    <Dialog open={isDialogOpen} onClose={handleCancel}>
       <DialogContent>
-        <DialogContentText>
-          {`¿Desea agregar imágenes al depósito con id ${deposit.id}?`}
-        </DialogContentText>
+        <IconButton onClick={() => handleCancel()}>
+          <CloseIcon />
+        </IconButton>
+        {selectedDeposit && <DepositImages deposit={selectedDeposit} />}
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleAccept} autoFocus>
-          Aceptar
-        </Button>
-        <Button autoFocus onClick={handleCancel}>
-          Cancelar
-        </Button>
-      </DialogActions>
     </Dialog>
   );
 }

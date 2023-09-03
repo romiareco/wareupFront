@@ -71,11 +71,11 @@ const ImageMarked = styled("span")(({ theme }) => ({
   transition: theme.transitions.create("opacity"),
 }));
 
-export function ComplexButton({ imageTitle, imageUrl, imageWidth, onClick, targetUrl, depositCreated }) {
+export function ComplexButton({ imageTitle, imageUrl, imageWidth, onClick, targetUrl, deposit }) {
 
   const handleClick = () => {
     if (onClick) {
-      onClick(depositCreated); // Pasa el depositCreated a la función onClick si está definida
+      onClick(deposit);
     }
   };
 

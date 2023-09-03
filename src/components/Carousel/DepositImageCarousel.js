@@ -43,9 +43,6 @@ export function DepositImageCarousel({ depositId }) {
           color: "#494949",
         }}
       >
-        <Typography variant="subtitle1" sx={theme.typography.montserratFont}>
-          Imágenes actuales del depósito
-        </Typography>
         <Carousel>
           {images.length === 0 ? (
            

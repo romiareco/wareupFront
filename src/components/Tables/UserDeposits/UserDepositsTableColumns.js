@@ -4,7 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import PreviewRoundedIcon from '@mui/icons-material/PreviewRounded';
 
-export const columns = (handleEdit, handleDelete, handleImage) => [
+export const columns = (handleEdit, handleDelete, handleImage, handlePreview) => [
   { id: "id", label: "ID", minWidth: 25 },
   { id: "title", label: "Título", minWidth: 100 },
   { id: "description", label: "Descripción", minWidth: 170 },
@@ -60,7 +60,7 @@ export const columns = (handleEdit, handleDelete, handleImage) => [
         <IconButton onClick={() => handleImage(row)}>
           <AddPhotoAlternateRoundedIcon />
         </IconButton>
-        <IconButton onClick={() => handleImage(row)}>
+        <IconButton onClick={() => handlePreview(row)}>
           <PreviewRoundedIcon />
         </IconButton>
       </div>

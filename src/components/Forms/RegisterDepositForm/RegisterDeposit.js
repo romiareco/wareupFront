@@ -193,8 +193,8 @@ export function RegisterDeposit() {
                         imageTitle={"AGREGAR IMÁGENES"}
                         imageUrl={depositImages}
                         imageWidth={"500px"}
-                        onClick={() => handleAddDepositImage(depositCreated)}
-                        depositCreated={depositCreated}
+                        onClick={() => handleAddDepositImage()}
+                        deposit={depositCreated}
                       />
                     </Box>
                   </Box>
@@ -255,7 +255,7 @@ export function RegisterDeposit() {
         >
           <DialogTitle>Agregar imágenes a depósito</DialogTitle>
           <DialogContent>
-            <DepositImages depositCreated={depositCreated} />
+            <DepositImages deposit={depositCreated} />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseDialog}>Cerrar</Button>

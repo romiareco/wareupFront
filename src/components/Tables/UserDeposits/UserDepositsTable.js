@@ -11,7 +11,7 @@ import { Deposit } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { useState, useEffect } from "react";
 import { columns } from "./UserDepositsTableColumns";
-import { RemoveUserDialog, EditUserInformationDialog, RemoveUserDepositDialog, AddDepositImageDialog } from "../../Dialogs";
+import { EditUserInformationDialog, RemoveUserDepositDialog, AddDepositImageDialog } from "../../Dialogs";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
 import {
@@ -214,7 +214,7 @@ export function UserDepositsTable() {
               onDialogOpenChange={handleRemoveDialogOpenChange} 
             />
             <AddDepositImageDialog
-              deposit={selectedAddImageDeposit}
+              selectedDeposit={selectedAddImageDeposit}
               openDialog={isAddImageDialogOpen}
               onDialogOpenChange={handleAddImageDialogOpenChange} 
             />

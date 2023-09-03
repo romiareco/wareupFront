@@ -11,7 +11,7 @@ import { Grid } from "@mui/material";
 
 const depositController = new Deposit();
 
-export function DepositImages({ depositCreated }) {
+export function DepositImages({ deposit }) {
   const { accessToken } = useAuth();
 
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -52,7 +52,7 @@ export function DepositImages({ depositCreated }) {
         if (convertedImages) {
           await depositController.addDepositImages(
             accessToken,
-            depositCreated.id,
+            deposit.id,
             convertedImages
           );
 
@@ -75,7 +75,7 @@ export function DepositImages({ depositCreated }) {
     <ThemeProvider theme={theme}>
       <Grid container justifyContent="center" alignItems="center">
         <Grid item xs={12}>
-          <DepositImageCarousel depositId={depositCreated.id} />
+          <DepositImageCarousel depositId={deposit.id} />
         </Grid>
       </Grid>
 
