@@ -17,8 +17,16 @@ const depositController = new Deposit();
 
 export function Description({ depositId }) {
   const { accessToken } = useAuth();
-
   const [deposit, setDeposit] = useState(null);
+  const [startDate, setStartDate] = useState(dayjs());
+  const [endDate, setEndDate] = useState(dayjs());
+
+  const handleStartDateChange = (date) => {
+    setStartDate(date);
+    if (date.isAfter(endDate)) {
+      setEndDate(date);
+    }
+  };
 
   useEffect(() => {
     (async () => {
@@ -48,9 +56,9 @@ export function Description({ depositId }) {
           variant="body1"
           sx={{
             textTransform: "uppercase",
-            fontSize: "0.9rem", // Ajusta el tamaño de fuente según tu preferencia
-            marginRight: "4px", // Espacio entre el icono y el texto
-            fontWeight: "bold", // Puede ajustarse según tus preferencias
+            fontSize: "0.9rem",
+            marginRight: "4px", 
+            fontWeight: "bold",
           }}
         >
           {deposit.city.title} - {deposit.city.departmentId}
@@ -73,18 +81,28 @@ export function Description({ depositId }) {
         </Box>
       </Box>
 
-      
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DemoContainer components={["DatePicker"]}>
-            <DemoItem label="Desde">
-              <DatePicker disablePast defaultValue={dayjs()} />
-            </DemoItem>
-            <DemoItem label="Hasta">
-              <DatePicker disablePast  defaultValue={dayjs()} />
-            </DemoItem>
-          </DemoContainer>
-        </LocalizationProvider>
-        <Box className="buttons">
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DemoContainer components={["DatePicker"]}>
+          <DemoItem label="Desde">
+            <DatePicker
+              disablePast
+              defaultValue={dayjs()}
+              value={startDate}
+              onChange={handleStartDateChange}
+            />
+          </DemoItem>
+          <DemoItem label="Hasta">
+            <DatePicker
+              disablePast
+              defaultValue={dayjs()}
+              value={endDate}
+              minDate={startDate}
+              onChange={(date) => setEndDate(date)}
+            />
+          </DemoItem>
+        </DemoContainer>
+      </LocalizationProvider>
+      <Box className="buttons">
         <Button className="add-to-cart" onClick={() => {}}>
           <EventAvailableRoundedIcon />
           Comprobar disponibilidad
