@@ -10,9 +10,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
-import { Deposit, User } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
+import { RequestDeposit } from "../../../api";
 
 export function ChangeRequestDepositStatusDialog({
   selectedRequestDeposit,
@@ -40,18 +40,16 @@ export function ChangeRequestDepositStatusDialog({
   };
 
   const handleAccept = async () => {
-    const depositController = new Deposit();
+    const requestDepositController = new RequestDeposit();
     try {
-      setLoading(true); // Inicia la carga
-
-
-      await depositController.updateRequestDepositStatus(accessToken, selectedRequestDeposit.id, requestDepositStatus);
+      setLoading(true);
+      await requestDepositController.updateRequestDepositStatus(accessToken, selectedRequestDeposit.id, requestDepositStatus);
 
       setNotificationMessage("Solicitud de registro actualizada exitosamente");
       setNotificationSeverity("success");
       setNotificationOpen(true);
 
-      setLoading(false); // Finaliza la carga, sin importar el resultado
+      setLoading(false);
       setIsDialogOpen(false);
       onDialogOpenChange(false);
     } catch (error) {
@@ -59,7 +57,7 @@ export function ChangeRequestDepositStatusDialog({
       setNotificationSeverity("error");
       setNotificationOpen(true);
 
-      setLoading(false); // Finaliza la carga, sin importar el resultado
+      setLoading(false);
     }
   };
 

@@ -7,18 +7,17 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { Deposit } from "../../../api";
+import { RequestDeposit } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { useState, useEffect } from "react";
 import { columns } from "./UserRequestRegisterDepositTableColumns";
-import { RemoveUserDialog, EditUserInformationDialog } from "../../Dialogs";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
 import { mapDepositRequestInformation, mapDepositRequestStatus } from "../../../utils/mapFunctions";
 import { ChangeRequestDepositStatusDialog } from "../../Dialogs/ChangeRequestDepositStatusDialog/ChangeRequestDepositStatusDialog";
 import { depositRequestStatus } from "../../../utils";
 
-const depositController = new Deposit();
+const controller = new RequestDeposit();
 
 export function UserRequestRegisterDepositTable() {
   const { accessToken, user } = useAuth();
@@ -51,7 +50,7 @@ export function UserRequestRegisterDepositTable() {
   useEffect(() => {
     (async () => {
       try {
-        const response = await depositController.getDepositsRequestsByUserId(
+        const response = await controller.getDepositsRequestsByUserId(
           accessToken,
           user.id
         );

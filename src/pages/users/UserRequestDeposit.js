@@ -1,11 +1,11 @@
-import { RequestDeposit } from "../../components/Forms/RequestDepositForm";
+import { RegisterRequestDeposit } from "../../components/Forms/RegisterRequestDepositForm";
 import { Footer } from "../../components/Footer";
 import { Fragment } from "react";
 
 export function UserRequestDeposit() {
   return (
     <Fragment>
-      <RequestDeposit />
+      <RegisterRequestDeposit />
       <Footer />
     </Fragment>
   );

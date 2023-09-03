@@ -8,7 +8,7 @@ import { useAuth } from "../../hooks";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../theme/theme";
 
-const depositController = new Deposit();
+const controller = new Deposit();
 
 export function DepositImageCarousel({ depositId }) {
   const { accessToken } = useAuth();
@@ -22,7 +22,7 @@ export function DepositImageCarousel({ depositId }) {
   useEffect(() => {
     (async () => {
       try {
-        const response = await depositController.getDepositImages(
+        const response = await controller.getDepositImages(
           accessToken,
           depositId
         );

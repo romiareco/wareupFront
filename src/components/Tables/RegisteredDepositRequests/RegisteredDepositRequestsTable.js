@@ -7,7 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { Deposit } from "../../../api";
+import { RequestDeposit } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { useState, useEffect } from "react";
 import { columns } from "./RegisteredDepositRequestsTableColumns";
@@ -16,7 +16,7 @@ import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
 import { mapDepositRequestStatus } from "../../../utils/mapFunctions";
 
-const depositController = new Deposit();
+const controller = new RequestDeposit();
 
 export function RegisteredDepositRequestsTable() {
   const { accessToken } = useAuth();
@@ -62,7 +62,7 @@ export function RegisteredDepositRequestsTable() {
   useEffect(() => {
     (async () => {
       try {
-        const response = await depositController.getAllRequestDeposits(
+        const response = await controller.getAllRequestDeposits(
           accessToken
         );
         setRequestDeposits(response.depositRequests);
