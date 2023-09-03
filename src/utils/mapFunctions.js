@@ -114,3 +114,7 @@ export function mapDepositInformation(deposits) {
 
   return filteredInformation;
 }
+
+export function mapBase64ToImage(base64String) {
+  return `data:image/png;base64,${base64String}`;
+}

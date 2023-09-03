@@ -3,12 +3,13 @@ import { Logout } from "../components/Logout";
 import { UserProfileButton } from "../components/Button";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import { IconButton, Box, Button, Menu, MenuItem, } from "@mui/material";
+import { IconButton, Box, Button, Menu, MenuItem } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { PublicationView } from "../pages";
 
 export function UserLayout(props) {
   const { children } = props;
@@ -38,6 +39,10 @@ export function UserLayout(props) {
     setAnchorEl(null);
   };
 
+  const handlePublic = () => {
+    const id = 1;
+    return <PublicationView depositId={id} />;
+  };
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ display: "flex" }}>
@@ -101,7 +106,12 @@ export function UserLayout(props) {
                           handleClose();
                         }}
                       >
-    <Link to={menuItem.href} style={{ textDecoration: 'none' }}>{menuItem.label}</Link>
+                        <Link
+                          to={menuItem.href}
+                          style={{ textDecoration: "none" }}
+                        >
+                          {menuItem.label}
+                        </Link>
                       </MenuItem>
                     ))}
                   </Menu>
@@ -111,6 +121,18 @@ export function UserLayout(props) {
 
             <Box sx={{ flexGrow: 1 }} />
 
+            <Button
+              sx={{
+                my: 2,
+                color:
+                  theme.components.MuiButton.styleOverrides.containedPrimary,
+                display: "block",
+              }}
+              component={Link} // Usa el componente Link en lugar de href
+              to="/users/publication-view?id=28" // Cambia el valor del depositId si es dinámico
+            >
+              Publicacion
+            </Button>
             <UserProfileButton />
             <Logout />
           </Toolbar>
