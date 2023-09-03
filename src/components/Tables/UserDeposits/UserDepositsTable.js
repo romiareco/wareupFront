@@ -11,13 +11,18 @@ import { Deposit } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { useState, useEffect } from "react";
 import { columns } from "./UserDepositsTableColumns";
-import { EditUserInformationDialog, RemoveUserDepositDialog, AddDepositImageDialog } from "../../Dialogs";
+import {
+  EditUserInformationDialog,
+  RemoveUserDepositDialog,
+  AddDepositImageDialog,
+} from "../../Dialogs";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
 import {
   mapDepositInformation,
   mapDepositStatus,
 } from "../../../utils/mapFunctions";
+import { PublicationView } from "../../../pages";
 
 const depositController = new Deposit();
 
@@ -36,7 +41,8 @@ export function UserDepositsTable() {
   const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isAddImageDialogOpen, setIsAddImageDialogOpen] = useState(false);
-  const [isDepositPreviewDialogOpen, setIsDepositPreviewDialogOpen] = useState(false);
+  const [isDepositPreviewDialogOpen, setIsDepositPreviewDialogOpen] =
+    useState(false);
 
   const handlePreview = (row) => {
     setSelectedEditDeposit(null);
@@ -48,8 +54,19 @@ export function UserDepositsTable() {
     setIsRemoveDialogOpen(false);
     setIsAddImageDialogOpen(false);
     setIsDepositPreviewDialogOpen(true);
-  };
 
+    const queryParams = {
+      id: row.id,
+    };
+
+    const queryString = Object.keys(queryParams)
+      .map((key) => `${key}=${encodeURIComponent(queryParams[key])}`)
+      .join("&");
+
+    const url = `publication-view?${queryString}`;
+
+    window.open(url, "_blank");
+  };
 
   const handleImage = (row) => {
     setSelectedEditDeposit(null);
@@ -142,22 +159,25 @@ export function UserDepositsTable() {
           <Table stickyHeader style={{ backgroundColor: "transparent" }}>
             <TableHead>
               <TableRow>
-                {columns(handleEdit, handleDelete, handleImage, handlePreview).map(
-                  (column) => (
-                    <TableCell
-                      key={column.id}
-                      align={column.align}
-                      style={{
-                        minWidth: column.minWidth,
-                        fontWeight: "bold",
-                        fontFamily: "Montserrat, sans-serif", // Cambia la fuente aqu
-                        backgroundColor: "lightgray", // Gris con 50% de opacidad
-                      }}
-                    >
-                      {column.label}
-                    </TableCell>
-                  )
-                )}
+                {columns(
+                  handleEdit,
+                  handleDelete,
+                  handleImage,
+                  handlePreview
+                ).map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{
+                      minWidth: column.minWidth,
+                      fontWeight: "bold",
+                      fontFamily: "Montserrat, sans-serif", // Cambia la fuente aqu
+                      backgroundColor: "lightgray", // Gris con 50% de opacidad
+                    }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -176,20 +196,23 @@ export function UserDepositsTable() {
                             index % 2 === 0 ? "lightgray" : "white",
                         }}
                       >
-                        {columns(handleEdit, handleDelete, handleImage, handlePreview).map(
-                          (column) => {
-                            const value = row[column.id];
-                            return (
-                              <TableCell key={column.id} align={column.align}>
-                                {column.format
-                                  ? column.format(value, row)
-                                  : column.id === "status"
-                                  ? mapDepositStatus(value)
-                                  : value}
-                              </TableCell>
-                            );
-                          }
-                        )}
+                        {columns(
+                          handleEdit,
+                          handleDelete,
+                          handleImage,
+                          handlePreview
+                        ).map((column) => {
+                          const value = row[column.id];
+                          return (
+                            <TableCell key={column.id} align={column.align}>
+                              {column.format
+                                ? column.format(value, row)
+                                : column.id === "status"
+                                ? mapDepositStatus(value)
+                                : value}
+                            </TableCell>
+                          );
+                        })}
                       </TableRow>
                     );
                   })
@@ -211,12 +234,12 @@ export function UserDepositsTable() {
             <RemoveUserDepositDialog
               selectedDeposit={selectedDeleteDeposit}
               openDialog={isRemoveDialogOpen}
-              onDialogOpenChange={handleRemoveDialogOpenChange} 
+              onDialogOpenChange={handleRemoveDialogOpenChange}
             />
             <AddDepositImageDialog
               selectedDeposit={selectedAddImageDeposit}
               openDialog={isAddImageDialogOpen}
-              onDialogOpenChange={handleAddImageDialogOpenChange} 
+              onDialogOpenChange={handleAddImageDialogOpenChange}
             />
           </Table>
         </TableContainer>
@@ -233,3 +256,6 @@ export function UserDepositsTable() {
     </ThemeProvider>
   );
 }
+
+
+//TODO: eliminar estados innecesarios para la preview de la publicacion

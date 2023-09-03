@@ -1,4 +1,4 @@
-import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';import IconButton from "@mui/material/IconButton";
+import IconButton from "@mui/material/IconButton";
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 export const columns = (handleReject) => [
   { id: "id", label: "ID", minWidth: 25 },
@@ -41,10 +41,12 @@ export const columns = (handleReject) => [
     align: "center",
     format: (value, row) => (
       <div>
-        <IconButton onClick={() => handleReject(row)}>
-          <CancelRoundedIcon />
-        </IconButton>
-      </div>
+      <IconButton
+        onClick={() => handleReject(row)}
+      >
+        <CancelRoundedIcon />
+      </IconButton>
+    </div>
     ),
   },
 ];
