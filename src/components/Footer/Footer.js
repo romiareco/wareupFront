@@ -11,13 +11,12 @@ import { LinkSpacer } from "../Links"; // Importa el nuevo componente
 export function Footer() {
   return (
     <ThemeProvider theme={theme}>
-      {/* Aplica el tema personalizado */}
-      <Box // Utiliza el componente Box para cubrir todo el ancho del monitor
+      <Box
         component="footer"
         sx={{
           backgroundColor: theme.palette.footer.main,
           width: "100%",
-          paddingTop: theme.spacing(3), // Ajusta el espaciado superior según tus necesidades
+          paddingTop: theme.spacing(3),
         }}
       >
         <Container>
@@ -36,7 +35,7 @@ export function Footer() {
               <Typography variant="link">
                 <Link href="/">Home</Link>
               </Typography>
-              <LinkSpacer /> {/* Agrega el espacio aquí */}
+              <LinkSpacer />
               <Typography variant="link">
                 <Link href="#">Quienes somos</Link>
               </Typography>
@@ -48,7 +47,7 @@ export function Footer() {
               <Typography variant="link">
                 <Link href="/contacts">Contáctanos</Link>
               </Typography>
-              <LinkSpacer /> {/* Agrega el espacio aquí */}
+              <LinkSpacer />
               <Typography variant="link">
                 <Link href="#">Términos y condiciones</Link>
               </Typography>

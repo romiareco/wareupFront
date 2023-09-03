@@ -27,6 +27,7 @@ export const ENV = {
         DEPOSIT_REQUEST: "depositRequests",
         USER_DEPOSITS: "deposits/byUser",
         USER_DEPOSIT_REQUEST: "depositRequests/byUser",
+        DEPOSIT_SERVICES: "deposits/services",
     },
     JWT: {
         ACCESS: "access",
