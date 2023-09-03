@@ -11,8 +11,8 @@ import { columns } from "./CompaniesTableColumns";
 import { User } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { useState, useEffect } from "react";
-import { RemoveCompanyDialog } from "../RemoveCompanyDialog";
-import { EditCompanyDialog } from "../EditCompanyDialog";
+import { RemoveCompanyDialog } from "../../Dialogs/RemoveCompanyDialog";
+import { EditCompanyDialog } from "../../Companies/EditCompanyDialog";
 import { mapCompanyStatus } from "../../../utils/mapFunctions";
 
 const userController = new User();

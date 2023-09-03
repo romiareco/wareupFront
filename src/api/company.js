@@ -40,10 +40,24 @@ export class Company {
     }
   }
 
-  //TODO: definir método
-  async delete(accessToken, user, data) {
-    try {     
-      console.log("Hola entre a eliminar la empresa")
+  async delete(accessToken, id) {
+    try {
+      const url = `${this.baseApi}/${ENV.API_ROUTES.COMPANY}/${id}`;
+      const params = {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+
+      const response = await fetch(url, params);
+      const result = await response.json();
+
+      if (response.status !== 200) throw response;
+      if (result && result.hasError) throw result;
+
+      return result;
     } catch (error) {
       console.error(
         "Hubo un error en la respuesta del servidor. Error: " +
@@ -53,7 +67,7 @@ export class Company {
     }
   }
 
-   async update(accessToken, data) {
+  async update(accessToken, data) {
     try {
       const url = `${this.baseApi}/${ENV.API_ROUTES.COMPANY}/${data.id}`;
       const params = {
@@ -91,7 +105,7 @@ export class Company {
   }
 
   async getAllCompanies(accessToken) {
-    try {     
+    try {
       const url = `${this.baseApi}/${ENV.API_ROUTES.COMPANY}`;
       const params = {
         headers: {

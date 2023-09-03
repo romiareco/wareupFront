@@ -13,7 +13,6 @@ export const role = {
 export const companyStatus = {
     ACTIVE: 1, 
     DELETED: 2,
-    PENDING: 3 
 }
  
 export const depositStatus = {

@@ -12,9 +12,9 @@ export function mapDepositRequestStatus(statusNumber) {
     case depositRequestStatus.PENDING:
       return "Pendiente";
     case depositRequestStatus.COMPLETED:
-      return "Completado";
+      return "Completada";
     case depositRequestStatus.CANCELED:
-      return "Rechazado";
+      return "Cancelada";
     default:
       return "Desconocido";
   }

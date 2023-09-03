@@ -1,5 +1,5 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
+import { Button, Typography } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import { Company } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export function RemoveCompanyDialog({
   selectedCompany,
@@ -20,6 +21,7 @@ export function RemoveCompanyDialog({
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -36,15 +38,22 @@ export function RemoveCompanyDialog({
   const handleAccept = async () => {
     const companyController = new Company();
     try {
+      setLoading(true); // Inicia la carga
+
       await companyController.delete(accessToken, selectedCompany.id);
 
       setNotificationMessage("Empresa eliminada exitosamente");
       setNotificationSeverity("success");
       setNotificationOpen(true);
+
+      setLoading(false); // Finaliza la carga, sin importar el resultado
+      setIsDialogOpen(false);
+      onDialogOpenChange(false);
     } catch (error) {
       setNotificationMessage(error.message);
       setNotificationSeverity("error");
       setNotificationOpen(true);
+      setLoading(false); // Finaliza la carga, sin importar el resultado
     }
   };
 
@@ -59,16 +68,31 @@ export function RemoveCompanyDialog({
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
-        {selectedCompany ? `¿Desea eliminar la empresa ${selectedCompany.businessName}?` : ""} 
+          {selectedCompany ? (
+            <>
+              <Typography variant="body1">
+                {`¿Desea eliminar la empresa ${selectedCompany.businessName}?`}
+              </Typography>
+              <Typography variant="body1" paragraph>
+                Ten en cuenta que también se eliminarán los depósitos asociados.
+              </Typography>
+            </>
+          ) : (
+            ""
+          )}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button autoFocus onClick={handleCancel}>
           Cancelar
         </Button>
-        <Button onClick={handleAccept} autoFocus>
-          Aceptar
-        </Button>
+        {loading ? (
+          <CircularProgress size={24} />
+        ) : (
+          <Button onClick={handleAccept} autoFocus disabled={loading}>
+            Aceptar
+          </Button>
+        )}
       </DialogActions>
       <NotificationSnackbar
         open={notificationOpen}

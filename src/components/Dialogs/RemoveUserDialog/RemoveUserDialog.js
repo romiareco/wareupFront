@@ -82,7 +82,7 @@ export function RemoveUserDialog({
             <Button autoFocus onClick={handleCancel}>
               Cancelar
             </Button>
-            {loading ? ( // Renderiza CircularProgress cuando loading es true
+            {loading ? (
               <CircularProgress size={24} />
             ) : (
               <Button onClick={handleAccept} autoFocus disabled={loading}>
