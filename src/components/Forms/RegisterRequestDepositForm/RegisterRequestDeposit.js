@@ -25,15 +25,11 @@ export function RegisterRequestDeposit() {
 
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
-  const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
+  const [notificationSeverity, setNotificationSeverity] = useState("success");
 
   const [userCompanies, setUserCompanies] = React.useState([]);
   const [departments, setDepartments] = React.useState([]);
   const [cities, setCities] = React.useState([]);
-
-  const [selectedUserCompany, setSelectedUserCompany] = useState("");
-  const [selectedDepartment, setSelectedDepartment] = useState({});
-  const [selectedCity, setSelectedCity] = useState({});
 
   const handleDepartmentChange = (event) => {
     const selectedDepartmentId = event.target.value;
@@ -52,27 +48,6 @@ export function RegisterRequestDeposit() {
 
   const handleCancelClick = () => {
     formik.resetForm();
-    setSelectedUserCompany("");
-    setSelectedDepartment("");
-    setSelectedCity("");
-  };
-
-  const handleCityChange = (event) => {
-    const cityId = event.target.value;
-    const city = cities.find((cit) => cit.id === cityId);
-
-    setSelectedCity(city);
-    formik.setFieldValue("cityId", cityId); // Actualiza el valor en formik
-  };
-
-  const handleUserCompanyChange = (event) => {
-    const userCompanyId = event.target.value;
-    const userCompany = userCompanies.find(
-      (company) => company.id === userCompanyId
-    );
-
-    setSelectedUserCompany(userCompany);
-    formik.setFieldValue("userCompanyId", userCompanyId); // Actualiza el valor en formik
   };
 
   useEffect(() => {
@@ -90,10 +65,8 @@ export function RegisterRequestDeposit() {
         );
         setDepartments(transformedDepartments);
 
-        const userCompaniesResponse = await userController.getUserCompanies(
-          accessToken,
-          user.id
-        );
+        const userCompaniesResponse =
+          await userController.getUserActiveCompanies(accessToken, user.id);
 
         const companiesData = userCompaniesResponse.companies || [];
         const transformedCompanies = companiesData.map((company) => ({

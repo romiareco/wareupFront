@@ -33,7 +33,7 @@ export function RegisterUser() {
     onSubmit: async (formValue, { resetForm }) => {
       try {
         await userController.register(formValue);
-        setNotificationMessage("Registro exitoso");
+        setNotificationMessage("Usuario registrado exitosamente");
         setNotificationSeverity("success");
         setNotificationOpen(true);
 

@@ -1,3 +1,4 @@
+import { companyStatus } from "../utils";
 import { ENV } from "../utils/constant";
 
 export class User {
@@ -47,7 +48,7 @@ export class User {
       const response = await fetch(url, params);
       const result = await response.json();
 
-      if (response.status !== 201) throw response;
+      if (response.status !== 200) throw response;
       if (result && result.hasError) throw result;
 
       return result;
@@ -117,6 +118,35 @@ export class User {
     }
   }
 
+  async getUserActiveCompanies(accessToken, userId) {
+    try {
+      const url = `${this.baseApi}/${ENV.API_ROUTES.USER_COMPANY}/${userId}`;
+      const params = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          status: companyStatus.ACTIVE
+        }),
+      };
+
+      const response = await fetch(url, params);
+      const result = await response.json();
+
+      if (response.status !== 200) throw response;
+      if (result && result.hasError) throw result;
+
+      return result;
+    } catch (error) {
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
+      throw error;
+    }
+  }
+
+
   async updatePassword(data, tokenParam) {
     console.log(data);
     try {
@@ -136,7 +166,7 @@ export class User {
       console.log(response);
       const result = await response.json();
 
-      if (response.status !== 201) throw response;
+      if (response.status !== 200) throw response;
       if (result && result.hasError) throw result;
 
       return result;
@@ -168,7 +198,7 @@ export class User {
       const response = await fetch(url, params);
       const result = await response.json();
 
-      if (response.status !== 201) throw response;
+      if (response.status !== 200) throw response;
       if (result && result.hasError) throw result;
 
       return result;

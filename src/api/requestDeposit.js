@@ -27,7 +27,7 @@ export class RequestDeposit {
       const response = await fetch(url, params);
       const result = await response.json();
 
-      if (response.status !== 201) throw response;
+      if (response.status !== 200) throw response;
       if (result && result.hasError) throw result;
 
       return result;

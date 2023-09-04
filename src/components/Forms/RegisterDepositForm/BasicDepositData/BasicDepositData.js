@@ -94,7 +94,7 @@ export function BasicDepositData({ formInformation, initialValues }) {
           })
         );
         setDepartments(transformedDepartments);
-        const companiesResponse = await companyController.getAllCompanies(
+        const companiesResponse = await companyController.getAllActiveCompanies(
           accessToken
         );
         const companiesData = companiesResponse.companies || [];

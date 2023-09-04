@@ -60,6 +60,8 @@ export function WebRouter() {
     { path: "my-companies", component: UserCompanies },
     { path: "my-companies/register", component: RegisterCompany },
     {path: "my-deposit-requests", component: UserListRequestDeposits},
+    { path: "publication-view", component: PublicationView}
+
   ];
 
   const adminRoutes = [
@@ -68,6 +70,7 @@ export function WebRouter() {
     { path: "manage-deposits", component: ManageDeposits },
     { path: "manage-requests", component: ManageRequests },
     { path: "register-deposit", component: RegisterDeposits },
+    { path: "publication-view", component: PublicationView}
   ];
 
   return (
