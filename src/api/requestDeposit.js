@@ -13,7 +13,8 @@ export class RequestDeposit {
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
-          companyId: data.userCompanyId,
+          userId: user.id,
+          companyId: data.companyId,
           address: data.storageAddress,
           phone: data.storagePhoneNumber,
           cityId: data.cityId,

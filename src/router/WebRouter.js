@@ -59,9 +59,7 @@ export function WebRouter() {
     { path: "request-deposit", component: UserRequestDeposit },
     { path: "my-companies", component: UserCompanies },
     { path: "my-companies/register", component: RegisterCompany },
-    { path: "contacts", component: Contact },
     {path: "my-deposit-requests", component: UserListRequestDeposits},
-    {path: "publication-view", component: PublicationView}
   ];
 
   const adminRoutes = [
@@ -75,7 +73,7 @@ export function WebRouter() {
   return (
     <Routes>
       <Route path="/contacts" element={<Contact />} />
-
+      <Route path="/publication-view" element={<PublicationView />} />
       {!user ? (
         <>
           <Route path="/" element={<Welcome />} />
