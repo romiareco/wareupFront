@@ -45,7 +45,7 @@ export class Deposit {
 
   async updateDeposit(accessToken, data) {
     try {
-      const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT}`;
+      const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT}/${data.id}`;
       const params = {
         method: "PUT",
         headers: {
@@ -64,6 +64,7 @@ export class Deposit {
           postalCode: data.postalCode,
           currency: data.currency,
           servicesId: data.servicesId,
+          status: data.status,
         }),
       };
 
@@ -82,7 +83,7 @@ export class Deposit {
       throw error;
     }
   }
-  
+
   async getDepositImages(accessToken, depositId) {
     try {
       const numberDepositId = parseInt(depositId);

@@ -23,6 +23,7 @@ import {
   mapDepositStatus,
 } from "../../../utils/mapFunctions";
 import { PublicationView } from "../../../pages";
+import { EditDepositBasicDataDialog } from "../../Dialogs/EditDepositBasicDataDialog/EditDepositBasicDataDialog";
 
 const depositController = new Deposit();
 
@@ -226,8 +227,8 @@ export function UserDepositsTable() {
                 </TableRow>
               )}
             </TableBody>
-            <EditUserInformationDialog
-              selectedUser={selectedEditDeposit}
+            <EditDepositBasicDataDialog
+              selectedDeposit={selectedEditDeposit}
               openDialog={isEditDialogOpen}
               onDialogOpenChange={handleEditDialogOpenChange}
             />

@@ -35,7 +35,8 @@ export function DepositImages({ deposit }) {
       reader.onload = (e) => {
         const convertedFile = e.target.result;
 
-        convertedFiles.push(convertedFile);
+        const base64Data = convertedFile.split(',')[1];
+        convertedFiles.push(base64Data);
 
         if (convertedFiles.length === selectedFilesArray.length) {
           setConvertedImages(convertedFiles);
@@ -74,7 +75,7 @@ export function DepositImages({ deposit }) {
   return (
     <ThemeProvider theme={theme}>
       <Grid container justifyContent="center" alignItems="center">
-        <Grid item xs={12}>
+        <Grid item xs={10}>
           <DepositImageCarousel depositId={deposit.id} />
         </Grid>
       </Grid>

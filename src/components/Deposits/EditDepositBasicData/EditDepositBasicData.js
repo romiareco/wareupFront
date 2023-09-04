@@ -1,65 +1,41 @@
-import React, { useState, useEffect } from "react";
-import { Grid, TextField } from "@mui/material";
-import InputLabel from "@mui/material/InputLabel";
-import { Company, Common } from "../../../../api";
-import { ThemeProvider } from "@mui/material/styles";
 import {
-  MenuItem,
-  FormControl,
-  Select,
-  FormHelperText,
+  Grid,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  TextField,
+  Typography,
   Divider,
+  FormControl,
+  InputLabel,
+  FormHelperText,
+  Select,
+  MenuItem,
 } from "@mui/material";
-import { useAuth } from "../../../../hooks";
-import theme from "../../../../theme/theme";
+import { Container, ThemeProvider, styled } from "@mui/system";
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import { useFormik } from "formik";
-import { validationSchema } from "../../Forms/BasicDepositData.form";
-import { currencies } from "../../../../utils/enums";
-import { isFormComplete } from "./BasicDepositData.utils";
+import { useAuth } from "../../../hooks";
+import { Common, Company, Deposit, User } from "../../../api";
+import React, { useState, useEffect } from "react";
+import { NotificationSnackbar } from "../../NotificationSnackbar";
+import {
+  editValues,
+  validationSchema,
+} from "../../Forms/Forms/BasicDepositData.form";
+import { currencies } from "../../../utils/enums";
 
-const companyController = new Company();
+const depositController = new Deposit();
 const commonController = new Common();
+const userController = new User();
 
-export function BasicDepositData({ formInformation, initialValues }) {
-  const formik = useFormik({
-    initialValues: initialValues,
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      formInformation(values);
-    },
-  });
-
-  const [formData, setFormData] = React.useState({
-    companyId: "",
-    street: "",
-    postalCode: 0,
-    totalM3: 0,
-    departmentId: "",
-    cityId: "",
-    expectedPrice: 0,
-    description: "",
-    currency: "",
-  });
-
-  const handleFieldChange = (fieldName, value) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [fieldName]: value,
-    }));
-    formik.setFieldValue(fieldName, value);
-  };
-
-  React.useEffect(() => {
-    if (isFormComplete(formData)) {
-      formInformation(formData);
-    }
-  }, [formData, formInformation]);
-
-  useEffect(() => {
-    setFormData(initialValues);
-  }, [initialValues]);
-
-  const { accessToken } = useAuth();
+export function EditDepositBasicData({ deposit }) {
+  const { accessToken, user } = useAuth();
+  const [isEditing, setIsEditing] = useState(false);
+  const [notificationOpen, setNotificationOpen] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notificationSeverity, setNotificationSeverity] = useState("success");
 
   const [companies, setCompanies] = useState([]);
   const [departments, setDepartments] = useState([]);
@@ -94,8 +70,9 @@ export function BasicDepositData({ formInformation, initialValues }) {
           })
         );
         setDepartments(transformedDepartments);
-        const companiesResponse = await companyController.getAllActiveCompanies(
-          accessToken
+        const companiesResponse = await userController.getUserCompanies(
+          accessToken,
+          user.id
         );
         const companiesData = companiesResponse.companies || [];
         const transformedCompanies = companiesData.map((company) => ({
@@ -107,11 +84,49 @@ export function BasicDepositData({ formInformation, initialValues }) {
         console.error(error);
       }
     })();
-  }, [accessToken]);
+  }, [accessToken, user.id]);
+
+  const formik = useFormik({
+    initialValues: editValues(deposit),
+    validationSchema: validationSchema(),
+    onSubmit: async (formValue) => {
+      try {
+        formValue.id = deposit.id;
+        formValue.status = deposit.status;
+        await depositController.updateDeposit(accessToken, formValue);
+
+        setNotificationMessage("Depósito actualizado exitosamente");
+        setNotificationSeverity("success");
+        setNotificationOpen(true);
+
+        setIsEditing(false);
+      } catch (error) {
+        setNotificationMessage(error.message);
+        setNotificationSeverity("error");
+        setNotificationOpen(true);
+      }
+    },
+  });
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    formik.resetForm();
+  };
 
   return (
-    <ThemeProvider theme={theme}>
-      <form>
+    <ThemeProvider>
+      <CardContent>
+        <Typography
+          variant="h5"
+          component="div"
+          style={{ marginTop: "8px", marginBottom: "16px" }}
+        >
+          Datos del depósito{" "}
+        </Typography>
         <Grid container spacing={3} alignItems="center">
           <Grid item xs={12}>
             <FormControl
@@ -125,9 +140,9 @@ export function BasicDepositData({ formInformation, initialValues }) {
                 value={formik.values.companyId}
                 onChange={(e) => {
                   formik.handleChange(e);
-                  handleFieldChange("companyId", e.target.value);
                 }}
                 onBlur={formik.handleBlur}
+                disabled={!isEditing}
               >
                 {companies.length > 0 ? (
                   companies.map((company) => (
@@ -158,8 +173,8 @@ export function BasicDepositData({ formInformation, initialValues }) {
               value={formik.values.street}
               onChange={(e) => {
                 formik.handleChange(e);
-                handleFieldChange("street", e.target.value);
               }}
+              disabled={!isEditing}
               onBlur={formik.handleBlur}
               variant="outlined"
               required
@@ -176,10 +191,10 @@ export function BasicDepositData({ formInformation, initialValues }) {
               value={formik.values.postalCode}
               onChange={(e) => {
                 formik.handleChange(e);
-                handleFieldChange("postalCode", parseInt(e.target.value));
               }}
               onBlur={formik.handleBlur}
               variant="outlined"
+              disabled={!isEditing}
               error={formik.errors.postalCode}
               helperText={formik.errors.postalCode}
             />
@@ -196,10 +211,10 @@ export function BasicDepositData({ formInformation, initialValues }) {
                 value={formik.values.departmentId}
                 onChange={(event) => {
                   formik.handleChange(event);
-                  handleFieldChange("departmentId", event.target.value);
                   handleDepartmentChange(event);
                 }}
                 onBlur={formik.handleBlur}
+                disabled={!isEditing}
               >
                 {departments.length > 0 ? (
                   departments.map((department) => (
@@ -231,8 +246,8 @@ export function BasicDepositData({ formInformation, initialValues }) {
                 value={formik.values.cityId}
                 onChange={(event) => {
                   formik.handleChange(event);
-                  handleFieldChange("cityId", event.target.value);
                 }}
+                disabled={!isEditing}
                 onBlur={formik.handleBlur}
               >
                 {cities.map((city) => (
@@ -249,7 +264,7 @@ export function BasicDepositData({ formInformation, initialValues }) {
           <Grid item xs={12}>
             <Divider textAlign="middle" />
           </Grid>
-          <Grid item xs={1} >
+          <Grid item xs={2}>
             <FormControl
               fullWidth
               error={formik.touched.currency && formik.errors.currency}
@@ -258,11 +273,8 @@ export function BasicDepositData({ formInformation, initialValues }) {
               <Select
                 name="currency"
                 label="Moneda"
+                disabled={!isEditing}
                 value={formik.values.currency}
-                onChange={(e) => {
-                  formik.handleChange(e);
-                  handleFieldChange("currency", e.target.value);
-                }}
                 onBlur={formik.handleBlur}
               >
                 {currencies.map((currency) => (
@@ -282,10 +294,10 @@ export function BasicDepositData({ formInformation, initialValues }) {
               type="number"
               name="expectedPrice"
               label="Precio"
+              disabled={!isEditing}
               value={formik.values.expectedPrice}
               onChange={(e) => {
                 formik.handleChange(e);
-                handleFieldChange("expectedPrice", parseInt(e.target.value));
               }}
               onBlur={formik.handleBlur}
               variant="outlined"
@@ -300,11 +312,10 @@ export function BasicDepositData({ formInformation, initialValues }) {
               type="number"
               name="totalM3"
               label="Total metros cúbicos"
+              disabled={!isEditing}
               value={formik.values.totalM3}
               onChange={(e) => {
                 formik.handleChange(e);
-                
-                handleFieldChange("totalM3", parseInt(e.target.value));
               }}
               onBlur={formik.handleBlur}
               variant="outlined"
@@ -325,10 +336,10 @@ export function BasicDepositData({ formInformation, initialValues }) {
               name="description"
               label="Descripción"
               variant="outlined"
+              disabled={!isEditing}
               value={formik.values.description}
               onChange={(e) => {
                 formik.handleChange(e);
-                handleFieldChange("description", e.target.value);
               }}
               required
               onBlur={formik.handleBlur}
@@ -351,7 +362,34 @@ export function BasicDepositData({ formInformation, initialValues }) {
             />
           </Grid>
         </Grid>
-      </form>
+
+        <Box mt={2} display="flex" justifyContent="center" gap={2}>
+          {!isEditing ? (
+            <Button
+              variant="contained"
+              onClick={handleEdit}
+              startIcon={<EditRoundedIcon />}
+            >
+              Editar empresa
+            </Button>
+          ) : (
+            <React.Fragment>
+              <Button variant="contained" onClick={formik.handleSubmit}>
+                Guardar cambios
+              </Button>
+              <Button variant="contained" onClick={handleCancel}>
+                Cancelar
+              </Button>
+            </React.Fragment>
+          )}
+        </Box>
+      </CardContent>
+      <NotificationSnackbar
+        open={notificationOpen}
+        onClose={() => setNotificationOpen(false)}
+        severity={notificationSeverity}
+        message={notificationMessage}
+      />
     </ThemeProvider>
   );
 }

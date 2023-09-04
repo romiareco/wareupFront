@@ -45,7 +45,9 @@ export function RegisterCompany() {
 
         resetForm();
       } catch (error) {
-        setNotificationMessage(error.message);
+        const errorMessage =
+        "Error en el servidor: " + JSON.stringify(error.message);
+        setNotificationMessage(errorMessage);
         setNotificationSeverity("error");
         setNotificationOpen(true);
       }

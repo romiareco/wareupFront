@@ -10,7 +10,7 @@ export const columns = (handleEdit, handleDelete, handleImage, handlePreview) =>
   { id: "description", label: "Descripción", minWidth: 170 },
   {
     id: "totalM3",
-    label: "Total M3",
+    label: "Total m3",
     minWidth: 75,
   },
   {
@@ -28,14 +28,18 @@ export const columns = (handleEdit, handleDelete, handleImage, handlePreview) =>
     label: "Dirección",
     minWidth: 100,
   },
-
+  {
+    id: "postalCode",
+    label: "Código postal",
+    minWidth: 50,
+  },
   {
     id: "businessName",
     label: "Empresa",
     minWidth: 50,
   },
   {
-    id: "cityId",
+    id: "cityName",
     label: "Barrio/Ciudad",
     minWidth: 50,
   },

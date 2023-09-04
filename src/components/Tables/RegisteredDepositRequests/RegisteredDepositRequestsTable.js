@@ -11,10 +11,16 @@ import { RequestDeposit } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { useState, useEffect } from "react";
 import { columns } from "./RegisteredDepositRequestsTableColumns";
-import { RemoveUserDialog, EditUserInformationDialog } from "../../Dialogs";
+import { ChangeRequestDepositStatusDialog } from "../../Dialogs";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
-import { mapDepositRequestStatus } from "../../../utils/mapFunctions";
+import {
+  mapDepositRequestInformation,
+  mapDepositRequestStatus,
+} from "../../../utils/mapFunctions";
+import { depositRequestStatus } from "../../../utils";
+import { AcceptRequestDeposit } from "../../Dialogs/ChangeRequestDepositStatus/AcceptRequestDeposit/AcceptRequestDeposit";
+import { CancelRequestDeposit } from "../../Dialogs/ChangeRequestDepositStatus/CancelRequestDeposit/CancelRequestDeposit";
 
 const controller = new RequestDeposit();
 
@@ -42,11 +48,11 @@ export function RegisteredDepositRequestsTable() {
     setIsRejectDialogOpen(true);
     setIsAcceptDialogOpen(false); // Ce
   };
-  const handleEditDialogOpenChange = (isOpen) => {
+  const handleAcceptDialogOpenChange = (isOpen) => {
     setIsAcceptDialogOpen(isOpen);
   };
 
-  const handleRemoveDialogOpenChange = (isOpen) => {
+  const handleRejectDialogOpenChange = (isOpen) => {
     setIsRejectDialogOpen(isOpen);
   };
 
@@ -62,10 +68,14 @@ export function RegisteredDepositRequestsTable() {
   useEffect(() => {
     (async () => {
       try {
-        const response = await controller.getAllRequestDeposits(
-          accessToken
-        );
-        setRequestDeposits(response.depositRequests);
+        const response = await controller.getAllRequestDeposits(accessToken);
+
+        if (response.depositRequests) {
+          const filteredInformation = mapDepositRequestInformation(
+            response.depositRequests
+          );
+          setRequestDeposits(filteredInformation);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -141,15 +151,15 @@ export function RegisteredDepositRequestsTable() {
                 </TableRow>
               )}
             </TableBody>
-            <EditUserInformationDialog
+            <AcceptRequestDeposit
               selectedUser={selectedAcceptRequest}
               openDialog={isAcceptDialogOpen}
-              onDialogOpenChange={handleEditDialogOpenChange} // Pasa la función de devolución de llamada
+              onDialogOpenChange={handleAcceptDialogOpenChange}
             />
-            <RemoveUserDialog
-              selectedUser={selectedRejectRequest}
+            <CancelRequestDeposit
+              selectedRequestDeposit={selectedRejectRequest}
               openDialog={isRejectDialogOpen}
-              onDialogOpenChange={handleRemoveDialogOpenChange} // Pasa la función de devolución de llamada
+              onDialogOpenChange={handleRejectDialogOpenChange}
             />
           </Table>
         </TableContainer>

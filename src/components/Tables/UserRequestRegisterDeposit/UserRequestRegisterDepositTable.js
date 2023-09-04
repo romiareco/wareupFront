@@ -14,8 +14,7 @@ import { columns } from "./UserRequestRegisterDepositTableColumns";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
 import { mapDepositRequestInformation, mapDepositRequestStatus } from "../../../utils/mapFunctions";
-import { ChangeRequestDepositStatusDialog } from "../../Dialogs/ChangeRequestDepositStatusDialog/ChangeRequestDepositStatusDialog";
-import { depositRequestStatus } from "../../../utils";
+import { CancelRequestDeposit } from "../../Dialogs";
 
 const controller = new RequestDeposit();
 
@@ -25,7 +24,6 @@ export function UserRequestRegisterDepositTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [requestDeposits, setRequestDeposits] = useState(null);
-  const [isAcceptDialogOpen, setIsAcceptDialogOpen] = useState(false);
   const [selectedRequestDeposit, setSelectedRequestDeposit] = useState(null);
   const [isChangeStatusDialogOpen, setIsChangeStatusDialogOpen] = useState(false);
 
@@ -134,11 +132,10 @@ export function UserRequestRegisterDepositTable() {
                 </TableRow>
               )}
             </TableBody>
-            <ChangeRequestDepositStatusDialog
+            <CancelRequestDeposit
               selectedRequestDeposit={selectedRequestDeposit}
               openDialog={isChangeStatusDialogOpen}
               onDialogOpenChange={handleChangeStatusDialogOpenChange}
-              requestDepositStatus={depositRequestStatus.CANCELED}
             />
           </Table>
         </TableContainer>

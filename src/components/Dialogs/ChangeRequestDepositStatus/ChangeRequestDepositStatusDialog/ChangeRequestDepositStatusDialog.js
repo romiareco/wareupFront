@@ -10,9 +10,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
-import { useAuth } from "../../../hooks";
-import { NotificationSnackbar } from "../../NotificationSnackbar";
-import { RequestDeposit } from "../../../api";
+import { useAuth } from "../../../../hooks";
+import { NotificationSnackbar } from "../../../NotificationSnackbar";
+import { RequestDeposit } from "../../../../api";
 
 export function ChangeRequestDepositStatusDialog({
   selectedRequestDeposit,
@@ -69,12 +69,12 @@ export function ChangeRequestDepositStatusDialog({
         aria-labelledby="responsive-dialog-title"
       >
         <DialogTitle id="responsive-dialog-title">
-          {"Cancelar solicitud de registro"}
+          {"Actualizar solicitud de registro"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
             {selectedRequestDeposit
-              ? `¿Desea cancelar la solicitud de registro con id ${selectedRequestDeposit.id}?`
+              ? `¿Desea ${requestDepositStatus} la solicitud de registro con id ${selectedRequestDeposit.id}?`
               : ""}
           </DialogContentText>
         </DialogContent>

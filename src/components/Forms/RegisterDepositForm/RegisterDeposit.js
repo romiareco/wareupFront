@@ -36,7 +36,7 @@ const steps = [
   "Agregar disponibilidad",
 ];
 
-//TODO: pendiente agregar paso  "Agregar disponibilidad"
+//TODO: pendiente agregar paso "Agregar disponibilidad"
 
 const storageController = new Deposit();
 
@@ -66,7 +66,7 @@ export function RegisterDeposit() {
     const data = buildStructuredBodyData(steps, formData);
     (async () => {
       try {
-        setIsRegistering(true); // Comienza a mostrar el CircularProgress
+        setIsRegistering(true);
 
         const response = await storageController.register(accessToken, data);
 
@@ -74,16 +74,16 @@ export function RegisterDeposit() {
         setNotificationSeverity("success");
         setNotificationOpen(true);
 
-        setDepositCreated(response.deposit.id);
+        setDepositCreated(response.deposit);
 
-        setIsRegistering(false); // Comienza a mostrar el CircularProgress
+        setIsRegistering(false);
       } catch (error) {
         console.log(error.message);
         setNotificationMessage(error.message);
         setNotificationSeverity("error");
         setNotificationOpen(true);
 
-        setIsRegistering(false); // Comienza a mostrar el CircularProgress
+        setIsRegistering(false);
       }
     })();
   };
@@ -123,7 +123,7 @@ export function RegisterDeposit() {
         return <RegisterDepositServices formInformation={handleStepSubmit} />;
       case 2:
         //TODO: pendiente definir el form de disponibilidad
-        return <Typography>Hola!</Typography>;
+        return <Typography variant="h2">Próximamente...</Typography>;
       default:
         return null;
     }
@@ -227,7 +227,7 @@ export function RegisterDeposit() {
                 onClick={handleBack}
                 sx={{ mr: 1 }}
               >
-                Back
+                Atrás
               </Button>
               <Box sx={{ flex: "1 1 auto" }} />
               <Button
@@ -239,9 +239,9 @@ export function RegisterDeposit() {
                 {isRegistering ? (
                   <CircularProgress size={24} />
                 ) : activeStep === steps.length - 1 ? (
-                  "Finish"
+                  "Finalizar"
                 ) : (
-                  "Next"
+                  "Siguiente"
                 )}
               </Button>
             </Box>
@@ -252,6 +252,13 @@ export function RegisterDeposit() {
           onClose={handleCloseDialog}
           fullWidth={true}
           maxWidth={"sm"}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+          }}
         >
           <DialogTitle>Agregar imágenes a depósito</DialogTitle>
           <DialogContent>

@@ -1,3 +1,4 @@
+import { companyStatus } from "../utils";
 import { ENV } from "../utils/constant";
 
 export class User {
@@ -47,7 +48,7 @@ export class User {
       const response = await fetch(url, params);
       const result = await response.json();
 
-      if (response.status !== 201) throw response;
+      if (response.status !== 200) throw response;
       if (result && result.hasError) throw result;
 
       return result;
@@ -92,23 +93,9 @@ export class User {
     }
   }
 
-  //TODO: hacer método o ver de eliminarlo sino sirve
-  async requestDepositRegistration(data) {
-    try {
-      //TODO: pending backend endpoint
-      console.log(data);
-    } catch (exception) {
-      console.error(
-        "Hubo un error en la respuesta del servidor. Error: " + exception.msg
-      );
-      throw exception;
-    }
-  }
-
   async getUserCompanies(accessToken, userId) {
     try {
       const url = `${this.baseApi}/${ENV.API_ROUTES.USER_COMPANY}/${userId}`;
-      console.log("GetUserCompanies URL: " + url);
       const params = {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -131,6 +118,35 @@ export class User {
     }
   }
 
+  async getUserActiveCompanies(accessToken, userId) {
+    try {
+      const url = `${this.baseApi}/${ENV.API_ROUTES.USER_COMPANY}/${userId}`;
+      const params = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          status: companyStatus.ACTIVE
+        }),
+      };
+
+      const response = await fetch(url, params);
+      const result = await response.json();
+
+      if (response.status !== 200) throw response;
+      if (result && result.hasError) throw result;
+
+      return result;
+    } catch (error) {
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
+      throw error;
+    }
+  }
+
+
   async updatePassword(data, tokenParam) {
     console.log(data);
     try {
@@ -150,7 +166,7 @@ export class User {
       console.log(response);
       const result = await response.json();
 
-      if (response.status !== 201) throw response;
+      if (response.status !== 200) throw response;
       if (result && result.hasError) throw result;
 
       return result;
@@ -182,7 +198,7 @@ export class User {
       const response = await fetch(url, params);
       const result = await response.json();
 
-      if (response.status !== 201) throw response;
+      if (response.status !== 200) throw response;
       if (result && result.hasError) throw result;
 
       return result;

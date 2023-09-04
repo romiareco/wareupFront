@@ -43,12 +43,16 @@ export function DepositImageCarousel({ depositId }) {
           color: "#494949",
         }}
       >
-        <Carousel>
+        <Carousel
+          sx={{
+            width: "100%", // Ancho del Carousel al 100% del contenedor
+            height: "300px", // Altura del Carousel (ajusta según tus necesidades)
+          }}
+        >
           {images.length === 0 ? (
-           
-              <Typography sx={theme.typography.montserratFont}>
-                No se han agregado imágenes aún..
-              </Typography>
+            <Typography sx={theme.typography.montserratFont}>
+              No se han agregado imágenes aún..
+            </Typography>
           ) : (
             images.map((image) => {
               return <Project item={image} key={image.id} />;
