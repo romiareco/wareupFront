@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { User } from "../../../api/user";
-import { initialValues, validationSchema } from "./RegisterUser.form";
+import { initialValues, validationSchema } from "../Forms/User.form";
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -16,24 +16,34 @@ import Container from "@mui/material/Container";
 import { ThemeProvider } from "@mui/material/styles";
 import { Copyright } from "../../Copyright";
 import theme from "./../../../theme/theme"; // Importa el theme.js aquí
+import { NotificationSnackbar } from "../../NotificationSnackbar";
 
 const userController = new User();
 
 export function RegisterUser() {
-  const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [notificationOpen, setNotificationOpen] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
 
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: validationSchema(),
     validateOnChange: false,
-    onSubmit: async (formValue) => {
+    onSubmit: async (formValue, { resetForm }) => {
       try {
-        setError("");
         await userController.register(formValue);
-        navigate("/users/login");
+        setNotificationMessage("Registro exitoso");
+        setNotificationSeverity("success");
+        setNotificationOpen(true);
+
+        resetForm();
       } catch (error) {
-        setError("Error en el servidor", error);
+        const errorMessage =
+          "Error en el servidor: " + JSON.stringify(error.message);
+        setNotificationMessage(errorMessage);
+        setNotificationSeverity("error");
+        setNotificationOpen(true);
       }
     },
   });
@@ -142,7 +152,7 @@ export function RegisterUser() {
                       helperText={formik.errors.conditionsAccepted}
                     />
                   }
-                  label="He leído y acepto las poíticas de privacidad."
+                  label="He leído y acepto las políticas de privacidad."
                 />
               </Grid>
             </Grid>
@@ -169,9 +179,14 @@ export function RegisterUser() {
             </Grid>
           </Box>
         </Box>
-        <p className="register-form__error">{error}</p>
         <Copyright sx={{ mt: 5 }} />
       </Container>
+      <NotificationSnackbar
+        open={notificationOpen}
+        onClose={() => setNotificationOpen(false)}
+        severity={notificationSeverity}
+        message={notificationMessage}
+      />
     </ThemeProvider>
   );
 }

@@ -21,10 +21,11 @@ export class Auth {
       const result = await response.json();
 
       if (response.status !== 200) throw result;
+      if (result && result.hasError) throw result;
 
       return result;
     } catch (exception) {
-      console.error("Hubo un error en la respuesta del servidor. Error: " + exception.msg)
+      console.error("Hubo un error en la respuesta del servidor. Error: " + exception.message)
       throw exception;
     }
   }
@@ -46,9 +47,11 @@ export class Auth {
       const result = await response.json();
 
       if (response.status !== 200) throw result;
+      if (result && result.hasError) throw result;
 
       return result;
     } catch (error) {
+      console.error("Hubo un error en la respuesta del servidor. Error: " + error.message)
       throw error;
     }
   }

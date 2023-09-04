@@ -1,75 +1,118 @@
-import React from "react";
+import React, { useState } from "react";
+import { Logout } from "../components/Logout";
 import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+import { IconButton, Button, Box, Menu, MenuItem } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import {Logout} from "../components/Logout";
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import { Link } from 'react-router-dom';
+
 
 export function AdminLayout(props) {
   const { children } = props;
   const theme = useTheme();
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const buttons = [
     { label: "Gestionar usuarios", href: "/admin/manage-users" },
-    { label: "Gestionar depósitos", href: "/admin/manage-deposits" },
+    {
+      label: "Gestionar depósitos",
+      menuItems: [
+        { label: "Agregar nuevo depósito", href: "/admin/register-deposit" },
+        { label: "Listado de depósitos", href: "/admin/manage-deposits" },
+      ],
+    },
     { label: "Gestionar solicitudes", href: "/admin/manage-requests" },
   ];
 
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
-    <div className="admin-layout">
-      <div className="admin-layout__right">
-        <div className="u-header">
-          <AppBar position="static">
-            <Box width="100%">
-              <Toolbar disableGutters>
-                <Typography
-                  variant="h6"
-                  noWrap
-                  component="a"
-                  href="/admin/home"
-                  sx={{
-                    mr: 2,
-                    ml: 2,
-                    fontFamily: "monospace",
-                    fontWeight: 700,
-                    letterSpacing: ".3rem",
-                    color: "inherit",
-                    textDecoration: "none",
-                  }}
-                >
-                  WARE UP
-                </Typography>
+    <ThemeProvider theme={theme}>
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        <AppBar component="nav">
+          <Toolbar>
+            <IconButton href="/admin/home" color={"inherit"}>
+              <HomeRoundedIcon />
+            </IconButton>
 
-                <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                  {buttons.map((button, index) => (
-                    <Button
-                      key={index}
-                      href={button.href}
-                      sx={{
-                        my: 2,
-                        color:
-                          theme.components.MuiButton.styleOverrides
-                            .containedPrimary,
-                        display: "block",
-                        ml: index > 0 ? 1 : 0, // Aplicar margen izquierdo solo a partir del segundo botón
-                      }}
-                    >
-                      {button.label}
-                    </Button>
-                  ))}
-                </Box>
+            {buttons.map((button, index) => (
+              <Box key={index}>
+                {button.menuItems ? (
+                  <Button
+                    id={`menu-button-${index}`}
+                    aria-controls={`menu-${index}`}
+                    aria-haspopup="true"
+                    onClick={handleClick}
+                    sx={{
+                      color:
+                        theme.components.MuiButton.styleOverrides
+                          .containedPrimary,
+                    }}
+                  >
+                    {button.label}
+                  </Button>
+                ) : (
+                  <Button
+                    href={button.href}
+                    sx={{
+                      my: 2,
+                      color:
+                        theme.components.MuiButton.styleOverrides
+                          .containedPrimary,
+                      display: "block",
+                      ml: index > 0 ? 1 : 0,
+                    }}
+                  >
+                    {button.label}
+                  </Button>
+                )}
+                {button.menuItems && (
+                  <Menu
+                    id={`menu-${index}`}
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "left",
+                    }}
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "left",
+                    }}
+                  >
+                    {button.menuItems.map((menuItem, menuItemIndex) => (
+                      <MenuItem
+                        key={menuItemIndex}
+                        onClick={() => {
+                          handleClose();
+                        }}
+                      >
+    <Link to={menuItem.href} style={{ textDecoration: 'none' }}>{menuItem.label}</Link>
+                      </MenuItem>
+                    ))}
+                  </Menu>
+                )}
+              </Box>
+            ))}
 
-                <Box sx={{ flexGrow: 0 }}>
-                  <Logout />
-                </Box>
-              </Toolbar>
-            </Box>
-          </AppBar>
-        </div>
-        <div className="admin-layout__right-content">{children}</div>
-      </div>
-    </div>
+            <Box sx={{ flexGrow: 1 }} />
+            <Logout />
+          </Toolbar>
+        </AppBar>
+        <Toolbar />
+      </Box>
+      <Box>{children}</Box>
+    </ThemeProvider>
   );
 }

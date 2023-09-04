@@ -1,126 +1,128 @@
-import React from "react";
+import React, { useState } from "react";
 import { Logout } from "../components/Logout";
-import { UserProfileBttn } from "../components/Buttons";
+import { UserProfileButton } from "../components/Button";
 import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
+import { IconButton, Box, Button, Menu, MenuItem } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import { Link } from "react-router-dom";
+import { PublicationView } from "../pages";
 
 export function UserLayout(props) {
   const { children } = props;
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
   const theme = useTheme();
+  const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
-  // Definir la lista de botones
   const buttons = [
-    { label: "Tengo espacio", href: "/users/has-storage" },
-    { label: "Gestionar mis espacios", href: "/users/my-storages" },
+    { label: "Tengo espacio", href: "/users/request-deposit" },
+    {
+      label: "Gestionar mis espacios",
+      menuItems: [
+        {
+          label: "Listado de solicitudes de depósito",
+          href: "/users/my-deposit-requests",
+        },
+        { label: "Listado de depósitos", href: "/users/my-deposits" },
+      ],
+    },
     { label: "Gestionar mis empresas", href: "/users/my-companies" },
-    { label: "Contactanos", href: "/users/contacts" },
   ];
 
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
-    <div className="user-layout">
-      <div className="user-layout__right">
-        <div className="u-header">
-          <AppBar position="static">
-            <Box width="100%"> {/* Hacer que la Toolbar ocupe todo el ancho del monitor */}
-              <Toolbar disableGutters>
-                <Typography
-                  variant="h6"
-                  noWrap
-                  component="a"
-                  href="/users/home"
-                  sx={{
-                    mr: 2,
-                    ml: 2,
-                    fontFamily: "monospace",
-                    fontWeight: 700,
-                    letterSpacing: ".3rem",
-                    color: "inherit",
-                    textDecoration: "none",
-                  }}
-                >
-                  WARE UP
-                </Typography>
+    <ThemeProvider theme={theme}>
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        <AppBar component="nav">
+          <Toolbar>
+            <IconButton href="/users/home" color={"inherit"}>
+              <HomeRoundedIcon />
+            </IconButton>
 
-                <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                  {buttons.map((button, index) => (
-                    <Button
-                      key={index}
-                      href={button.href}
-                      sx={{
-                        my: 2,
-                        color:
-                          theme.components.MuiButton.styleOverrides
-                            .containedPrimary,
-                        display: "block",
-                        ml: index > 0 ? 1 : 0, // Aplicar margen izquierdo solo a partir del segundo botón
-                      }}
-                    >
-                      {button.label}
-                    </Button>
-                  ))}
-                </Box>
-
-                <Box sx={{ flexGrow: 0 }}>
-                  <Tooltip title="Open settings">
-                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, marginRight: 2 }}>
-                      <Avatar
-                        alt="Remy Sharp"
-                        src="/static/images/avatar/2.jpg"
-                      />
-                    </IconButton>
-                  </Tooltip>
-                  <Menu
+            {buttons.map((button, index) => (
+              <Box key={index}>
+                {button.menuItems ? (
+                  <Button
+                    id={`menu-button-${index}`}
+                    aria-controls={`menu-${index}`}
+                    aria-haspopup="true"
+                    onClick={handleClick}
                     sx={{
-                      mt: "45px",
-                      right: 0, // Alinear el menú hacia la derecha
-                      "& .MuiListItem-root": {
-                        color: theme.palette.text.primary,
-                        "&:hover": {
-                          backgroundColor: theme.palette.action.hover,
-                        },
-                      },
+                      color:
+                        theme.components.MuiButton.styleOverrides
+                          .containedPrimary,
                     }}
-                    id="menu-appbar"
-                    anchorEl={anchorElUser}
+                  >
+                    {button.label}
+                  </Button>
+                ) : (
+                  <Button
+                    href={button.href}
+                    sx={{
+                      my: 2,
+                      color:
+                        theme.components.MuiButton.styleOverrides
+                          .containedPrimary,
+                      display: "block",
+                      ml: index > 0 ? 1 : 0,
+                    }}
+                  >
+                    {button.label}
+                  </Button>
+                )}
+                {button.menuItems && (
+                  <Menu
+                    id={`menu-${index}`}
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
                     anchorOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
+                      vertical: "bottom",
+                      horizontal: "left",
                     }}
-                    keepMounted
                     transformOrigin={{
                       vertical: "top",
-                      horizontal: "right",
+                      horizontal: "left",
                     }}
-                    open={Boolean(anchorElUser)}
-                    onClose={handleCloseUserMenu}
                   >
-                    <UserProfileBttn />
-                    <Logout />
+                    {button.menuItems.map((menuItem, menuItemIndex) => (
+                      <MenuItem
+                        key={menuItemIndex}
+                        onClick={() => {
+                          handleClose();
+                        }}
+                      >
+                        <Link
+                          to={menuItem.href}
+                          style={{ textDecoration: "none" }}
+                        >
+                          {menuItem.label}
+                        </Link>
+                      </MenuItem>
+                    ))}
                   </Menu>
-                </Box>
-              </Toolbar>
-            </Box>
-          </AppBar>
-        </div>
-        <div className="user-layout__right-content">{children}</div>
-      </div>
-    </div>
+                )}
+              </Box>
+            ))}
+
+            <Box sx={{ flexGrow: 1 }} />
+            <UserProfileButton />
+            <Logout />
+          </Toolbar>
+        </AppBar>
+        <Toolbar />
+      </Box>
+      <Box>{children}</Box>
+    </ThemeProvider>
   );
 }

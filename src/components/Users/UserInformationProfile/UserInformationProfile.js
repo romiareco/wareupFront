@@ -8,23 +8,19 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/system";
-import EditIcon from "@mui/icons-material/Edit";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useAuth } from "../../../hooks";
 import { User } from "../../../api/user";
 import React, { useState } from "react";
-
+import { NotificationSnackbar } from "../../NotificationSnackbar";
+import { initialValues } from "../../Forms/Forms/User.form";
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
 const CardContainer = styled(Card)`
   height: 100%;
   width: 100%;
   display: flex;
   justify-content: center;
-`;
-
-const ProfileIcon = styled(EditIcon)`
-  vertical-align: middle;
-  margin-right: 8px;
 `;
 
 export function validationSchema() {
@@ -39,37 +35,41 @@ export function validationSchema() {
 
 const userController = new User();
 
-export function UserInformationProfile() {
-  const { user } = useAuth();
+export function UserInformationProfile({ user }) {
+  const { accessToken } = useAuth();
   const [isEditing, setIsEditing] = useState(false); // Nuevo estado para controlar la edición
-  const [error, setError] = useState("");
+  const [notificationOpen, setNotificationOpen] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
 
   const formik = useFormik({
-    initialValues: {
-      name: user.name || "",
-      lastName: user.lastName || "",
-      email: user.email || "",
-    },
+    initialValues: initialValues(user),
     validationSchema: validationSchema(),
-    onSubmit: async (values) => {
+    onSubmit: async (formValue) => {
       try {
-        setError("");
-        values.id = user.id;
-        await userController.updateUser(values);
+        formValue.id = user.id;
+        await userController.updateUser(accessToken, formValue);
+
+        setNotificationMessage("Usuario actualizado exitosamente");
+        setNotificationSeverity("success");
+        setNotificationOpen(true);
+
+        setIsEditing(false);
       } catch (error) {
-        setError("Error en el servidor: " + error);
+        setNotificationMessage(error.message);
+        setNotificationSeverity("error");
+        setNotificationOpen(true);
       }
-      console.log(values);
     },
   });
 
   const handleEdit = () => {
-    setIsEditing(true); 
+    setIsEditing(true);
   };
 
   const handleCancel = () => {
-    setIsEditing(false); 
-    formik.resetForm(); 
+    setIsEditing(false);
+    formik.resetForm();
   };
 
   return (
@@ -80,8 +80,7 @@ export function UserInformationProfile() {
           component="div"
           style={{ marginTop: "8px", marginBottom: "16px" }}
         >
-          <ProfileIcon />
-          Perfil de Usuario
+          Datos personales
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -126,7 +125,7 @@ export function UserInformationProfile() {
 
         <Box mt={2} display="flex" justifyContent="center" gap={2}>
           {!isEditing ? (
-            <Button variant="contained" onClick={handleEdit}>
+            <Button variant="contained" onClick={handleEdit} startIcon={<EditRoundedIcon />}>
               Editar perfil
             </Button>
           ) : (
@@ -139,9 +138,14 @@ export function UserInformationProfile() {
               </Button>
             </React.Fragment>
           )}
-          <p className="update-user-form__error">{error}</p>
         </Box>
       </CardContent>
+      <NotificationSnackbar
+        open={notificationOpen}
+        onClose={() => setNotificationOpen(false)}
+        severity={notificationSeverity}
+        message={notificationMessage}
+      />
     </CardContainer>
   );
 }
