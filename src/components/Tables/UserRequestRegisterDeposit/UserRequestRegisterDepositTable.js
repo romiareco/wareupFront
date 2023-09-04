@@ -7,16 +7,17 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { Deposit } from "../../../api";
+import { RequestDeposit } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { useState, useEffect } from "react";
 import { columns } from "./UserRequestRegisterDepositTableColumns";
-import { RemoveUserDialog, EditUserInformationDialog } from "../../Dialogs";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
-import { mapDepositRequestStatus } from "../../../utils/mapFunctions";
+import { mapDepositRequestInformation, mapDepositRequestStatus } from "../../../utils/mapFunctions";
+import { ChangeRequestDepositStatusDialog } from "../../Dialogs/ChangeRequestDepositStatusDialog/ChangeRequestDepositStatusDialog";
+import { depositRequestStatus } from "../../../utils";
 
-const depositController = new Deposit();
+const controller = new RequestDeposit();
 
 export function UserRequestRegisterDepositTable() {
   const { accessToken, user } = useAuth();
@@ -25,29 +26,16 @@ export function UserRequestRegisterDepositTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [requestDeposits, setRequestDeposits] = useState(null);
   const [isAcceptDialogOpen, setIsAcceptDialogOpen] = useState(false);
-  const [selectedAcceptRequest, setSelectedAcceptRequest] = useState(null);
-  const [selectedRejectRequest, setSelectedRejectRequest] = useState(null);
-  const [isRejectDialogOpen, setIsRejectDialogOpen] = useState(false);
+  const [selectedRequestDeposit, setSelectedRequestDeposit] = useState(null);
+  const [isChangeStatusDialogOpen, setIsChangeStatusDialogOpen] = useState(false);
 
-  const handleAccept = (row) => {
-    setSelectedAcceptRequest(row);
-    setSelectedRejectRequest(null); // Cerrar el diálogo de eliminación si está abierto
-    setIsAcceptDialogOpen(true);
-    setIsRejectDialogOpen(false);
+  const handleChangeStatus = (row) => {
+    setSelectedRequestDeposit(row);
+    setIsChangeStatusDialogOpen(true);
   };
 
-  const handleReject = (row) => {
-    setSelectedRejectRequest(row);
-    setSelectedAcceptRequest(null); // Cerrar el diálogo de edición si está abierto
-    setIsRejectDialogOpen(true);
-    setIsAcceptDialogOpen(false); // Ce
-  };
-  const handleEditDialogOpenChange = (isOpen) => {
-    setIsAcceptDialogOpen(isOpen);
-  };
-
-  const handleRemoveDialogOpenChange = (isOpen) => {
-    setIsRejectDialogOpen(isOpen);
+  const handleChangeStatusDialogOpenChange = (isOpen) => {
+    setIsChangeStatusDialogOpen(isOpen);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -62,11 +50,15 @@ export function UserRequestRegisterDepositTable() {
   useEffect(() => {
     (async () => {
       try {
-        const response = await depositController.getDepositsRequestsByUserId(
+        const response = await controller.getDepositsRequestsByUserId(
           accessToken,
           user.id
         );
-        setRequestDeposits(response.depositRequests);
+
+        if(response.depositRequests) {
+          const filteredInformation = mapDepositRequestInformation(response.depositRequests);
+          setRequestDeposits(filteredInformation);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -85,7 +77,7 @@ export function UserRequestRegisterDepositTable() {
           <Table stickyHeader style={{ backgroundColor: "transparent" }}>
             <TableHead>
               <TableRow>
-                {columns(handleReject).map((column) => (
+                {columns(handleChangeStatus).map((column) => (
                   <TableCell
                     key={column.id}
                     align={column.align}
@@ -117,7 +109,7 @@ export function UserRequestRegisterDepositTable() {
                             index % 2 === 0 ? "lightgray" : "white",
                         }}
                       >
-                        {columns(handleReject).map((column) => {
+                        {columns(handleChangeStatus).map((column) => {
                           const value = row[column.id];
                           return (
                             <TableCell key={column.id} align={column.align}>
@@ -142,15 +134,11 @@ export function UserRequestRegisterDepositTable() {
                 </TableRow>
               )}
             </TableBody>
-            <EditUserInformationDialog
-              selectedUser={selectedAcceptRequest}
-              openDialog={isAcceptDialogOpen}
-              onDialogOpenChange={handleEditDialogOpenChange} // Pasa la función de devolución de llamada
-            />
-            <RemoveUserDialog
-              selectedUser={selectedRejectRequest}
-              openDialog={isRejectDialogOpen}
-              onDialogOpenChange={handleRemoveDialogOpenChange} // Pasa la función de devolución de llamada
+            <ChangeRequestDepositStatusDialog
+              selectedRequestDeposit={selectedRequestDeposit}
+              openDialog={isChangeStatusDialogOpen}
+              onDialogOpenChange={handleChangeStatusDialogOpenChange}
+              requestDepositStatus={depositRequestStatus.CANCELED}
             />
           </Table>
         </TableContainer>

@@ -1,3 +1,5 @@
+
+
 import * as React from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -8,14 +10,15 @@ import DialogTitle from "@mui/material/DialogTitle";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
-import { User } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
+import { RequestDeposit } from "../../../api";
 
-export function RemoveUserDialog({
-  selectedUser,
+export function ChangeRequestDepositStatusDialog({
+  selectedRequestDeposit,
   openDialog,
   onDialogOpenChange,
+  requestDepositStatus,
 }) {
   const { accessToken } = useAuth();
   const [notificationOpen, setNotificationOpen] = useState(false);
@@ -37,18 +40,16 @@ export function RemoveUserDialog({
   };
 
   const handleAccept = async () => {
-    const userController = new User();
+    const requestDepositController = new RequestDeposit();
     try {
-      setLoading(true); // Inicia la carga
+      setLoading(true);
+      await requestDepositController.updateRequestDepositStatus(accessToken, selectedRequestDeposit.id, requestDepositStatus);
 
-
-      await userController.deleteUser(accessToken, selectedUser.id);
-
-      setNotificationMessage("Usuario actualizado exitosamente");
+      setNotificationMessage("Solicitud de registro actualizada exitosamente");
       setNotificationSeverity("success");
       setNotificationOpen(true);
 
-      setLoading(false); // Finaliza la carga, sin importar el resultado
+      setLoading(false);
       setIsDialogOpen(false);
       onDialogOpenChange(false);
     } catch (error) {
@@ -56,7 +57,7 @@ export function RemoveUserDialog({
       setNotificationSeverity("error");
       setNotificationOpen(true);
 
-      setLoading(false); // Finaliza la carga, sin importar el resultado
+      setLoading(false);
     }
   };
 
@@ -68,12 +69,12 @@ export function RemoveUserDialog({
         aria-labelledby="responsive-dialog-title"
       >
         <DialogTitle id="responsive-dialog-title">
-          {"Eliminar usuario"}
+          {"Cancelar solicitud de registro"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {selectedUser
-              ? `¿Desea eliminar el usuario ${selectedUser.name}?`
+            {selectedRequestDeposit
+              ? `¿Desea cancelar la solicitud de registro con id ${selectedRequestDeposit.id}?`
               : ""}
           </DialogContentText>
         </DialogContent>

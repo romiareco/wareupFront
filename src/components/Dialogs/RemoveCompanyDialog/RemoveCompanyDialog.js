@@ -1,19 +1,18 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
+import { Button, Typography } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
-import { User } from "../../../api";
+import { Company } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
+import CircularProgress from "@mui/material/CircularProgress";
 
-export function RemoveUserDialog({
-  selectedUser,
+export function RemoveCompanyDialog({
+  selectedCompany,
   openDialog,
   onDialogOpenChange,
 }) {
@@ -37,14 +36,13 @@ export function RemoveUserDialog({
   };
 
   const handleAccept = async () => {
-    const userController = new User();
+    const companyController = new Company();
     try {
       setLoading(true); // Inicia la carga
 
+      await companyController.delete(accessToken, selectedCompany.id);
 
-      await userController.deleteUser(accessToken, selectedUser.id);
-
-      setNotificationMessage("Usuario actualizado exitosamente");
+      setNotificationMessage("Empresa eliminada exitosamente");
       setNotificationSeverity("success");
       setNotificationOpen(true);
 
@@ -55,49 +53,53 @@ export function RemoveUserDialog({
       setNotificationMessage(error.message);
       setNotificationSeverity("error");
       setNotificationOpen(true);
-
       setLoading(false); // Finaliza la carga, sin importar el resultado
     }
   };
 
   return (
-    <Box>
-      <Dialog
-        open={isDialogOpen}
-        onClose={handleCancel}
-        aria-labelledby="responsive-dialog-title"
-      >
-        <DialogTitle id="responsive-dialog-title">
-          {"Eliminar usuario"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            {selectedUser
-              ? `¿Desea eliminar el usuario ${selectedUser.name}?`
-              : ""}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <DialogActions>
-            <Button autoFocus onClick={handleCancel}>
-              Cancelar
-            </Button>
-            {loading ? (
-              <CircularProgress size={24} />
-            ) : (
-              <Button onClick={handleAccept} autoFocus disabled={loading}>
-                Aceptar
-              </Button>
-            )}
-          </DialogActions>
-        </DialogActions>
-      </Dialog>
+    <Dialog
+      open={isDialogOpen}
+      onClose={handleCancel}
+      aria-labelledby="responsive-dialog-title"
+    >
+      <DialogTitle id="responsive-dialog-title">
+        {"Eliminar empresa"}
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          {selectedCompany ? (
+            <>
+              <Typography variant="body1">
+                {`¿Desea eliminar la empresa ${selectedCompany.businessName}?`}
+              </Typography>
+              <Typography variant="body1" paragraph>
+                Ten en cuenta que también se eliminarán los depósitos asociados.
+              </Typography>
+            </>
+          ) : (
+            ""
+          )}
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button autoFocus onClick={handleCancel}>
+          Cancelar
+        </Button>
+        {loading ? (
+          <CircularProgress size={24} />
+        ) : (
+          <Button onClick={handleAccept} autoFocus disabled={loading}>
+            Aceptar
+          </Button>
+        )}
+      </DialogActions>
       <NotificationSnackbar
         open={notificationOpen}
         onClose={() => setNotificationOpen(false)}
         severity={notificationSeverity}
         message={notificationMessage}
       />
-    </Box>
+    </Dialog>
   );
 }

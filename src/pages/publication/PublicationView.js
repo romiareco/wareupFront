@@ -1,7 +1,5 @@
 import { Container, Divider } from "@mui/material";
-import { Gallery } from "./Gallery";
-import { Description } from "./Description";
-import { Services } from "./Services";
+import { Gallery, Description, Services } from "../../components/Publication";
 import { Footer } from "../../components/Footer";
 import React from "react";
 import "../../theme/PublicationView.css";

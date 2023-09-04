@@ -5,13 +5,15 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
-import { Company } from "../../../api";
+import { Deposit } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
 
-export function RemoveCompanyDialog({
-  selectedCompany,
+export function RemoveUserDepositDialog({
+  selectedDeposit,
   openDialog,
   onDialogOpenChange,
 }) {
@@ -20,6 +22,7 @@ export function RemoveCompanyDialog({
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -34,48 +37,66 @@ export function RemoveCompanyDialog({
   };
 
   const handleAccept = async () => {
-    const companyController = new Company();
+    const depositController = new Deposit();
     try {
-      await companyController.delete(accessToken, selectedCompany.id);
+      setLoading(true); // Inicia la carga
 
-      setNotificationMessage("Empresa eliminada exitosamente");
+      await depositController.deleteDeposit(accessToken, selectedDeposit.id);
+
+      setNotificationMessage("Depósito eliminado exitosamente");
       setNotificationSeverity("success");
       setNotificationOpen(true);
+
+      setLoading(false); // Finaliza la carga, sin importar el resultado
+      setIsDialogOpen(false);
+      onDialogOpenChange(false);
     } catch (error) {
       setNotificationMessage(error.message);
       setNotificationSeverity("error");
       setNotificationOpen(true);
+
+      setLoading(false); // Finaliza la carga, sin importar el resultado
     }
   };
 
   return (
-    <Dialog
-      open={isDialogOpen}
-      onClose={handleCancel}
-      aria-labelledby="responsive-dialog-title"
-    >
-      <DialogTitle id="responsive-dialog-title">
-        {"Eliminar empresa"}
-      </DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-        {selectedCompany ? `¿Desea eliminar la empresa ${selectedCompany.businessName}?` : ""} 
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button autoFocus onClick={handleCancel}>
-          Cancelar
-        </Button>
-        <Button onClick={handleAccept} autoFocus>
-          Aceptar
-        </Button>
-      </DialogActions>
+    <Box>
+      <Dialog
+        open={isDialogOpen}
+        onClose={handleCancel}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <DialogTitle id="responsive-dialog-title">
+          {"Eliminar depósito"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {selectedDeposit
+              ? `¿Desea eliminar el depósito con id ${selectedDeposit.id}?`
+              : ""}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <DialogActions>
+            <Button autoFocus onClick={handleCancel}>
+              Cancelar
+            </Button>
+            {loading ? (
+              <CircularProgress size={24} />
+            ) : (
+              <Button onClick={handleAccept} autoFocus disabled={loading}>
+                Aceptar
+              </Button>
+            )}
+          </DialogActions>
+        </DialogActions>
+      </Dialog>
       <NotificationSnackbar
         open={notificationOpen}
         onClose={() => setNotificationOpen(false)}
         severity={notificationSeverity}
         message={notificationMessage}
       />
-    </Dialog>
+    </Box>
   );
 }

@@ -21,6 +21,7 @@ export function EditUserInformationDialog({
 
   const handleCancel = () => {
     setIsDialogOpen(false);
+    onDialogOpenChange(false);
   };
 
   return (

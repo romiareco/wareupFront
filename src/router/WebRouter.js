@@ -69,20 +69,20 @@ export function WebRouter() {
     { path: "manage-users", component: ManageUsers },
     { path: "manage-deposits", component: ManageDeposits },
     { path: "manage-requests", component: ManageRequests },
-    { path: "contacts", component: Contact },
-    {path: "register-deposit", component: RegisterDeposits }
+    { path: "register-deposit", component: RegisterDeposits },
   ];
 
   return (
     <Routes>
+      <Route path="/contacts" element={<Contact />} />
+
       {!user ? (
         <>
-          <Route path="/" element={<Welcome />} index />
+          <Route path="/" element={<Welcome />} />
           <Route path="/users/register" element={<RegisterUser />} />
           <Route path="/users/login" element={<Login />} />
           <Route path="/users/forgot-password" element={<ForgotPassword />} />
           <Route path="/users/404" element={<NotFound />} />
-          <Route path="/contacts" element={<Contact />} />
           <Route
             path="/users/password-recovery"
             element={<PasswordRecovery />}

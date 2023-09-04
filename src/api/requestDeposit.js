@@ -1,11 +1,11 @@
-import { ENV } from "../utils/constant";
+import { ENV } from "../utils";
 
-export class Company {
+export class RequestDeposit {
   baseApi = ENV.BASE_API;
 
-  async register(accessToken, user, data) {
+  async requestDepositPublication(accessToken, data, user) {
     try {
-      const url = `${this.baseApi}/${ENV.API_ROUTES.COMPANY}`;
+      const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT_REQUEST}`;
       const params = {
         method: "POST",
         headers: {
@@ -13,14 +13,13 @@ export class Company {
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
-          userId: user.id,
-          businessName: data.businessName,
-          contactName: data.contactName,
-          position: data.position,
-          RUT: data.RUT,
-          email: data.email,
-          phone: data.phone,
-          address: data.address,
+          companyId: data.userCompanyId,
+          address: data.storageAddress,
+          phone: data.storagePhoneNumber,
+          cityId: data.cityId,
+          email: user.email,
+          title: data.title,
+          description: data.description,
         }),
       };
 
@@ -40,11 +39,10 @@ export class Company {
     }
   }
 
-  async delete(accessToken, id) {
+  async getAllRequestDeposits(accessToken) {
     try {
-      const url = `${this.baseApi}/${ENV.API_ROUTES.COMPANY}/${id}`;
+      const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT_REQUEST}`;
       const params = {
-        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
@@ -67,9 +65,34 @@ export class Company {
     }
   }
 
-  async update(accessToken, data) {
+  async getDepositsRequestsByUserId(accessToken, userId) {
     try {
-      const url = `${this.baseApi}/${ENV.API_ROUTES.COMPANY}/${data.id}`;
+      const url = `${this.baseApi}/${ENV.API_ROUTES.USER_DEPOSIT_REQUEST}/${userId}`;
+      const params = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+
+      const response = await fetch(url, params);
+      const result = await response.json();
+
+      if (response.status !== 200) throw response;
+      if (result && result.hasError) throw result;
+
+      return result;
+    } catch (error) {
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
+      throw error;
+    }
+  }
+
+  async updateRequestDepositStatus(accessToken, requestDepositId, status) {
+    try {
+      const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT_REQUEST}/${requestDepositId}`;
       const params = {
         method: "PUT",
         headers: {
@@ -77,14 +100,7 @@ export class Company {
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
-          businessName: data.businessName,
-          contactName: data.contactName,
-          position: data.position,
-          RUT: data.RUT,
-          email: data.email,
-          phone: data.phone,
-          address: data.address,
-          status: data.status,
+          status: status,
         }),
       };
 
@@ -104,29 +120,4 @@ export class Company {
     }
   }
 
-  async getAllCompanies(accessToken) {
-    try {
-      const url = `${this.baseApi}/${ENV.API_ROUTES.COMPANY}`;
-      const params = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
-
-      const response = await fetch(url, params);
-      const result = await response.json();
-
-      if (response.status !== 200) throw response;
-      if (result && result.hasError) throw result;
-
-      return result;
-    } catch (error) {
-      console.error(
-        "Hubo un error en la respuesta del servidor. Error: " +
-          JSON.stringify(error.message)
-      );
-      throw error;
-    }
-  }
 }
