@@ -133,6 +133,14 @@ export class Company {
   async getAllActiveCompanies(accessToken) {
     try {
       const url = `${this.baseApi}/${ENV.API_ROUTES.COMPANY}`;
+
+      const queryParams = {
+        status: "1",
+      };
+      const queryString = new URLSearchParams(queryParams).toString();
+
+      const fullUrl = `${url}?${queryString}`;
+
       const params = {
         headers: {
           "Content-Type": "application/json",
@@ -140,7 +148,7 @@ export class Company {
         },
       };
 
-      const response = await fetch(url, params);
+      const response = await fetch(fullUrl, params);
       const result = await response.json();
 
       if (response.status !== 200) throw response;

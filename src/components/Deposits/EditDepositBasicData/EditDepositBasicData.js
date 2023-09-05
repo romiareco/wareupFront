@@ -70,7 +70,7 @@ export function EditDepositBasicData({ deposit }) {
           })
         );
         setDepartments(transformedDepartments);
-        const companiesResponse = await userController.getUserCompanies(
+        const companiesResponse = await userController.getUserActiveCompanies(
           accessToken,
           user.id
         );
