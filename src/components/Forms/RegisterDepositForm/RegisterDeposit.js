@@ -8,15 +8,13 @@ import Typography from "@mui/material/Typography";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogActions from "@mui/material/DialogActions";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
 import { ColorlibConnector, ColorlibStepIcon } from "./RegisterDeposit.design";
 import { BasicDepositData } from "./BasicDepositData";
 import { RegisterDepositServices } from "./RegisterDepositServices";
 import { DepositImages } from "./DepositImages";
 import theme from "../../../theme/theme";
 import { ComplexButton } from "../../Button";
-import { Deposit, Storage } from "../../../api";
+import { Deposit } from "../../../api";
 import depositImages from "../../../assets/official-images/f683361f-8860-4902-b8ee-2331a81f03c2.jpg";
 import CircularProgress from "@mui/material/CircularProgress";
 
