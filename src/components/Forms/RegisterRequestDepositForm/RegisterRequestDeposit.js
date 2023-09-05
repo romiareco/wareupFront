@@ -25,49 +25,29 @@ export function RegisterRequestDeposit() {
 
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
-  const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
+  const [notificationSeverity, setNotificationSeverity] = useState("success");
 
   const [userCompanies, setUserCompanies] = React.useState([]);
   const [departments, setDepartments] = React.useState([]);
   const [cities, setCities] = React.useState([]);
 
-  const [selectedUserCompany, setSelectedUserCompany] = useState("");
-  const [selectedDepartment, setSelectedDepartment] = useState({});
-  const [selectedCity, setSelectedCity] = useState({});
-
   const handleDepartmentChange = (event) => {
-    const departmentId = event.target.value;
-    const department = departments.find((dep) => dep.id === departmentId);
+    const selectedDepartmentId = event.target.value;
+    const department = departments.find(
+      (dep) => dep.value === selectedDepartmentId
+    );
 
-    const cities = department.cities;
-    setSelectedDepartment(department);
-    setCities(cities);
-    formik.setFieldValue("departmentId", departmentId); // Actualiza el valor en formik
+    if (department) {
+      const transformedCities = department.cities.map((city) => ({
+        value: city.id,
+        label: city.title,
+      }));
+      setCities(transformedCities || []);
+    }
   };
 
   const handleCancelClick = () => {
     formik.resetForm();
-    setSelectedUserCompany("");
-    setSelectedDepartment("");
-    setSelectedCity("");
-  };
-
-  const handleCityChange = (event) => {
-    const cityId = event.target.value;
-    const city = cities.find((cit) => cit.id === cityId);
-
-    setSelectedCity(city);
-    formik.setFieldValue("cityId", cityId); // Actualiza el valor en formik
-  };
-
-  const handleUserCompanyChange = (event) => {
-    const userCompanyId = event.target.value;
-    const userCompany = userCompanies.find(
-      (company) => company.id === userCompanyId
-    );
-
-    setSelectedUserCompany(userCompany);
-    formik.setFieldValue("userCompanyId", userCompanyId); // Actualiza el valor en formik
   };
 
   useEffect(() => {
@@ -76,24 +56,24 @@ export function RegisterRequestDeposit() {
         const commonResponse = await commonController.getDepartments(
           accessToken
         );
-        const departmentsData = commonResponse.departments;
-
-        if (departmentsData.length > 0) {
-          setSelectedDepartment(departmentsData[0].id); // Establecer solo el id del primer elemento
-        }
-        setDepartments(departmentsData);
-
-        const userCompaniesResponse = await userController.getUserCompanies(
-          accessToken,
-          user.id
+        const transformedDepartments = commonResponse.departments.map(
+          (department) => ({
+            value: department.id,
+            label: department.title,
+            cities: department.cities,
+          })
         );
+        setDepartments(transformedDepartments);
 
-        const userCompaniesData = userCompaniesResponse.companies || [];
+        const userCompaniesResponse =
+          await userController.getUserActiveCompanies(accessToken, user.id);
 
-        if (userCompaniesData.length > 0) {
-          setSelectedUserCompany(userCompaniesData[0].id);
-        }
-        setUserCompanies(userCompaniesData);
+        const companiesData = userCompaniesResponse.companies || [];
+        const transformedCompanies = companiesData.map((company) => ({
+          value: company.id,
+          label: company.businessName,
+        }));
+        setUserCompanies(transformedCompanies);
       } catch (error) {
         console.error(error);
       }
@@ -102,7 +82,7 @@ export function RegisterRequestDeposit() {
 
   const formik = useFormik({
     initialValues: initialValues(),
-    validationSchema,
+    validationSchema: validationSchema(),
     validateOnChange: false,
     onSubmit: async (formValue, { resetForm }) => {
       try {
@@ -117,7 +97,6 @@ export function RegisterRequestDeposit() {
         setNotificationOpen(true);
 
         resetForm();
-        //TODO: definir que debe pasar cuando se registra un nuevo espacio. Seguimos en registrar espacios? O redireccionamos a otro lado?
       } catch (error) {
         console.log(error.message);
         setNotificationMessage(error.message);
@@ -171,26 +150,20 @@ export function RegisterRequestDeposit() {
               <Grid item xs={9}>
                 <FormControl
                   fullWidth
-                  error={
-                    formik.touched.userCompanyId && formik.errors.userCompanyId
-                  }
+                  error={formik.touched.companyId && formik.errors.companyId}
                 >
-                  <InputLabel id="demo-simple-select-helper-label">
-                    Empresa
-                  </InputLabel>
+                  <InputLabel>Empresa</InputLabel>
                   <Select
-                    labelId="demo-simple-select-helper-label"
-                    id="demo-simple-select-helper"
                     label="Empresa"
-                    value={selectedUserCompany.id || ""}
-                    onChange={handleUserCompanyChange}
+                    value={formik.values.companyId}
+                    onChange={formik.handleChange}
                     onBlur={formik.handleBlur} // Agregar esta línea
-                    name="userCompanyId"
+                    name="companyId"
                   >
                     {userCompanies.length > 0 ? (
                       userCompanies.map((company) => (
-                        <MenuItem key={company.id} value={company.id}>
-                          {company.businessName}
+                        <MenuItem key={company.value} value={company.value}>
+                          {company.label}
                         </MenuItem>
                       ))
                     ) : (
@@ -200,13 +173,9 @@ export function RegisterRequestDeposit() {
                       </MenuItem>
                     )}
                   </Select>
-                  {formik.touched.userCompanyId &&
-                    formik.errors.userCompanyId &&
-                    !selectedUserCompany && (
-                      <FormHelperText>
-                        {formik.errors.userCompanyId}
-                      </FormHelperText>
-                    )}
+                  {formik.touched.companyId && formik.errors.companyId && (
+                    <FormHelperText>{formik.errors.companyId}</FormHelperText>
+                  )}
                 </FormControl>
               </Grid>
               <Grid item xs={3}>
@@ -232,14 +201,9 @@ export function RegisterRequestDeposit() {
                   required
                   value={formik.values.storageAddress}
                   onChange={formik.handleChange}
-                  error={
-                    formik.touched.storageAddress &&
-                    Boolean(formik.errors.storageAddress)
-                  }
-                  helperText={
-                    formik.touched.storageAddress &&
-                    formik.errors.storageAddress
-                  }
+                  error={formik.errors.storageAddress}
+                  helperText={formik.errors.storageAddress}
+                  onBlur={formik.handleBlur}
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
@@ -252,41 +216,44 @@ export function RegisterRequestDeposit() {
                   variant="outlined"
                   value={formik.values.storagePhoneNumber}
                   onChange={formik.handleChange}
-                  error={
-                    formik.touched.storagePhoneNumber &&
-                    Boolean(formik.errors.storagePhoneNumber)
-                  }
-                  helperText={
-                    formik.touched.storagePhoneNumber &&
-                    formik.errors.storagePhoneNumber
-                  }
+                  error={formik.errors.storagePhoneNumber}
+                  helperText={formik.errors.storagePhoneNumber}
+                  onBlur={formik.handleBlur}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <FormControl
                   fullWidth
                   error={
-                    formik.touched.departmentId &&
-                    Boolean(formik.errors.departmentId)
+                    formik.touched.departmentId && formik.errors.departmentId
                   }
                 >
-                  <InputLabel id="demo-simple-select-helper-label">
-                    Departamento
-                  </InputLabel>
+                  <InputLabel>Departamento</InputLabel>
                   <Select
-                    labelId="demo-simple-select-helper-label"
-                    id="demo-simple-select-helper"
-                    value={selectedDepartment.id || ""}
+                    value={formik.values.departmentId}
                     label="Departamento"
-                    onChange={handleDepartmentChange}
+                    onChange={(event) => {
+                      formik.handleChange(event);
+                      handleDepartmentChange(event);
+                    }}
                     onBlur={formik.handleBlur} // Agregar esta línea
                     name="departmentId"
                   >
-                    {departments.map((department) => (
-                      <MenuItem key={department.id} value={department.id}>
-                        {department.title}
+                    {departments.length > 0 ? (
+                      departments.map((department) => (
+                        <MenuItem
+                          key={department.value}
+                          value={department.value}
+                        >
+                          {department.label}
+                        </MenuItem>
+                      ))
+                    ) : (
+                      <MenuItem disabled value="">
+                        {departments.length === 0 &&
+                          "No hay departamentos registrados"}
                       </MenuItem>
-                    ))}
+                    )}
                   </Select>
                   {formik.touched.departmentId &&
                     formik.errors.departmentId && (
@@ -299,23 +266,19 @@ export function RegisterRequestDeposit() {
               <Grid item xs={12} sm={6}>
                 <FormControl
                   fullWidth
-                  error={formik.touched.cityId && Boolean(formik.errors.cityId)}
+                  error={formik.touched.cityId && formik.errors.cityId}
                 >
-                  <InputLabel id="demo-simple-select-helper-label">
-                    Barrio
-                  </InputLabel>
+                  <InputLabel>Barrio</InputLabel>
                   <Select
-                    labelId="demo-simple-select-helper-label"
-                    id="demo-simple-select-helper"
-                    value={selectedCity.id || ""}
+                    value={formik.values.cityId}
                     label="Barrio"
-                    onChange={handleCityChange}
+                    onChange={formik.handleChange}
                     onBlur={formik.handleBlur} // Agregar esta línea
                     name="cityId"
                   >
                     {cities.map((city) => (
-                      <MenuItem key={city.id} value={city.id}>
-                        {city.title}
+                      <MenuItem key={city.value} value={city.value}>
+                        {city.label}
                       </MenuItem>
                     ))}
                   </Select>
@@ -346,8 +309,9 @@ export function RegisterRequestDeposit() {
                   required
                   value={formik.values.title}
                   onChange={formik.handleChange}
-                  error={formik.touched.title && Boolean(formik.errors.title)}
-                  helperText={formik.touched.title && formik.errors.title}
+                  error={formik.errors.title}
+                  helperText={formik.errors.title}
+                  onBlur={formik.handleBlur} // Agregar esta línea
                 />
               </Grid>
               <Grid item xs={12}>
@@ -359,16 +323,12 @@ export function RegisterRequestDeposit() {
                   name="description"
                   label="Descripción"
                   variant="outlined"
+                  onBlur={formik.handleBlur} // Agregar esta línea
                   required
                   value={formik.values.description}
                   onChange={formik.handleChange}
-                  error={
-                    formik.touched.description &&
-                    Boolean(formik.errors.description)
-                  }
-                  helperText={
-                    formik.touched.description && formik.errors.description
-                  }
+                  error={formik.errors.description}
+                  helperText={formik.errors.description}
                   sx={{
                     "& .MuiOutlinedInput-root": {
                       borderRadius: "4px",

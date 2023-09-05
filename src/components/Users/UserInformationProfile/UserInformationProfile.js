@@ -15,7 +15,9 @@ import { User } from "../../../api/user";
 import React, { useState } from "react";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
 import { initialValues } from "../../Forms/Forms/User.form";
-import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
+import CircularProgress from "@mui/material/CircularProgress";
+
 const CardContainer = styled(Card)`
   height: 100%;
   width: 100%;
@@ -41,12 +43,14 @@ export function UserInformationProfile({ user }) {
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
+  const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: initialValues(user),
     validationSchema: validationSchema(),
     onSubmit: async (formValue) => {
       try {
+        setLoading(true);
         formValue.id = user.id;
         await userController.updateUser(accessToken, formValue);
 
@@ -54,11 +58,13 @@ export function UserInformationProfile({ user }) {
         setNotificationSeverity("success");
         setNotificationOpen(true);
 
+        setLoading(false);
         setIsEditing(false);
       } catch (error) {
         setNotificationMessage(error.message);
         setNotificationSeverity("error");
         setNotificationOpen(true);
+        setLoading(false);
       }
     },
   });
@@ -125,14 +131,23 @@ export function UserInformationProfile({ user }) {
 
         <Box mt={2} display="flex" justifyContent="center" gap={2}>
           {!isEditing ? (
-            <Button variant="contained" onClick={handleEdit} startIcon={<EditRoundedIcon />}>
+            <Button
+              variant="contained"
+              onClick={handleEdit}
+              startIcon={<EditRoundedIcon />}
+            >
               Editar perfil
             </Button>
           ) : (
             <React.Fragment>
-              <Button variant="contained" onClick={formik.handleSubmit}>
-                Guardar cambios
-              </Button>
+              {loading ? (
+                <CircularProgress size={24} />
+              ) : (
+                <Button variant="contained" onClick={formik.handleSubmit}>
+                  Guardar cambios
+                </Button>
+              )}
+
               <Button variant="contained" onClick={handleCancel}>
                 Cancelar
               </Button>

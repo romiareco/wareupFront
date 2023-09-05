@@ -8,15 +8,13 @@ import Typography from "@mui/material/Typography";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogActions from "@mui/material/DialogActions";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
 import { ColorlibConnector, ColorlibStepIcon } from "./RegisterDeposit.design";
 import { BasicDepositData } from "./BasicDepositData";
 import { RegisterDepositServices } from "./RegisterDepositServices";
 import { DepositImages } from "./DepositImages";
 import theme from "../../../theme/theme";
 import { ComplexButton } from "../../Button";
-import { Deposit, Storage } from "../../../api";
+import { Deposit } from "../../../api";
 import depositImages from "../../../assets/official-images/f683361f-8860-4902-b8ee-2331a81f03c2.jpg";
 import CircularProgress from "@mui/material/CircularProgress";
 
@@ -36,7 +34,7 @@ const steps = [
   "Agregar disponibilidad",
 ];
 
-//TODO: pendiente agregar paso  "Agregar disponibilidad"
+//TODO: pendiente agregar paso "Agregar disponibilidad"
 
 const storageController = new Deposit();
 
@@ -66,7 +64,7 @@ export function RegisterDeposit() {
     const data = buildStructuredBodyData(steps, formData);
     (async () => {
       try {
-        setIsRegistering(true); // Comienza a mostrar el CircularProgress
+        setIsRegistering(true);
 
         const response = await storageController.register(accessToken, data);
 
@@ -74,16 +72,16 @@ export function RegisterDeposit() {
         setNotificationSeverity("success");
         setNotificationOpen(true);
 
-        setDepositCreated(response.deposit.id);
+        setDepositCreated(response.deposit);
 
-        setIsRegistering(false); // Comienza a mostrar el CircularProgress
+        setIsRegistering(false);
       } catch (error) {
         console.log(error.message);
         setNotificationMessage(error.message);
         setNotificationSeverity("error");
         setNotificationOpen(true);
 
-        setIsRegistering(false); // Comienza a mostrar el CircularProgress
+        setIsRegistering(false);
       }
     })();
   };
@@ -123,7 +121,7 @@ export function RegisterDeposit() {
         return <RegisterDepositServices formInformation={handleStepSubmit} />;
       case 2:
         //TODO: pendiente definir el form de disponibilidad
-        return <Typography>Hola!</Typography>;
+        return <Typography variant="h2">Próximamente...</Typography>;
       default:
         return null;
     }
@@ -227,7 +225,7 @@ export function RegisterDeposit() {
                 onClick={handleBack}
                 sx={{ mr: 1 }}
               >
-                Back
+                Atrás
               </Button>
               <Box sx={{ flex: "1 1 auto" }} />
               <Button
@@ -239,9 +237,9 @@ export function RegisterDeposit() {
                 {isRegistering ? (
                   <CircularProgress size={24} />
                 ) : activeStep === steps.length - 1 ? (
-                  "Finish"
+                  "Finalizar"
                 ) : (
-                  "Next"
+                  "Siguiente"
                 )}
               </Button>
             </Box>
@@ -252,6 +250,13 @@ export function RegisterDeposit() {
           onClose={handleCloseDialog}
           fullWidth={true}
           maxWidth={"sm"}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+          }}
         >
           <DialogTitle>Agregar imágenes a depósito</DialogTitle>
           <DialogContent>

@@ -106,9 +106,13 @@ export function mapDepositInformation(deposits) {
       currency: deposit.currency,
       expectedPrice: deposit.expectedPrice,
       street: deposit.street,
-      cityId: deposit.city ? deposit.city.title : null,
+      cityName: deposit.city ? deposit.city.title : null,
+      cityId: deposit.cityId,
+      departmentId: deposit.city? deposit.city.departmentId : null,
       status: deposit.status,
       businessName: deposit.company ? deposit.company.businessName : null,
+      companyId: deposit.companyId,
+      postalCode: deposit.postalCode,
     };
   });
 

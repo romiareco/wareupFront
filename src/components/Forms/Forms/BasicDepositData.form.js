@@ -1,5 +1,19 @@
 import * as Yup from "yup";
 
+export function editValues(deposit = {}) {
+  return {
+    companyId: deposit.companyId || "",
+    expectedPrice: deposit.expectedPrice || "",
+    description: deposit.description || "",
+    cityId: deposit.cityId || "",
+    departmentId: deposit.departmentId || "",
+    totalM3: deposit.totalM3 || "",
+    currency: deposit.currency || "",
+    street: deposit.street || "",
+    postalCode: deposit.postalCode || "",
+  };
+}
+
 export function validationSchema() {
   return Yup.object({
     companyId: Yup.number().required("Debe seleccionar una empresa"),

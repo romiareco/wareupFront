@@ -9,10 +9,12 @@ import theme from "../../../theme/theme";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
 import { useState } from "react";
 import { ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 
 const contactController = new Contact();
 
 export function ContactForm() {
+  const navigate = useNavigate();
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
@@ -105,6 +107,7 @@ export function ContactForm() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  required
                   fullWidth
                   type="text"
                   name="subject"
@@ -168,7 +171,7 @@ export function ContactForm() {
                 <LoadingButton
                   color="primary"
                   variant="outlined"
-                  onClick={() => formik.resetForm()}
+                  onClick={() => navigate(-1)}
                 >
                   Cancelar
                 </LoadingButton>

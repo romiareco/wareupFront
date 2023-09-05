@@ -1,5 +1,5 @@
 import { LoadingButton } from "@mui/lab";
-import { Checkbox, Grid, TextField } from "@mui/material";
+import { Checkbox, Grid, TextField, FormHelperText } from "@mui/material";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import { useState } from "react";
@@ -33,7 +33,7 @@ export function RegisterUser() {
     onSubmit: async (formValue, { resetForm }) => {
       try {
         await userController.register(formValue);
-        setNotificationMessage("Registro exitoso");
+        setNotificationMessage("Usuario registrado exitosamente");
         setNotificationSeverity("success");
         setNotificationOpen(true);
 
@@ -148,8 +148,7 @@ export function RegisterUser() {
                       color="primary"
                       onChange={formik.handleChange}
                       checked={formik.values.conditionsAccepted}
-                      error={formik.errors.conditionsAccepted}
-                      helperText={formik.errors.conditionsAccepted}
+                      required
                     />
                   }
                   label="He leído y acepto las políticas de privacidad."
@@ -163,6 +162,7 @@ export function RegisterUser() {
                   color="primary"
                   loading={formik.isSubmitting}
                   variant="contained"
+                  disabled={!formik.values.conditionsAccepted}
                 >
                   Registrarse
                 </LoadingButton>
