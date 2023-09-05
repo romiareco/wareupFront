@@ -121,16 +121,21 @@ export class User {
   async getUserActiveCompanies(accessToken, userId) {
     try {
       const url = `${this.baseApi}/${ENV.API_ROUTES.USER_COMPANY}/${userId}`;
+
+      const queryParams = {
+        status: "1",
+      };
+      const queryString = new URLSearchParams(queryParams).toString();
+
+      const fullUrl = `${url}?${queryString}`;
+
       const params = {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-        body: JSON.stringify({
-          status: companyStatus.ACTIVE
-        }),
       };
 
-      const response = await fetch(url, params);
+      const response = await fetch(fullUrl, params);
       const result = await response.json();
 
       if (response.status !== 200) throw response;
@@ -145,7 +150,6 @@ export class User {
       throw error;
     }
   }
-
 
   async updatePassword(data, tokenParam) {
     console.log(data);
@@ -214,7 +218,6 @@ export class User {
   async getUserDeposits(accessToken, userId) {
     try {
       const url = `${this.baseApi}/${ENV.API_ROUTES.STORAGE}/byUser/${userId}`;
-      console.log("GetUserDeposits URL: " + url);
       const params = {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -295,7 +298,6 @@ export class User {
     }
   }
 
-  //TODO: pendiente definir
   async deleteUser(accessToken, userId) {
     try {
       const url = `${this.baseApi}/${ENV.API_ROUTES.USER}/${userId}`;

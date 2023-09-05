@@ -66,7 +66,7 @@ export function RegisterRequestDeposit() {
         setDepartments(transformedDepartments);
 
         const userCompaniesResponse =
-          await userController.getUserCompanies(accessToken, user.id);
+          await userController.getUserActiveCompanies(accessToken, user.id);
 
         const companiesData = userCompaniesResponse.companies || [];
         const transformedCompanies = companiesData.map((company) => ({
