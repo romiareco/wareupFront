@@ -146,7 +146,7 @@ export function RegisteredDepositRequestsTable() {
                   <TableCell colSpan={columns.length}>
                     {requestDeposits === null
                       ? "Cargando datos..."
-                      : "No se han registrado solicitudes de depósitos."}
+                      : "No se han registrado depósitos."}
                   </TableCell>
                 </TableRow>
               )}
