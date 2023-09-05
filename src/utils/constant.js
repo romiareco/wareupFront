@@ -4,7 +4,9 @@ export const navbarHeight = 60
 export const sidenavCompactWidth = 80
 export const containedLayoutWidth = 1200
 
-const SERVER_IP = "localhost:3001";
+const SERVER_IP = process.env.BASE_PATH;
+
+console.log(SERVER_IP); 
 
 //TODO: separar API_ROUTES por entidad
 export const ENV = {
