@@ -1,5 +1,5 @@
 import { LoadingButton } from "@mui/lab";
-import { Checkbox, Grid, TextField } from "@mui/material";
+import { Checkbox, Grid, TextField, FormHelperText } from "@mui/material";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import { useState } from "react";
@@ -141,17 +141,14 @@ export function RegisterUser() {
                 />
               </Grid>
               <Grid item xs={12}>
-                
                 <FormControlLabel
-                  required
                   control={
                     <Checkbox
                       name="conditionsAccepted"
                       color="primary"
                       onChange={formik.handleChange}
                       checked={formik.values.conditionsAccepted}
-                      error={formik.errors.conditionsAccepted}
-                      helperText={formik.errors.conditionsAccepted}
+                      required
                     />
                   }
                   label="He leído y acepto las políticas de privacidad."
@@ -165,6 +162,7 @@ export function RegisterUser() {
                   color="primary"
                   loading={formik.isSubmitting}
                   variant="contained"
+                  disabled={!formik.values.conditionsAccepted}
                 >
                   Registrarse
                 </LoadingButton>
