@@ -115,10 +115,6 @@ export function RegisteredDepositsTable() {
     setIsAddImageDialogOpen(isOpen);
   };
 
-  const handleDepositPreviewDialogOpenChange = (isOpen) => {
-    setIsDepositPreviewDialogOpen(isOpen);
-  };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };

@@ -141,7 +141,9 @@ export function RegisterUser() {
                 />
               </Grid>
               <Grid item xs={12}>
+                
                 <FormControlLabel
+                  required
                   control={
                     <Checkbox
                       name="conditionsAccepted"
