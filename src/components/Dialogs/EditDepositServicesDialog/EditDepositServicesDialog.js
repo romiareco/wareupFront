@@ -3,11 +3,11 @@ import {DialogContent} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState, useEffect } from "react";
-import { EditDepositBasicData } from "../../Deposits/EditDepositBasicData";
 import { depositStatus } from "../../../utils";
 import { ErrorDialog } from "../ErrorDialog";
+import { EditDepositServices } from "../../Deposits";
 
-export function EditDepositBasicDataDialog({
+export function EditDepositServicesDialog({
   selectedDeposit,
   openDialog,
   onDialogOpenChange,
@@ -43,7 +43,7 @@ export function EditDepositBasicDataDialog({
         <IconButton onClick={() => handleCancel()}>
           <CloseIcon />
         </IconButton>
-        {selectedDeposit && <EditDepositBasicData deposit={selectedDeposit} />}
+        {selectedDeposit && <EditDepositServices deposit={selectedDeposit} />}
       </DialogContent>
     </Dialog>
   );

@@ -11,6 +11,8 @@ import { useState, useEffect } from "react";
 import { Deposit } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
+import { depositStatus } from "../../../utils";
+import { ErrorDialog } from "../ErrorDialog";
 
 export function RemoveUserDepositDialog({
   selectedDeposit,
@@ -58,6 +60,13 @@ export function RemoveUserDepositDialog({
       setLoading(false); // Finaliza la carga, sin importar el resultado
     }
   };
+
+  if(selectedDeposit && parseInt(selectedDeposit.status) === depositStatus.DELETED) {
+    return (<ErrorDialog 
+    errorMessage={"No se puede eliminar un depósito que ya fue eliminado."}
+    openDialog={openDialog}
+    onDialogOpenChange={onDialogOpenChange}/>);
+  }
 
   return (
     <Box>

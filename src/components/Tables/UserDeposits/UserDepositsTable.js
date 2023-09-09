@@ -12,9 +12,10 @@ import { useAuth } from "../../../hooks";
 import { useState, useEffect } from "react";
 import { columns } from "./UserDepositsTableColumns";
 import {
-  EditUserInformationDialog,
+  EditDepositBasicDataDialog,
   RemoveUserDepositDialog,
   AddDepositImageDialog,
+  EditDepositServicesDialog,
 } from "../../Dialogs";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
@@ -22,8 +23,7 @@ import {
   mapDepositInformation,
   mapDepositStatus,
 } from "../../../utils/mapFunctions";
-import { PublicationView } from "../../../pages";
-import { EditDepositBasicDataDialog } from "../../Dialogs/EditDepositBasicDataDialog/EditDepositBasicDataDialog";
+import { Rowing } from "@mui/icons-material";
 
 const depositController = new Deposit();
 
@@ -34,27 +34,28 @@ export function UserDepositsTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [deposits, setDeposits] = useState(null);
 
-  const [selectedEditDeposit, setSelectedEditDeposit] = useState(null);
+  const [selectedEditBasicDataDeposit, setSelectedEditBasicDataDeposit] = useState(null);
+  const [selectedEditServicesDeposit, setSelectedEditServicesDeposit] = useState(null);
+
   const [selectedDeleteDeposit, setSelectedDeleteDeposit] = useState(null);
   const [selectedAddImageDeposit, setSelectedAddImageDeposit] = useState(null);
-  const [selectedDepositPreview, setSelectedDepositPreview] = useState(null);
 
   const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isEditBasicDataDialogOpen, setIsEditBasicDataDialogOpen] = useState(false);
+  const [isEditServicesDialogOpen, setIsEditServicesDialogOpen] = useState(false);
   const [isAddImageDialogOpen, setIsAddImageDialogOpen] = useState(false);
-  const [isDepositPreviewDialogOpen, setIsDepositPreviewDialogOpen] =
-    useState(false);
+
 
   const handlePreview = (row) => {
-    setSelectedEditDeposit(null);
+    setSelectedEditBasicDataDeposit(null);
+    setSelectedEditServicesDeposit(null);
     setSelectedDeleteDeposit(null);
     setSelectedAddImageDeposit(null);
-    setSelectedDepositPreview(row);
 
-    setIsEditDialogOpen(false);
+    setIsEditBasicDataDialogOpen(false);
+    setIsEditServicesDialogOpen(false);
     setIsRemoveDialogOpen(false);
     setIsAddImageDialogOpen(false);
-    setIsDepositPreviewDialogOpen(true);
 
     const queryParams = {
       id: row.id,
@@ -70,43 +71,59 @@ export function UserDepositsTable() {
   };
 
   const handleImage = (row) => {
-    setSelectedEditDeposit(null);
+    setSelectedEditBasicDataDeposit(null);
+    setSelectedEditServicesDeposit(null);
     setSelectedDeleteDeposit(null);
     setSelectedAddImageDeposit(row);
-    setSelectedDepositPreview(null);
-
-    setIsEditDialogOpen(false);
+    
+    setIsEditBasicDataDialogOpen(false);
+    setIsEditServicesDialogOpen(false);
     setIsRemoveDialogOpen(false);
     setIsAddImageDialogOpen(true);
-    setIsDepositPreviewDialogOpen(false);
   };
 
-  const handleEdit = (row) => {
-    setSelectedEditDeposit(row);
+  const handleEditBasicData = (row) => {
+    setSelectedEditBasicDataDeposit(row);
+    setSelectedEditServicesDeposit(null);    
     setSelectedDeleteDeposit(null);
     setSelectedAddImageDeposit(null);
-    setSelectedDepositPreview(null);
 
-    setIsEditDialogOpen(true);
+    setIsEditBasicDataDialogOpen(true);
+    setIsEditServicesDialogOpen(false);
     setIsRemoveDialogOpen(false);
     setIsAddImageDialogOpen(false);
-    setIsDepositPreviewDialogOpen(false);
+  };
+
+  const handleEditServices = (row) => {
+    setSelectedEditBasicDataDeposit(null);
+    setSelectedEditServicesDeposit(row);    
+    setSelectedDeleteDeposit(null);
+    setSelectedAddImageDeposit(null);
+
+    setIsEditBasicDataDialogOpen(false);
+    setIsEditServicesDialogOpen(true);
+    setIsRemoveDialogOpen(false);
+    setIsAddImageDialogOpen(false);
   };
 
   const handleDelete = (row) => {
-    setSelectedEditDeposit(null);
+    setSelectedEditBasicDataDeposit(null);
+    setSelectedEditServicesDeposit(null); 
     setSelectedDeleteDeposit(row);
     setSelectedAddImageDeposit(null);
-    setSelectedDepositPreview(null);
 
-    setIsEditDialogOpen(false);
-    setIsRemoveDialogOpen(true);
+    setIsEditBasicDataDialogOpen(false);
+    setIsEditServicesDialogOpen(false);
+        setIsRemoveDialogOpen(true);
     setIsAddImageDialogOpen(false);
-    setIsDepositPreviewDialogOpen(false);
   };
 
-  const handleEditDialogOpenChange = (isOpen) => {
-    setIsEditDialogOpen(isOpen);
+  const handleEditBasicDataDialogOpenChange = (isOpen) => {
+    setIsEditBasicDataDialogOpen(isOpen);
+  };
+
+  const handleEditServicesDialogOpenChange = (isOpen) => {
+    setIsEditServicesDialogOpen(isOpen);
   };
 
   const handleRemoveDialogOpenChange = (isOpen) => {
@@ -115,10 +132,6 @@ export function UserDepositsTable() {
 
   const handleAddImageDialogOpenChange = (isOpen) => {
     setIsAddImageDialogOpen(isOpen);
-  };
-
-  const handleDepositPreviewDialogOpenChange = (isOpen) => {
-    setIsDepositPreviewDialogOpen(isOpen);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -140,6 +153,7 @@ export function UserDepositsTable() {
 
         if (response.deposits) {
           const filteredInformation = mapDepositInformation(response.deposits);
+
           setDeposits(filteredInformation);
         }
       } catch (error) {
@@ -161,7 +175,8 @@ export function UserDepositsTable() {
             <TableHead>
               <TableRow>
                 {columns(
-                  handleEdit,
+                  handleEditBasicData,
+                  handleEditServices,
                   handleDelete,
                   handleImage,
                   handlePreview
@@ -198,7 +213,8 @@ export function UserDepositsTable() {
                         }}
                       >
                         {columns(
-                          handleEdit,
+                          handleEditBasicData,
+                          handleEditServices,
                           handleDelete,
                           handleImage,
                           handlePreview
@@ -228,9 +244,9 @@ export function UserDepositsTable() {
               )}
             </TableBody>
             <EditDepositBasicDataDialog
-              selectedDeposit={selectedEditDeposit}
-              openDialog={isEditDialogOpen}
-              onDialogOpenChange={handleEditDialogOpenChange}
+              selectedDeposit={selectedEditBasicDataDeposit}
+              openDialog={isEditBasicDataDialogOpen}
+              onDialogOpenChange={handleEditBasicDataDialogOpenChange}
             />
             <RemoveUserDepositDialog
               selectedDeposit={selectedDeleteDeposit}
@@ -241,6 +257,11 @@ export function UserDepositsTable() {
               selectedDeposit={selectedAddImageDeposit}
               openDialog={isAddImageDialogOpen}
               onDialogOpenChange={handleAddImageDialogOpenChange}
+            />
+            <EditDepositServicesDialog
+              selectedDeposit={selectedEditServicesDeposit}
+              openDialog={isEditServicesDialogOpen}
+              onDialogOpenChange={handleEditServicesDialogOpenChange}
             />
           </Table>
         </TableContainer>
@@ -257,6 +278,5 @@ export function UserDepositsTable() {
     </ThemeProvider>
   );
 }
-
 
 //TODO: eliminar estados innecesarios para la preview de la publicacion
