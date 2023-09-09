@@ -30,7 +30,6 @@ const companyController = new Company();
 
 export function EditCompanyInformation({ company }) {
   const { accessToken } = useAuth();
-  const [isEditing, setIsEditing] = useState(false); // Nuevo estado para controlar la edición
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
@@ -51,7 +50,6 @@ export function EditCompanyInformation({ company }) {
         setNotificationOpen(true);
 
         setLoading(false);
-        setIsEditing(false);
       } catch (error) {
         setNotificationMessage(error.message);
         setNotificationSeverity("error");
@@ -61,12 +59,7 @@ export function EditCompanyInformation({ company }) {
     },
   });
 
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
-
   const handleCancel = () => {
-    setIsEditing(false);
     formik.resetForm();
   };
 
@@ -95,7 +88,6 @@ export function EditCompanyInformation({ company }) {
               helperText={
                 formik.touched.contactName && formik.errors.contactName
               }
-              disabled={!isEditing}
               onBlur={formik.handleBlur}
             />
           </Grid>
@@ -111,7 +103,6 @@ export function EditCompanyInformation({ company }) {
               onChange={formik.handleChange}
               error={formik.touched.position && formik.errors.position}
               helperText={formik.touched.position && formik.errors.position}
-              disabled={!isEditing}
               onBlur={formik.handleBlur}
             />
           </Grid>
@@ -127,7 +118,6 @@ export function EditCompanyInformation({ company }) {
               onChange={formik.handleChange}
               error={formik.touched.email && formik.errors.email}
               helperText={formik.touched.email && formik.errors.email}
-              disabled={!isEditing}
               onBlur={formik.handleBlur}
             />
           </Grid>
@@ -143,7 +133,6 @@ export function EditCompanyInformation({ company }) {
               onChange={formik.handleChange}
               error={formik.touched.RUT && formik.errors.RUT}
               helperText={formik.touched.RUT && formik.errors.RUT}
-              disabled={!isEditing}
               onBlur={formik.handleBlur}
             />
           </Grid>
@@ -161,7 +150,6 @@ export function EditCompanyInformation({ company }) {
               helperText={
                 formik.touched.businessName && formik.errors.businessName
               }
-              disabled={!isEditing}
               onBlur={formik.handleBlur}
             />
           </Grid>
@@ -177,7 +165,6 @@ export function EditCompanyInformation({ company }) {
               onChange={formik.handleChange}
               error={formik.touched.address && formik.errors.address}
               helperText={formik.touched.address && formik.errors.address}
-              disabled={!isEditing}
               onBlur={formik.handleBlur}
             />
           </Grid>
@@ -193,35 +180,24 @@ export function EditCompanyInformation({ company }) {
               onChange={formik.handleChange}
               error={formik.touched.phone && formik.errors.phone}
               helperText={formik.touched.phone && formik.errors.phone}
-              disabled={!isEditing}
               onBlur={formik.handleBlur}
             />
           </Grid>
         </Grid>
 
         <Box mt={2} display="flex" justifyContent="center" gap={2}>
-          {!isEditing ? (
-            <Button
-              variant="contained"
-              onClick={handleEdit}
-              startIcon={<EditRoundedIcon />}
-            >
-              Editar empresa
-            </Button>
-          ) : (
-            <React.Fragment>
-              {loading ? (
-                <CircularProgress size={24} />
-              ) : (
-                <Button variant="contained" onClick={formik.handleSubmit}>
-                  Guardar cambios
-                </Button>
-              )}
-              <Button variant="contained" onClick={handleCancel}>
-                Cancelar
+          <React.Fragment>
+            {loading ? (
+              <CircularProgress size={24} />
+            ) : (
+              <Button variant="contained" onClick={formik.handleSubmit}>
+                Guardar cambios
               </Button>
-            </React.Fragment>
-          )}
+            )}
+            <Button variant="contained" onClick={handleCancel}>
+              Cancelar
+            </Button>
+          </React.Fragment>
         </Box>
       </CardContent>
       <NotificationSnackbar
