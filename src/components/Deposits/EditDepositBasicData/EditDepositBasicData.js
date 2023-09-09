@@ -70,6 +70,21 @@ export function EditDepositBasicData({ deposit }) {
           })
         );
         setDepartments(transformedDepartments);
+
+        if (transformedDepartments) {
+          const depCities = [
+            ...new Set(
+              transformedDepartments.flatMap((department) => department.cities)
+            ),
+          ];
+
+          const transformedCities = depCities.map((city) => ({
+            value: city.id,
+            label: city.title,
+          }));
+          setCities(transformedCities || []);
+        }
+
         const companiesResponse = await userController.getUserActiveCompanies(
           accessToken,
           user.id
