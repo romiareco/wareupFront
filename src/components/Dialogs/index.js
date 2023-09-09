@@ -6,3 +6,4 @@ export * from "./RemoveUserDepositDialog";
 export * from "./RemoveCompanyDialog";
 export * from "./EditDepositBasicDataDialog";
 export * from "./ErrorDialog";
+export * from "./EditDepositServicesDialog";

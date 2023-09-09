@@ -8,7 +8,6 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/system";
-import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import { useFormik } from "formik";
 import { useAuth } from "../../../hooks";
 import { Company } from "../../../api";

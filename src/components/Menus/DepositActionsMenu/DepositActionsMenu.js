@@ -11,7 +11,8 @@ import PreviewRoundedIcon from "@mui/icons-material/PreviewRounded";
 
 export function DepositActionsMenu({
   row,
-  handleEdit,
+  handleEditBasicData,
+  handleEditServices,
   handleDelete,
   handleImage,
   handlePreview,
@@ -41,7 +42,7 @@ export function DepositActionsMenu({
       >
         <MenuItem
           onClick={() => {
-            handleEdit(selectedRow);
+            handleEditBasicData(selectedRow);
             setAnchorEl(null);
           }}
         >
@@ -50,6 +51,19 @@ export function DepositActionsMenu({
           </ListItemIcon>
           Editar información básica
         </MenuItem>
+
+        <MenuItem
+          onClick={() => {
+            handleEditServices(selectedRow);
+            setAnchorEl(null);
+          }}
+        >
+          <ListItemIcon>
+            <EditIcon fontSize="small" />
+          </ListItemIcon>
+          Editar servicios
+        </MenuItem>
+
         <MenuItem
           onClick={() => {
             handleDelete(selectedRow);

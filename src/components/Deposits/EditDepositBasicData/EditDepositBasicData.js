@@ -2,7 +2,6 @@ import {
   Grid,
   Box,
   Button,
-  Card,
   CardContent,
   TextField,
   Typography,
@@ -13,11 +12,11 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import { Container, ThemeProvider, styled } from "@mui/system";
+import { ThemeProvider } from "@mui/system";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import { useFormik } from "formik";
 import { useAuth } from "../../../hooks";
-import { Common, Company, Deposit, User } from "../../../api";
+import { Common, Deposit, User } from "../../../api";
 import React, { useState, useEffect } from "react";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
 import {
@@ -25,6 +24,7 @@ import {
   validationSchema,
 } from "../../Forms/Forms/BasicDepositData.form";
 import { currencies } from "../../../utils/enums";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const depositController = new Deposit();
 const commonController = new Common();
@@ -32,6 +32,7 @@ const userController = new User();
 
 export function EditDepositBasicData({ deposit }) {
   const { accessToken, user } = useAuth();
+  const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
@@ -98,13 +99,14 @@ export function EditDepositBasicData({ deposit }) {
         console.error(error);
       }
     })();
-  }, [accessToken, user.id]);
+  }, [accessToken, user.id, deposit.departmentId]);
 
   const formik = useFormik({
     initialValues: editValues(deposit),
     validationSchema: validationSchema(),
     onSubmit: async (formValue) => {
       try {
+        setLoading(true);
         formValue.id = deposit.id;
         formValue.status = deposit.status;
         await depositController.updateDeposit(accessToken, formValue);
@@ -112,12 +114,14 @@ export function EditDepositBasicData({ deposit }) {
         setNotificationMessage("Depósito actualizado exitosamente");
         setNotificationSeverity("success");
         setNotificationOpen(true);
+        setLoading(false);
 
         setIsEditing(false);
       } catch (error) {
         setNotificationMessage(error.message);
         setNotificationSeverity("error");
         setNotificationOpen(true);
+        setLoading(false);
       }
     },
   });
@@ -388,9 +392,13 @@ export function EditDepositBasicData({ deposit }) {
             </Button>
           ) : (
             <React.Fragment>
-              <Button variant="contained" onClick={formik.handleSubmit}>
-                Guardar cambios
-              </Button>
+              {loading ? (
+                <CircularProgress size={24} />
+              ) : (
+                <Button variant="contained" onClick={formik.handleSubmit}>
+                  Guardar cambios
+                </Button>
+              )}
               <Button variant="contained" onClick={handleCancel}>
                 Cancelar
               </Button>
