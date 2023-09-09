@@ -72,13 +72,12 @@ export function EditDepositBasicData({ deposit }) {
         setDepartments(transformedDepartments);
 
         if (transformedDepartments) {
-          const depCities = [
-            ...new Set(
-              transformedDepartments.flatMap((department) => department.cities)
-            ),
-          ];
+          const depositCurrentDepId = deposit.departmentId;
+          const currentDepartment = transformedDepartments.find(
+            (dep) => dep.value === depositCurrentDepId
+          );
 
-          const transformedCities = depCities.map((city) => ({
+          const transformedCities = currentDepartment.cities.map((city) => ({
             value: city.id,
             label: city.title,
           }));
