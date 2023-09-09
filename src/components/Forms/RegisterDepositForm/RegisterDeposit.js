@@ -5,19 +5,14 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogActions from "@mui/material/DialogActions";
 import { ColorlibConnector, ColorlibStepIcon } from "./RegisterDeposit.design";
 import { BasicDepositData } from "./BasicDepositData";
 import { RegisterDepositServices } from "./RegisterDepositServices";
-import { DepositImages } from "./DepositImages";
 import theme from "../../../theme/theme";
 import { ComplexButton } from "../../Button";
 import { Deposit } from "../../../api";
 import depositImages from "../../../assets/official-images/f683361f-8860-4902-b8ee-2331a81f03c2.jpg";
 import CircularProgress from "@mui/material/CircularProgress";
-
 import {
   buildStructuredBodyData,
   isLastStep,
@@ -26,17 +21,14 @@ import {
 import { useAuth } from "../../../hooks";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
 import { ThemeProvider } from "@emotion/react";
-import { DialogContent } from "@mui/material";
+import {
+  AddDepositAvailabilityDialog,
+  AddDepositImageDialog,
+} from "../../Dialogs";
 
-const steps = [
-  "Agregar información del depósito",
-  "Agregar servicios",
-  "Agregar disponibilidad",
-];
+const steps = ["Agregar información del depósito", "Agregar servicios"];
 
-//TODO: pendiente agregar paso "Agregar disponibilidad"
-
-const storageController = new Deposit();
+const depositController = new Deposit();
 
 export function RegisterDeposit() {
   const { accessToken } = useAuth();
@@ -50,14 +42,26 @@ export function RegisterDeposit() {
     React.useState("success");
   const [depositCreated, setDepositCreated] = React.useState(0);
   const [isRegistering, setIsRegistering] = React.useState(false); // Agregar estado para el CircularProgress
-  const [openDialog, setOpenDialog] = React.useState(false);
+  const [isAddAvailabilityDialogOpen, setIsAddAvailabilityDialogOpen] =
+    React.useState(false);
+  const [isAddImageDialogOpen, setIsAddImageDialogOpen] = React.useState(false);
 
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
+  const handleAddAvailability = () => {
+    setIsAddAvailabilityDialogOpen(true);
+    setIsAddImageDialogOpen(false);
   };
 
-  const handleAddDepositImage = () => {
-    setOpenDialog(true);
+  const handleAddImage = () => {
+    setIsAddImageDialogOpen(true);
+    setIsAddAvailabilityDialogOpen(false);
+  };
+
+  const handleAddImageDialogOpenChange = (isOpen) => {
+    setIsAddImageDialogOpen(isOpen);
+  };
+
+  const handleAddAvailabilityDialogOpenChange = (isOpen) => {
+    setIsAddAvailabilityDialogOpen(isOpen);
   };
 
   const handleFormSubmit = () => {
@@ -66,7 +70,7 @@ export function RegisterDeposit() {
       try {
         setIsRegistering(true);
 
-        const response = await storageController.register(accessToken, data);
+        const response = await depositController.register(accessToken, data);
 
         setNotificationMessage("Depósito registrado exitosamente");
         setNotificationSeverity("success");
@@ -119,9 +123,6 @@ export function RegisterDeposit() {
         );
       case 1:
         return <RegisterDepositServices formInformation={handleStepSubmit} />;
-      case 2:
-        //TODO: pendiente definir el form de disponibilidad
-        return <Typography variant="h2">Próximamente...</Typography>;
       default:
         return null;
     }
@@ -191,7 +192,16 @@ export function RegisterDeposit() {
                         imageTitle={"AGREGAR IMÁGENES"}
                         imageUrl={depositImages}
                         imageWidth={"500px"}
-                        onClick={() => handleAddDepositImage()}
+                        onClick={() => handleAddImage()}
+                        deposit={depositCreated}
+                      />
+                    </Box>
+                    <Box mt={2}>
+                      <ComplexButton
+                        imageTitle={"AGREGAR DISPONIBILIDAD"}
+                        imageUrl={depositImages}
+                        imageWidth={"500px"}
+                        onClick={() => handleAddAvailability()}
                         deposit={depositCreated}
                       />
                     </Box>
@@ -245,27 +255,16 @@ export function RegisterDeposit() {
             </Box>
           </React.Fragment>
         )}
-        <Dialog
-          open={openDialog}
-          onClose={handleCloseDialog}
-          fullWidth={true}
-          maxWidth={"sm"}
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center",
-          }}
-        >
-          <DialogTitle>Agregar imágenes a depósito</DialogTitle>
-          <DialogContent>
-            <DepositImages deposit={depositCreated} />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseDialog}>Cerrar</Button>
-          </DialogActions>
-        </Dialog>
+        <AddDepositImageDialog
+          selectedDeposit={depositCreated}
+          openDialog={isAddImageDialogOpen}
+          onDialogOpenChange={handleAddImageDialogOpenChange}
+        />
+        <AddDepositAvailabilityDialog
+          selectedDeposit={depositCreated}
+          openDialog={isAddAvailabilityDialogOpen}
+          onDialogOpenChange={handleAddAvailabilityDialogOpenChange}
+        />
         <NotificationSnackbar
           open={notificationOpen}
           onClose={() => setNotificationOpen(false)}

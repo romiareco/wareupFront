@@ -11,16 +11,13 @@ import { RequestDeposit } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { useState, useEffect } from "react";
 import { columns } from "./RegisteredDepositRequestsTableColumns";
-import { ChangeRequestDepositStatusDialog } from "../../Dialogs";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
 import {
   mapDepositRequestInformation,
   mapDepositRequestStatus,
 } from "../../../utils/mapFunctions";
-import { depositRequestStatus } from "../../../utils";
-import { AcceptRequestDeposit } from "../../Dialogs/ChangeRequestDepositStatus/AcceptRequestDeposit/AcceptRequestDeposit";
-import { CancelRequestDeposit } from "../../Dialogs/ChangeRequestDepositStatus/CancelRequestDeposit/CancelRequestDeposit";
+import { AcceptRequestDeposit, CancelRequestDeposit } from "../../Dialogs";
 
 const controller = new RequestDeposit();
 
@@ -152,7 +149,7 @@ export function RegisteredDepositRequestsTable() {
               )}
             </TableBody>
             <AcceptRequestDeposit
-              selectedUser={selectedAcceptRequest}
+              selectedRequestDeposit={selectedAcceptRequest}
               openDialog={isAcceptDialogOpen}
               onDialogOpenChange={handleAcceptDialogOpenChange}
             />

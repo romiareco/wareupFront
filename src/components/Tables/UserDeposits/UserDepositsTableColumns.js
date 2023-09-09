@@ -12,7 +12,6 @@ export const columns = (
 ) => [
   { id: "id", label: "ID", minWidth: 25 },
   { id: "title", label: "Título", minWidth: 100 },
-  { id: "description", label: "Descripción", minWidth: 170 },
   {
     id: "totalM3",
     label: "Total m3",
@@ -56,7 +55,6 @@ export const columns = (
   {
     id: "actions",
     label: "Acciones",
-    minWidth: 50,
     align: "center",
     format: (value, row) => (
       <DepositActionsMenu

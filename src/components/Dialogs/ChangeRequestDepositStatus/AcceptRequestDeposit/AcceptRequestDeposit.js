@@ -38,7 +38,7 @@ export function AcceptRequestDeposit({
       selectedRequestDeposit={selectedRequestDeposit}
       openDialog={openDialog}
       onDialogOpenChange={onDialogOpenChange}
-      requestDepositStatus={depositRequestStatus.COMPLETED}
+      requestDepositStatus="completar"
     />
   );
 }

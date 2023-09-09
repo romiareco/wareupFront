@@ -60,6 +60,25 @@ export function EditDepositBasicData({ deposit }) {
   useEffect(() => {
     (async () => {
       try {
+        const companiesResponse = await userController.getUserActiveCompanies(
+          accessToken,
+          user.id
+        );
+        const companiesData = companiesResponse.companies || [];
+        const transformedCompanies = companiesData.map((company) => ({
+          value: company.id,
+          label: company.businessName,
+        }));
+        setCompanies(transformedCompanies);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, [accessToken, user.id]);
+
+  useEffect(() => {
+    (async () => {
+      try {
         const commonResponse = await commonController.getDepartments(
           accessToken
         );
@@ -84,17 +103,6 @@ export function EditDepositBasicData({ deposit }) {
           }));
           setCities(transformedCities || []);
         }
-
-        const companiesResponse = await userController.getUserActiveCompanies(
-          accessToken,
-          user.id
-        );
-        const companiesData = companiesResponse.companies || [];
-        const transformedCompanies = companiesData.map((company) => ({
-          value: company.id,
-          label: company.businessName,
-        }));
-        setCompanies(transformedCompanies);
       } catch (error) {
         console.error(error);
       }
@@ -388,7 +396,7 @@ export function EditDepositBasicData({ deposit }) {
               onClick={handleEdit}
               startIcon={<EditRoundedIcon />}
             >
-              Editar empresa
+              Editar depósito
             </Button>
           ) : (
             <React.Fragment>
