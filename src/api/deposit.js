@@ -304,7 +304,7 @@ export class Deposit {
 
   async getDepositAvailabilityByDepositId(accessToken, data) {
     try {
-      const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT_CALENDAR_INFO}`/${data.depositId};
+      const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT_CALENDAR_INFO}/${data.depositId}`;
       const params = {
         headers: {
           "Content-Type": "application/json",
