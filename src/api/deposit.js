@@ -279,8 +279,8 @@ export class Deposit {
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
-          dateFrom: data.dateFrom,
-          dateTo: data.dateTo,
+          dateFrom: data.startDate,
+          dateTo: data.endDate,
           totalM3 : data.totalM3,
           depositId: data.depositId
         }),
@@ -302,9 +302,9 @@ export class Deposit {
     }
   }
 
-  async getDepositAvailabilityByDepositId(accessToken, data) {
+  async getDepositAvailabilityByDepositId(accessToken, depositId) {
     try {
-      const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT_CALENDAR_INFO}/${data.depositId}`;
+      const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT_CALENDAR_INFO}/${depositId}`;
       const params = {
         headers: {
           "Content-Type": "application/json",
@@ -327,4 +327,5 @@ export class Deposit {
       throw error;
     }
   }
+  
 }

@@ -57,7 +57,7 @@ export function Description({ depositId }) {
           sx={{
             textTransform: "uppercase",
             fontSize: "0.9rem",
-            marginRight: "4px", 
+            marginRight: "4px",
             fontWeight: "bold",
           }}
         >
