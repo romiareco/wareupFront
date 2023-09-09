@@ -7,51 +7,21 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { RequestDeposit } from "../../../api";
+import { Deposit } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { useState, useEffect } from "react";
-import { columns } from "./RegisteredDepositRequestsTableColumns";
+import { columns } from "./DepositAvailabilityCalendarTableColumns";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
-import {
-  mapDepositRequestInformation,
-  mapDepositRequestStatus,
-} from "../../../utils/mapFunctions";
-import { AcceptRequestDeposit, CancelRequestDeposit } from "../../Dialogs";
 
-const controller = new RequestDeposit();
+const depositController = new Deposit();
 
-export function RegisteredDepositRequestsTable() {
+export function DepositAvailabilityCalendarTable({ deposit }) {
   const { accessToken } = useAuth();
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [requestDeposits, setRequestDeposits] = useState(null);
-  const [isAcceptDialogOpen, setIsAcceptDialogOpen] = useState(false);
-  const [selectedAcceptRequest, setSelectedAcceptRequest] = useState(null);
-  const [selectedRejectRequest, setSelectedRejectRequest] = useState(null);
-  const [isRejectDialogOpen, setIsRejectDialogOpen] = useState(false);
-
-  const handleAccept = (row) => {
-    setSelectedAcceptRequest(row);
-    setSelectedRejectRequest(null); // Cerrar el diálogo de eliminación si está abierto
-    setIsAcceptDialogOpen(true);
-    setIsRejectDialogOpen(false);
-  };
-
-  const handleReject = (row) => {
-    setSelectedRejectRequest(row);
-    setSelectedAcceptRequest(null); // Cerrar el diálogo de edición si está abierto
-    setIsRejectDialogOpen(true);
-    setIsAcceptDialogOpen(false); // Ce
-  };
-  const handleAcceptDialogOpenChange = (isOpen) => {
-    setIsAcceptDialogOpen(isOpen);
-  };
-
-  const handleRejectDialogOpenChange = (isOpen) => {
-    setIsRejectDialogOpen(isOpen);
-  };
+  const [depositCalendars, setDepositCalendars] = useState([]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -65,19 +35,18 @@ export function RegisteredDepositRequestsTable() {
   useEffect(() => {
     (async () => {
       try {
-        const response = await controller.getAllRequestDeposits(accessToken);
-
-        if (response.depositRequests) {
-          const filteredInformation = mapDepositRequestInformation(
-            response.depositRequests
+        const response =
+          await depositController.getDepositAvailabilityByDepositId(
+            accessToken,
+            deposit.id
           );
-          setRequestDeposits(filteredInformation);
-        }
+
+        setDepositCalendars(response.depositCalendars);
       } catch (error) {
         console.error(error);
       }
     })();
-  }, [accessToken]);
+  }, [accessToken, deposit.id]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -88,10 +57,10 @@ export function RegisteredDepositRequestsTable() {
         }}
       >
         <TableContainer>
-          <Table stickyHeader style={{ backgroundColor: "transparent" }}>
+          <Table stickyHeader>
             <TableHead>
               <TableRow>
-                {columns(handleAccept, handleReject).map((column) => (
+                {columns().map((column) => (
                   <TableCell
                     key={column.id}
                     align={column.align}
@@ -108,8 +77,8 @@ export function RegisteredDepositRequestsTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {requestDeposits && requestDeposits.length > 0 ? (
-                requestDeposits
+              {depositCalendars && depositCalendars.length > 0 ? (
+                depositCalendars
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     return (
@@ -119,18 +88,19 @@ export function RegisteredDepositRequestsTable() {
                         tabIndex={-1}
                         key={row.code}
                         sx={{
+                          "&:hover": {
+                            backgroundColor: "lightgray", // Color al pasar el mouse sobre la fila
+                          },
                           backgroundColor:
                             index % 2 === 0 ? "lightgray" : "white",
                         }}
                       >
-                        {columns(handleAccept, handleReject).map((column) => {
+                        {columns().map((column) => {
                           const value = row[column.id];
                           return (
                             <TableCell key={column.id} align={column.align}>
                               {column.format
                                 ? column.format(value, row)
-                                : column.id === "status"
-                                ? mapDepositRequestStatus(value)
                                 : value}
                             </TableCell>
                           );
@@ -141,29 +111,19 @@ export function RegisteredDepositRequestsTable() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={columns.length}>
-                    {requestDeposits === null
+                    {depositCalendars === null
                       ? "Cargando datos..."
-                      : "No se han registrado depósitos."}
+                      : "No se registró disponibilidad para este depósito."}
                   </TableCell>
                 </TableRow>
               )}
             </TableBody>
-            <AcceptRequestDeposit
-              selectedRequestDeposit={selectedAcceptRequest}
-              openDialog={isAcceptDialogOpen}
-              onDialogOpenChange={handleAcceptDialogOpenChange}
-            />
-            <CancelRequestDeposit
-              selectedRequestDeposit={selectedRejectRequest}
-              openDialog={isRejectDialogOpen}
-              onDialogOpenChange={handleRejectDialogOpenChange}
-            />
           </Table>
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
-          count={requestDeposits === null ? 0 : requestDeposits.length}
+          count={depositCalendars === null ? 0 : depositCalendars.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

@@ -3,7 +3,7 @@ import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState, useEffect } from "react";
-import { DialogTitle, Typography } from "@mui/material";
+import { DialogTitle, Typography, CardContent } from "@mui/material";
 import ErrorIcon from "@mui/icons-material/Error"; // Importa un icono de error rojo aquí
 
 export function ErrorDialog({ errorMessage, openDialog, onDialogOpenChange }) {
@@ -22,24 +22,26 @@ export function ErrorDialog({ errorMessage, openDialog, onDialogOpenChange }) {
   };
 
   return (
-    <Dialog open={isDialogOpen} onClose={handleCancel}>
-      <IconButton
-        onClick={() => handleCancel()}
-        style={{ position: "absolute", top: "8px", right: "8px" }}
-      >
-        <CloseIcon />
-      </IconButton>
-      <DialogTitle>
-        <Typography
-          variant="h6"
-          style={{ color: "red", display: "flex", alignItems: "center" }}
+    <CardContent>
+      <Dialog open={isDialogOpen} onClose={handleCancel}>
+        <IconButton
+          onClick={() => handleCancel()}
+          style={{ position: "absolute", top: "8px", right: "8px" }}
         >
-          <ErrorIcon style={{ marginRight: "8px" }} /> Error
-        </Typography>
-      </DialogTitle>
-      <DialogContent>
-        <Typography>{errorMessage}</Typography>
-      </DialogContent>
-    </Dialog>
+          <CloseIcon />
+        </IconButton>
+        <DialogTitle>
+          <Typography
+            variant="h6"
+            style={{ color: "red", display: "flex", alignItems: "center" }}
+          >
+            <ErrorIcon style={{ marginRight: "8px" }} /> Error
+          </Typography>
+        </DialogTitle>
+        <DialogContent>
+          <Typography>{errorMessage}</Typography>
+        </DialogContent>
+      </Dialog>
+    </CardContent>
   );
 }

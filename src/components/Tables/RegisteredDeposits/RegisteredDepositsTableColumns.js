@@ -1,13 +1,17 @@
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import IconButton from "@mui/material/IconButton";
-import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
-import PreviewRoundedIcon from '@mui/icons-material/PreviewRounded';
+import { DepositActionsMenu } from "../../Menus";
 
-export const columns = (handleEdit, handleDelete, handleImage, handlePreview) => [
+export const columns = (
+  handleEditBasicData,
+  handleEditServices,
+  handleEditAvailability,
+  handleViewAvailability,
+  handleValidateAvailability,
+  handleDelete,
+  handleImage,
+  handlePreview
+) => [
   { id: "id", label: "ID", minWidth: 25 },
   { id: "title", label: "Título", minWidth: 100 },
-  { id: "description", label: "Descripción", minWidth: 170 },
   {
     id: "totalM3",
     label: "Total m3",
@@ -51,23 +55,19 @@ export const columns = (handleEdit, handleDelete, handleImage, handlePreview) =>
   {
     id: "actions",
     label: "Acciones",
-    minWidth: 200,
     align: "center",
     format: (value, row) => (
-      <div>
-        <IconButton onClick={() => handleEdit(row)}>
-          <EditIcon />
-        </IconButton>
-        <IconButton onClick={() => handleDelete(row)}>
-          <DeleteIcon />
-        </IconButton>
-        <IconButton onClick={() => handleImage(row)}>
-          <AddPhotoAlternateRoundedIcon />
-        </IconButton>
-        <IconButton onClick={() => handlePreview(row)}>
-          <PreviewRoundedIcon />
-        </IconButton>
-      </div>
+      <DepositActionsMenu
+      row={row}
+      handleEditBasicData={handleEditBasicData}
+      handleEditServices={handleEditServices}
+      handleEditAvailability={handleEditAvailability}
+      handleViewAvailability={handleViewAvailability}
+      handleValidateAvailability={handleValidateAvailability}
+      handleDelete={handleDelete}
+      handleImage={handleImage}
+      handlePreview={handlePreview}
+    />
     ),
   },
 ];

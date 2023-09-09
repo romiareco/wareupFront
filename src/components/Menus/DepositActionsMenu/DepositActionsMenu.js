@@ -8,11 +8,17 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import PreviewRoundedIcon from "@mui/icons-material/PreviewRounded";
+import AccessAlarmRoundedIcon from "@mui/icons-material/AccessAlarmRounded";
+import AlarmAddRoundedIcon from "@mui/icons-material/AlarmAddRounded";
+import TaskAltRoundedIcon from "@mui/icons-material/TaskAltRounded";
 
 export function DepositActionsMenu({
   row,
   handleEditBasicData,
   handleEditServices,
+  handleEditAvailability,
+  handleViewAvailability,
+  handleValidateAvailability,
   handleDelete,
   handleImage,
   handlePreview,
@@ -62,6 +68,42 @@ export function DepositActionsMenu({
             <EditIcon fontSize="small" />
           </ListItemIcon>
           Editar servicios
+        </MenuItem>
+
+        <MenuItem
+          onClick={() => {
+            handleViewAvailability(selectedRow);
+            setAnchorEl(null);
+          }}
+        >
+          <ListItemIcon>
+            <AccessAlarmRoundedIcon fontSize="small" />
+          </ListItemIcon>
+          Ver configuración de disponibilidad
+        </MenuItem>
+
+        <MenuItem
+          onClick={() => {
+            handleEditAvailability(selectedRow);
+            setAnchorEl(null);
+          }}
+        >
+          <ListItemIcon>
+            <AlarmAddRoundedIcon fontSize="small" />
+          </ListItemIcon>
+          Agregar disponibilidad
+        </MenuItem>
+
+        <MenuItem
+          onClick={() => {
+            handleValidateAvailability(selectedRow);
+            setAnchorEl(null);
+          }}
+        >
+          <ListItemIcon>
+            <TaskAltRoundedIcon fontSize="small" />
+          </ListItemIcon>
+          Comprobar disponibilidad
         </MenuItem>
 
         <MenuItem

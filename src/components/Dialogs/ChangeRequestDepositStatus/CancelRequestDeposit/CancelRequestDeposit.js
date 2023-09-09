@@ -28,6 +28,6 @@ export function CancelRequestDeposit({
         selectedRequestDeposit={selectedRequestDeposit}
         openDialog={openDialog}
         onDialogOpenChange={onDialogOpenChange}
-        requestDepositStatus={depositRequestStatus.CANCELED} />
+        requestDepositStatus="cancelar" />
     )
 }

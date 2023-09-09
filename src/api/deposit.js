@@ -268,4 +268,64 @@ export class Deposit {
       throw error;
     }
   }
+
+  async registerDepositAvailability(accessToken, data) {
+    try {
+      const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT_CALENDAR}`;
+      const params = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          dateFrom: data.startDate,
+          dateTo: data.endDate,
+          totalM3 : data.totalM3,
+          depositId: data.depositId
+        }),
+      };
+
+      const response = await fetch(url, params);
+      const result = await response.json();
+
+      if (response.status !== 200) throw response;
+      if (result && result.hasError) throw result;
+
+      return result;
+    } catch (error) {
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
+      throw error;
+    }
+  }
+
+  async getDepositAvailabilityByDepositId(accessToken, depositId) {
+    try {
+      const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT_CALENDAR_INFO}/${depositId}`;
+      const params = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        }
+      };
+
+      const response = await fetch(url, params);
+      const result = await response.json();
+
+      if (response.status !== 200) throw response;
+      if (result && result.hasError) throw result;
+
+      return result;
+    } catch (error) {
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
+      throw error;
+    }
+  }
+  
 }

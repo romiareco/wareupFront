@@ -16,6 +16,8 @@ import {
   RemoveUserDepositDialog,
   AddDepositImageDialog,
   EditDepositServicesDialog,
+  AddDepositAvailabilityDialog,
+  ViewDepositCalendarAvailabilityDialog
 } from "../../Dialogs";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
@@ -23,7 +25,6 @@ import {
   mapDepositInformation,
   mapDepositStatus,
 } from "../../../utils/mapFunctions";
-import { Rowing } from "@mui/icons-material";
 
 const depositController = new Deposit();
 
@@ -34,21 +35,43 @@ export function UserDepositsTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [deposits, setDeposits] = useState(null);
 
-  const [selectedEditBasicDataDeposit, setSelectedEditBasicDataDeposit] = useState(null);
-  const [selectedEditServicesDeposit, setSelectedEditServicesDeposit] = useState(null);
+  const [selectedEditBasicDataDeposit, setSelectedEditBasicDataDeposit] =
+    useState(null);
+  const [selectedEditServicesDeposit, setSelectedEditServicesDeposit] =
+    useState(null);
 
   const [selectedDeleteDeposit, setSelectedDeleteDeposit] = useState(null);
   const [selectedAddImageDeposit, setSelectedAddImageDeposit] = useState(null);
 
+  const [selectedAddAvailabilityDeposit, setSelectedAddAvailabilityDeposit] =
+    useState(null);
+  const [selectedViewAvailability, setSelectedViewAvailability] =
+    useState(null);
+  const [selectedValidateAvailability, setSelectedValidateAvailability] =
+    useState(null);
+
   const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false);
-  const [isEditBasicDataDialogOpen, setIsEditBasicDataDialogOpen] = useState(false);
-  const [isEditServicesDialogOpen, setIsEditServicesDialogOpen] = useState(false);
+  const [isEditBasicDataDialogOpen, setIsEditBasicDataDialogOpen] =
+    useState(false);
+  const [isEditServicesDialogOpen, setIsEditServicesDialogOpen] =
+    useState(false);
   const [isAddImageDialogOpen, setIsAddImageDialogOpen] = useState(false);
 
+  const [isAddAvailabilityDialogOpen, setIsAddAvailabilityDialogOpen] =
+    useState(false);
+  const [isViewAvailabilityDialogOpen, setIsViewAvailabilityDialogOpen] =
+    useState(false);
+  const [
+    isValidateAvailabilityDialogOpen,
+    setIsValidationAvailabilityDialogOpen,
+  ] = useState(false);
 
   const handlePreview = (row) => {
     setSelectedEditBasicDataDeposit(null);
     setSelectedEditServicesDeposit(null);
+    setSelectedAddAvailabilityDeposit(null);
+    setSelectedViewAvailability(null);
+    setSelectedValidateAvailability(null);
     setSelectedDeleteDeposit(null);
     setSelectedAddImageDeposit(null);
 
@@ -56,6 +79,9 @@ export function UserDepositsTable() {
     setIsEditServicesDialogOpen(false);
     setIsRemoveDialogOpen(false);
     setIsAddImageDialogOpen(false);
+    setIsAddAvailabilityDialogOpen(false);
+    setIsViewAvailabilityDialogOpen(false);
+    setIsValidationAvailabilityDialogOpen(false);
 
     const queryParams = {
       id: row.id,
@@ -75,47 +101,127 @@ export function UserDepositsTable() {
     setSelectedEditServicesDeposit(null);
     setSelectedDeleteDeposit(null);
     setSelectedAddImageDeposit(row);
-    
+    setSelectedAddAvailabilityDeposit(null);
+    setSelectedViewAvailability(null);
+    setSelectedValidateAvailability(null);
+
     setIsEditBasicDataDialogOpen(false);
     setIsEditServicesDialogOpen(false);
     setIsRemoveDialogOpen(false);
     setIsAddImageDialogOpen(true);
+    setIsAddAvailabilityDialogOpen(false);
+    setIsValidationAvailabilityDialogOpen(false);
+    setIsViewAvailabilityDialogOpen(false);
   };
 
   const handleEditBasicData = (row) => {
     setSelectedEditBasicDataDeposit(row);
-    setSelectedEditServicesDeposit(null);    
+    setSelectedEditServicesDeposit(null);
     setSelectedDeleteDeposit(null);
     setSelectedAddImageDeposit(null);
+    setSelectedAddAvailabilityDeposit(null);
+    setSelectedViewAvailability(null);
+    setSelectedValidateAvailability(null);
 
     setIsEditBasicDataDialogOpen(true);
     setIsEditServicesDialogOpen(false);
     setIsRemoveDialogOpen(false);
     setIsAddImageDialogOpen(false);
+    setIsAddAvailabilityDialogOpen(false);
+    setIsValidationAvailabilityDialogOpen(false);
+    setIsViewAvailabilityDialogOpen(false);
   };
 
   const handleEditServices = (row) => {
     setSelectedEditBasicDataDeposit(null);
-    setSelectedEditServicesDeposit(row);    
+    setSelectedEditServicesDeposit(row);
     setSelectedDeleteDeposit(null);
     setSelectedAddImageDeposit(null);
+    setSelectedAddAvailabilityDeposit(null);
+    setSelectedViewAvailability(null);
+    setSelectedValidateAvailability(null);
 
     setIsEditBasicDataDialogOpen(false);
     setIsEditServicesDialogOpen(true);
     setIsRemoveDialogOpen(false);
     setIsAddImageDialogOpen(false);
+    setIsAddAvailabilityDialogOpen(false);
+    setIsValidationAvailabilityDialogOpen(false);
+    setIsViewAvailabilityDialogOpen(false);
   };
 
-  const handleDelete = (row) => {
+  const handleAddAvailability = (row) => {
     setSelectedEditBasicDataDeposit(null);
-    setSelectedEditServicesDeposit(null); 
-    setSelectedDeleteDeposit(row);
+    setSelectedEditServicesDeposit(null);
+    setSelectedDeleteDeposit(null);
     setSelectedAddImageDeposit(null);
+    setSelectedAddAvailabilityDeposit(row);
+    setSelectedViewAvailability(null);
+    setSelectedValidateAvailability(null);
 
     setIsEditBasicDataDialogOpen(false);
     setIsEditServicesDialogOpen(false);
-        setIsRemoveDialogOpen(true);
+    setIsRemoveDialogOpen(false);
     setIsAddImageDialogOpen(false);
+    setIsAddAvailabilityDialogOpen(true);
+    setIsValidationAvailabilityDialogOpen(false);
+    setIsViewAvailabilityDialogOpen(false);
+  };
+
+  const handleViewAvailability = (row) => {
+    setSelectedEditBasicDataDeposit(null);
+    setSelectedEditServicesDeposit(null);
+    setSelectedDeleteDeposit(null);
+    setSelectedAddImageDeposit(null);
+    setSelectedAddAvailabilityDeposit(null);
+    setSelectedViewAvailability(row);
+    setSelectedValidateAvailability(null);
+
+    setIsEditBasicDataDialogOpen(false);
+    setIsEditServicesDialogOpen(false);
+    setIsRemoveDialogOpen(false);
+    setIsAddImageDialogOpen(false);
+    setIsAddAvailabilityDialogOpen(false);
+    setIsValidationAvailabilityDialogOpen(false);
+    setIsViewAvailabilityDialogOpen(true);
+  };
+
+  const handleValidateAvailability = (row) => {
+    setSelectedEditBasicDataDeposit(null);
+    setSelectedEditServicesDeposit(null);
+    setSelectedDeleteDeposit(null);
+    setSelectedAddImageDeposit(null);
+    setSelectedAddAvailabilityDeposit(null);
+    setSelectedViewAvailability(null);
+    setSelectedValidateAvailability(row);
+
+    setIsEditBasicDataDialogOpen(false);
+    setIsEditServicesDialogOpen(false);
+    setIsRemoveDialogOpen(false);
+    setIsAddImageDialogOpen(false);
+    setIsAddAvailabilityDialogOpen(false);
+    setIsValidationAvailabilityDialogOpen(true);
+    setIsViewAvailabilityDialogOpen(false);
+  };
+
+
+
+  const handleDelete = (row) => {
+    setSelectedEditBasicDataDeposit(null);
+    setSelectedEditServicesDeposit(null);
+    setSelectedDeleteDeposit(row);
+    setSelectedAddImageDeposit(null);
+    setSelectedAddAvailabilityDeposit(null);
+    setSelectedViewAvailability(null);
+    setSelectedValidateAvailability(null);
+
+    setIsEditBasicDataDialogOpen(false);
+    setIsEditServicesDialogOpen(false);
+    setIsRemoveDialogOpen(true);
+    setIsAddImageDialogOpen(false);
+    setIsAddAvailabilityDialogOpen(false);
+    setIsValidationAvailabilityDialogOpen(false);
+    setIsViewAvailabilityDialogOpen(false);
   };
 
   const handleEditBasicDataDialogOpenChange = (isOpen) => {
@@ -125,6 +231,18 @@ export function UserDepositsTable() {
   const handleEditServicesDialogOpenChange = (isOpen) => {
     setIsEditServicesDialogOpen(isOpen);
   };
+
+  const handleAddAvailabilityDialogOpenChange = (isOpen) => {
+    setIsAddAvailabilityDialogOpen(isOpen);
+  };
+
+  const handleViewAvailabilityDialogOpenChange = (isOpen) => {
+    setIsViewAvailabilityDialogOpen(isOpen);
+  };
+
+  const handleValidateAvailabilityDialogOpenChange = (isOpen) => {
+    setIsValidationAvailabilityDialogOpen(isOpen);
+  }
 
   const handleRemoveDialogOpenChange = (isOpen) => {
     setIsRemoveDialogOpen(isOpen);
@@ -177,6 +295,9 @@ export function UserDepositsTable() {
                 {columns(
                   handleEditBasicData,
                   handleEditServices,
+                  handleAddAvailability,
+                  handleViewAvailability,
+                  handleValidateAvailability,
                   handleDelete,
                   handleImage,
                   handlePreview
@@ -215,6 +336,9 @@ export function UserDepositsTable() {
                         {columns(
                           handleEditBasicData,
                           handleEditServices,
+                          handleAddAvailability,
+                          handleViewAvailability,
+                          handleValidateAvailability,
                           handleDelete,
                           handleImage,
                           handlePreview
@@ -263,6 +387,16 @@ export function UserDepositsTable() {
               openDialog={isEditServicesDialogOpen}
               onDialogOpenChange={handleEditServicesDialogOpenChange}
             />
+            <AddDepositAvailabilityDialog
+              selectedDeposit={selectedAddAvailabilityDeposit}
+              openDialog={isAddAvailabilityDialogOpen}
+              onDialogOpenChange={handleAddAvailabilityDialogOpenChange}
+            />
+            <ViewDepositCalendarAvailabilityDialog
+             selectedDeposit={selectedViewAvailability}
+             openDialog={isViewAvailabilityDialogOpen}
+             onDialogOpenChange={handleViewAvailabilityDialogOpenChange}
+           />
           </Table>
         </TableContainer>
         <TablePagination
