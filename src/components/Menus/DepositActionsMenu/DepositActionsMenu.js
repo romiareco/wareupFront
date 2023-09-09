@@ -8,11 +8,13 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import PreviewRoundedIcon from "@mui/icons-material/PreviewRounded";
+import AccessAlarmRoundedIcon from '@mui/icons-material/AccessAlarmRounded';
 
 export function DepositActionsMenu({
   row,
   handleEditBasicData,
   handleEditServices,
+  handleEditAvailability,
   handleDelete,
   handleImage,
   handlePreview,
@@ -62,6 +64,18 @@ export function DepositActionsMenu({
             <EditIcon fontSize="small" />
           </ListItemIcon>
           Editar servicios
+        </MenuItem>
+
+        <MenuItem
+          onClick={() => {
+            handleEditAvailability(selectedRow);
+            setAnchorEl(null);
+          }}
+        >
+          <ListItemIcon>
+            <AccessAlarmRoundedIcon fontSize="small" />
+          </ListItemIcon>
+          Agregar disponibilidad
         </MenuItem>
 
         <MenuItem

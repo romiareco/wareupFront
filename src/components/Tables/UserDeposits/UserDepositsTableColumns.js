@@ -1,6 +1,6 @@
 import { DepositActionsMenu } from "../../Menus";
 
-export const columns = (handleEditBasicData, handleEditServices, handleDelete, handleImage, handlePreview) => [
+export const columns = (handleEditBasicData, handleEditServices, handleEditAvailability, handleDelete, handleImage, handlePreview) => [
   { id: "id", label: "ID", minWidth: 25 },
   { id: "title", label: "Título", minWidth: 100 },
   { id: "description", label: "Descripción", minWidth: 170 },
@@ -50,7 +50,7 @@ export const columns = (handleEditBasicData, handleEditServices, handleDelete, h
     minWidth: 50,
     align: "center",
     format: (value, row) => (
-     <DepositActionsMenu row={row} handleEditBasicData={handleEditBasicData} handleEditServices={handleEditServices} handleDelete={handleDelete} handleImage={handleImage} handlePreview={handlePreview}/>
+     <DepositActionsMenu row={row} handleEditBasicData={handleEditBasicData} handleEditServices={handleEditServices} handleEditAvailability={handleEditAvailability} handleDelete={handleDelete} handleImage={handleImage} handlePreview={handlePreview}/>
     ),
   },
 ];

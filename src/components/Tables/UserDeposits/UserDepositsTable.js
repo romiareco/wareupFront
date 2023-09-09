@@ -23,7 +23,7 @@ import {
   mapDepositInformation,
   mapDepositStatus,
 } from "../../../utils/mapFunctions";
-import { Rowing } from "@mui/icons-material";
+import {EditDepositAvailabilityDialog} from "../../Dialogs/EditDepositAvailabilityDialog/EditDepositAvailabilityDialog";
 
 const depositController = new Deposit();
 
@@ -34,26 +34,35 @@ export function UserDepositsTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [deposits, setDeposits] = useState(null);
 
-  const [selectedEditBasicDataDeposit, setSelectedEditBasicDataDeposit] = useState(null);
-  const [selectedEditServicesDeposit, setSelectedEditServicesDeposit] = useState(null);
+  const [selectedEditBasicDataDeposit, setSelectedEditBasicDataDeposit] =
+    useState(null);
+  const [selectedEditServicesDeposit, setSelectedEditServicesDeposit] =
+    useState(null);
+  const [selectedEditAvailabilityDeposit, setSelectedEditAvailabilityDeposit] =
+    useState(null);
 
   const [selectedDeleteDeposit, setSelectedDeleteDeposit] = useState(null);
   const [selectedAddImageDeposit, setSelectedAddImageDeposit] = useState(null);
 
   const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false);
-  const [isEditBasicDataDialogOpen, setIsEditBasicDataDialogOpen] = useState(false);
-  const [isEditServicesDialogOpen, setIsEditServicesDialogOpen] = useState(false);
+  const [isEditBasicDataDialogOpen, setIsEditBasicDataDialogOpen] =
+    useState(false);
+  const [isEditAvailabilityDialogOpen, setIsEditAvailabilityDialogOpen] =
+    useState(false);
+  const [isEditServicesDialogOpen, setIsEditServicesDialogOpen] =
+    useState(false);
   const [isAddImageDialogOpen, setIsAddImageDialogOpen] = useState(false);
-
 
   const handlePreview = (row) => {
     setSelectedEditBasicDataDeposit(null);
     setSelectedEditServicesDeposit(null);
+    setSelectedEditAvailabilityDeposit(null);
     setSelectedDeleteDeposit(null);
     setSelectedAddImageDeposit(null);
 
     setIsEditBasicDataDialogOpen(false);
     setIsEditServicesDialogOpen(false);
+    setIsEditAvailabilityDialogOpen(false);
     setIsRemoveDialogOpen(false);
     setIsAddImageDialogOpen(false);
 
@@ -73,48 +82,70 @@ export function UserDepositsTable() {
   const handleImage = (row) => {
     setSelectedEditBasicDataDeposit(null);
     setSelectedEditServicesDeposit(null);
+    setSelectedEditAvailabilityDeposit(null);
     setSelectedDeleteDeposit(null);
     setSelectedAddImageDeposit(row);
-    
+
     setIsEditBasicDataDialogOpen(false);
     setIsEditServicesDialogOpen(false);
+    setIsEditAvailabilityDialogOpen(false);
     setIsRemoveDialogOpen(false);
     setIsAddImageDialogOpen(true);
   };
 
   const handleEditBasicData = (row) => {
     setSelectedEditBasicDataDeposit(row);
-    setSelectedEditServicesDeposit(null);    
+    setSelectedEditServicesDeposit(null);
+    setSelectedEditAvailabilityDeposit(null);
     setSelectedDeleteDeposit(null);
     setSelectedAddImageDeposit(null);
 
     setIsEditBasicDataDialogOpen(true);
     setIsEditServicesDialogOpen(false);
+    setIsEditAvailabilityDialogOpen(false);
     setIsRemoveDialogOpen(false);
     setIsAddImageDialogOpen(false);
   };
 
   const handleEditServices = (row) => {
     setSelectedEditBasicDataDeposit(null);
-    setSelectedEditServicesDeposit(row);    
+    setSelectedEditServicesDeposit(row);
+    setSelectedEditAvailabilityDeposit(null);
     setSelectedDeleteDeposit(null);
     setSelectedAddImageDeposit(null);
 
     setIsEditBasicDataDialogOpen(false);
     setIsEditServicesDialogOpen(true);
+    setIsEditAvailabilityDialogOpen(false);
+    setIsRemoveDialogOpen(false);
+    setIsAddImageDialogOpen(false);
+  };
+
+  const handleEditAvailability = (row) => {
+    setSelectedEditBasicDataDeposit(null);
+    setSelectedEditServicesDeposit(null);
+    setSelectedEditAvailabilityDeposit(row);
+    setSelectedDeleteDeposit(null);
+    setSelectedAddImageDeposit(null);
+
+    setIsEditBasicDataDialogOpen(false);
+    setIsEditServicesDialogOpen(false);
+    setIsEditAvailabilityDialogOpen(true);
     setIsRemoveDialogOpen(false);
     setIsAddImageDialogOpen(false);
   };
 
   const handleDelete = (row) => {
     setSelectedEditBasicDataDeposit(null);
-    setSelectedEditServicesDeposit(null); 
+    setSelectedEditServicesDeposit(null);
+    setSelectedEditAvailabilityDeposit(null);
     setSelectedDeleteDeposit(row);
     setSelectedAddImageDeposit(null);
 
     setIsEditBasicDataDialogOpen(false);
     setIsEditServicesDialogOpen(false);
-        setIsRemoveDialogOpen(true);
+    setIsEditAvailabilityDialogOpen(false);
+    setIsRemoveDialogOpen(true);
     setIsAddImageDialogOpen(false);
   };
 
@@ -124,6 +155,10 @@ export function UserDepositsTable() {
 
   const handleEditServicesDialogOpenChange = (isOpen) => {
     setIsEditServicesDialogOpen(isOpen);
+  };
+
+  const handleEditAvailabilityDialogOpenChange = (isOpen) => {
+    setIsEditAvailabilityDialogOpen(isOpen);
   };
 
   const handleRemoveDialogOpenChange = (isOpen) => {
@@ -177,6 +212,7 @@ export function UserDepositsTable() {
                 {columns(
                   handleEditBasicData,
                   handleEditServices,
+                  handleEditAvailability,
                   handleDelete,
                   handleImage,
                   handlePreview
@@ -215,6 +251,7 @@ export function UserDepositsTable() {
                         {columns(
                           handleEditBasicData,
                           handleEditServices,
+                          handleEditAvailability,
                           handleDelete,
                           handleImage,
                           handlePreview
@@ -262,6 +299,11 @@ export function UserDepositsTable() {
               selectedDeposit={selectedEditServicesDeposit}
               openDialog={isEditServicesDialogOpen}
               onDialogOpenChange={handleEditServicesDialogOpenChange}
+            />
+            <EditDepositAvailabilityDialog
+              selectedDeposit={selectedEditAvailabilityDeposit}
+              openDialog={isEditAvailabilityDialogOpen}
+              onDialogOpenChange={handleEditAvailabilityDialogOpenChange}
             />
           </Table>
         </TableContainer>
