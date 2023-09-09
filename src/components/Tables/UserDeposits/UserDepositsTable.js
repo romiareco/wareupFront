@@ -12,7 +12,7 @@ import { useAuth } from "../../../hooks";
 import { useState, useEffect } from "react";
 import { columns } from "./UserDepositsTableColumns";
 import {
-  EditUserInformationDialog,
+  EditDepositBasicDataDialog,
   RemoveUserDepositDialog,
   AddDepositImageDialog,
 } from "../../Dialogs";
@@ -22,8 +22,6 @@ import {
   mapDepositInformation,
   mapDepositStatus,
 } from "../../../utils/mapFunctions";
-import { PublicationView } from "../../../pages";
-import { EditDepositBasicDataDialog } from "../../Dialogs/EditDepositBasicDataDialog/EditDepositBasicDataDialog";
 
 const depositController = new Deposit();
 
@@ -115,10 +113,6 @@ export function UserDepositsTable() {
 
   const handleAddImageDialogOpenChange = (isOpen) => {
     setIsAddImageDialogOpen(isOpen);
-  };
-
-  const handleDepositPreviewDialogOpenChange = (isOpen) => {
-    setIsDepositPreviewDialogOpen(isOpen);
   };
 
   const handleChangePage = (event, newPage) => {

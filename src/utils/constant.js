@@ -4,10 +4,11 @@ export const navbarHeight = 60
 export const sidenavCompactWidth = 80
 export const containedLayoutWidth = 1200
 
+const SERVER_IP = "localhost:3001";
 //TODO: separar API_ROUTES por entidad
 export const ENV = {
-    BASE_PATH: `https://wareup-api.onrender.com`,
-    BASE_API: `https://wareup-api.onrender.com/api/v1`,
+    BASE_PATH: `http://${SERVER_IP}`,
+    BASE_API: `http://${SERVER_IP}/api/v1`,
     API_ROUTES: {
         LOGIN: "auth/login",
         REFRESH_ACCESS_TOKEN: "auth/refresh_access_token",

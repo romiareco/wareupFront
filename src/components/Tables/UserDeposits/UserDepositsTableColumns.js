@@ -3,6 +3,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
 import PreviewRoundedIcon from '@mui/icons-material/PreviewRounded';
+import { DepositActionsMenu } from "../../Menus";
 
 export const columns = (handleEdit, handleDelete, handleImage, handlePreview) => [
   { id: "id", label: "ID", minWidth: 25 },
@@ -51,23 +52,10 @@ export const columns = (handleEdit, handleDelete, handleImage, handlePreview) =>
   {
     id: "actions",
     label: "Acciones",
-    minWidth: 200,
+    minWidth: 50,
     align: "center",
     format: (value, row) => (
-      <div>
-        <IconButton onClick={() => handleEdit(row)}>
-          <EditIcon />
-        </IconButton>
-        <IconButton onClick={() => handleDelete(row)}>
-          <DeleteIcon />
-        </IconButton>
-        <IconButton onClick={() => handleImage(row)}>
-          <AddPhotoAlternateRoundedIcon />
-        </IconButton>
-        <IconButton onClick={() => handlePreview(row)}>
-          <PreviewRoundedIcon />
-        </IconButton>
-      </div>
+     <DepositActionsMenu row={row} handleEdit={handleEdit} handleDelete={handleDelete} handleImage={handleImage} handlePreview={handlePreview}/>
     ),
   },
 ];
