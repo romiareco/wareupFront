@@ -38,8 +38,8 @@ export function Login() {
   const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
 
   const formik = useFormik({
-    initialValues: inititalValues,
-    validationSchema: validationSchema,
+    initialValues: inititalValues(),
+    validationSchema: validationSchema(),
     validateOnChange: false,
     onSubmit: async (formValue) => {
       try {
@@ -74,8 +74,6 @@ export function Login() {
         <CssBaseline />
         <Grid
           item
-          xs={false}
-          sm={4}
           md={7}
           sx={{
             backgroundImage:
@@ -89,7 +87,7 @@ export function Login() {
             backgroundPosition: "center",
           }}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid item md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
               my: 8,

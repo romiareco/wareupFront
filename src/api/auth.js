@@ -14,10 +14,8 @@ export class Auth {
         },
         body: JSON.stringify(data),
       };
-      console.log(params);
 
       const response = await fetch(url, params);
-      console.log(response);
       const result = await response.json();
 
       if (response.status !== 200) throw result;

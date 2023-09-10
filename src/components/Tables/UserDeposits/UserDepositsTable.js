@@ -413,5 +413,3 @@ export function UserDepositsTable() {
     </ThemeProvider>
   );
 }
-
-//TODO: eliminar estados innecesarios para la preview de la publicacion
