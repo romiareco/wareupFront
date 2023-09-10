@@ -11,11 +11,11 @@ export const columns = (
   handlePreview
 ) => [
   { id: "id", label: "ID", minWidth: 25 },
-  { id: "title", label: "Título", minWidth: 100 },
+  { id: "title", label: "Título", minWidth: 200 },
   {
     id: "totalM3",
     label: "Total m3",
-    minWidth: 75,
+    minWidth: 100,
   },
   {
     id: "currency",
@@ -30,22 +30,32 @@ export const columns = (
   {
     id: "street",
     label: "Dirección",
-    minWidth: 100,
+    minWidth: 250,
   },
   {
     id: "postalCode",
     label: "Código postal",
-    minWidth: 50,
+    minWidth: 150,
   },
   {
     id: "businessName",
     label: "Empresa",
-    minWidth: 50,
+    minWidth: 250,
   },
   {
     id: "cityName",
     label: "Barrio/Ciudad",
-    minWidth: 50,
+    minWidth: 250,
+  },
+  {
+    id: "departmentName",
+    label: "Departamento",
+    minWidth: 100,
+  },
+  {
+    id: "createdAt",
+    label: "Fecha",
+    minWidth: 150,
   },
   {
     id: "status",

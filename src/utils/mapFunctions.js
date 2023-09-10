@@ -107,6 +107,8 @@ export function mapDepositRequestInformation(depositRequests) {
 
 export function mapDepositInformation(deposits) {
   const filteredInformation = deposits.map((deposit) => {
+    const date = deposit.createdAt.split('T')[0]; // Divide la cadena en función del carácter 'T' y selecciona la primera parte (la fecha)
+
     return {
       id: deposit.id,
       title: deposit.title,
@@ -118,7 +120,9 @@ export function mapDepositInformation(deposits) {
       cityName: deposit.city ? deposit.city.title : null,
       cityId: deposit.cityId,
       departmentId: deposit.city? deposit.city.departmentId : null,
+      departmentName: deposit.city? deposit.city.department.title : null,
       status: deposit.status,
+      createdAt: date,
       businessName: deposit.company ? deposit.company.businessName : null,
       companyId: deposit.companyId,
       postalCode: deposit.postalCode,
