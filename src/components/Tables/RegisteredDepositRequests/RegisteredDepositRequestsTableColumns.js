@@ -30,6 +30,10 @@ export const columns = (handleAccept, handleReject) => [
     minWidth: 100,
   },
   {
+    id: "cratedAt",
+    label: "Fecha",
+  },
+  {
     id: "status",
     label: "Status",
     minWidth: 50,

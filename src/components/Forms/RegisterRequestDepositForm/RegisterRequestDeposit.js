@@ -92,7 +92,7 @@ export function RegisterRequestDeposit() {
           user
         );
 
-        setNotificationMessage("Empresa registrada exitosamente");
+        setNotificationMessage("Solicitud registrada exitosamente");
         setNotificationSeverity("success");
         setNotificationOpen(true);
 

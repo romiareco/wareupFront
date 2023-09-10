@@ -80,12 +80,15 @@ export function mapUserRole(statusNumber) {
 
 export function mapDepositRequestInformation(depositRequests) {
   const filteredInformation = depositRequests.map((deposit) => {
+    const date = deposit.createdAt.split('T')[0]; // Divide la cadena en función del carácter 'T' y selecciona la primera parte (la fecha)
+
     return {
       id: deposit.id,
       title: deposit.title,
       description: deposit.description,
       email: deposit.email,
       phone: deposit.phone,
+      createdAt: date,
       cityId: deposit.city ? deposit.city.title : null,
       address: deposit.address,
       status: deposit.status,

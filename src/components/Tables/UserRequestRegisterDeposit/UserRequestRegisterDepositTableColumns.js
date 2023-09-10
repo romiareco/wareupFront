@@ -3,7 +3,7 @@ import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 export const columns = (handleReject) => [
   { id: "id", label: "ID", minWidth: 25 },
   { id: "title", label: "Título", minWidth: 100 },
-  { id: "description", label: "Descripción", minWidth: 170 },
+  { id: "description", label: "Descripción", minWidth: 250 },
   {
     id: "email",
     label: "Email",
@@ -12,12 +12,12 @@ export const columns = (handleReject) => [
   {
     id: "phone",
     label: "Teléfono",
-    minWidth: 40,
+    minWidth: 200,
   },
   {
     id: "businessName",
     label: "Empresa",
-    minWidth: 50,
+    minWidth: 200,
   },
   {
     id: "cityId",
@@ -27,7 +27,12 @@ export const columns = (handleReject) => [
   {
     id: "address",
     label: "Dirección",
-    minWidth: 100,
+    minWidth: 250,
+  },
+  {
+    id: "createdAt",
+    label: "Fecha",
+    minWidth: 150,
   },
   {
     id: "status",
