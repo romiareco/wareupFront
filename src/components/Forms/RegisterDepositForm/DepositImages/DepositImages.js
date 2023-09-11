@@ -75,7 +75,7 @@ export function DepositImages({ deposit }) {
   return (
     <ThemeProvider theme={theme}>
       <Grid container justifyContent="center" alignItems="center">
-        <Grid item xs={10}>
+        <Grid item md={10}>
           <DepositImageCarousel depositId={deposit.id} />
         </Grid>
       </Grid>

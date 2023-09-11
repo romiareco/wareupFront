@@ -1,5 +1,5 @@
 import Dialog from "@mui/material/Dialog";
-import {DialogContent} from "@mui/material";
+import {DialogContent, DialogTitle, Grid} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState, useEffect } from "react";
@@ -39,10 +39,17 @@ export function EditDepositServicesDialog({
       onClose={handleCancel}
       maxWidth="lg"
     >
+      <Grid container justifyContent="space-between" alignItems="center">
+        <Grid item>
+          <DialogTitle>Servicios del depósito</DialogTitle>
+        </Grid>
+        <Grid item>
+          <IconButton onClick={() => handleCancel()}>
+            <CloseIcon />
+          </IconButton>
+        </Grid>
+      </Grid>
       <DialogContent>
-        <IconButton onClick={() => handleCancel()}>
-          <CloseIcon />
-        </IconButton>
         {selectedDeposit && <EditDepositServices deposit={selectedDeposit} />}
       </DialogContent>
     </Dialog>

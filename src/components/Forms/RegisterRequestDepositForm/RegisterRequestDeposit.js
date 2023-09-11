@@ -147,7 +147,7 @@ export function RegisterRequestDeposit() {
             sx={{ mt: 3, width: "100%" }}
           >
             <Grid container spacing={2} alignItems="center">
-              <Grid item xs={9}>
+              <Grid item md={8}>
                 <FormControl
                   fullWidth
                   error={formik.touched.companyId && formik.errors.companyId}
@@ -178,7 +178,7 @@ export function RegisterRequestDeposit() {
                   )}
                 </FormControl>
               </Grid>
-              <Grid item xs={3}>
+              <Grid item md>
                 <RegisterCompanyButton />
               </Grid>
             </Grid>
@@ -191,7 +191,7 @@ export function RegisterRequestDeposit() {
               Datos del depósito
             </Typography>
             <Grid container spacing={2}>
-              <Grid item xs={12} md={8}>
+              <Grid item md={8}>
                 <TextField
                   fullWidth
                   type="text"
@@ -206,7 +206,7 @@ export function RegisterRequestDeposit() {
                   onBlur={formik.handleBlur}
                 />
               </Grid>
-              <Grid item xs={12} sm={4}>
+              <Grid item  md={4}>
                 <TextField
                   fullWidth
                   type="text"
@@ -221,7 +221,7 @@ export function RegisterRequestDeposit() {
                   onBlur={formik.handleBlur}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item md={6}>
                 <FormControl
                   fullWidth
                   error={
@@ -263,15 +263,15 @@ export function RegisterRequestDeposit() {
                     )}
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item md={6}>
                 <FormControl
                   fullWidth
                   error={formik.touched.cityId && formik.errors.cityId}
                 >
-                  <InputLabel>Barrio</InputLabel>
+                  <InputLabel>Barrio/Ciudad</InputLabel>
                   <Select
                     value={formik.values.cityId}
-                    label="Barrio"
+                    label="Barrio/Ciudad"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur} // Agregar esta línea
                     name="cityId"
@@ -287,7 +287,7 @@ export function RegisterRequestDeposit() {
                   )}
                 </FormControl>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item md={12}>
                 <Grid container justifyContent="center">
                   <Typography
                     component="h1"
@@ -299,7 +299,7 @@ export function RegisterRequestDeposit() {
                   </Typography>
                 </Grid>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item md>
                 <TextField
                   fullWidth
                   type="text"
@@ -314,7 +314,7 @@ export function RegisterRequestDeposit() {
                   onBlur={formik.handleBlur} // Agregar esta línea
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item md={12}>
                 <TextField
                   fullWidth
                   multiline

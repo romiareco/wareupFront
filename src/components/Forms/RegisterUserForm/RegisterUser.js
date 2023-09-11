@@ -73,7 +73,7 @@ export function RegisterUser() {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item md>
                 <TextField
                   fullWidth
                   type="text"
@@ -85,7 +85,7 @@ export function RegisterUser() {
                   error={formik.errors.name}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item md>
                 <TextField
                   fullWidth
                   type="text"
@@ -98,7 +98,7 @@ export function RegisterUser() {
                   helperText={formik.errors.lastName}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item md={12}>
                 <TextField
                   fullWidth
                   type="email"
@@ -112,7 +112,7 @@ export function RegisterUser() {
                   helperText={formik.errors.email}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item md={12}>
                 <TextField
                   fullWidth
                   name="password"
@@ -126,7 +126,7 @@ export function RegisterUser() {
                   helperText={formik.errors.password}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item md={12}>
                 <TextField
                   fullWidth
                   name="repeatPassword"
@@ -140,7 +140,7 @@ export function RegisterUser() {
                   helperText={formik.errors.repeatPassword}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item md={12}>
                 <FormControlLabel
                   control={
                     <Checkbox

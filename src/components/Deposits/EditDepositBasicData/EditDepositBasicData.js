@@ -146,15 +146,8 @@ export function EditDepositBasicData({ deposit }) {
   return (
     <ThemeProvider>
       <CardContent>
-        <Typography
-          variant="h5"
-          component="div"
-          style={{ marginTop: "8px", marginBottom: "16px" }}
-        >
-          Datos del depósito{" "}
-        </Typography>
         <Grid container spacing={3} alignItems="center">
-          <Grid item xs={12}>
+          <Grid item md>
             <FormControl
               fullWidth
               error={formik.touched.companyId && formik.errors.companyId}
@@ -187,10 +180,10 @@ export function EditDepositBasicData({ deposit }) {
               )}
             </FormControl>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item md={12}>
             <Divider> Datos geográficos </Divider>
           </Grid>
-          <Grid item xs={10}>
+          <Grid item md={10}>
             <TextField
               fullWidth
               type="text"
@@ -208,7 +201,7 @@ export function EditDepositBasicData({ deposit }) {
               helperText={formik.errors.street}
             />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item md={2}>
             <TextField
               fullWidth
               type="number"
@@ -225,7 +218,7 @@ export function EditDepositBasicData({ deposit }) {
               helperText={formik.errors.postalCode}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item md={6}>
             <FormControl
               fullWidth
               error={formik.touched.departmentId && formik.errors.departmentId}
@@ -260,7 +253,7 @@ export function EditDepositBasicData({ deposit }) {
               )}
             </FormControl>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item md={6}>
             <FormControl
               fullWidth
               error={formik.touched.cityId && formik.errors.cityId}
@@ -287,10 +280,10 @@ export function EditDepositBasicData({ deposit }) {
               )}
             </FormControl>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item md={12}>
             <Divider textAlign="middle" />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item md>
             <FormControl
               fullWidth
               error={formik.touched.currency && formik.errors.currency}
@@ -314,7 +307,7 @@ export function EditDepositBasicData({ deposit }) {
               )}
             </FormControl>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item md>
             <TextField
               fullWidth
               type="number"
@@ -332,7 +325,7 @@ export function EditDepositBasicData({ deposit }) {
               helperText={formik.errors.expectedPrice}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item md>
             <TextField
               fullWidth
               type="number"
@@ -350,10 +343,10 @@ export function EditDepositBasicData({ deposit }) {
               helperText={formik.errors.totalM3}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item md={12}>
             <Divider textAlign="middle" />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item md>
             <TextField
               fullWidth
               multiline
