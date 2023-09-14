@@ -1,5 +1,3 @@
-
-
 import * as React from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -18,6 +16,7 @@ export function ChangeRequestDepositStatusDialog({
   selectedRequestDeposit,
   openDialog,
   onDialogOpenChange,
+  requestDepositStatusMessage,
   requestDepositStatus,
 }) {
   const { accessToken } = useAuth();
@@ -43,7 +42,11 @@ export function ChangeRequestDepositStatusDialog({
     const requestDepositController = new RequestDeposit();
     try {
       setLoading(true);
-      await requestDepositController.updateRequestDepositStatus(accessToken, selectedRequestDeposit.id, requestDepositStatus);
+      await requestDepositController.updateRequestDepositStatus(
+        accessToken,
+        selectedRequestDeposit.id,
+        requestDepositStatus
+      );
 
       setNotificationMessage("Solicitud de registro actualizada exitosamente");
       setNotificationSeverity("success");
@@ -74,15 +77,12 @@ export function ChangeRequestDepositStatusDialog({
         <DialogContent>
           <DialogContentText>
             {selectedRequestDeposit
-              ? `¿Desea ${requestDepositStatus} la solicitud de registro con id ${selectedRequestDeposit.id}?`
+              ? `¿Desea ${requestDepositStatusMessage} la solicitud de registro con id ${selectedRequestDeposit.id}?`
               : ""}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <DialogActions>
-            <Button autoFocus onClick={handleCancel}>
-              Cancelar
-            </Button>
             {loading ? (
               <CircularProgress size={24} />
             ) : (
@@ -90,6 +90,9 @@ export function ChangeRequestDepositStatusDialog({
                 Aceptar
               </Button>
             )}
+            <Button autoFocus onClick={handleCancel}>
+              Cancelar
+            </Button>
           </DialogActions>
         </DialogActions>
       </Dialog>

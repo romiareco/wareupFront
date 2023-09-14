@@ -35,7 +35,7 @@ export function DepositImages({ deposit }) {
       reader.onload = (e) => {
         const convertedFile = e.target.result;
 
-        const base64Data = convertedFile.split(',')[1];
+        const base64Data = convertedFile.split(",")[1];
         convertedFiles.push(base64Data);
 
         if (convertedFiles.length === selectedFilesArray.length) {

@@ -1,4 +1,4 @@
-import { depositRequestStatus } from "../../../../utils";
+import { depositRequestStatus, depositStatus } from "../../../../utils";
 import { ChangeRequestDepositStatusDialog } from "../ChangeRequestDepositStatusDialog";
 import { ErrorDialog } from "../../ErrorDialog";
 
@@ -38,7 +38,8 @@ export function AcceptRequestDeposit({
       selectedRequestDeposit={selectedRequestDeposit}
       openDialog={openDialog}
       onDialogOpenChange={onDialogOpenChange}
-      requestDepositStatus="completar"
+      requestDepositStatusMessage="completar"
+      requestDepositStatus={depositRequestStatus.COMPLETED}
     />
   );
 }
