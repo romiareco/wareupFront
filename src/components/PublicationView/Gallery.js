@@ -3,7 +3,7 @@ import { BackdropGallery } from "./BackdropGallery";
 import { Deposit } from "../../api";
 import { useAuth } from "../../hooks";
 import { mapBase64ToImage } from "../../utils/mapFunctions";
-import noImage from "../../assets/deposit-images/producto-sin-imagen.png";
+import noImage from "../../assets/deposit-images/sinimagen.jpg";
 import "../../theme/PublicationView.css";
 
 const depositController = new Deposit();
