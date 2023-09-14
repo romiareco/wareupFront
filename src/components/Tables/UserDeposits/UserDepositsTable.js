@@ -32,7 +32,7 @@ export function UserDepositsTable() {
   const { accessToken, user } = useAuth();
 
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [deposits, setDeposits] = useState(null);
 
   const [selectedEditBasicDataDeposit, setSelectedEditBasicDataDeposit] =
@@ -401,7 +401,7 @@ export function UserDepositsTable() {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[5, 10, 15]}
           component="div"
           count={deposits === null ? 0 : deposits.length}
           rowsPerPage={rowsPerPage}

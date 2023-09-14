@@ -45,12 +45,12 @@ export const columns = (
   {
     id: "cityName",
     label: "Barrio/Ciudad",
-    minWidth: 250,
+    minWidth: 150,
   },
   {
     id: "departmentName",
     label: "Departamento",
-    minWidth: 100,
+    minWidth: 150,
   },
   {
     id: "createdAt",

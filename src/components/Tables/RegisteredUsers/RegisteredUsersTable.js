@@ -22,7 +22,7 @@ export function RegisteredUsersTable() {
   const { accessToken } = useAuth();
 
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [users, setUsers] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [selectedEditUser, setSelectedEditUser] = useState(null);
@@ -157,7 +157,7 @@ export function RegisteredUsersTable() {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
+          rowsPerPageOptions={[5, 10, 15]}
           component="div"
           count={users === null ? 0 : users.length}
           rowsPerPage={rowsPerPage}

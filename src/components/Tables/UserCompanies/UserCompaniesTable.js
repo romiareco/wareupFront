@@ -21,7 +21,7 @@ export function UserCompaniesTable() {
   const { accessToken, user } = useAuth();
 
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [companies, setCompanies] = useState(null);
 
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -140,7 +140,7 @@ export function UserCompaniesTable() {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
+        rowsPerPageOptions={[5, 10, 15]}
         component="div"
         count={companies === null ? 0 : companies.length}
         rowsPerPage={rowsPerPage}

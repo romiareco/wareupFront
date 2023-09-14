@@ -25,7 +25,7 @@ export function UserRequestRegisterDepositTable() {
   const { accessToken, user } = useAuth();
 
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [requestDeposits, setRequestDeposits] = useState(null);
   const [selectedRequestDeposit, setSelectedRequestDeposit] = useState(null);
   const [isChangeStatusDialogOpen, setIsChangeStatusDialogOpen] =
@@ -149,7 +149,7 @@ export function UserRequestRegisterDepositTable() {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
+          rowsPerPageOptions={[5, 10, 15]}
           component="div"
           count={requestDeposits === null ? 0 : requestDeposits.length}
           rowsPerPage={rowsPerPage}

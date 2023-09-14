@@ -89,7 +89,7 @@ export function mapDepositRequestInformation(depositRequests) {
       email: deposit.email,
       phone: deposit.phone,
       createdAt: date,
-    //  departmentName: deposit.city? deposit.city.department.title : null,
+      departmentName: deposit.city? deposit.city.department.title : null,
       cityId: deposit.city ? deposit.city.title : null,
       address: deposit.address,
       status: deposit.status,

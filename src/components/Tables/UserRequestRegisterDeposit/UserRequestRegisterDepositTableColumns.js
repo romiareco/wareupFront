@@ -1,5 +1,5 @@
 import IconButton from "@mui/material/IconButton";
-import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
+import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 export const columns = (handleReject) => [
   { id: "id", label: "ID", minWidth: 25 },
   { id: "title", label: "Título", minWidth: 100 },
@@ -19,19 +19,21 @@ export const columns = (handleReject) => [
     label: "Empresa",
     minWidth: 200,
   },
-  {
-    id: "cityId",
-    label: "Barrio/Ciudad",
-    minWidth: 100,
-  },
+
   {
     id: "address",
     label: "Dirección",
     minWidth: 250,
   },
   {
+    id: "cityId",
+    label: "Barrio/Ciudad",
+    minWidth: 100,
+  },
+  { id: "departmentName", label: "Departamento", minWidth: 150 },
+  {
     id: "createdAt",
-    label: "Fecha",
+    label: "Fecha creación",
     minWidth: 150,
   },
   {
@@ -42,16 +44,14 @@ export const columns = (handleReject) => [
   {
     id: "actions",
     label: "Acciones",
-    minWidth: 100,
+    minWidth: 150,
     align: "center",
     format: (value, row) => (
       <div>
-      <IconButton
-        onClick={() => handleReject(row)}
-      >
-        <CancelRoundedIcon />
-      </IconButton>
-    </div>
+        <IconButton onClick={() => handleReject(row)}>
+          <CancelRoundedIcon />
+        </IconButton>
+      </div>
     ),
   },
 ];
