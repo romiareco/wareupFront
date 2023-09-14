@@ -61,11 +61,17 @@ export function RemoveUserDepositDialog({
     }
   };
 
-  if(selectedDeposit && parseInt(selectedDeposit.status) === depositStatus.DELETED) {
-    return (<ErrorDialog 
-    errorMessage={"No se puede eliminar un depósito que ya fue eliminado."}
-    openDialog={openDialog}
-    onDialogOpenChange={onDialogOpenChange}/>);
+  if (
+    selectedDeposit &&
+    parseInt(selectedDeposit.status) === depositStatus.DELETED
+  ) {
+    return (
+      <ErrorDialog
+        errorMessage={"No se puede eliminar un depósito que ya fue eliminado."}
+        openDialog={openDialog}
+        onDialogOpenChange={onDialogOpenChange}
+      />
+    );
   }
 
   return (
@@ -87,9 +93,6 @@ export function RemoveUserDepositDialog({
         </DialogContent>
         <DialogActions>
           <DialogActions>
-            <Button autoFocus onClick={handleCancel}>
-              Cancelar
-            </Button>
             {loading ? (
               <CircularProgress size={24} />
             ) : (
@@ -97,6 +100,9 @@ export function RemoveUserDepositDialog({
                 Aceptar
               </Button>
             )}
+            <Button autoFocus onClick={handleCancel}>
+              Cancelar
+            </Button>
           </DialogActions>
         </DialogActions>
       </Dialog>

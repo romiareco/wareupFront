@@ -14,6 +14,8 @@ import { useState, useEffect } from "react";
 import { RemoveCompanyDialog } from "../../Dialogs/RemoveCompanyDialog";
 import { EditCompanyDialog } from "../../Companies/EditCompanyDialog";
 import { mapCompanyStatus } from "../../../utils/mapFunctions";
+import { ThemeProvider } from "@emotion/react";
+import theme from "../../../theme/theme";
 
 const userController = new User();
 
@@ -21,7 +23,7 @@ export function UserCompaniesTable() {
   const { accessToken, user } = useAuth();
 
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [companies, setCompanies] = useState(null);
 
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -74,80 +76,99 @@ export function UserCompaniesTable() {
   }, [accessToken, user.id]);
 
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns(handleEdit, handleDelete).map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {companies && companies.length > 0 ? (
-              companies
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={row.code}
-                    >
-                      {columns(handleEdit, handleDelete).map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                              {column.format
-                                  ? column.format(value, row)
-                                  : column.id === "status"
-                                  ? mapCompanyStatus(value)
-                                  : value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })
-            ) : (
+    <ThemeProvider theme={theme}>
+      <Paper
+        sx={{
+          width: "90%",
+          overflow: "hidden",
+        }}
+      >
+        <TableContainer style={{ overflowX: "auto" }}>
+          <Table stickyHeader style={{ backgroundColor: "transparent" }}>
+            <TableHead>
               <TableRow>
-                <TableCell colSpan={columns.length}>
-                  {companies === null
-                    ? "Cargando datos..."
-                    : "No se han registrado empresas."}
-                </TableCell>
+                {columns(handleEdit, handleDelete).map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align="center" // Centra el título
+                    style={{
+                      minWidth: column.minWidth,
+                      fontWeight: "bold",
+                      fontFamily: "Montserrat, sans-serif", // Cambia la fuente aqu
+                      backgroundColor: "lightgray", // Gris con 50% de opacidad
+                    }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
               </TableRow>
-            )}
-          </TableBody>
-          <EditCompanyDialog
-            selectedCompany={selectedEditCompany}
-            openDialog={isEditDialogOpen}
-            onDialogOpenChange={handleEditDialogOpenChange} // Pasa la función de devolución de llamada
-          />
-          <RemoveCompanyDialog
-            selectedCompany={selectedDeleteCompany}
-            openDialog={isRemoveDialogOpen}
-            onDialogOpenChange={handleRemoveDialogOpenChange} // Pasa la función de devolución de llamada
-          />
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={companies === null ? 0 : companies.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </Paper>
+            </TableHead>
+            <TableBody>
+              {companies && companies.length > 0 ? (
+                companies
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        tabIndex={-1}
+                        key={row.code}
+                        sx={{
+                          backgroundColor:
+                            index % 2 === 0 ? "lightgray" : "white",
+                        }}
+                      >
+                        {columns(handleEdit, handleDelete).map((column) => {
+                          const value = row[column.id];
+                          return (
+                            <TableCell
+                              key={column.id}
+                              align="center" // Centra el contenido de las filas
+                            >
+                              {column.format
+                                ? column.format(value, row)
+                                : column.id === "status"
+                                ? mapCompanyStatus(value)
+                                : value}
+                            </TableCell>
+                          );
+                        })}
+                      </TableRow>
+                    );
+                  })
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={columns.length}>
+                    {companies === null
+                      ? "Cargando datos..."
+                      : "No se han registrado empresas."}
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+            <EditCompanyDialog
+              selectedCompany={selectedEditCompany}
+              openDialog={isEditDialogOpen}
+              onDialogOpenChange={handleEditDialogOpenChange}
+            />
+            <RemoveCompanyDialog
+              selectedCompany={selectedDeleteCompany}
+              openDialog={isRemoveDialogOpen}
+              onDialogOpenChange={handleRemoveDialogOpenChange}
+            />
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 15]}
+          component="div"
+          count={companies === null ? 0 : companies.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+    </ThemeProvider>
   );
 }

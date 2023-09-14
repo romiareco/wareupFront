@@ -41,7 +41,6 @@ export function RemoveUserDialog({
     try {
       setLoading(true); // Inicia la carga
 
-
       await userController.deleteUser(accessToken, selectedUser.id);
 
       setNotificationMessage("Usuario actualizado exitosamente");
@@ -79,9 +78,6 @@ export function RemoveUserDialog({
         </DialogContent>
         <DialogActions>
           <DialogActions>
-            <Button autoFocus onClick={handleCancel}>
-              Cancelar
-            </Button>
             {loading ? (
               <CircularProgress size={24} />
             ) : (
@@ -89,6 +85,9 @@ export function RemoveUserDialog({
                 Aceptar
               </Button>
             )}
+            <Button autoFocus onClick={handleCancel}>
+              Cancelar
+            </Button>
           </DialogActions>
         </DialogActions>
       </Dialog>

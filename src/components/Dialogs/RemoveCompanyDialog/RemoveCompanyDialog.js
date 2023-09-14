@@ -47,8 +47,6 @@ export function RemoveCompanyDialog({
       setNotificationOpen(true);
 
       setLoading(false); // Finaliza la carga, sin importar el resultado
-      setIsDialogOpen(false);
-      onDialogOpenChange(false);
     } catch (error) {
       setNotificationMessage(error.message);
       setNotificationSeverity("error");
@@ -83,9 +81,6 @@ export function RemoveCompanyDialog({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button autoFocus onClick={handleCancel}>
-          Cancelar
-        </Button>
         {loading ? (
           <CircularProgress size={24} />
         ) : (
@@ -93,6 +88,9 @@ export function RemoveCompanyDialog({
             Aceptar
           </Button>
         )}
+        <Button autoFocus onClick={handleCancel}>
+          Cancelar
+        </Button>
       </DialogActions>
       <NotificationSnackbar
         open={notificationOpen}

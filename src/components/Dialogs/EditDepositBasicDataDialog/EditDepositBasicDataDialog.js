@@ -1,5 +1,5 @@
 import Dialog from "@mui/material/Dialog";
-import {DialogContent} from "@mui/material";
+import { DialogContent, DialogTitle, Grid } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState, useEffect } from "react";
@@ -26,23 +26,32 @@ export function EditDepositBasicDataDialog({
     onDialogOpenChange(false);
   };
 
-  if(selectedDeposit && parseInt(selectedDeposit.status) === depositStatus.DELETED) {
-    return (<ErrorDialog 
-    errorMessage={"No se puede editar un depósito ya eliminado."}
-    openDialog={openDialog}
-    onDialogOpenChange={onDialogOpenChange}/>);
+  if (
+    selectedDeposit &&
+    parseInt(selectedDeposit.status) === depositStatus.DELETED
+  ) {
+    return (
+      <ErrorDialog
+        errorMessage={"No se puede editar un depósito ya eliminado."}
+        openDialog={openDialog}
+        onDialogOpenChange={onDialogOpenChange}
+      />
+    );
   }
 
   return (
-    <Dialog
-      open={isDialogOpen}
-      onClose={handleCancel}
-      maxWidth="lg"
-    >
+    <Dialog open={isDialogOpen} onClose={handleCancel} maxWidth="lg">
+      <Grid container justifyContent="space-between" alignItems="center">
+        <Grid item>
+          <DialogTitle>Datos del depósito</DialogTitle>
+        </Grid>
+        <Grid item>
+          <IconButton onClick={() => handleCancel()}>
+            <CloseIcon />
+          </IconButton>
+        </Grid>
+      </Grid>
       <DialogContent>
-        <IconButton onClick={() => handleCancel()}>
-          <CloseIcon />
-        </IconButton>
         {selectedDeposit && <EditDepositBasicData deposit={selectedDeposit} />}
       </DialogContent>
     </Dialog>

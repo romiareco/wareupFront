@@ -96,7 +96,7 @@ export function RegisterCompany() {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item md={12}>
                 <TextField
                   fullWidth
                   type="text"
@@ -110,7 +110,7 @@ export function RegisterCompany() {
                   helperText={formik.errors.contactName}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item md={12}>
                 <TextField
                   fullWidth
                   type="text"
@@ -124,7 +124,7 @@ export function RegisterCompany() {
                   helperText={formik.errors.position}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item md={12}>
                 <TextField
                   fullWidth
                   type="email"
@@ -138,7 +138,7 @@ export function RegisterCompany() {
                   helperText={formik.errors.email}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item md={12}>
                 <TextField
                   fullWidth
                   type="text"
@@ -152,7 +152,7 @@ export function RegisterCompany() {
                   helperText={formik.errors.RUT}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item md={12}>
                 <TextField
                   fullWidth
                   name="businessName"
@@ -166,7 +166,7 @@ export function RegisterCompany() {
                   helperText={formik.errors.businessName}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item md={12}>
                 <TextField
                   fullWidth
                   name="address"
@@ -180,7 +180,7 @@ export function RegisterCompany() {
                   helperText={formik.errors.address}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item md={12}>
                 <TextField
                   fullWidth
                   name="phone"

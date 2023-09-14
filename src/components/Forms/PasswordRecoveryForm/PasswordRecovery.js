@@ -74,7 +74,7 @@ export function PasswordRecovery() {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid item md={12}>
                 <TextField
                   fullWidth
                   name="password"
@@ -88,7 +88,7 @@ export function PasswordRecovery() {
                   helperText={formik.errors.password}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item md={12}>
                 <TextField
                   fullWidth
                   name="repeatPassword"

@@ -25,10 +25,10 @@ export function Footer() {
             justifyContent="space-between"
             alignItems="center"
           >
-            <Grid item xs={12} sm={6}>
+            <Grid item>
               <LogoAvatar />
             </Grid>
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid item md={4}>
               <Typography variant="h6" gutterBottom>
                 Empresa
               </Typography>
@@ -40,7 +40,7 @@ export function Footer() {
                 <Link href="#">Quienes somos</Link>
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid item md={4}>
               <Typography variant="h6" gutterBottom>
                 Ayuda & Soporte
               </Typography>
@@ -52,7 +52,7 @@ export function Footer() {
                 <Link href="#">Términos y condiciones</Link>
               </Typography>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item md={4}>
               <Typography variant="h6" gutterBottom>
                 Social Media
               </Typography>

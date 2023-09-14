@@ -25,7 +25,7 @@ export function RegisteredDepositRequestsTable() {
   const { accessToken } = useAuth();
 
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [requestDeposits, setRequestDeposits] = useState(null);
   const [isAcceptDialogOpen, setIsAcceptDialogOpen] = useState(false);
   const [selectedAcceptRequest, setSelectedAcceptRequest] = useState(null);
@@ -94,7 +94,7 @@ export function RegisteredDepositRequestsTable() {
                 {columns(handleAccept, handleReject).map((column) => (
                   <TableCell
                     key={column.id}
-                    align={column.align}
+                    align="center" // Centra el título
                     style={{
                       minWidth: column.minWidth,
                       fontWeight: "bold",
@@ -126,7 +126,7 @@ export function RegisteredDepositRequestsTable() {
                         {columns(handleAccept, handleReject).map((column) => {
                           const value = row[column.id];
                           return (
-                            <TableCell key={column.id} align={column.align}>
+                            <TableCell key={column.id} align="center">
                               {column.format
                                 ? column.format(value, row)
                                 : column.id === "status"
@@ -161,7 +161,7 @@ export function RegisteredDepositRequestsTable() {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
+          rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={requestDeposits === null ? 0 : requestDeposits.length}
           rowsPerPage={rowsPerPage}

@@ -73,7 +73,7 @@ export function EditCompanyInformation({ company }) {
           Datos de la empresa{" "}
         </Typography>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
+          <Grid item md>
             <TextField
               fullWidth
               type="text"
@@ -90,7 +90,7 @@ export function EditCompanyInformation({ company }) {
               onBlur={formik.handleBlur}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item md>
             <TextField
               fullWidth
               type="text"
@@ -105,7 +105,7 @@ export function EditCompanyInformation({ company }) {
               onBlur={formik.handleBlur}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item md={12}>
             <TextField
               fullWidth
               type="email"
@@ -120,7 +120,7 @@ export function EditCompanyInformation({ company }) {
               onBlur={formik.handleBlur}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item md={12}>
             <TextField
               fullWidth
               type="text"
@@ -135,7 +135,7 @@ export function EditCompanyInformation({ company }) {
               onBlur={formik.handleBlur}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item md={12}>
             <TextField
               fullWidth
               name="businessName"
@@ -152,7 +152,7 @@ export function EditCompanyInformation({ company }) {
               onBlur={formik.handleBlur}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item md={12}>
             <TextField
               fullWidth
               name="address"
@@ -167,7 +167,7 @@ export function EditCompanyInformation({ company }) {
               onBlur={formik.handleBlur}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item md={12}>
             <TextField
               fullWidth
               name="phone"

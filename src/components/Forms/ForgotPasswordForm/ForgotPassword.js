@@ -33,11 +33,13 @@ export function ForgotPassword() {
     initialValues: inititalValues,
     validationSchema: validationSchema,
     validateOnChange: false,
-    onSubmit: async (formValue, {resetForm}) => {
+    onSubmit: async (formValue, { resetForm }) => {
       try {
         await userController.recoverPassword(formValue);
 
-        setNotificationMessage("Solicitud de reinicio de contraseña enviado exitosamente");
+        setNotificationMessage(
+          "Solicitud de reinicio de contraseña enviado exitosamente"
+        );
         setNotificationSeverity("success");
         setNotificationOpen(true);
 
@@ -60,8 +62,6 @@ export function ForgotPassword() {
         <CssBaseline />
         <Grid
           item
-          xs={false}
-          sm={4}
           md={7}
           sx={{
             backgroundImage:
@@ -75,7 +75,7 @@ export function ForgotPassword() {
             backgroundPosition: "center",
           }}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid item md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
               my: 8,

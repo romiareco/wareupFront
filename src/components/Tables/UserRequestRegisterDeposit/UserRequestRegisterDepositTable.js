@@ -13,7 +13,10 @@ import { useState, useEffect } from "react";
 import { columns } from "./UserRequestRegisterDepositTableColumns";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
-import { mapDepositRequestInformation, mapDepositRequestStatus } from "../../../utils/mapFunctions";
+import {
+  mapDepositRequestInformation,
+  mapDepositRequestStatus,
+} from "../../../utils/mapFunctions";
 import { CancelRequestDeposit } from "../../Dialogs";
 
 const controller = new RequestDeposit();
@@ -22,10 +25,11 @@ export function UserRequestRegisterDepositTable() {
   const { accessToken, user } = useAuth();
 
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [requestDeposits, setRequestDeposits] = useState(null);
   const [selectedRequestDeposit, setSelectedRequestDeposit] = useState(null);
-  const [isChangeStatusDialogOpen, setIsChangeStatusDialogOpen] = useState(false);
+  const [isChangeStatusDialogOpen, setIsChangeStatusDialogOpen] =
+    useState(false);
 
   const handleChangeStatus = (row) => {
     setSelectedRequestDeposit(row);
@@ -53,8 +57,10 @@ export function UserRequestRegisterDepositTable() {
           user.id
         );
 
-        if(response.depositRequests) {
-          const filteredInformation = mapDepositRequestInformation(response.depositRequests);
+        if (response.depositRequests) {
+          const filteredInformation = mapDepositRequestInformation(
+            response.depositRequests
+          );
           setRequestDeposits(filteredInformation);
         }
       } catch (error) {
@@ -71,14 +77,14 @@ export function UserRequestRegisterDepositTable() {
           overflow: "hidden",
         }}
       >
-        <TableContainer>
+        <TableContainer style={{ overflowX: "auto" }}>
           <Table stickyHeader style={{ backgroundColor: "transparent" }}>
             <TableHead>
               <TableRow>
                 {columns(handleChangeStatus).map((column) => (
                   <TableCell
                     key={column.id}
-                    align={column.align}
+                    align="center" // Centra el título
                     style={{
                       minWidth: column.minWidth,
                       fontWeight: "bold",
@@ -110,7 +116,10 @@ export function UserRequestRegisterDepositTable() {
                         {columns(handleChangeStatus).map((column) => {
                           const value = row[column.id];
                           return (
-                            <TableCell key={column.id} align={column.align}>
+                            <TableCell
+                              key={column.id}
+                              align="center" // Centra el contenido de las filas
+                            >
                               {column.format
                                 ? column.format(value, row)
                                 : column.id === "status"
@@ -125,7 +134,7 @@ export function UserRequestRegisterDepositTable() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={columns.length}>
-                  {requestDeposits === null
+                    {requestDeposits === null
                       ? "Cargando datos..."
                       : "No se han registrado solicitudes de depósitos."}
                   </TableCell>
@@ -140,7 +149,7 @@ export function UserRequestRegisterDepositTable() {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
+          rowsPerPageOptions={[5, 10, 15]}
           component="div"
           count={requestDeposits === null ? 0 : requestDeposits.length}
           rowsPerPage={rowsPerPage}

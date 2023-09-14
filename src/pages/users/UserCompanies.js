@@ -8,35 +8,36 @@ import { Footer } from "../../components/Footer";
 export function UserCompanies() {
   return (
     <ThemeProvider theme={theme}>
-    <Box
-      sx={{
-        paddingBottom: "40px",
-        paddingTop: "20px",
-      }}
-    >
-      <Typography
-        variant="h4"
-        sx={{
-          ...theme.typography.montserratFont,
-        }}
-      >
-        Mis empresas
-      </Typography>
-      <Divider light variant="middle" sx={{ borderBottomWidth: "3px" }} />
       <Box
-        padding={2}
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
+          paddingBottom: "40px",
+          paddingTop: "20px",
         }}
       >
-        <RegisterCompanyButton />
-        <UserCompaniesTable />
+        <Typography
+          variant="h4"
+          sx={{
+            ...theme.typography.montserratFont,
+          }}
+        >
+          Mis empresas
+        </Typography>
+        <Divider light variant="middle" sx={{ borderBottomWidth: "3px" }} />
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Box padding={2}>
+            <RegisterCompanyButton />
+          </Box>
+          <UserCompaniesTable />
+        </Box>
       </Box>
-    </Box>
-    <Footer />
-  </ThemeProvider>
+      <Footer />
+    </ThemeProvider>
   );
 }

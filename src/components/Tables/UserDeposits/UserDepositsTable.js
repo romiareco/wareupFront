@@ -17,7 +17,7 @@ import {
   AddDepositImageDialog,
   EditDepositServicesDialog,
   AddDepositAvailabilityDialog,
-  ViewDepositCalendarAvailabilityDialog
+  ViewDepositCalendarAvailabilityDialog,
 } from "../../Dialogs";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
@@ -32,7 +32,7 @@ export function UserDepositsTable() {
   const { accessToken, user } = useAuth();
 
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [deposits, setDeposits] = useState(null);
 
   const [selectedEditBasicDataDeposit, setSelectedEditBasicDataDeposit] =
@@ -204,8 +204,6 @@ export function UserDepositsTable() {
     setIsViewAvailabilityDialogOpen(false);
   };
 
-
-
   const handleDelete = (row) => {
     setSelectedEditBasicDataDeposit(null);
     setSelectedEditServicesDeposit(null);
@@ -242,7 +240,7 @@ export function UserDepositsTable() {
 
   const handleValidateAvailabilityDialogOpenChange = (isOpen) => {
     setIsValidationAvailabilityDialogOpen(isOpen);
-  }
+  };
 
   const handleRemoveDialogOpenChange = (isOpen) => {
     setIsRemoveDialogOpen(isOpen);
@@ -304,7 +302,7 @@ export function UserDepositsTable() {
                 ).map((column) => (
                   <TableCell
                     key={column.id}
-                    align={column.align}
+                    align="center" // Centra el título
                     style={{
                       minWidth: column.minWidth,
                       fontWeight: "bold",
@@ -345,7 +343,10 @@ export function UserDepositsTable() {
                         ).map((column) => {
                           const value = row[column.id];
                           return (
-                            <TableCell key={column.id} align={column.align}>
+                            <TableCell
+                              key={column.id}
+                              align="center" // Centra el título
+                            >
                               {column.format
                                 ? column.format(value, row)
                                 : column.id === "status"
@@ -393,14 +394,14 @@ export function UserDepositsTable() {
               onDialogOpenChange={handleAddAvailabilityDialogOpenChange}
             />
             <ViewDepositCalendarAvailabilityDialog
-             selectedDeposit={selectedViewAvailability}
-             openDialog={isViewAvailabilityDialogOpen}
-             onDialogOpenChange={handleViewAvailabilityDialogOpenChange}
-           />
+              selectedDeposit={selectedViewAvailability}
+              openDialog={isViewAvailabilityDialogOpen}
+              onDialogOpenChange={handleViewAvailabilityDialogOpenChange}
+            />
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
+          rowsPerPageOptions={[5, 10, 15]}
           component="div"
           count={deposits === null ? 0 : deposits.length}
           rowsPerPage={rowsPerPage}
@@ -412,5 +413,3 @@ export function UserDepositsTable() {
     </ThemeProvider>
   );
 }
-
-//TODO: eliminar estados innecesarios para la preview de la publicacion

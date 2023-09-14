@@ -64,7 +64,7 @@ export function ContactForm() {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid item md={12}>
                 <TextField
                   fullWidth
                   type="text"
@@ -78,7 +78,7 @@ export function ContactForm() {
                   helperText={formik.errors.name}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item md={12}>
                 <TextField
                   fullWidth
                   type="email"
@@ -92,7 +92,7 @@ export function ContactForm() {
                   helperText={formik.errors.email}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item md={12}>
                 <TextField
                   fullWidth
                   type="tel"
@@ -105,7 +105,7 @@ export function ContactForm() {
                   helperText={formik.errors.phoneNumber}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item md={12}>
                 <TextField
                   required
                   fullWidth
@@ -119,7 +119,7 @@ export function ContactForm() {
                   helperText={formik.errors.subject}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item md={12}>
                 <TextField
                   fullWidth
                   multiline
