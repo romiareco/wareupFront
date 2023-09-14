@@ -61,7 +61,7 @@ export function Description({ depositId }) {
             fontWeight: "bold",
           }}
         >
-          {deposit.city.title} - {deposit.city.departmentId}
+          {deposit.city.title} - {deposit.city.department.title}
         </Typography>
       </Box>
       <Typography className="pre">{deposit.company.businessName}</Typography>
