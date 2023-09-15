@@ -1,6 +1,0 @@
-
-
-export function PublicationQuickView({deposit}) {
-
-    
-}
