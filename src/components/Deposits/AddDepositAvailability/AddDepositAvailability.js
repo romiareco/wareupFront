@@ -23,6 +23,7 @@ import {
 import CircularProgress from "@mui/material/CircularProgress";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import theme from "../../../theme/theme";
+import { LoadingButton } from "@mui/lab";
 const depositController = new Deposit();
 
 export function AddDepositAvailability({ deposit }) {
@@ -128,15 +129,9 @@ export function AddDepositAvailability({ deposit }) {
         </Box>
 
         <Box mt={2} display="flex" justifyContent="center" gap={2}>
-          <React.Fragment>
-            {loading ? (
-              <CircularProgress size={24} />
-            ) : (
-              <Button variant="contained" onClick={formik.handleSubmit}>
-                Guardar cambios
-              </Button>
-            )}
-          </React.Fragment>
+          <LoadingButton variant="contained" onClick={formik.handleSubmit}>
+            Guardar cambios
+          </LoadingButton>
         </Box>
       </CardContent>
       <NotificationSnackbar

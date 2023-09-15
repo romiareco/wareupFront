@@ -16,6 +16,8 @@ import { Deposit } from "../../api";
 import { useAuth } from "../../hooks";
 import { NotificationSnackbar } from "../NotificationSnackbar";
 import { RepeatOneSharp } from "@mui/icons-material";
+import { mapBase64ToImage } from "../../utils/mapFunctions";
+import noImage from "../../assets/deposit-images/sinimagen.jpg";
 
 const depositController = new Deposit();
 
@@ -25,6 +27,7 @@ export function PublicationList() {
   const [rowsPerPage, setRowsPerPage] = useState(6);
   const [publications, setPublications] = useState([]);
   const [deposits, setDeposits] = useState([]);
+  const [depositImages, setDepositImages] = useState([]);
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationSeverity, setNotificationSeverity] = useState("success");
@@ -45,11 +48,36 @@ export function PublicationList() {
         setDeposits(response.deposits);
 
         if (response.deposits.length > 0) {
-          const depositPublications = response.deposits.map((deposit) => ({
-            id: deposit.id,
-            title: deposit.title,
-            description: deposit.description,
-          }));
+          const depositPublications = [];
+
+          for (const deposit of response.deposits) {
+            const id = deposit.id;
+            const title = deposit.title;
+            const description = deposit.description;
+            let depositImage;
+
+            const images = await depositController.getDepositImages(
+              accessToken,
+              id
+            );
+
+            if (images.depositImages.length > 0) {
+              const firstImage = images.depositImages[0];
+
+              depositImage = mapBase64ToImage(firstImage["image"]);
+            } else {
+                depositImage = noImage;
+            }
+
+            const depositPublication = {
+              id,
+              title,
+              description,
+              depositImage,
+            };
+
+            depositPublications.push(depositPublication);
+          }
           setPublications(depositPublications);
         }
       } catch (error) {
@@ -69,7 +97,7 @@ export function PublicationList() {
           {publications
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((publication) => (
-              <Grid item key={publication.id} md={4} sx={{ display: 'flex' }}>
+              <Grid item key={publication.id} md={4} sx={{ display: "flex" }}>
                 <Card
                   sx={{
                     height: "100%",
@@ -85,7 +113,9 @@ export function PublicationList() {
                         // 16:9
                         pt: "56.25%",
                       }}
-                      image="https://source.unsplash.com/random?wallpapers"
+                      //image="https://source.unsplash.com/random?wallpapers"
+                                            image={publication.depositImage}
+
                     />
                     <CardContent
                       sx={{
@@ -111,21 +141,14 @@ export function PublicationList() {
         </Grid>
       </Container>
       <TablePagination
-          rowsPerPageOptions={[6, 12, 18]}
-          component="div"
-          count={publications === null ? 0 : publications.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          labelRowsPerPage="Publicaciones por página:" // Personaliza el texto aquí
-
-        />
-      <NotificationSnackbar
-        open={notificationOpen}
-        onClose={() => setNotificationOpen(false)}
-        severity={notificationSeverity}
-        message={notificationMessage}
+        rowsPerPageOptions={[6, 12, 18]}
+        component="div"
+        count={publications === null ? 0 : publications.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        labelRowsPerPage="Publicaciones por página:" // Personaliza el texto aquí
       />
     </Box>
   );

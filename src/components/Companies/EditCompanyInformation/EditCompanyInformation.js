@@ -18,6 +18,7 @@ import {
   validationSchema,
 } from "../../Forms/Forms/Company.form";
 import CircularProgress from "@mui/material/CircularProgress";
+import { LoadingButton } from "@mui/lab";
 
 const CardContainer = styled(Card)`
   height: 100%;
@@ -186,13 +187,9 @@ export function EditCompanyInformation({ company }) {
 
         <Box mt={2} display="flex" justifyContent="center" gap={2}>
           <React.Fragment>
-            {loading ? (
-              <CircularProgress size={24} />
-            ) : (
-              <Button variant="contained" onClick={formik.handleSubmit}>
-                Guardar cambios
-              </Button>
-            )}
+            <LoadingButton variant="contained" onClick={formik.handleSubmit}>
+              Guardar cambios
+            </LoadingButton>
             <Button variant="contained" onClick={handleCancel}>
               Cancelar
             </Button>

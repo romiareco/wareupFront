@@ -10,6 +10,7 @@ import { Company } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
 import CircularProgress from "@mui/material/CircularProgress";
+import { LoadingButton } from "@mui/lab";
 
 export function RemoveCompanyDialog({
   selectedCompany,
@@ -81,13 +82,9 @@ export function RemoveCompanyDialog({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        {loading ? (
-          <CircularProgress size={24} />
-        ) : (
-          <Button onClick={handleAccept} autoFocus disabled={loading}>
-            Aceptar
-          </Button>
-        )}
+        <LoadingButton onClick={handleAccept} autoFocus disabled={loading}>
+          Aceptar
+        </LoadingButton>
         <Button autoFocus onClick={handleCancel}>
           Cancelar
         </Button>
