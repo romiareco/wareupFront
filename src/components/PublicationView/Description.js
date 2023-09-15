@@ -48,22 +48,24 @@ export function Description({ depositId }) {
 
   return (
     <Box className="description">
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-        <LocationOnRoundedIcon
-          sx={{ fontSize: "1.2rem", marginRight: "4px" }}
-        />
-        <Typography
-          variant="body1"
-          sx={{
-            textTransform: "uppercase",
-            fontSize: "0.9rem",
-            marginRight: "4px",
-            fontWeight: "bold",
-          }}
-        >
-          {deposit.city.title} - {deposit.city.department.title}
-        </Typography>
-      </Box>
+      {deposit.city && deposit.city.department && (
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <LocationOnRoundedIcon
+            sx={{ fontSize: "1.2rem", marginRight: "4px" }}
+          />
+          <Typography
+            variant="body1"
+            sx={{
+              textTransform: "uppercase",
+              fontSize: "0.9rem",
+              marginRight: "4px",
+              fontWeight: "bold",
+            }}
+          >
+            {deposit.city.title} - {deposit.city.department.title}
+          </Typography>
+        </Box>
+      )}
       <Typography className="pre">{deposit.company.businessName}</Typography>
       <h1>{deposit.title}</h1>
       <Box className="price">

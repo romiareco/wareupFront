@@ -401,6 +401,7 @@ export function RegisteredDepositsTable() {
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          labelRowsPerPage="Depósitos por página:"
         />
       </Paper>
     </ThemeProvider>

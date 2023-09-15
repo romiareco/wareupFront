@@ -168,6 +168,7 @@ export function RegisteredDepositRequestsTable() {
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          labelRowsPerPage="Solicitudes de depósito por página:"
         />
       </Paper>
     </ThemeProvider>

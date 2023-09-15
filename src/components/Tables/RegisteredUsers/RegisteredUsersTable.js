@@ -164,6 +164,7 @@ export function RegisteredUsersTable() {
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          labelRowsPerPage="Usuarios por página:"
         />
       </Paper>
     </ThemeProvider>
