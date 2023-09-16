@@ -4,7 +4,7 @@ import theme from "../../../theme/theme";
 
 export function CustomValueProposalTypography({ variant, text }) {
   return (
-    <Typography variant={variant} sx={theme.typography.montserratFont}>
+    <Typography variant={variant} sx={{...theme.typography.montserratFont, color: "white" }}>
       {text}
     </Typography>
   );

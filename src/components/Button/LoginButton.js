@@ -18,7 +18,7 @@ export function LoginButton() {
           },
         }}
       >
-        Iniciar sesión
+        Acceder
       </Button>
     </ThemeProvider>
   );

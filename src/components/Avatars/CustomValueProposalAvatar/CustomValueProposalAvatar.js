@@ -9,6 +9,7 @@ export function CustomValueProposalAvatar({ src, alt }) {
       sx={{
         width: 150,
         height: 150,
+        filter: "invert(100%)",
       }}
       variant="square"
     />

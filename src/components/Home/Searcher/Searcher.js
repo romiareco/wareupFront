@@ -12,6 +12,7 @@ import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
 import SearchIcon from "@mui/icons-material/Search";
 import { SignUpButton } from "../../Button";
+import { motion } from "framer-motion";
 
 const handleSearch = (query) => {
   // Aquí puedes agregar la lógica para realizar la búsqueda
@@ -29,12 +30,13 @@ export function Searcher() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          padding: "30px", // Ajusta el relleno superior según tus necesidades
+          paddingTop: "40px",
+          paddingBottom: "80px",
           backgroundColor: "#0B2C4D",
           color: "white", // Color de texto en el fondo de imagen
         }}
       >
-        <Typography variant="h4" sx={theme.typography.montserratFont}>
+        <Typography variant="h4" sx={{...theme.typography.montserratFont, marginBottom: 6}}>
           Comienza tu búsqueda
         </Typography>
         <Stack direction={"row"} sx={{ width: "60%" }}>
@@ -65,8 +67,16 @@ export function Searcher() {
         </Stack>
 
         <Divider sx={theme.welcomePage.divider} />
-
-        <SignUpButton textName={"Se parte de la comunidad"} />
+        <Box>
+          <motion.div
+            initial={{ scale: 1 }}
+            whileHover={{ y: -5, scale: 1.1 }}
+            transition={{ type: "spring", stiffness: 100 }}
+            style={{ width: "100%" }}
+          >
+            <SignUpButton textName={"Sé parte de la comunidad"} />
+          </motion.div>
+        </Box>
       </Box>
     </ThemeProvider>
   );

@@ -11,9 +11,10 @@ export function LogoAvatar() {
        alt="Ware Up"
        size="large"
        sx={{
-        width: 120, // Ajusta el ancho según tus necesidades
-        height: 120, // Ajusta la altura según tus necesidades
+        width: 120,
+        height: "auto",
       }}
+      cover
        variant="square">
       </Avatar>
       

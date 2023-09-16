@@ -1,9 +1,8 @@
-import { ThemeProvider, Typography, Box, Stack } from "@mui/material";
+import { ThemeProvider, Typography, Box } from "@mui/material";
 import * as React from "react";
 import theme from "../../../theme/theme";
-import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
-import { Paper, Button, Container, Grid } from "@mui/material";
+import { Container, Grid } from "@mui/material";
+import { motion } from "framer-motion";
 
 import lot from "../../../assets/official-images/LOT.jpeg";
 import lasMarias from "../../../assets/official-images/las_marias.jpg";
@@ -37,16 +36,23 @@ export function WorkingWithUs() {
         </Typography>
         <Box component="section" pt={3} pb={8}>
           <Container>
-            <Grid container spacing={3} sx={{ mb: 12 }}>
+            <Grid container spacing={2}>
               {clients.map((client, index) => (
-                <Grid item xs={6} md={4} lg={2} key={index}>
-                  <Box
-                    component="img"
-                    src={client.src}
-                    alt={client.alt}
-                    width="100%"
-                    opacity={0.7}
-                  />
+                <Grid item md={2} key={index}>
+                  <motion.div
+                    initial={{ scale: 1 }}
+                    whileHover={{ y: -5, scale: 1.1 }}
+                    transition={{ type: "spring", stiffness: 100 }}
+                    style={{ width: "100%" }}
+                  >
+                    <Box
+                      component="img"
+                      src={client.src}
+                      alt={client.alt}
+                      width="100%"
+                      opacity={0.7}
+                    />
+                  </motion.div>
                 </Grid>
               ))}
             </Grid>

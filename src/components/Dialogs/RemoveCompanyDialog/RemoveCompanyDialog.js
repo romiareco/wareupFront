@@ -51,7 +51,7 @@ export function RemoveCompanyDialog({
         );
       }
 
-      setLoading(true); // Inicia la carga
+      setLoading(true); 
 
       await companyController.delete(accessToken, selectedCompany.id);
 
@@ -59,12 +59,12 @@ export function RemoveCompanyDialog({
       setNotificationSeverity("success");
       setNotificationOpen(true);
 
-      setLoading(false); // Finaliza la carga, sin importar el resultado
+      setLoading(false); 
     } catch (error) {
       setNotificationMessage(error.message);
       setNotificationSeverity("error");
       setNotificationOpen(true);
-      setLoading(false); // Finaliza la carga, sin importar el resultado
+      setLoading(false);
     }
   };
 
