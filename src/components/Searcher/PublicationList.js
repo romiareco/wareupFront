@@ -6,8 +6,6 @@ import {
   CardMedia,
   Card,
   CardContent,
-  CardActions,
-  Button,
   CardActionArea,
   TablePagination,
   CircularProgress,
