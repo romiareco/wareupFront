@@ -15,17 +15,18 @@ import { SignUpButton } from "../../Button";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Button } from "semantic-ui-react";
 
 const suggestedCities = ["Barrio Sur", "Ciudad Vieja", "Malvin", "Aguada"];
 
 export function GeographicSearcher() {
   const navigate = useNavigate();
-  const [city, setCity] = useState("");
+  const [searchCity, setSearchCity] = useState("");
 
   const handleSearch = () => {
     // Aquí puedes agregar la lógica para realizar la búsqueda
-    console.log("Buscando:", city);
-    navigate(`/search-deposits?city=${city}`);
+    console.log("Buscando:", searchCity);
+    navigate(`/search-deposits?city=${searchCity}`);
   };
 
   return (
@@ -48,35 +49,60 @@ export function GeographicSearcher() {
         >
           Comienza tu búsqueda
         </Typography>
-        <Stack direction={"row"} sx={{ width: "60%" }}>
+        <Stack
+          direction={"row"}
+          alignItems="stretch" // Esto estira ambos elementos para que tengan la misma altura
+          spacing={1}
+        >
           <Autocomplete
-            fullWidth
+            id="searchInput"
             freeSolo
             options={suggestedCities}
-            onChange={(event, newValue) => {
-              setCity(newValue || "");
+            inputValue={searchCity}
+            onInputChange={(event, newValue) => {
+              setSearchCity(newValue);
             }}
-            inputValue={city} // Establece el valor del TextField al estado city
             renderInput={(params) => (
-              <Box width="100%">
-                <TextField
-                  {...params}
-                  fullWidth
-                  autoComplete="cityId"
-                  label="Barrio/Ciudad"
-                  variant="filled"
-                  type="search"
-                  style={{
-                    backgroundColor: "white",
-                    width: "100%",
-                  }}
-                />
-              </Box>
+              <TextField
+                {...params}
+                label="Barrio/Ciudad"
+                variant="filled"
+                style={{
+                  width: "900px", // Ajusta el ancho aquí
+                  backgroundColor: "white",
+                }}
+              />
             )}
+            renderOption={(props, option) => <li {...props}>{option}</li>}
           />
-          <IconButton onClick={() => handleSearch()}>
-            <SearchIcon sx={{ color: "white" }} />
-          </IconButton>
+          <Button
+            onClick={() => handleSearch()}
+            variant="outlined"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              color: "white", // Cambia el color del texto a blanco
+              border: "1px solid white", // Agrega un borde blanco al botón
+              borderRadius: "10px", // Puntas redondeadas
+              width: "150px", // Ancho en estado normal
+              transition: "width 0.3s ease-in-out", // Transición suave de ancho
+              justifyContent: "center", // Centra horizontalmente
+
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = "white"; // Cambia el color de fondo en hover
+              e.currentTarget.style.color = "black"; // Cambia el color del texto en hover
+              e.currentTarget.style.width = "150px"; // Cambia el ancho en hover
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "transparent"; // Vuelve al color de fondo en estado normal
+              e.currentTarget.style.color = "white"; // Vuelve al color del texto en estado normal
+              e.currentTarget.style.width = "150px"; // Vuelve al ancho en estado normal
+            }}
+          >
+            <SearchIcon sx={{ fontSize: 24 }} />
+            <span style={{ fontSize: "1rem" }}>BUSCAR</span>
+          </Button>
         </Stack>
 
         <Divider sx={theme.welcomePage.divider} />

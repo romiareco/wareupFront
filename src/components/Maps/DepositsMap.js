@@ -172,12 +172,23 @@ export function DepositsMap({ cityId, departmentId }) {
               <div>
                 {/* Agrega un hipervínculo en el título */}
                 <h2>
-                  <a href={`/publication-view?id=${selectedMarker.id}`}>
+                  <a
+                    href={`/publication-view?id=${selectedMarker.id}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     {selectedMarker.title}
                   </a>
                 </h2>
                 <p>{selectedMarker.description}</p>
-                <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
                   <h3 style={{ marginRight: "5px" }}>
                     {selectedMarker.currency}
                   </h3>
