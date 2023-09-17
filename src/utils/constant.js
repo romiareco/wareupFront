@@ -34,4 +34,7 @@ export const ENV = {
         ACCESS: "access",
         REFRESH: "refresh",
       },
+    API_KEY: {
+        GOOGLE_MAPS: "AIzaSyCyhhjlBSyQEUA1qNH9WATD6XPaB2pt3V4"
+    }
 };
