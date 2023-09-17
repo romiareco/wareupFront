@@ -53,9 +53,7 @@ export function RegisterRequestDeposit() {
   useEffect(() => {
     (async () => {
       try {
-        const commonResponse = await commonController.getDepartments(
-          accessToken
-        );
+        const commonResponse = await commonController.getDepartments();
         const transformedDepartments = commonResponse.departments.map(
           (department) => ({
             value: department.id,
@@ -206,7 +204,7 @@ export function RegisterRequestDeposit() {
                   onBlur={formik.handleBlur}
                 />
               </Grid>
-              <Grid item  md={4}>
+              <Grid item md={4}>
                 <TextField
                   fullWidth
                   type="text"

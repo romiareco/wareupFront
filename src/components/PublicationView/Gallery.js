@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BackdropGallery } from "./BackdropGallery";
 import { Deposit } from "../../api";
-import { useAuth } from "../../hooks";
 import { mapBase64ToImage } from "../../utils/mapFunctions";
 import noImage from "../../assets/deposit-images/sinimagen.jpg";
 import "../../theme/PublicationView.css";
@@ -9,7 +8,6 @@ import "../../theme/PublicationView.css";
 const depositController = new Deposit();
 
 export function Gallery({ depositId }) {
-  const { accessToken } = useAuth();
   const [currentImage, setCurrentImage] = useState({});
   const [currentPassedImage, setCurrentPassedImage] = useState({});
   const [open, setOpen] = useState(false);
@@ -19,7 +17,6 @@ export function Gallery({ depositId }) {
     (async () => {
       try {
         const response = await depositController.getDepositImages(
-          accessToken,
           depositId
         );
 
@@ -37,7 +34,7 @@ export function Gallery({ depositId }) {
         console.error(error);
       }
     })();
-  }, [accessToken, depositId]);
+  }, [depositId]);
 
   const handleClick = (index) => {
     setCurrentImage(depositImages[index]);

@@ -83,9 +83,7 @@ export function BasicDepositData({ formInformation, initialValues }) {
   useEffect(() => {
     (async () => {
       try {
-        const commonResponse = await commonController.getDepartments(
-          accessToken
-        );
+        const commonResponse = await commonController.getDepartments();
         const transformedDepartments = commonResponse.departments.map(
           (department) => ({
             value: department.id,
@@ -249,7 +247,7 @@ export function BasicDepositData({ formInformation, initialValues }) {
           <Grid item md={12}>
             <Divider textAlign="middle" />
           </Grid>
-          <Grid item md >
+          <Grid item md>
             <FormControl
               fullWidth
               error={formik.touched.currency && formik.errors.currency}
@@ -303,7 +301,7 @@ export function BasicDepositData({ formInformation, initialValues }) {
               value={formik.values.totalM3}
               onChange={(e) => {
                 formik.handleChange(e);
-                
+
                 handleFieldChange("totalM3", parseInt(e.target.value));
               }}
               onBlur={formik.handleBlur}

@@ -3,7 +3,7 @@ import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import WULogo from "../../../assets/official-images/logo.png";
 
-export function LogoAvatar() {
+export function LogoAvatar({width}) {
   return (
     <Stack direction="row">
       <Avatar
@@ -11,7 +11,7 @@ export function LogoAvatar() {
         alt="Ware Up"
         size="large"
         sx={{
-          width: 120,
+          width: width,
           height: "auto",
         }}
         cover="true"
