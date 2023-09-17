@@ -128,6 +128,7 @@ export function DepositAvailabilityCalendarTable({ deposit }) {
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          labelRowsPerPage="Calendarios de disponibilidad por página:"
         />
       </Paper>
     </ThemeProvider>

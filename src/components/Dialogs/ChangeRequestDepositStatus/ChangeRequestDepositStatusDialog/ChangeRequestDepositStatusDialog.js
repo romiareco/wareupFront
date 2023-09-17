@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../../../hooks";
 import { NotificationSnackbar } from "../../../NotificationSnackbar";
 import { RequestDeposit } from "../../../../api";
+import { LoadingButton } from "@mui/lab";
 
 export function ChangeRequestDepositStatusDialog({
   selectedRequestDeposit,
@@ -83,13 +84,9 @@ export function ChangeRequestDepositStatusDialog({
         </DialogContent>
         <DialogActions>
           <DialogActions>
-            {loading ? (
-              <CircularProgress size={24} />
-            ) : (
-              <Button onClick={handleAccept} autoFocus disabled={loading}>
-                Aceptar
-              </Button>
-            )}
+            <LoadingButton onClick={handleAccept} autoFocus disabled={loading}>
+              Aceptar
+            </LoadingButton>
             <Button autoFocus onClick={handleCancel}>
               Cancelar
             </Button>

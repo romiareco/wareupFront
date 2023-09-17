@@ -25,38 +25,40 @@ export function Footer() {
             justifyContent="space-between"
             alignItems="center"
           >
-            <Grid item>
-              <LogoAvatar />
-            </Grid>
-            <Grid item md={4}>
-              <Typography variant="h6" gutterBottom>
-                Empresa
-              </Typography>
-              <Typography variant="link">
-                <Link href="/">Home</Link>
-              </Typography>
-              <LinkSpacer />
-              <Typography variant="link">
-                <Link href="#">Quienes somos</Link>
-              </Typography>
-            </Grid>
-            <Grid item md={4}>
-              <Typography variant="h6" gutterBottom>
-                Ayuda & Soporte
-              </Typography>
-              <Typography variant="link">
-                <Link href="/contacts">Contáctanos</Link>
-              </Typography>
-              <LinkSpacer />
-              <Typography variant="link">
-                <Link href="#">Términos y condiciones</Link>
-              </Typography>
-            </Grid>
-            <Grid item md={4}>
-              <Typography variant="h6" gutterBottom>
-                Social Media
-              </Typography>
-              <LinkedinLogo />
+            <Grid container spacing={1}>
+              <Grid item md={3}>
+                <LogoAvatar width={120} />
+              </Grid>
+              <Grid item md={3}>
+                <Typography variant="h6" gutterBottom>
+                  Empresa
+                </Typography>
+                <Typography variant="link">
+                  <Link href="/">Home</Link>
+                </Typography>
+                <LinkSpacer />
+                <Typography variant="link">
+                  <Link href="#">Quienes somos</Link>
+                </Typography>
+              </Grid>
+              <Grid item md={3}>
+                <Typography variant="h6" gutterBottom>
+                  Ayuda & Soporte
+                </Typography>
+                <Typography variant="link">
+                  <Link href="/contacts">Contáctanos</Link>
+                </Typography>
+                <LinkSpacer />
+                <Typography variant="link">
+                  <Link href="#">Términos y condiciones</Link>
+                </Typography>
+              </Grid>
+              <Grid item md={3}>
+                <Typography variant="h6" gutterBottom>
+                  Social Media
+                </Typography>
+                <LinkedinLogo />
+              </Grid>
             </Grid>
           </Box>
           <Box mt={2}>

@@ -167,6 +167,7 @@ export function UserCompaniesTable() {
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          labelRowsPerPage="Empresas por página:"
         />
       </Paper>
     </ThemeProvider>

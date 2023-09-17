@@ -25,6 +25,7 @@ import {
 } from "../../Forms/Forms/BasicDepositData.form";
 import { currencies } from "../../../utils/enums";
 import CircularProgress from "@mui/material/CircularProgress";
+import { LoadingButton } from "@mui/lab";
 
 const depositController = new Deposit();
 const commonController = new Common();
@@ -79,9 +80,7 @@ export function EditDepositBasicData({ deposit }) {
   useEffect(() => {
     (async () => {
       try {
-        const commonResponse = await commonController.getDepartments(
-          accessToken
-        );
+        const commonResponse = await commonController.getDepartments();
         const transformedDepartments = commonResponse.departments.map(
           (department) => ({
             value: department.id,
@@ -107,7 +106,7 @@ export function EditDepositBasicData({ deposit }) {
         console.error(error);
       }
     })();
-  }, [accessToken, user.id, deposit.departmentId]);
+  }, [user.id, deposit.departmentId]);
 
   const formik = useFormik({
     initialValues: editValues(deposit),
@@ -392,18 +391,15 @@ export function EditDepositBasicData({ deposit }) {
               Editar depósito
             </Button>
           ) : (
-            <React.Fragment>
-              {loading ? (
-                <CircularProgress size={24} />
-              ) : (
-                <Button variant="contained" onClick={formik.handleSubmit}>
-                  Guardar cambios
-                </Button>
-              )}
+            <Box>
+              <LoadingButton variant="contained" onClick={formik.handleSubmit}>
+                Guardar cambios
+              </LoadingButton>
+
               <Button variant="contained" onClick={handleCancel}>
                 Cancelar
               </Button>
-            </React.Fragment>
+            </Box>
           )}
         </Box>
       </CardContent>

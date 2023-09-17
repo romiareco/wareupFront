@@ -9,7 +9,10 @@ import { useState, useEffect } from "react";
 import { Company } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
-import CircularProgress from "@mui/material/CircularProgress";
+import { LoadingButton } from "@mui/lab";
+import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
+import { companyStatus } from "../../../utils";
+import { ErrorDialog } from "../ErrorDialog";
 
 export function RemoveCompanyDialog({
   selectedCompany,
@@ -38,7 +41,17 @@ export function RemoveCompanyDialog({
   const handleAccept = async () => {
     const companyController = new Company();
     try {
-      setLoading(true); // Inicia la carga
+      if (selectedCompany.status === companyStatus.DELETED) {
+        return (
+          <ErrorDialog
+            errorMessage={"La empresa ya fue eliminada anteriormente."}
+            openDialog={openDialog}
+            onDialogOpenChange={onDialogOpenChange}
+          />
+        );
+      }
+
+      setLoading(true); 
 
       await companyController.delete(accessToken, selectedCompany.id);
 
@@ -46,12 +59,12 @@ export function RemoveCompanyDialog({
       setNotificationSeverity("success");
       setNotificationOpen(true);
 
-      setLoading(false); // Finaliza la carga, sin importar el resultado
+      setLoading(false); 
     } catch (error) {
       setNotificationMessage(error.message);
       setNotificationSeverity("error");
       setNotificationOpen(true);
-      setLoading(false); // Finaliza la carga, sin importar el resultado
+      setLoading(false);
     }
   };
 
@@ -72,6 +85,12 @@ export function RemoveCompanyDialog({
                 {`¿Desea eliminar la empresa ${selectedCompany.businessName}?`}
               </Typography>
               <Typography variant="body1" paragraph>
+                <WarningRoundedIcon
+                  sx={{
+                    verticalAlign: "middle", // Alinea verticalmente con el texto
+                    marginRight: "4px", // Opcional: agrega margen a la derecha para separar el icono del texto
+                  }}
+                />
                 Ten en cuenta que también se eliminarán los depósitos asociados.
               </Typography>
             </>
@@ -81,13 +100,9 @@ export function RemoveCompanyDialog({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        {loading ? (
-          <CircularProgress size={24} />
-        ) : (
-          <Button onClick={handleAccept} autoFocus disabled={loading}>
-            Aceptar
-          </Button>
-        )}
+        <LoadingButton onClick={handleAccept} autoFocus disabled={loading}>
+          Aceptar
+        </LoadingButton>
         <Button autoFocus onClick={handleCancel}>
           Cancelar
         </Button>

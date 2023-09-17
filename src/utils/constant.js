@@ -30,8 +30,18 @@ export const ENV = {
         DEPOSIT_CALENDAR: "/depositCalendar",
         DEPOSIT_CALENDAR_INFO: "/depositCalendar/byDeposit",
     },
+    CONSTANT_ROUTES: {
+        GOOGLE_MAPS_LOCATION_COORDINATES: "https://maps.googleapis.com/maps/api/geocode/json", 
+    },
     JWT: {
         ACCESS: "access",
         REFRESH: "refresh",
       },
+    API_KEY: {
+        GOOGLE_MAPS: "AIzaSyCyhhjlBSyQEUA1qNH9WATD6XPaB2pt3V4"
+    },
+    GOOGLE_DEFAULT_COORDINATES: {
+        INITIAL_LATITUDE: -34.90867800000001,
+        INITIAL_LONGITUDE: -56.1893107,
+    }
 };

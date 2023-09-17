@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import { User } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
+import { LoadingButton } from "@mui/lab";
 
 export function RemoveUserDialog({
   selectedUser,
@@ -78,13 +79,11 @@ export function RemoveUserDialog({
         </DialogContent>
         <DialogActions>
           <DialogActions>
-            {loading ? (
-              <CircularProgress size={24} />
-            ) : (
-              <Button onClick={handleAccept} autoFocus disabled={loading}>
+            
+              <LoadingButton onClick={handleAccept} autoFocus disabled={loading}>
                 Aceptar
-              </Button>
-            )}
+              </LoadingButton>
+           
             <Button autoFocus onClick={handleCancel}>
               Cancelar
             </Button>

@@ -17,6 +17,8 @@ import { NotificationSnackbar } from "../../NotificationSnackbar";
 import { initialValues } from "../../Forms/Forms/User.form";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import CircularProgress from "@mui/material/CircularProgress";
+import { LoadingButton } from "@mui/lab";
+import { Form } from "semantic-ui-react";
 
 const CardContainer = styled(Card)`
   height: 100%;
@@ -88,6 +90,8 @@ export function UserInformationProfile({ user }) {
         >
           Datos personales
         </Typography>
+        <Form onSubmit={formik.handleSubmit}>
+        
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
@@ -128,6 +132,8 @@ export function UserInformationProfile({ user }) {
             />
           </Grid>
         </Grid>
+        
+       
 
         <Box mt={2} display="flex" justifyContent="center" gap={2}>
           {!isEditing ? (
@@ -140,20 +146,20 @@ export function UserInformationProfile({ user }) {
             </Button>
           ) : (
             <React.Fragment>
-              {loading ? (
-                <CircularProgress size={24} />
-              ) : (
-                <Button variant="contained" onClick={formik.handleSubmit}>
-                  Guardar cambios
-                </Button>
-              )}
-
+              <LoadingButton
+                type="submit"
+                variant="contained"
+                loading={formik.isSubmitting}
+              >
+                Guardar cambios
+              </LoadingButton>
               <Button variant="contained" onClick={handleCancel}>
                 Cancelar
               </Button>
             </React.Fragment>
           )}
         </Box>
+        </Form>
       </CardContent>
       <NotificationSnackbar
         open={notificationOpen}

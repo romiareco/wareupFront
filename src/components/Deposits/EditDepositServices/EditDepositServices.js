@@ -15,6 +15,7 @@ import {
 import theme from "../../../theme/theme";
 import CircularProgress from "@mui/material/CircularProgress";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
+import { LoadingButton } from "@mui/lab";
 
 const serviceController = new Service();
 const depositController = new Deposit();
@@ -128,39 +129,35 @@ export function EditDepositServices({ deposit }) {
       </Box>
       <Box mt={2} display="flex" justifyContent="center" gap={2}>
         <React.Fragment>
-          {loading ? (
-            <CircularProgress size={24} />
-          ) : (
-            <Box mt={2}>
-              <Button
-                variant="contained"
-                onClick={handleSubmit}
-                disabled={selectedServices.length === 0}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-              >
-                Guardar cambios
-              </Button>
-              <Popover
-                open={popoverOpen}
-                anchorEl={null}
-                onClose={() => setPopoverOpen(false)}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "center",
-                }}
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "center",
-                }}
-                style={{ zIndex: 9999 }} // Ajusta el valor según sea necesario
-              >
-                <Typography sx={{ p: 2 }}>
-                  Debe seleccionar al menos un servicio.
-                </Typography>
-              </Popover>
-            </Box>
-          )}
+          <Box mt={2}>
+            <LoadingButton
+              variant="contained"
+              onClick={handleSubmit}
+              disabled={selectedServices.length === 0}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              Guardar cambios
+            </LoadingButton>
+            <Popover
+              open={popoverOpen}
+              anchorEl={null}
+              onClose={() => setPopoverOpen(false)}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "center",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "center",
+              }}
+              style={{ zIndex: 9999 }} // Ajusta el valor según sea necesario
+            >
+              <Typography sx={{ p: 2 }}>
+                Debe seleccionar al menos un servicio.
+              </Typography>
+            </Popover>
+          </Box>
         </React.Fragment>
       </Box>
       <NotificationSnackbar
