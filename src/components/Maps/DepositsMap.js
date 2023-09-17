@@ -5,7 +5,7 @@ import {
   useLoadScript,
   InfoWindow,
 } from "@react-google-maps/api";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import "./DepositsMap.css";
 import { ENV } from "../../utils";
 import { Deposit, Google } from "../../api";
@@ -15,7 +15,7 @@ import { NotificationSnackbar } from "../NotificationSnackbar";
 const depositController = new Deposit();
 const googleMapsController = new Google();
 
-export function DepositsMap({ cityId, departmentId }) {
+export function DepositsMap({ city, department }) {
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationSeverity, setNotificationSeverity] = useState("success");
@@ -31,8 +31,8 @@ export function DepositsMap({ cityId, departmentId }) {
       try {
         const filters = {
           applyFilter: true,
-          city: cityId,
-          department: departmentId,
+          city: city,
+          department: department,
         };
 
         const response = await depositController.getAllDeposits(filters);
@@ -61,7 +61,7 @@ export function DepositsMap({ cityId, departmentId }) {
         setNotificationOpen(true);
       }
     })();
-  }, [cityId, departmentId]);
+  }, [city, department]);
 
   useEffect(() => {
     (async () => {
@@ -70,7 +70,7 @@ export function DepositsMap({ cityId, departmentId }) {
           deposits.map(async (deposit) => {
             const response = await googleMapsController.getLocationCoordinates(
               deposit.address,
-              departmentId
+              department
             );
 
             if (
@@ -105,7 +105,7 @@ export function DepositsMap({ cityId, departmentId }) {
         setNotificationOpen(true);
       }
     })();
-  }, [deposits, departmentId]);
+  }, [deposits, department]);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: ENV.API_KEY.GOOGLE_MAPS || "",
@@ -132,6 +132,7 @@ export function DepositsMap({ cityId, departmentId }) {
       setMapCenter(newCenter); // Actualiza el centro del mapa
     }
   }, [deposits]);
+
 
   return (
     <Box className="App">

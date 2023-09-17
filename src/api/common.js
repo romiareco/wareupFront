@@ -3,13 +3,12 @@ import { ENV } from "../utils/constant";
 export class Common {
     baseApi = ENV.BASE_API;
 
-    async getDepartments(accessToken) {
+    async getDepartments() {
         try {
             const url = `${this.baseApi}/${ENV.API_ROUTES.DEPARTMENTS}`;
             const params = {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${accessToken}`,
                 },
             };
 

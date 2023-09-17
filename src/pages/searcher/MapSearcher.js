@@ -1,19 +1,11 @@
 import { useLocation } from "react-router-dom";
-import { Searcher } from "../../components/Searcher";
-import { depositStatus } from "../../utils";
-
+import { DepositsMap } from "../../components/Maps";
 
 export function MapSearcher() {
-    const { search } = useLocation();
-    const queryParams = new URLSearchParams(search);
-    const cityValue = queryParams.get("city");
+  const { search } = useLocation();
+  const queryParams = new URLSearchParams(search);
+  const cityValue = queryParams.get("city");
+  const departmentValue = queryParams.get("department");
 
-    const filter = {
-        "applyFilter": true,
-        "city": cityValue,
-        "status": depositStatus.ACTIVE,
-    }
-    return(
-        <Searcher filters={filter}/>
-    );
+  return <DepositsMap city={cityValue} department={departmentValue} />;
 }

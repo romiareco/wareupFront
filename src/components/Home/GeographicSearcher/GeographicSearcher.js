@@ -16,17 +16,50 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Button } from "semantic-ui-react";
+import { Common } from "../../../api";
 
-const suggestedCities = ["Barrio Sur", "Ciudad Vieja", "Malvin", "Aguada"];
+const commonController = new Common();
 
 export function GeographicSearcher() {
   const navigate = useNavigate();
   const [searchCity, setSearchCity] = useState("");
+  const [cities, setCities] = useState([]);
+
+  React.useEffect(() => {
+    (async () => {
+      try {
+        const response = await commonController.getDepartments();
+
+        if (response && response.departments.length > 0) {
+          const result = response.departments.reduce(
+            (accumulator, department) => {
+              department.cities.forEach((city) => {
+                accumulator.push({
+                  cityLabel: `${city.title}, ${department.title}`,
+                  cityId: city.id,
+                  departmentId: department.id,
+                  cityName: city.title,
+                  departmentName: department.title,
+                });
+              });
+              return accumulator;
+            },
+            []
+          );
+
+          result.sort((a, b) => a.cityLabel.localeCompare(b.cityLabel));
+          setCities(result);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, []);
 
   const handleSearch = () => {
-    // Aquí puedes agregar la lógica para realizar la búsqueda
+    // Cargar los nombres de las ciudades y sus departamentos para que tengamos el listado completo en el suggestedCities
     console.log("Buscando:", searchCity);
-    navigate(`/search-deposits?city=${searchCity}`);
+    navigate(`/search-deposits?city=${searchCity}&department=`);
   };
 
   return (
@@ -57,7 +90,11 @@ export function GeographicSearcher() {
           <Autocomplete
             id="searchInput"
             freeSolo
-            options={suggestedCities}
+            options={
+              cities.length > 0
+                ? cities.map((city) => city.cityLabel)
+                : ["Cargando..."]
+            }
             inputValue={searchCity}
             onInputChange={(event, newValue) => {
               setSearchCity(newValue);
@@ -67,6 +104,7 @@ export function GeographicSearcher() {
                 {...params}
                 label="Barrio/Ciudad"
                 variant="filled"
+                disabled={cities.length === 0} // Deshabilita el TextField cuando cities aún no está cargado
                 style={{
                   width: "900px", // Ajusta el ancho aquí
                   backgroundColor: "white",
@@ -87,7 +125,6 @@ export function GeographicSearcher() {
               width: "150px", // Ancho en estado normal
               transition: "width 0.3s ease-in-out", // Transición suave de ancho
               justifyContent: "center", // Centra horizontalmente
-
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = "white"; // Cambia el color de fondo en hover
