@@ -27,7 +27,7 @@ export function Footer() {
           >
             <Grid container spacing={1}>
               <Grid item md={3}>
-                <LogoAvatar />
+                <LogoAvatar width={120} />
               </Grid>
               <Grid item md={3}>
                 <Typography variant="h6" gutterBottom>
