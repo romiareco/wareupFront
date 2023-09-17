@@ -39,5 +39,9 @@ export const ENV = {
       },
     API_KEY: {
         GOOGLE_MAPS: "AIzaSyCyhhjlBSyQEUA1qNH9WATD6XPaB2pt3V4"
+    },
+    GOOGLE_DEFAULT_COORDINATES: {
+        INITIAL_LATITUDE: -34.90867800000001,
+        INITIAL_LONGITUDE: -56.1893107,
     }
 };

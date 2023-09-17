@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { Searcher } from "../../components/Searcher";
+import { depositStatus } from "../../utils";
 
 
 export function MapSearcher() {
@@ -9,7 +10,8 @@ export function MapSearcher() {
 
     const filter = {
         "applyFilter": true,
-        "city": cityValue
+        "city": cityValue,
+        "status": depositStatus.ACTIVE,
     }
     return(
         <Searcher filters={filter}/>

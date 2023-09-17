@@ -1,1 +1,1 @@
-export * from "./GoogleMaps";
+export * from "./DepositsMap";

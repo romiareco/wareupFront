@@ -4,6 +4,7 @@ import { Deposit } from "../../api";
 import { mapBase64ToImage } from "../../utils/mapFunctions";
 import noImage from "../../assets/deposit-images/sinimagen.jpg";
 import { Container, Typography } from "@mui/material";
+import { NotificationSnackbar } from "../NotificationSnackbar";
 
 const depositController = new Deposit();
 
@@ -78,6 +79,12 @@ export function Searcher({ filters }) {
           handleIsNotificationOpen={handleIsNotificationOpen}
         />
       )}
+      <NotificationSnackbar
+        open={notificationOpen}
+        onClose={() => setNotificationOpen(false)}
+        severity={notificationSeverity}
+        message={notificationMessage}
+      />
     </Container>
   );
 }
