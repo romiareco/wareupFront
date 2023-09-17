@@ -27,12 +27,9 @@ export function Searcher({ filters }) {
           const depositPublications = [];
 
           for (const deposit of response.deposits) {
-            const id = deposit.id;
-            const title = deposit.title;
-            const description = deposit.description;
             let depositImage;
 
-            const images = await depositController.getDepositImages(id);
+            const images = await depositController.getDepositImages(deposit.id);
 
             if (images.depositImages.length > 0) {
               const firstImage = images.depositImages[0];
@@ -43,9 +40,11 @@ export function Searcher({ filters }) {
             }
 
             const depositPublication = {
-              id,
-              title,
-              description,
+              id: deposit.id,
+              title: deposit.title,
+              description: deposit.description,
+              price: deposit.expectedPrice,
+              currency: deposit.currency,
               depositImage,
             };
 

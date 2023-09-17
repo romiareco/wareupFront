@@ -9,6 +9,7 @@ import {
   CardActionArea,
   TablePagination,
   CircularProgress,
+  Stack,
 } from "@mui/material";
 import { useState } from "react";
 import { NotificationSnackbar } from "../NotificationSnackbar";
@@ -79,9 +80,34 @@ export function PublicationList({
                         component="div"
                         sx={{
                           pt: "70%",
+                          display: "flex",
+                          justifyContent: "flex-end", // Alinea el contenido a la derecha
+                          alignItems: "center", // Alinea verticalmente al centro
                         }}
                         image={publication.depositImage}
-                      ></CardMedia>
+                      >
+                        <Stack
+                          direction={"row"}
+                          marginRight={1}
+                          sx={{
+                            backgroundColor: "rgba(255, 255, 255, 0.8)", // Fondo opaco
+                            padding: "4px 8px", // Ajusta el espaciado interno según tus preferencias
+                            borderRadius: "4px", // Bordes redondeados
+                          }}
+                          marginBottom={1}
+                        >
+                          <Typography
+                            variant="h5"
+                            marginRight={1}
+                            fontWeight="bold"
+                          >
+                            {publication.currency}
+                          </Typography>
+                          <Typography variant="h5" fontWeight="bold">
+                            {publication.price}
+                          </Typography>
+                        </Stack>
+                      </CardMedia>
                       <CardContent
                         sx={{
                           flexGrow: 1,
