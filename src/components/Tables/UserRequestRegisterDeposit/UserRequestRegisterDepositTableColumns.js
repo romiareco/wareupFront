@@ -34,7 +34,7 @@ export const columns = (handleReject) => [
   {
     id: "createdAt",
     label: "Fecha creación",
-    minWidth: 150,
+    minWidth: 200,
   },
   {
     id: "status",
