@@ -84,14 +84,13 @@ export class Deposit {
     }
   }
 
-  async getDepositImages(accessToken, depositId) {
+  async getDepositImages(depositId) {
     try {
       const numberDepositId = parseInt(depositId);
       const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT_IMAGES}/${numberDepositId}`;
       const params = {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
         },
       };
 
@@ -142,13 +141,23 @@ export class Deposit {
     }
   }
 
-  async getAllDeposits(accessToken) {
+  async getAllDeposits(filters) {
     try {
-      const url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT}`;
+      let url;
+      let queryParams = "";
+
+      if (filters && Object.keys(filters).length > 0) {
+        for (const key in filters) {
+          queryParams += `${key}=${filters[key]}&`;
+        }
+        url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT}?${queryParams}`;
+      } else {
+        url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT}`;
+      }
+
       const params = {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
         },
       };
 
@@ -281,8 +290,8 @@ export class Deposit {
         body: JSON.stringify({
           dateFrom: data.startDate,
           dateTo: data.endDate,
-          totalM3 : data.totalM3,
-          depositId: data.depositId
+          totalM3: data.totalM3,
+          depositId: data.depositId,
         }),
       };
 
@@ -309,7 +318,7 @@ export class Deposit {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
-        }
+        },
       };
 
       const response = await fetch(url, params);
@@ -327,5 +336,4 @@ export class Deposit {
       throw error;
     }
   }
-  
 }

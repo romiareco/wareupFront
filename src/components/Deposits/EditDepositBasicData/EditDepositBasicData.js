@@ -80,9 +80,7 @@ export function EditDepositBasicData({ deposit }) {
   useEffect(() => {
     (async () => {
       try {
-        const commonResponse = await commonController.getDepartments(
-          accessToken
-        );
+        const commonResponse = await commonController.getDepartments();
         const transformedDepartments = commonResponse.departments.map(
           (department) => ({
             value: department.id,
@@ -108,7 +106,7 @@ export function EditDepositBasicData({ deposit }) {
         console.error(error);
       }
     })();
-  }, [accessToken, user.id, deposit.departmentId]);
+  }, [user.id, deposit.departmentId]);
 
   const formik = useFormik({
     initialValues: editValues(deposit),
