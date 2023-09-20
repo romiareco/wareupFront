@@ -1,2 +1,4 @@
 export * from "./PublicationList";
-export * from "./Searcher";
+export * from "./DepositsSearch";
+export * from "./QuickSearcher";
+export * from "./Filters";

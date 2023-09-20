@@ -16,13 +16,13 @@ export function Services({ depositId }) {
   useEffect(() => {
     (async () => {
       try {
-        const response = await serviceController.getAllServices(accessToken);
+        const response = await serviceController.getAllServices();
         setServiceGroups(response.serviceGroups);
       } catch (error) {
         console.error(error);
       }
     })();
-  }, [accessToken, depositId]);
+  }, [depositId]);
 
   useEffect(() => {
     (async () => {

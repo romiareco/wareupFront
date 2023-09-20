@@ -38,7 +38,7 @@ export function RegisterDepositServices({ formInformation }) {
     (async () => {
       try {
         const serviceResponse = await serviceController.getAllServices(
-          accessToken
+          
         );
         const servicesData = serviceResponse.serviceGroups;
 
@@ -47,7 +47,7 @@ export function RegisterDepositServices({ formInformation }) {
         console.error(error);
       }
     })();
-  }, [accessToken]);
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>

@@ -262,7 +262,7 @@ export function RegisteredDepositsTable() {
   useEffect(() => {
     (async () => {
       try {
-        const response = await depositController.getAllDeposits(accessToken);
+        const response = await depositController.getAllDeposits();
 
         if (response.deposits) {
           const filteredInformation = mapDepositInformation(response.deposits);

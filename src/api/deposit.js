@@ -144,19 +144,26 @@ export class Deposit {
   async getAllDeposits(filters) {
     try {
       let url;
-      let queryParams = "";
 
       if (filters && Object.keys(filters).length > 0) {
+        const searchParams = new URLSearchParams();
+
         for (const key in filters) {
-          queryParams += `${key}=${filters[key]}&`;
+          searchParams.append(key, filters[key]);
         }
-        url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT}?${queryParams}`;
+
+        searchParams.append("applyFilter", true);
+
+        url = `${this.baseApi}/${
+          ENV.API_ROUTES.DEPOSIT
+        }?${searchParams.toString()}`;
       } else {
         url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT}`;
       }
 
       const params = {
         headers: {
+          method: "GET",
           "Content-Type": "application/json",
         },
       };

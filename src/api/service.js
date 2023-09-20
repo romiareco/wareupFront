@@ -3,13 +3,12 @@ import { ENV } from "../utils";
 export class Service {
   baseApi = ENV.BASE_API;
 
-  async getAllServices(accessToken) {
+  async getAllServices() {
     try {
       const url = `${this.baseApi}/${ENV.API_ROUTES.SERVICES}`;
       const params = {
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json"
         },
       };
 
