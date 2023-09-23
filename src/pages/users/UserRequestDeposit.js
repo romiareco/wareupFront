@@ -1,12 +1,12 @@
 import { RegisterRequestDeposit } from "../../components/Forms/RegisterRequestDepositForm";
 import { Footer } from "../../components/Footer";
-import { Fragment } from "react";
+import { Box } from "@mui/material";
 
 export function UserRequestDeposit() {
   return (
-    <Fragment>
+    <Box>
       <RegisterRequestDeposit />
       <Footer />
-    </Fragment>
+    </Box>
   );
 }

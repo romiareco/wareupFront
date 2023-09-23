@@ -7,6 +7,7 @@ export class Common {
         try {
             const url = `${this.baseApi}/${ENV.API_ROUTES.DEPARTMENTS}`;
             const params = {
+                method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                 },

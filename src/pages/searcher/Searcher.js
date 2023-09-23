@@ -12,9 +12,9 @@ export function Searcher() {
 
   let filters = {
     status: 1,
-  }
+  };
 
-  if (queryParams.length > 0) {
+  if (queryParams.size > 0) {
     const cityValue = queryParams.get("city");
     const departmentValue = queryParams.get("department");
 
@@ -27,23 +27,23 @@ export function Searcher() {
   return (
     <ThemeProvider theme={theme}>
       <TopHomeBar />
-      <Box>
+      <Box
+        sx={{
+          padding: 2,
+          display: "flex",
+          justifyContent: "center",
+          width: "100%",
+        }}
+      >
         <QuickSearcher />
       </Box>
-      <Stack direction={"row"}>
+      <Stack direction={"row"} marginLeft={4}>
         <Box>
           <DepositsSearch filters={filters} />
         </Box>
-        <Box>
-          <DepositsMap filters={filters} />
-        </Box>
+        <Box>{/* <DepositsMap filters={filters} /> */}</Box>
       </Stack>
-
-      {/* DepositsSearch ocupará el 60% del ancho */}
-
       <Footer />
     </ThemeProvider>
   );
 }
-
-//TODO: ver si podemos agregar un listado básico con vista diferente de los depositos para esa city/barrio

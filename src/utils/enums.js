@@ -37,5 +37,5 @@ export const resultCodes = {
 
 export const currencies = [
     { value: "USD", label: "Dólar estadounidense (USD)" },
-    { value: "UYU", label: "Peso uruguayo (UYU)" },
+   // { value: "UYU", label: "Peso uruguayo (UYU)" },
   ];

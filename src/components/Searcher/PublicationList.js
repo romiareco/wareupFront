@@ -1,7 +1,6 @@
 import {
   Box,
   Typography,
-  Container,
   Grid,
   CardMedia,
   Card,
@@ -52,14 +51,17 @@ export function PublicationList({
   return (
     <ThemeProvider theme={theme}>
       {publications.length === 0 ? (
-        <Box sx={{ display: "flex", justifyContent: "center", paddingTop: "2px" }}>
+        <Box
+          sx={{ display: "flex", justifyContent: "center", paddingTop: "2px" }}
+        >
           <CircularProgress />
         </Box>
       ) : (
         <Box>
           <Typography variant="body1" sx={theme.typography.montserratFont}>
-            Se encontraron <span style={{ fontWeight: 'bold' }}>{publications.length}</span> publicaciones en base a su
-            búsqueda
+            Se encontraron{" "}
+            <span style={{ fontWeight: "bold" }}>{publications.length}</span>{" "}
+            publicaciones en base a su búsqueda
           </Typography>
           <Grid container spacing={4}>
             {publications
@@ -143,16 +145,18 @@ export function PublicationList({
         </Box>
       )}
       <Box sx={{ marginTop: 2 }}>
-        <TablePagination
-          rowsPerPageOptions={[6, 12, 18]}
-          component="div"
-          count={publications === null ? 0 : publications.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          labelRowsPerPage="Publicaciones por página:"
-        />
+        {publications.length > 6 && (
+          <TablePagination
+            rowsPerPageOptions={[6, 12, 18]}
+            component="div"
+            count={publications === null ? 0 : publications.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            labelRowsPerPage="Publicaciones por página:"
+          />
+        )}
       </Box>
       <NotificationSnackbar
         open={notificationOpen}

@@ -4,16 +4,17 @@ import { Common } from "../../api";
 
 const commonController = new Common();
 
-export function AutocompleteSearcher({ setSearchedCity, onCitiesLoaded  }) {
+export function AutocompleteSearcher({ setSearchedCity, onCitiesLoaded }) {
   const [searchCity, setSearchCity] = useState("");
   const [cities, setCities] = useState([]);
+  const [citiesLoaded, setCitiesLoaded] = useState(false);
 
   useEffect(() => {
     (async () => {
       try {
         const response = await commonController.getDepartments();
 
-        if (response && response.departments.length > 0) {
+        if (!citiesLoaded && response && response.departments.length > 0) {
           const result = response.departments.reduce(
             (accumulator, department) => {
               department.cities.forEach((city) => {
@@ -30,15 +31,16 @@ export function AutocompleteSearcher({ setSearchedCity, onCitiesLoaded  }) {
             []
           );
 
-          result.sort((a, b) => a.cityLabel.localeCompare(b.cityLabel));
+          result.sort((a, b) => a.label.localeCompare(b.label));
           setCities(result);
           onCitiesLoaded(result);
+          setCitiesLoaded(true);
         }
       } catch (error) {
         console.error(error);
       }
     })();
-  }, []);
+  }, [onCitiesLoaded]);
 
   return (
     <Autocomplete
@@ -58,8 +60,8 @@ export function AutocompleteSearcher({ setSearchedCity, onCitiesLoaded  }) {
           label="Barrio/Ciudad"
           variant="filled"
           disabled={cities.length === 0}
-          style={{
-            width: "900px", // Ajusta el ancho aquí
+          sx={{
+            width: "900px",
             backgroundColor: "white",
           }}
         />

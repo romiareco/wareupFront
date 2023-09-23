@@ -20,16 +20,16 @@ export function PrincipalSearcher() {
   const navigate = useNavigate();
   const [searchCity, setSearchCity] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [cities, setCities] = useState([]); // Estado local para almacenar los datos de cities
+  const [cities, setCities] = useState([]);
 
   const handleCitiesLoaded = (loadedCities) => {
-    setCities(loadedCities); // Actualiza el estado con los datos de cities
+    setCities(loadedCities);
   };
 
   const handleSearch = async (searchCity) => {
     setIsLoading(true);
 
-    const foundCity = cities.find((city) => city.cityLabel === searchCity);
+    const foundCity = cities.find((city) => city.label === searchCity);
 
     if (foundCity) {
       await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -63,7 +63,7 @@ export function PrincipalSearcher() {
         </Typography>
         <Stack
           direction={"row"}
-          alignItems="stretch" // Esto estira ambos elementos para que tengan la misma altura
+          alignItems="stretch"
           spacing={1}
         >
           <AutocompleteSearcher
@@ -77,25 +77,25 @@ export function PrincipalSearcher() {
             style={{
               display: "flex",
               alignItems: "center",
-              color: "white", // Cambia el color del texto a blanco
-              border: "1px solid white", // Agrega un borde blanco al botón
-              borderRadius: "10px", // Puntas redondeadas
-              width: "150px", // Ancho en estado normal
-              transition: "width 0.3s ease-in-out", // Transición suave de ancho
-              justifyContent: "center", // Centra horizontalmente
+              color: "white",
+              border: "1px solid white", 
+              borderRadius: "10px", 
+              width: "150px",
+              transition: "width 0.3s ease-in-out",
+              justifyContent: "center",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = "white"; // Cambia el color de fondo en hover
-              e.currentTarget.style.color = "black"; // Cambia el color del texto en hover
-              e.currentTarget.style.width = "150px"; // Cambia el ancho en hover
+              e.currentTarget.style.backgroundColor = "white";
+              e.currentTarget.style.color = "black";
+              e.currentTarget.style.width = "150px";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "transparent"; // Vuelve al color de fondo en estado normal
-              e.currentTarget.style.color = "white"; // Vuelve al color del texto en estado normal
-              e.currentTarget.style.width = "150px"; // Vuelve al ancho en estado normal
+              e.currentTarget.style.backgroundColor = "transparent";
+              e.currentTarget.style.color = "white";
+              e.currentTarget.style.width = "150px";
             }}
           >
-            {isLoading ? ( // Muestra un indicador de carga si isLoading es true
+            {isLoading ? (
               <CircularProgress color="inherit" size={24} />
             ) : (
               <>

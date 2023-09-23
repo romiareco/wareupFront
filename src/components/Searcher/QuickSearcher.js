@@ -3,23 +3,34 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import theme from "../../theme/theme";
 import { AutocompleteSearcher } from "../Autocomplete";
-import { Button, CircularProgress } from "@mui/material";
+import { Box, Button, CircularProgress, Stack } from "@mui/material";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded";
+import { SearchFiltersDialog } from "../Dialogs";
 
 export function QuickSearcher() {
   const navigate = useNavigate();
   const [searchCity, setSearchCity] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [cities, setCities] = useState([]); // Estado local para almacenar los datos de cities
+  const [cities, setCities] = useState([]);
+  const [open, setOpen] = useState(false);
 
   const handleCitiesLoaded = (loadedCities) => {
-    setCities(loadedCities); // Actualiza el estado con los datos de cities
+    setCities(loadedCities);
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const handleSearch = async (searchCity) => {
     setIsLoading(true);
 
-    const foundCity = cities.find((city) => city.cityLabel === searchCity);
+    const foundCity = cities.find((city) => city.label === searchCity);
 
     if (foundCity) {
       await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -33,23 +44,38 @@ export function QuickSearcher() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AutocompleteSearcher
-        setSearchedCity={setSearchCity}
-        onCitiesLoaded={handleCitiesLoaded}
-      />
-      <Button
-        onClick={() => handleSearch(searchCity)}
-        variant="filledTonal"
-        startIcon={<SearchRoundedIcon />}
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="center"
+        sx={{ width: "100%", height: "100%" }}
       >
-         {isLoading ? ( // Muestra un indicador de carga si isLoading es true
-              <CircularProgress color="inherit" size={24} />
-            ) : (
-              <>
-                BUSCAR
-              </>
-            )}
-      </Button>
+        <AutocompleteSearcher
+          setSearchedCity={setSearchCity}
+          onCitiesLoaded={handleCitiesLoaded}
+        />
+        <Button
+          onClick={() => handleSearch(searchCity)}
+          variant="contained"
+          startIcon={<SearchRoundedIcon />}
+          sx={{ marginLeft: 1 }}
+        >
+          {isLoading ? (
+            <CircularProgress color="inherit" size={24} />
+          ) : (
+            <>BUSCAR</>
+          )}
+        </Button>
+        <Button
+          variant="contained"
+          onClick={handleClickOpen}
+          startIcon={<FilterAltRoundedIcon />}
+          sx={{ marginLeft: 1 }}
+        >
+          FILTROS
+        </Button>
+        <SearchFiltersDialog open={open} handleClose={handleClose} />
+      </Stack>
     </ThemeProvider>
   );
 }
