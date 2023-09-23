@@ -24,6 +24,7 @@ import {
   PriceRangeFilter,
   TotalM3RangeFilter,
 } from "../../Filters";
+import { SearcherView } from "../../Searcher";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -37,6 +38,16 @@ export function SearchFiltersDialog({ open, handleClose }) {
     useState([]);
   const [selectedCertifications, setSelectedCertifications] = useState([]);
   const [selectedHabilitations, setSelectedHabilitations] = useState([]);
+  const [filtersApplied, setFiltersApplied] = useState(false);
+
+  const handleApplyFilters = () => {
+    setFiltersApplied(true);
+  };
+
+  // Si se han aplicado los filtros, renderiza el componente SearcherView
+  if (filtersApplied) {
+    return <SearcherView />;
+  }
 
   const handlePriceRangeChange = (priceRange) => {
     setSelectedPriceRange(priceRange);
@@ -119,7 +130,9 @@ export function SearchFiltersDialog({ open, handleClose }) {
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Filtrar</Button>
+        <Button size="medium" variant="contained" onClick={handleApplyFilters}>
+          Aplicar filtros
+        </Button>
       </DialogActions>
     </Dialog>
   );

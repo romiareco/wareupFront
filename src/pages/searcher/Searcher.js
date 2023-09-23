@@ -4,7 +4,11 @@ import { Box, Stack, ThemeProvider } from "@mui/material";
 import theme from "../../theme/theme";
 import { Footer } from "../../components/Footer";
 import { TopHomeBar } from "../../components/Home";
-import { DepositsSearch, QuickSearcher } from "../../components/Searcher";
+import {
+  DepositsSearch,
+  QuickSearcher,
+  SearcherView,
+} from "../../components/Searcher";
 
 export function Searcher() {
   const { search } = useLocation();
@@ -24,26 +28,5 @@ export function Searcher() {
     };
   }
 
-  return (
-    <ThemeProvider theme={theme}>
-      <TopHomeBar />
-      <Box
-        sx={{
-          padding: 2,
-          display: "flex",
-          justifyContent: "center",
-          width: "100%",
-        }}
-      >
-        <QuickSearcher />
-      </Box>
-      <Stack direction={"row"} marginLeft={4}>
-        <Box>
-          <DepositsSearch filters={filters} />
-        </Box>
-        <Box>{/* <DepositsMap filters={filters} /> */}</Box>
-      </Stack>
-      <Footer />
-    </ThemeProvider>
-  );
+  return <SearcherView filters={filters} />;
 }
