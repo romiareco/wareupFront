@@ -1,4 +1,10 @@
-import { Box, CircularProgress, Stack, ThemeProvider } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Grid,
+  Stack,
+  ThemeProvider,
+} from "@mui/material";
 import theme from "../../theme/theme";
 import { TopHomeBar } from "../Home";
 import { QuickSearcher } from "./QuickSearcher";
@@ -81,13 +87,19 @@ export function SearcherView({ filters }) {
       >
         <QuickSearcher />
       </Box>
-      <Stack direction={"row"} marginLeft={4}>
-        <Box>
-          <DepositsSearch setIsLoading={setIsLoading} deposits={deposits} />
-        </Box>
-        <Box>
-          <DepositsMap filters={filters} deposits={deposits} />
-        </Box>
+      <Stack direction={"row"} marginLeft={4} marginRight={4}>
+        <Grid container spacing={2}>
+          <Grid item  md={6}>
+            <Box>
+              <DepositsSearch setIsLoading={setIsLoading} deposits={deposits} />
+            </Box>
+          </Grid>
+          <Grid item md={6}>
+            <Box>
+              <DepositsMap filters={filters} deposits={deposits} />
+            </Box>
+          </Grid>
+        </Grid>
       </Stack>
       <Footer />
       {isLoading && ( // Muestra CircularProgress mientras isLoading es true

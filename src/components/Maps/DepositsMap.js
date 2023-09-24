@@ -8,11 +8,10 @@ import {
 import { useEffect, useState } from "react";
 import "./DepositsMap.css";
 import { ENV } from "../../utils";
-import { Deposit, Google } from "../../api";
+import { Google } from "../../api";
 import { Box } from "@mui/material";
 import { NotificationSnackbar } from "../NotificationSnackbar";
 
-const depositController = new Deposit();
 const googleMapsController = new Google();
 
 export function DepositsMap({ filters, deposits }) {
@@ -46,7 +45,7 @@ export function DepositsMap({ filters, deposits }) {
                 response.results[0].geometry.location
               ) {
                 const location = response.results[0].geometry.location;
-                const depositCoordinates = {
+                const coordinates = {
                   lat: location.lat,
                   lng: location.lng,
                 };
@@ -54,7 +53,7 @@ export function DepositsMap({ filters, deposits }) {
                 // Retorna un nuevo objeto de depósito con 'depositCoordinates' actualizado
                 return {
                   ...deposit,
-                  depositCoordinates,
+                  coordinates,
                 };
               }
               // Si no se obtienen coordenadas válidas, se retorna el depósito original
@@ -69,9 +68,11 @@ export function DepositsMap({ filters, deposits }) {
             currency: deposit.currency,
             price: deposit.expectedPrice,
             address: deposit.street,
+            coordinates: deposit.coordinates
           }));
 
           setCustomDeposits(filteresDeposits);
+          setUserInteracting(false);
         }
       } catch (error) {
         console.error(error);
@@ -86,6 +87,38 @@ export function DepositsMap({ filters, deposits }) {
     googleMapsApiKey: ENV.API_KEY.GOOGLE_MAPS || "",
   });
 
+    // Efecto para actualizar el centro del mapa cuando no hay depósitos
+    useEffect(() => {
+      if (customDeposits.length === 0) {
+        setMapCenter({
+          lat: ENV.GOOGLE_DEFAULT_COORDINATES.INITIAL_LATITUDE,
+          lng: ENV.GOOGLE_DEFAULT_COORDINATES.INITIAL_LONGITUDE,
+        });
+      }
+    }, [customDeposits]);
+  
+    // Restablecer los valores cuando deposits cambia a un valor vacío
+    useEffect(() => {
+      if (deposits.length === 0) {
+        setCustomDeposits([]);
+        setMapCenter({
+          lat: ENV.GOOGLE_DEFAULT_COORDINATES.INITIAL_LATITUDE,
+          lng: ENV.GOOGLE_DEFAULT_COORDINATES.INITIAL_LONGITUDE,
+        });
+      }
+    }, [deposits]);
+  
+    // Restablecer valores cuando se desmonta el componente
+    useEffect(() => {
+      return () => {
+        setCustomDeposits([]);
+        setMapCenter({
+          lat: ENV.GOOGLE_DEFAULT_COORDINATES.INITIAL_LATITUDE,
+          lng: ENV.GOOGLE_DEFAULT_COORDINATES.INITIAL_LONGITUDE,
+        });
+      };
+    }, []);
+
   useEffect(() => {
     if (!userInteracting && customDeposits && customDeposits.length > 0) {
       // Calcula el promedio de las coordenadas de todos los marcadores
@@ -93,10 +126,10 @@ export function DepositsMap({ filters, deposits }) {
       let totalLng = 0;
 
       customDeposits.forEach((deposit) => {
-        if (deposit.depositCoordinates) {
+        if (deposit.coordinates) {
           // Verifica si deposit.depositCoordinates existe
-          totalLat += deposit.depositCoordinates.lat;
-          totalLng += deposit.depositCoordinates.lng;
+          totalLat += deposit.coordinates.lat;
+          totalLng += deposit.coordinates.lng;
         }
       });
 
@@ -109,12 +142,12 @@ export function DepositsMap({ filters, deposits }) {
   }, [customDeposits, userInteracting]);
 
   return (
-    <Box className="App">
+    <Box className="App" width={"100%"}>
       {!isLoaded || customDeposits.length === 0 ? null : (
         <GoogleMap
           mapContainerClassName="map-container"
           center={mapCenter}
-          zoom={10}
+          zoom={15}
           mapContainerStyle={{ width: "100%", height: "100%" }}
           options={{ zoomControl: true }}
           onDragend={() => setUserInteracting(true)}
@@ -122,12 +155,12 @@ export function DepositsMap({ filters, deposits }) {
         >
           {customDeposits &&
             customDeposits.map((deposit) =>
-              deposit.depositCoordinates ? (
+              deposit.coordinates ? (
                 <Marker
                   key={deposit.id}
                   position={{
-                    lat: deposit.depositCoordinates.lat,
-                    lng: deposit.depositCoordinates.lng,
+                    lat: deposit.coordinates.lat,
+                    lng: deposit.coordinates.lng,
                   }}
                   icon={{
                     url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
@@ -139,8 +172,8 @@ export function DepositsMap({ filters, deposits }) {
           {selectedMarker && (
             <InfoWindow
               position={{
-                lat: selectedMarker.depositCoordinates.lat,
-                lng: selectedMarker.depositCoordinates.lng,
+                lat: selectedMarker.coordinates.lat,
+                lng: selectedMarker.coordinates.lng,
               }}
               onCloseClick={() => setSelectedMarker(null)}
             >
