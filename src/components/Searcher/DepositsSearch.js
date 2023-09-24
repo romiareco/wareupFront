@@ -9,7 +9,7 @@ import theme from "../../theme/theme";
 
 const depositController = new Deposit();
 
-export function DepositsSearch({ filters }) {
+export function DepositsSearch({ setIsLoading, deposits }) {
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationSeverity, setNotificationSeverity] = useState("success");
@@ -23,11 +23,10 @@ export function DepositsSearch({ filters }) {
   useEffect(() => {
     (async () => {
       try {
-        const response = await depositController.getAllDeposits(filters);
-        if (response.deposits.length > 0) {
+        if (deposits.length > 0) {
           const depositPublications = [];
 
-          for (const deposit of response.deposits) {
+          for (const deposit of deposits) {
             let depositImage;
 
             const images = await depositController.getDepositImages(deposit.id);
@@ -52,17 +51,21 @@ export function DepositsSearch({ filters }) {
             depositPublications.push(depositPublication);
           }
           setFilterPublications(depositPublications);
+          setEmptyResult(false);
         } else {
           setEmptyResult(true);
+          setFilterPublications([]);
         }
       } catch (error) {
         console.error(error);
         setNotificationMessage(error);
         setNotificationSeverity("error");
         setNotificationOpen(true);
+      } finally {
+        setIsLoading(false);
       }
     })();
-  }, [filters]);
+  }, [setIsLoading, deposits]);
 
   return (
     <ThemeProvider theme={theme}>

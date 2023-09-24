@@ -108,7 +108,7 @@ export function RegisteredUsersTable() {
                         hover
                         role="checkbox"
                         tabIndex={-1}
-                        key={row.code}
+                        key={row.id}
                         sx={{
                           "&:hover": {
                             backgroundColor: "lightgray", // Color al pasar el mouse sobre la fila
