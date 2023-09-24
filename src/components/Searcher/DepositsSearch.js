@@ -9,7 +9,7 @@ import theme from "../../theme/theme";
 
 const depositController = new Deposit();
 
-export function DepositsSearch({ filters }) {
+export function DepositsSearch({ filters, setIsLoading }) {
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationSeverity, setNotificationSeverity] = useState("success");
@@ -52,17 +52,21 @@ export function DepositsSearch({ filters }) {
             depositPublications.push(depositPublication);
           }
           setFilterPublications(depositPublications);
+          setEmptyResult(false);
         } else {
           setEmptyResult(true);
+          setFilterPublications([]);
         }
       } catch (error) {
         console.error(error);
         setNotificationMessage(error);
         setNotificationSeverity("error");
         setNotificationOpen(true);
+      } finally {
+        setIsLoading(false);
       }
     })();
-  }, [filters]);
+  }, [filters, setIsLoading]);
 
   return (
     <ThemeProvider theme={theme}>

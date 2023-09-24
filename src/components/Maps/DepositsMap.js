@@ -62,38 +62,41 @@ export function DepositsMap({ filters }) {
   useEffect(() => {
     (async () => {
       try {
-        const updatedDeposits = await Promise.all(
-          deposits.map(async (deposit) => {
-            const response = await googleMapsController.getLocationCoordinates(
-              deposit.address,
-              filters.department
-            );
+        if (deposits.length > 0) {
+          const updatedDeposits = await Promise.all(
+            deposits.map(async (deposit) => {
+              const response =
+                await googleMapsController.getLocationCoordinates(
+                  deposit.address,
+                  filters.department
+                );
 
-            if (
-              response &&
-              response.results.length > 0 &&
-              response.results[0].geometry &&
-              response.results[0].geometry.location
-            ) {
-              const location = response.results[0].geometry.location;
-              const depositCoordinates = {
-                lat: location.lat,
-                lng: location.lng,
-              };
+              if (
+                response &&
+                response.results.length > 0 &&
+                response.results[0].geometry &&
+                response.results[0].geometry.location
+              ) {
+                const location = response.results[0].geometry.location;
+                const depositCoordinates = {
+                  lat: location.lat,
+                  lng: location.lng,
+                };
 
-              // Retorna un nuevo objeto de depósito con 'depositCoordinates' actualizado
-              return {
-                ...deposit,
-                depositCoordinates,
-              };
-            }
-            // Si no se obtienen coordenadas válidas, se retorna el depósito original
-            return deposit;
-          })
-        );
+                // Retorna un nuevo objeto de depósito con 'depositCoordinates' actualizado
+                return {
+                  ...deposit,
+                  depositCoordinates,
+                };
+              }
+              // Si no se obtienen coordenadas válidas, se retorna el depósito original
+              return deposit;
+            })
+          );
 
-        // Actualiza el estado con la lista de depósitos actualizada
-        setDeposits(updatedDeposits);
+          // Actualiza el estado con la lista de depósitos actualizada
+          setDeposits(updatedDeposits);
+        }
       } catch (error) {
         console.error(error);
         setNotificationMessage(error);
@@ -131,9 +134,7 @@ export function DepositsMap({ filters }) {
 
   return (
     <Box className="App">
-      {!isLoaded ? (
-        <h1>Loading...</h1>
-      ) : (
+      {!isLoaded || deposits.length === 0 ? null : (
         <GoogleMap
           mapContainerClassName="map-container"
           center={mapCenter}
