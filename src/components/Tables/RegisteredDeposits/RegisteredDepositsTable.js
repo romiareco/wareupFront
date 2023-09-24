@@ -33,7 +33,7 @@ export function RegisteredDepositsTable() {
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [deposits, setDeposits] = useState(null);
+  const [deposits, setDeposits] = useState([]);
 
   const [selectedEditBasicDataDeposit, setSelectedEditBasicDataDeposit] =
     useState(null);
@@ -321,7 +321,7 @@ export function RegisteredDepositsTable() {
                         hover
                         role="checkbox"
                         tabIndex={-1}
-                        key={row.code}
+                        key={row.id}
                         sx={{
                           backgroundColor:
                             index % 2 === 0 ? "lightgray" : "white",

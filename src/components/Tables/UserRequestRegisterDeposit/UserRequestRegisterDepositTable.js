@@ -137,7 +137,7 @@ const sortedData = requestDeposits
                       hover
                       role="checkbox"
                       tabIndex={-1}
-                      key={row.code}
+                      key={row.id}
                       sx={{
                         backgroundColor:
                           index % 2 === 0 ? "lightgray" : "white",

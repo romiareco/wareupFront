@@ -30,42 +30,12 @@ export function DepositsMap({ filters, deposits }) {
   useEffect(() => {
     (async () => {
       try {
-
-        if (deposits && deposits.length > 0) {
-          const filteresDeposits = [];
-
-          for (const deposit of deposits) {
-            const depositInfo = {
-              id: deposit.id,
-              title: deposit.title,
-              description: deposit.description,
-              currency: deposit.currency,
-              price: deposit.expectedPrice,
-              address: deposit.street,
-            };
-
-            filteresDeposits.push(depositInfo);
-          }
-          setCustomDeposits(filteresDeposits);
-        }
-      } catch (error) {
-        console.error(error);
-        setNotificationMessage(error);
-        setNotificationSeverity("error");
-        setNotificationOpen(true);
-      }
-    })();
-  }, [deposits]);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        if (customDeposits.length > 0) {
+        if (deposits.length > 0) {
           const updatedDeposits = await Promise.all(
             deposits.map(async (deposit) => {
               const response =
                 await googleMapsController.getLocationCoordinates(
-                  deposit.address,
+                  deposit.street,
                   filters.department
                 );
 
@@ -92,7 +62,16 @@ export function DepositsMap({ filters, deposits }) {
             })
           );
 
-          setCustomDeposits(updatedDeposits);
+          const filteresDeposits = updatedDeposits.map((deposit) => ({
+            id: deposit.id,
+            title: deposit.title,
+            description: deposit.description,
+            currency: deposit.currency,
+            price: deposit.expectedPrice,
+            address: deposit.street,
+          }));
+
+          setCustomDeposits(filteresDeposits);
         }
       } catch (error) {
         console.error(error);
