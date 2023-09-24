@@ -9,3 +9,4 @@ export * from "./ErrorDialog";
 export * from "./EditDepositServicesDialog";
 export * from "./AddDepositAvailabilityDialog";
 export * from "./ViewDepositCalendarAvailabilityDialog";
+export * from "./SearchFiltersDialog";

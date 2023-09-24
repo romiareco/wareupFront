@@ -15,12 +15,14 @@ import { NotificationSnackbar } from "../NotificationSnackbar";
 const depositController = new Deposit();
 const googleMapsController = new Google();
 
-export function DepositsMap({ city, department }) {
+export function DepositsMap({ filters }) {
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationSeverity, setNotificationSeverity] = useState("success");
   const [deposits, setDeposits] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
+  const [userInteracting, setUserInteracting] = useState(false);
+
   const [mapCenter, setMapCenter] = useState({
     lat: ENV.GOOGLE_DEFAULT_COORDINATES.INITIAL_LATITUDE,
     lng: ENV.GOOGLE_DEFAULT_COORDINATES.INITIAL_LONGITUDE,
@@ -29,12 +31,6 @@ export function DepositsMap({ city, department }) {
   useEffect(() => {
     (async () => {
       try {
-        const filters = {
-          applyFilter: true,
-          city: city,
-          department: department,
-        };
-
         const response = await depositController.getAllDeposits(filters);
 
         if (response.deposits && response.deposits.length > 0) {
@@ -61,7 +57,7 @@ export function DepositsMap({ city, department }) {
         setNotificationOpen(true);
       }
     })();
-  }, [city, department]);
+  }, [filters]);
 
   useEffect(() => {
     (async () => {
@@ -70,7 +66,7 @@ export function DepositsMap({ city, department }) {
           deposits.map(async (deposit) => {
             const response = await googleMapsController.getLocationCoordinates(
               deposit.address,
-              department
+              filters.department
             );
 
             if (
@@ -105,14 +101,14 @@ export function DepositsMap({ city, department }) {
         setNotificationOpen(true);
       }
     })();
-  }, [deposits, department]);
+  }, [deposits, filters.department]);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: ENV.API_KEY.GOOGLE_MAPS || "",
   });
 
   useEffect(() => {
-    if (deposits && deposits.length > 0) {
+    if (!userInteracting && deposits && deposits.length > 0) {
       // Calcula el promedio de las coordenadas de todos los marcadores
       let totalLat = 0;
       let totalLng = 0;
@@ -131,8 +127,7 @@ export function DepositsMap({ city, department }) {
       };
       setMapCenter(newCenter); // Actualiza el centro del mapa
     }
-  }, [deposits]);
-
+  }, [deposits, userInteracting]);
 
   return (
     <Box className="App">
@@ -142,9 +137,11 @@ export function DepositsMap({ city, department }) {
         <GoogleMap
           mapContainerClassName="map-container"
           center={mapCenter}
-          zoom={15}
-          mapContainerStyle={{ width: "100%", height: "600px" }}
+          zoom={10}
+          mapContainerStyle={{ width: "100%", height: "100%" }}
           options={{ zoomControl: true }}
+          onDragend={() => setUserInteracting(true)}
+          onZoomChanged={() => setUserInteracting(true)}
         >
           {deposits &&
             deposits.map((deposit) =>

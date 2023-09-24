@@ -1,7 +1,6 @@
 import {
   Box,
   Typography,
-  Container,
   Grid,
   CardMedia,
   Card,
@@ -10,10 +9,12 @@ import {
   TablePagination,
   CircularProgress,
   Stack,
+  ThemeProvider,
 } from "@mui/material";
 import { useState } from "react";
 import { NotificationSnackbar } from "../NotificationSnackbar";
 import { motion } from "framer-motion";
+import theme from "../../theme/theme";
 
 export function PublicationList({
   publications,
@@ -48,97 +49,114 @@ export function PublicationList({
   };
 
   return (
-    <Container sx={{ py: 8 }}>
+    <ThemeProvider theme={theme}>
       {publications.length === 0 ? (
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Box
+          sx={{ display: "flex", justifyContent: "center", paddingTop: "2px" }}
+        >
           <CircularProgress />
         </Box>
       ) : (
-        <Grid container spacing={4}>
-          {publications
-            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((publication) => (
-              <Grid item key={publication.id} md={4} sx={{ display: "flex" }}>
-                <motion.div
-                  initial={{ scale: 1 }}
-                  whileHover={{ y: -5, scale: 1.1 }}
-                  transition={{ type: "spring", stiffness: 100 }}
-                  style={{ width: "100%" }}
-                >
-                  <Card
-                    sx={{
-                      height: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                      flexGrow: 1,
-                    }}
+        <Box>
+          <Typography variant="body1" sx={theme.typography.montserratFont}>
+            Se encontraron{" "}
+            <span style={{ fontWeight: "bold" }}>{publications.length}</span>{" "}
+            publicaciones en base a su búsqueda
+          </Typography>
+          <Grid container spacing={4}>
+            {publications
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((publication) => (
+                <Grid item key={publication.id} md={4} sx={{ display: "flex" }}>
+                  <motion.div
+                    initial={{ scale: 1 }}
+                    whileHover={{ y: -5, scale: 1.1 }}
+                    transition={{ type: "spring", stiffness: 100 }}
+                    style={{ width: "100%" }}
                   >
-                    <CardActionArea
-                      onClick={() => handleOpenPublication(publication)}
+                    <Card
+                      sx={{
+                        height: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        flexGrow: 1,
+                        padding: "8px", // Reducir el espaciado interno
+                      }}
                     >
-                      <CardMedia
-                        component="div"
-                        sx={{
-                          pt: "70%",
-                          display: "flex",
-                          justifyContent: "flex-end", // Alinea el contenido a la derecha
-                          alignItems: "center", // Alinea verticalmente al centro
-                        }}
-                        image={publication.depositImage}
+                      <CardActionArea
+                        onClick={() => handleOpenPublication(publication)}
                       >
-                        <Stack
-                          direction={"row"}
-                          marginRight={1}
+                        <CardMedia
+                          component="div"
                           sx={{
-                            backgroundColor: "rgba(255, 255, 255, 0.8)", // Fondo opaco
-                            padding: "4px 8px", // Ajusta el espaciado interno según tus preferencias
-                            borderRadius: "4px", // Bordes redondeados
+                            pt: "50%",
+                            display: "flex",
+                            justifyContent: "flex-end", // Alinea el contenido a la derecha
+                            alignItems: "center",
+                            maxWidth: "100%", // Ajustar el ancho de la imagen
+                            // Alinea verticalmente al centro
                           }}
-                          marginBottom={1}
+                          image={publication.depositImage}
                         >
-                          <Typography
-                            variant="h5"
+                          <Stack
+                            direction={"row"}
                             marginRight={1}
-                            fontWeight="bold"
+                            sx={{
+                              backgroundColor: "rgba(255, 255, 255, 0.8)", // Fondo opaco
+                              padding: "4px 8px", // Ajusta el espaciado interno según tus preferencias
+                              borderRadius: "4px", // Bordes redondeados
+                            }}
+                            marginBottom={1}
                           >
-                            {publication.currency}
+                            <Typography
+                              variant="h6"
+                              marginRight={1}
+                              fontWeight="bold"
+                            >
+                              {publication.currency}
+                            </Typography>
+                            <Typography variant="h6" fontWeight="bold">
+                              {publication.price}
+                            </Typography>
+                          </Stack>
+                        </CardMedia>
+                        <CardContent
+                          sx={{
+                            flexGrow: 1,
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "space-between",
+                            padding: "8px", // Reducir el espaciado interno
+                          }}
+                        >
+                          <Typography gutterBottom variant="h6" component="h2">
+                            {publication.title}
                           </Typography>
-                          <Typography variant="h5" fontWeight="bold">
-                            {publication.price}
+                          <Typography variant="body2">
+                            {publication.description}
                           </Typography>
-                        </Stack>
-                      </CardMedia>
-                      <CardContent
-                        sx={{
-                          flexGrow: 1,
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <Typography gutterBottom variant="h5" component="h2">
-                          {publication.title}
-                        </Typography>
-                        <Typography>{publication.description}</Typography>
-                      </CardContent>
-                    </CardActionArea>
-                  </Card>
-                </motion.div>
-              </Grid>
-            ))}
-        </Grid>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+                  </motion.div>
+                </Grid>
+              ))}
+          </Grid>
+        </Box>
       )}
       <Box sx={{ marginTop: 2 }}>
-        <TablePagination
-          rowsPerPageOptions={[6, 12, 18]}
-          component="div"
-          count={publications === null ? 0 : publications.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          labelRowsPerPage="Publicaciones por página:"
-        />
+        {publications.length > 6 && (
+          <TablePagination
+            rowsPerPageOptions={[6, 12, 18]}
+            component="div"
+            count={publications === null ? 0 : publications.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            labelRowsPerPage="Publicaciones por página:"
+          />
+        )}
       </Box>
       <NotificationSnackbar
         open={notificationOpen}
@@ -146,6 +164,6 @@ export function PublicationList({
         severity={notificationSeverity}
         message={notificationMessage}
       />
-    </Container>
+    </ThemeProvider>
   );
 }

@@ -3,12 +3,13 @@ import { PublicationList } from "./PublicationList";
 import { Deposit } from "../../api";
 import { mapBase64ToImage } from "../../utils/mapFunctions";
 import noImage from "../../assets/deposit-images/sinimagen.jpg";
-import { Container, Typography } from "@mui/material";
+import { Box, ThemeProvider, Typography } from "@mui/material";
 import { NotificationSnackbar } from "../NotificationSnackbar";
+import theme from "../../theme/theme";
 
 const depositController = new Deposit();
 
-export function Searcher({ filters }) {
+export function DepositsSearch({ filters }) {
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationSeverity, setNotificationSeverity] = useState("success");
@@ -64,11 +65,13 @@ export function Searcher({ filters }) {
   }, [filters]);
 
   return (
-    <Container>
+    <ThemeProvider theme={theme}>
       {emptyResult ? (
-        <Typography variant="h5">
-          No se encontraron resultados para su búsqueda.
-        </Typography>
+        <Box>
+          <Typography variant="h6" sx={theme.typography.montserratFont}>
+            No se encontraron resultados para su búsqueda.
+          </Typography>
+        </Box>
       ) : (
         <PublicationList
           publications={filterPublications}
@@ -84,6 +87,6 @@ export function Searcher({ filters }) {
         severity={notificationSeverity}
         message={notificationMessage}
       />
-    </Container>
+    </ThemeProvider>
   );
 }

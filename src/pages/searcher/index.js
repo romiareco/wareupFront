@@ -1,1 +1,1 @@
-export * from "./MapSearcher";
+export * from "./Searcher";

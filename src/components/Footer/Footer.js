@@ -1,4 +1,3 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
 import { Copyright } from "../Copyright";
 import { Container, Grid, Link, Typography } from "@mui/material";
@@ -6,17 +5,18 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from "../../theme/theme";
 import { LinkedinLogo } from "../SocialMedia";
 import { LogoAvatar } from "../Avatars/LogoAvatar";
-import { LinkSpacer } from "../Links"; // Importa el nuevo componente
+import { LinkSpacer } from "../Links"; // Importa el nuevo componenteç
 
 export function Footer() {
   return (
     <ThemeProvider theme={theme}>
-      <Box
+       <Box
         component="footer"
         sx={{
-          backgroundColor: theme.palette.footer.main,
-          width: "100%",
           paddingTop: theme.spacing(3),
+          width: "100%",
+          backgroundColor: theme.palette.footer.main,
+          padding: theme.spacing(3),
         }}
       >
         <Container>

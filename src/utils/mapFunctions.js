@@ -96,12 +96,6 @@ export function mapDepositRequestInformation(depositRequests) {
       businessName: deposit.company ? deposit.company.businessName : null,
     };
   });
-
-  filteredInformation.sort((a, b) => {
-    if (a.status > b.status) return -1; // Cambiamos el orden aquí
-    if (a.status < b.status) return 1; // Cambiamos el orden aquí
-    return 0;
-  });
   
   return filteredInformation;
 }
@@ -129,12 +123,6 @@ export function mapDepositInformation(deposits) {
       postalCode: deposit.postalCode,
       depositServices: deposit.depositServices,
     };
-  });
-
-  filteredInformation.sort((a, b) => {
-    if (a.status > b.status) return -1; // Cambiamos el orden aquí
-    if (a.status < b.status) return 1; // Cambiamos el orden aquí
-    return 0;
   });
 
   return filteredInformation;

@@ -64,7 +64,7 @@ export function EditDepositServices({ deposit }) {
     (async () => {
       try {
         const servicesResponse = await serviceController.getAllServices(
-          accessToken
+          
         );
 
         setServices(servicesResponse.serviceGroups);
@@ -81,7 +81,7 @@ export function EditDepositServices({ deposit }) {
         setNotificationOpen(true);
       }
     })();
-  }, [accessToken, deposit.depositServices]);
+  }, [deposit.depositServices]);
 
   return (
     <ThemeProvider theme={theme}>

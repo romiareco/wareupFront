@@ -13,6 +13,7 @@ import {
   RegisterDeposits,
   UserListRequestDeposits,
   PublicationView,
+  Searcher
 } from "../pages";
 import { ManageUsers, ManageRequests, ManageDeposits } from "../pages/admin";
 import {
@@ -25,7 +26,6 @@ import {
 import { NotFound } from "../components";
 import { useAuth } from "../hooks";
 import { role } from "../utils";
-import { MapSearcher } from "../pages/searcher/MapSearcher";
 
 export function WebRouter() {
   const { user } = useAuth();
@@ -62,7 +62,7 @@ export function WebRouter() {
     { path: "my-companies/register", component: RegisterCompany },
     { path: "my-deposit-requests", component: UserListRequestDeposits },
     { path: "publication-view", component: PublicationView },
-    { path: "search-deposits", component: MapSearcher },
+    { path: "search-deposits", component: Searcher },
 
   ];
 
@@ -73,14 +73,14 @@ export function WebRouter() {
     { path: "manage-requests", component: ManageRequests },
     { path: "register-deposit", component: RegisterDeposits },
     { path: "publication-view", component: PublicationView },
-    { path: "search-deposits", component: MapSearcher },
+    { path: "search-deposits", component: Searcher },
   ];
 
   return (
     <Routes>
       <Route path="/contacts" element={<Contact />} />
       <Route path="/publication-view" element={<PublicationView />} />
-      <Route path="/search-deposits" element={<MapSearcher />} />
+      <Route path="/search-deposits" element={<Searcher />} />
       <Route path="/" element={<Welcome />} />
       {!user ? (
         <>
