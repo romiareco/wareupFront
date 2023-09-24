@@ -28,7 +28,7 @@ export const columns = (
     minWidth: 50,
   },
   {
-    id: "street",
+    id: "address",
     label: "Dirección",
     minWidth: 250,
   },

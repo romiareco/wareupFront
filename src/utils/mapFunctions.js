@@ -111,7 +111,7 @@ export function mapDepositInformation(deposits) {
       totalM3: deposit.totalM3,
       currency: deposit.currency,
       expectedPrice: deposit.expectedPrice,
-      street: deposit.street,
+      address: deposit.address,
       cityName: deposit.city ? deposit.city.title : null,
       cityId: deposit.cityId,
       departmentId: deposit.city? deposit.city.departmentId : null,

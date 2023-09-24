@@ -73,6 +73,7 @@ export function Description({ depositId }) {
           <p>{deposit.totalM3} m³</p>
         </Box>
       </Box>
+    
       <p className="desc">{deposit.description}</p>
 
       <Box className="price">
@@ -82,7 +83,16 @@ export function Description({ depositId }) {
           </p>
         </Box>
       </Box>
-
+      <div className="cuadro">
+        <p>
+          Período mínimo de arrendamiento:{" "}
+          <strong>{deposit.minimumBusinessPeriod} días </strong>
+        </p>
+        <p>
+          Volumen mínimo de arrendamiento:{" "}
+          <strong>{deposit.minimumBusinessVolume} m³ </strong>
+        </p>
+      </div>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DemoContainer components={["DatePicker"]}>
           <DemoItem label="Desde">

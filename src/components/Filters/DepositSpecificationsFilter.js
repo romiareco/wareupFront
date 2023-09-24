@@ -36,20 +36,26 @@ export function DepositSpecificationsFilter({ onDepositSpecificationsChange }) {
   useEffect(() => {
     (async () => {
       try {
-        const response = await serviceController.getServiceGroupById(
-          ENV.SERVICE_GROUPS.DEPOSITS_TYPE_SERVICE_GROUP_ID
-        );
+        const response = await serviceController.getAllServices();
 
-        if (response && response.serviceGroup.services.length > 0) {
-          const filteredInformation = response.serviceGroup.services.map(
-            (service) => ({
-              id: service.id,
-              title: service.title,
-            })
-          );
-
-          setServices(filteredInformation);
+        if (response && response.serviceGroups && response.serviceGroups.length > 0) {
+          const specificationsGroups = response.serviceGroups.map((serviceGroup) => {
+            if (serviceGroup.id === ENV.SERVICE_GROUPS.DEPOSITS_TYPE_SERVICE_GROUP_ID || serviceGroup.id === ENV.SERVICE_GROUPS.OTHERS_GROUP_ID) {
+              const filteredServices = serviceGroup.services.map((service) => ({
+                id: service.id,
+                title: service.title,
+              }));
+              return filteredServices;
+            }
+            return null; // Si no coincide, puedes devolver null o un valor vacío, según tus necesidades.
+          });
+          
+          // Ahora specificationsGroups contendrá una lista de listas de servicios filtrados
+          // Puedes combinarlas en una sola lista si es necesario
+          const allFilteredServices = specificationsGroups.flat().filter(Boolean);
+          setServices(allFilteredServices);
         }
+
       } catch (error) {
         console.error(error);
       }

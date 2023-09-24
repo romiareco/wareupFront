@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Grid, TextField } from "@mui/material";
+import { useState, useEffect } from "react";
+import { Grid, InputAdornment, TextField } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import { Company, Common } from "../../../../api";
 import { ThemeProvider } from "@mui/material/styles";
@@ -29,9 +29,9 @@ export function BasicDepositData({ formInformation, initialValues }) {
     },
   });
 
-  const [formData, setFormData] = React.useState({
+  const [formData, setFormData] = useState({
     companyId: "",
-    street: "",
+    address: "",
     postalCode: 0,
     totalM3: 0,
     departmentId: "",
@@ -39,6 +39,8 @@ export function BasicDepositData({ formInformation, initialValues }) {
     expectedPrice: 0,
     description: "",
     currency: "",
+    minimumBusinessVolume: "",
+    minimumBusinessPeriod: "",
   });
 
   const handleFieldChange = (fieldName, value) => {
@@ -49,7 +51,7 @@ export function BasicDepositData({ formInformation, initialValues }) {
     formik.setFieldValue(fieldName, value);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isFormComplete(formData)) {
       formInformation(formData);
     }
@@ -151,18 +153,18 @@ export function BasicDepositData({ formInformation, initialValues }) {
             <TextField
               fullWidth
               type="text"
-              name="street"
+              name="address"
               label="Dirección"
-              value={formik.values.street}
+              value={formik.values.address}
               onChange={(e) => {
                 formik.handleChange(e);
-                handleFieldChange("street", e.target.value);
+                handleFieldChange("address", e.target.value);
               }}
               onBlur={formik.handleBlur}
               variant="outlined"
               required
-              error={formik.errors.street}
-              helperText={formik.errors.street}
+              error={formik.errors.address}
+              helperText={formik.errors.address}
             />
           </Grid>
           <Grid item md>
@@ -245,9 +247,10 @@ export function BasicDepositData({ formInformation, initialValues }) {
             </FormControl>
           </Grid>
           <Grid item md={12}>
-            <Divider textAlign="middle" />
+            <Divider>Datos de la publicación</Divider>
           </Grid>
-          <Grid item md>
+
+          <Grid item md={4}>
             <FormControl
               fullWidth
               error={formik.touched.currency && formik.errors.currency}
@@ -274,7 +277,7 @@ export function BasicDepositData({ formInformation, initialValues }) {
               )}
             </FormControl>
           </Grid>
-          <Grid item md>
+          <Grid item md={4}>
             <TextField
               fullWidth
               type="number"
@@ -292,7 +295,7 @@ export function BasicDepositData({ formInformation, initialValues }) {
               helperText={formik.errors.expectedPrice}
             />
           </Grid>
-          <Grid item md>
+          <Grid item md={4}>
             <TextField
               fullWidth
               type="number"
@@ -309,6 +312,58 @@ export function BasicDepositData({ formInformation, initialValues }) {
               required
               error={formik.errors.totalM3}
               helperText={formik.errors.totalM3}
+            />
+          </Grid>
+          <Grid item md>
+            <TextField
+              fullWidth
+              type="number"
+              name="minimumBusinessPeriod"
+              label="Período mínimo de arrendamiento"
+              value={formik.values.minimumBusinessPeriod}
+              onChange={(e) => {
+                formik.handleChange(e);
+                handleFieldChange(
+                  "minimumBusinessPeriod",
+                  parseInt(e.target.value)
+                );
+              }}
+              onBlur={formik.handleBlur}
+              variant="outlined"
+              required
+              error={formik.errors.minimumBusinessPeriod}
+              helperText={formik.errors.minimumBusinessPeriod}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">días</InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+          <Grid item md>
+            <TextField
+              fullWidth
+              type="number"
+              name="minimumBusinessVolume"
+              label="Volumen mínimo de arrendamiento"
+              value={formik.values.minimumBusinessVolume}
+              onChange={(e) => {
+                formik.handleChange(e);
+                handleFieldChange(
+                  "minimumBusinessVolume",
+                  parseInt(e.target.value)
+                );
+              }}
+              onBlur={formik.handleBlur}
+              variant="outlined"
+              required
+              error={formik.errors.minimumBusinessVolume}
+              helperText={formik.errors.minimumBusinessVolume}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">m³</InputAdornment>
+                ),
+              }}
             />
           </Grid>
           <Grid item md={12}>

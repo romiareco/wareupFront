@@ -134,7 +134,7 @@ export function RegisterDeposit() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ width: "100%" }}>
+      <Box sx={{ paddingLeft: "4%", paddingRight: "4%" }}>
         <Stepper
           alternativeLabel
           activeStep={activeStep}
@@ -230,6 +230,8 @@ export function RegisterDeposit() {
             <div>{getStepContent(activeStep)}</div>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Button
+                variant="outlined"
+                size="medium"
                 color="inherit"
                 disabled={activeStep === 0}
                 onClick={handleBack}
@@ -239,6 +241,8 @@ export function RegisterDeposit() {
               </Button>
               <Box sx={{ flex: "1 1 auto" }} />
               <Button
+                variant="outlined"
+                size="medium"
                 onClick={handleNext}
                 disabled={
                   !isStepValid(activeStep, steps, formData) || isRegistering

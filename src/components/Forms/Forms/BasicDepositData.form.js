@@ -1,4 +1,5 @@
 import * as Yup from "yup";
+import { ENV } from "../../../utils";
 
 export function editValues(deposit = {}) {
   return {
@@ -9,8 +10,10 @@ export function editValues(deposit = {}) {
     departmentId: deposit.departmentId || "",
     totalM3: deposit.totalM3 || "",
     currency: deposit.currency || "",
-    street: deposit.street || "",
+    address: deposit.address || "",
     postalCode: deposit.postalCode || "",
+    minimumBusinessVolume: deposit.minimumBusinessVolume || "",
+    minimumBusinessPeriod: deposit.minimumBusinessPeriod || "",
   };
 }
 
@@ -18,11 +21,14 @@ export function validationSchema() {
   return Yup.object({
     companyId: Yup.number().required("Debe seleccionar una empresa"),
     expectedPrice: Yup.number().required("Debe cargar el precio"),
-    description: Yup.string().required("Debe cargar una descripción para la publicación del depósito"),
+    description: Yup.string().required("Debe cargar una descripción para la publicación del depósito")
+    .max(ENV.DEPOSITS_PARAMETERS_LIMIT.MAX_DESCRIPTION_CHARACTERS, "La descripción no debe superar los 200 caracteres"),
     cityId: Yup.number().required("Barrio/Ciudad es requerida"),
     departmentId: Yup.number().required("Departamento es requerido"),
     totalM3: Yup.number().required("Debe cargar sus metros cúbicos"),
     currency: Yup.string().required("Debe seleccionar una moneda"),
-    street: Yup.string().required("Debe completarse la dirección del depósito"),
+    address: Yup.string().required("Debe completarse la dirección del depósito"),
+    minimumBusinessVolume: Yup.number().required("Debe cargar el volumen mínimo de arrendamiento"),
+    minimumBusinessPeriod: Yup.number().required("Debe cargar el período mínimo de arrendamiento"),
   });
 }

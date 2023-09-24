@@ -3,6 +3,7 @@ import React from "react";
 import { RegisterDeposit } from "../../components/Forms/RegisterDepositForm";
 import { Typography } from "@mui/material";
 import theme from "../../theme/theme";
+import { Footer } from "../../components/Footer";
 
 export function RegisterDeposits() {
   return (
@@ -13,6 +14,7 @@ export function RegisterDeposits() {
         </Typography>
         <RegisterDeposit />
       </Box>
+      <Footer />
     </ThemeProvider>
   );
 }
