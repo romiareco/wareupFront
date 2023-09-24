@@ -5,10 +5,68 @@ import { QuickSearcher } from "./QuickSearcher";
 import { DepositsSearch } from "./DepositsSearch";
 import { Footer } from "../Footer";
 import { DepositsMap } from "../Maps";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Deposit } from "../../api";
+import { NotificationSnackbar } from "../NotificationSnackbar";
+
+const depositController = new Deposit();
 
 export function SearcherView({ filters }) {
   const [isLoading, setIsLoading] = useState(true);
+  const [notificationOpen, setNotificationOpen] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notificationSeverity, setNotificationSeverity] = useState("success");
+  const [deposits, setDeposits] = useState([]);
+  const [dataLoaded, setDataLoaded] = useState(false); // Nuevo estado
+
+  useEffect(() => {
+    try {
+      const fetchData = async () => {
+        const response = await depositController.getAllDeposits(filters);
+        setDeposits(response.deposits);
+        setIsLoading(false);
+        setDataLoaded(true); // Marcar los datos como cargados
+      };
+
+      fetchData();
+    } catch (error) {
+      console.error(error);
+      setNotificationMessage(error);
+      setNotificationSeverity("error");
+      setNotificationOpen(true);
+      setIsLoading(false);
+    }
+  }, [filters]);
+
+  // Solo renderiza el contenido cuando los datos están cargados
+  if (!dataLoaded) {
+    return (
+      <ThemeProvider theme={theme}>
+        <TopHomeBar />
+        <Box
+          sx={{
+            padding: 2,
+            display: "flex",
+            justifyContent: "center",
+            width: "100%",
+          }}
+        >
+          <QuickSearcher />
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "400px", // Ajusta la altura según tus necesidades
+          }}
+        >
+          <CircularProgress />
+        </Box>
+        <Footer />
+      </ThemeProvider>
+    );
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -25,10 +83,10 @@ export function SearcherView({ filters }) {
       </Box>
       <Stack direction={"row"} marginLeft={4}>
         <Box>
-          <DepositsSearch filters={filters} setIsLoading={setIsLoading} />
+          <DepositsSearch setIsLoading={setIsLoading} deposits={deposits} />
         </Box>
         <Box>
-          <DepositsMap filters={filters} />
+          <DepositsMap filters={filters} deposits={deposits} />
         </Box>
       </Stack>
       <Footer />
@@ -50,8 +108,12 @@ export function SearcherView({ filters }) {
           <CircularProgress />
         </Box>
       )}
+      <NotificationSnackbar
+        open={notificationOpen}
+        onClose={() => setNotificationOpen(false)}
+        severity={notificationSeverity}
+        message={notificationMessage}
+      />
     </ThemeProvider>
   );
 }
-
-

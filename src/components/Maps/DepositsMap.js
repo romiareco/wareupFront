@@ -15,14 +15,13 @@ import { NotificationSnackbar } from "../NotificationSnackbar";
 const depositController = new Deposit();
 const googleMapsController = new Google();
 
-export function DepositsMap({ filters }) {
+export function DepositsMap({ filters, deposits }) {
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationSeverity, setNotificationSeverity] = useState("success");
-  const [deposits, setDeposits] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [userInteracting, setUserInteracting] = useState(false);
-
+  const [customDeposits, setCustomDeposits] = useState([]);
   const [mapCenter, setMapCenter] = useState({
     lat: ENV.GOOGLE_DEFAULT_COORDINATES.INITIAL_LATITUDE,
     lng: ENV.GOOGLE_DEFAULT_COORDINATES.INITIAL_LONGITUDE,
@@ -31,12 +30,11 @@ export function DepositsMap({ filters }) {
   useEffect(() => {
     (async () => {
       try {
-        const response = await depositController.getAllDeposits(filters);
 
-        if (response.deposits && response.deposits.length > 0) {
+        if (deposits && deposits.length > 0) {
           const filteresDeposits = [];
 
-          for (const deposit of response.deposits) {
+          for (const deposit of deposits) {
             const depositInfo = {
               id: deposit.id,
               title: deposit.title,
@@ -48,7 +46,7 @@ export function DepositsMap({ filters }) {
 
             filteresDeposits.push(depositInfo);
           }
-          setDeposits(filteresDeposits);
+          setCustomDeposits(filteresDeposits);
         }
       } catch (error) {
         console.error(error);
@@ -57,12 +55,12 @@ export function DepositsMap({ filters }) {
         setNotificationOpen(true);
       }
     })();
-  }, [filters]);
+  }, [deposits]);
 
   useEffect(() => {
     (async () => {
       try {
-        if (deposits.length > 0) {
+        if (customDeposits.length > 0) {
           const updatedDeposits = await Promise.all(
             deposits.map(async (deposit) => {
               const response =
@@ -94,8 +92,7 @@ export function DepositsMap({ filters }) {
             })
           );
 
-          // Actualiza el estado con la lista de depósitos actualizada
-          setDeposits(updatedDeposits);
+          setCustomDeposits(updatedDeposits);
         }
       } catch (error) {
         console.error(error);
@@ -111,12 +108,12 @@ export function DepositsMap({ filters }) {
   });
 
   useEffect(() => {
-    if (!userInteracting && deposits && deposits.length > 0) {
+    if (!userInteracting && customDeposits && customDeposits.length > 0) {
       // Calcula el promedio de las coordenadas de todos los marcadores
       let totalLat = 0;
       let totalLng = 0;
 
-      deposits.forEach((deposit) => {
+      customDeposits.forEach((deposit) => {
         if (deposit.depositCoordinates) {
           // Verifica si deposit.depositCoordinates existe
           totalLat += deposit.depositCoordinates.lat;
@@ -125,16 +122,16 @@ export function DepositsMap({ filters }) {
       });
 
       const newCenter = {
-        lat: totalLat / deposits.length,
-        lng: totalLng / deposits.length,
+        lat: totalLat / customDeposits.length,
+        lng: totalLng / customDeposits.length,
       };
       setMapCenter(newCenter); // Actualiza el centro del mapa
     }
-  }, [deposits, userInteracting]);
+  }, [customDeposits, userInteracting]);
 
   return (
     <Box className="App">
-      {!isLoaded || deposits.length === 0 ? null : (
+      {!isLoaded || customDeposits.length === 0 ? null : (
         <GoogleMap
           mapContainerClassName="map-container"
           center={mapCenter}
@@ -144,8 +141,8 @@ export function DepositsMap({ filters }) {
           onDragend={() => setUserInteracting(true)}
           onZoomChanged={() => setUserInteracting(true)}
         >
-          {deposits &&
-            deposits.map((deposit) =>
+          {customDeposits &&
+            customDeposits.map((deposit) =>
               deposit.depositCoordinates ? (
                 <Marker
                   key={deposit.id}
