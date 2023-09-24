@@ -186,9 +186,9 @@ export function EditDepositBasicData({ deposit }) {
             <TextField
               fullWidth
               type="text"
-              name="street"
+              name="address"
               label="Dirección"
-              value={formik.values.street}
+              value={formik.values.address}
               onChange={(e) => {
                 formik.handleChange(e);
               }}
@@ -196,8 +196,8 @@ export function EditDepositBasicData({ deposit }) {
               onBlur={formik.handleBlur}
               variant="outlined"
               required
-              error={formik.errors.street}
-              helperText={formik.errors.street}
+              error={formik.errors.address}
+              helperText={formik.errors.address}
             />
           </Grid>
           <Grid item md={2}>

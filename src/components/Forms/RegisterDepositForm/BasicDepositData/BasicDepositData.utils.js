@@ -14,7 +14,11 @@ export function isFormComplete(formData) {
     formData.totalM3 !== "" &&
     formData.hasOwnProperty("currency") &&
     formData.currency !== "",
-    formData.hasOwnProperty("street") &&
-    formData.street !== ""
+    formData.hasOwnProperty("address") &&
+    formData.address !== "" &&
+    formData.hasOwnProperty("minimumBusinessPeriod") &&
+    formData.minimumBusinessPeriod !== "" &&
+    formData.hasOwnProperty("minimumBusinessVolume") &&
+    formData.minimumBusinessVolume !== ""
   );
 }

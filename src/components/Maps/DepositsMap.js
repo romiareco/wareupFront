@@ -34,7 +34,7 @@ export function DepositsMap({ filters, deposits }) {
             deposits.map(async (deposit) => {
               const response =
                 await googleMapsController.getLocationCoordinates(
-                  deposit.street,
+                  deposit.address,
                   filters.department
                 );
 
@@ -67,7 +67,7 @@ export function DepositsMap({ filters, deposits }) {
             description: deposit.description,
             currency: deposit.currency,
             price: deposit.expectedPrice,
-            address: deposit.street,
+            address: deposit.address,
             coordinates: deposit.coordinates
           }));
 

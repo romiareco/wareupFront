@@ -12,7 +12,7 @@ export function buildStructuredBodyData(steps, data) {
       structuredData.expectedPrice = stepData.expectedPrice;
       structuredData.description = stepData.description;
       structuredData.postalCode = stepData.postalCode;
-      structuredData.street = stepData.street;
+      structuredData.address = stepData.address;
       structuredData.currency = stepData.currency;
     } else if (stepIndex === 1) {
       structuredData.servicesId = stepData;
@@ -38,7 +38,9 @@ export function isStepValid(stepIndex, steps, formData) {
         stepData.hasOwnProperty("departmentId") &&
         stepData.hasOwnProperty("totalM3") &&
         stepData.hasOwnProperty("currency") &&
-        stepData.hasOwnProperty("street")
+        stepData.hasOwnProperty("address") &&
+        stepData.hasOwnProperty("minimumBusinessVolume") &&
+        stepData.hasOwnProperty("minimumBusinessPeriod")
       );
     case 1:
       return stepData && stepData.length !== 0;
@@ -51,4 +53,4 @@ export function isStepValid(stepIndex, steps, formData) {
 
 export function isLastStep(stepIndex, steps) {
   return stepIndex === steps.length;
-};
+}

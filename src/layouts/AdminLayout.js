@@ -20,7 +20,7 @@ export function AdminLayout(props) {
     {
       label: "Gestionar depósitos",
       menuItems: [
-        { label: "Agregar nuevo depósito", href: "/admin/register-deposit" },
+        { label: "Publicar depósito", href: "/admin/register-deposit" },
         { label: "Listado de depósitos", href: "/admin/manage-deposits" },
       ],
     },

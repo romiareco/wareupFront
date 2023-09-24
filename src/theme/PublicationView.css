@@ -636,3 +636,15 @@ footer a {
   height: 450px; /* Cambia el valor al tamaño deseado */
   object-fit: cover; /* Ajusta la imagen manteniendo la relación de aspecto y recortándola si es necesario */
 }
+
+.cuadro {
+  border: 2px solid #000; /* Borde de 2 píxeles sólido negro */
+  padding: 10px; /* Espaciado interno de 10 píxeles */
+  background-color: #f0f0f0; /* Color de fondo gris claro */
+  border-radius: 5px; /* Bordes redondeados */
+  margin: 20px; /* Margen exterior de 20 píxeles */
+}
+
+.cuadro p {
+  margin: 5px 0; /* Margen superior e inferior de los párrafos */
+}
