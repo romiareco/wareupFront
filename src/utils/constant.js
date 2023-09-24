@@ -51,4 +51,10 @@ export const ENV = {
     CERT_GROUP_ID: 5,
     HAB_GROUP_ID: 6,
   },
+  MIN_MAX_FILTERS: {
+    MIN_PRICE: 0,
+    MAX_PRICE: 1000,
+    MIN_TOTAL_M3: 0,
+    MAX_TOTAL_M3: 1000,
+  }
 };

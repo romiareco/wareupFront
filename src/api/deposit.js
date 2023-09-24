@@ -154,9 +154,9 @@ export class Deposit {
 
         searchParams.append("applyFilter", true);
 
-        url = `${this.baseApi}/${
-          ENV.API_ROUTES.DEPOSIT
-        }?${searchParams.toString()}`;
+        const searchString = searchParams.toString().replace(/%2C/g, ",");
+
+        url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT}?${searchString}`;
       } else {
         url = `${this.baseApi}/${ENV.API_ROUTES.DEPOSIT}`;
       }

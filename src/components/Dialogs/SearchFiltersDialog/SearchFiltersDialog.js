@@ -2,15 +2,11 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  DialogContentText,
   DialogActions,
   Button,
   Divider,
   IconButton,
-  Stack,
   Typography,
-  TextField,
-  Slider,
   Box,
 } from "@mui/material";
 import { forwardRef, useState } from "react";
@@ -24,30 +20,66 @@ import {
   PriceRangeFilter,
   TotalM3RangeFilter,
 } from "../../Filters";
-import { SearcherView } from "../../Searcher";
-
+import { ENV } from "../../../utils";
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export function SearchFiltersDialog({ open, handleClose }) {
-  const [selectedPriceRange, setSelectedPriceRange] = useState([0, 1000]);
-  const [selectedTotalM3Range, setSelectedTotalM3Range] = useState([0, 1000]);
+export function SearchFiltersDialog({ open, handleClose, onApplyFilters }) {
+  const [selectedPriceRange, setSelectedPriceRange] = useState([
+    ENV.MIN_MAX_FILTERS.MIN_PRICE,
+    ENV.MIN_MAX_FILTERS.MAX_PRICE,
+  ]);
+  const [selectedTotalM3Range, setSelectedTotalM3Range] = useState([
+    ENV.MIN_MAX_FILTERS.MIN_TOTAL_M3,
+    ENV.MIN_MAX_FILTERS.MAX_TOTAL_M3,
+  ]);
   const [selectedLaboralDays, setSelectedLaboralDays] = useState([]);
   const [selectedDepositSpecifications, setSelectedDepositSpecifications] =
     useState([]);
   const [selectedCertifications, setSelectedCertifications] = useState([]);
   const [selectedHabilitations, setSelectedHabilitations] = useState([]);
-  const [filtersApplied, setFiltersApplied] = useState(false);
 
   const handleApplyFilters = () => {
-    setFiltersApplied(true);
-  };
+    let laboralDays = [];
+    if (selectedLaboralDays) {
+      laboralDays = selectedLaboralDays.map((laboralDay) => laboralDay.id);
+    }
 
-  // Si se han aplicado los filtros, renderiza el componente SearcherView
-  if (filtersApplied) {
-    return <SearcherView />;
-  }
+    const filters = {
+      servicesId: selectedDepositSpecifications.concat(
+        selectedHabilitations,
+        selectedCertifications,
+        laboralDays
+      ),
+    };
+
+    if (selectedPriceRange) {
+      if (selectedPriceRange[0] !== ENV.MIN_MAX_FILTERS.MIN_PRICE) {
+        filters.fromPrice = selectedPriceRange[0];
+      }
+      if (
+        selectedPriceRange.length > 1 &&
+        selectedPriceRange[1] !== ENV.MIN_MAX_FILTERS.MAX_PRICE
+      ) {
+        filters.toPrice = selectedPriceRange[1];
+      }
+    }
+
+    if (selectedTotalM3Range) {
+      if (selectedTotalM3Range[0] !== ENV.MIN_MAX_FILTERS.MIN_TOTAL_M3) {
+        filters.fromTotalM3 = selectedTotalM3Range[0];
+      }
+      if (
+        selectedTotalM3Range.length > 1 &&
+        selectedTotalM3Range[1] !== ENV.MIN_MAX_FILTERS.MAX_TOTAL_M3
+      ) {
+        filters.toTotalM3 = selectedTotalM3Range[1];
+      }
+    }
+
+    onApplyFilters(filters);
+  };
 
   const handlePriceRangeChange = (priceRange) => {
     setSelectedPriceRange(priceRange);
@@ -93,9 +125,9 @@ export function SearchFiltersDialog({ open, handleClose }) {
         >
           <CloseIcon />
         </IconButton>
-        <Typography variant="h4" style={{ flex: 1, textAlign: "center" }}>
+        <div style={{ flex: 1, textAlign: "center", fontSize: "30px" }}>
           Filtros
-        </Typography>
+        </div>
       </DialogTitle>
       <Divider />
       <DialogContent>
