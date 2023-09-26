@@ -4,17 +4,21 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { useState } from "react";
 
-export function DepositDatePicker({ onDateChange }) {
-  const [startDate, setStartDate] = useState(dayjs());
-  const [endDate, setEndDate] = useState(dayjs());
-
+export function DepositDatePicker({
+  startDate,
+  endDate,
+  onStartDateChange,
+  onEndDateChange,
+}) {
   const handleStartDateChange = (date) => {
-    setStartDate(date);
+    onStartDateChange(date);
     if (date.isAfter(endDate)) {
-      setEndDate(date);
+      onEndDateChange(date);
     }
+  };
 
-    onDateChange(startDate, endDate);
+  const handleEndDateChange = (date) => {
+    onEndDateChange(date);
   };
 
   return (
@@ -34,7 +38,7 @@ export function DepositDatePicker({ onDateChange }) {
             defaultValue={dayjs()}
             value={endDate}
             minDate={startDate}
-            onChange={(date) => setEndDate(date)}
+            onChange={handleEndDateChange}
           />
         </DemoItem>
       </DemoContainer>

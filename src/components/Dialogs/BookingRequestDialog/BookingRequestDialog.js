@@ -22,37 +22,38 @@ import * as Yup from "yup";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
 import { BookingRequest } from "../../../api";
 import { ErrorDialog } from "../ErrorDialog";
-
-const validationSchema = Yup.object({
-  totalM3: Yup.number()
-    .required("El campo es obligatorio")
-    .min(1, "El valor debe ser mayor a 0"),
-});
+import dayjs from "dayjs";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export function BookingRequestDialog({ open, handleClose, depositId }) {
+export function BookingRequestDialog({ open, handleClose, depositId, maxTotalM3 }) {
   const { accessToken, user } = useAuth();
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
-  const [loading, setLoading] = useState(false);
-  const [dates, setDates] = useState({});
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [startDate, setStartDate] = useState(dayjs()); // Inicializa con la fecha por defecto
+  const [endDate, setEndDate] = useState(dayjs()); // Inicializa con la fecha por defecto
+
+  const validationSchema = Yup.object({
+    totalM3: Yup.number()
+      .required("El campo es obligatorio")
+      .min(1, "El valor debe ser mayor a 0")
+      .max(maxTotalM3, `El valor debe ser menor o igual a ${maxTotalM3}`), // Agrega esta línea
+  });
 
   const handleErrorDialogOpenChange = (isOpen) => {
     setIsDialogOpen(isOpen);
   };
 
-  const handleDateChange = (startDate, endDate) => {
-    const newDates = {
-      startDate: startDate,
-      endDate: endDate,
-    };
+  const handleStartDateChange = (date) => {
+    setStartDate(date);
+  };
 
-    setDates(newDates);
+  const handleEndDateChange = (date) => {
+    setEndDate(date);
   };
 
   const formik = useFormik({
@@ -69,8 +70,8 @@ export function BookingRequestDialog({ open, handleClose, depositId }) {
             userId: user.id,
             depositId: depositId,
             totalM3: values.totalM3,
-            dateFrom: dates.startDate,
-            dateTo: dates.endDate,
+            dateFrom: startDate, // Usar startDate y endDate del estado del componente
+            dateTo: endDate,
           };
 
           await bookingRequestController.registerBookingRequest(
@@ -78,11 +79,9 @@ export function BookingRequestDialog({ open, handleClose, depositId }) {
             data
           );
 
-          console.log("Hola");
           setNotificationMessage("Reserva realizada exitosamente");
           setNotificationSeverity("success");
           setNotificationOpen(true);
-          setLoading(false);
 
           // Cierra el diálogo o realiza otras acciones según tus necesidades
           handleClose();
@@ -93,7 +92,6 @@ export function BookingRequestDialog({ open, handleClose, depositId }) {
         setNotificationMessage(error.message);
         setNotificationSeverity("error");
         setNotificationOpen(true);
-        setLoading(false);
       }
       setSubmitting(false);
     },
@@ -132,7 +130,12 @@ export function BookingRequestDialog({ open, handleClose, depositId }) {
       <DialogContent>
         <Stack direction={"column"}>
           <Box>
-            <DepositDatePicker onDateChange={handleDateChange} />
+            <DepositDatePicker
+              startDate={startDate}
+              endDate={endDate}
+              onStartDateChange={handleStartDateChange}
+              onEndDateChange={handleEndDateChange}
+            />
           </Box>
           <Box
             marginTop={2}
@@ -149,7 +152,7 @@ export function BookingRequestDialog({ open, handleClose, depositId }) {
               variant="outlined"
               value={formik.values.totalM3}
               onChange={formik.handleChange}
-              error={formik.touched.totalM3 && formik.errors.totalM3}
+              error={Boolean(formik.touched.totalM3 && formik.errors.totalM3)}
               helperText={formik.touched.totalM3 && formik.errors.totalM3}
               onBlur={formik.handleBlur}
               InputProps={{

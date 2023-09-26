@@ -98,6 +98,8 @@ export function Description({ depositId }) {
       <BookingRequestDialog
           open={open}
           handleClose={handleClose}
+          depositId={deposit.id}
+          maxTotalM3={deposit.totalM3}
         />
     </Box>
   );
