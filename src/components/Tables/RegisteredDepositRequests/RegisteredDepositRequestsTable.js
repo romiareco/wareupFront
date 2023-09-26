@@ -7,7 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { RequestDeposit } from "../../../api";
+import { DepositRequest } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { useState, useEffect } from "react";
 import { columns } from "./RegisteredDepositRequestsTableColumns";
@@ -19,7 +19,7 @@ import {
 } from "../../../utils/mapFunctions";
 import { AcceptRequestDeposit, CancelRequestDeposit } from "../../Dialogs";
 
-const controller = new RequestDeposit();
+const controller = new DepositRequest();
 
 export function RegisteredDepositRequestsTable() {
   const { accessToken } = useAuth();

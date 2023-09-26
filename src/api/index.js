@@ -5,5 +5,6 @@ export * from "./deposit";
 export * from "./common";
 export * from "./company";
 export * from "./service";
-export * from "./requestDeposit";
+export * from "./depositRequest";
 export * from "./google";
+export * from "./bookingRequest";

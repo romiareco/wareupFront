@@ -10,7 +10,7 @@ import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../../../hooks";
 import { NotificationSnackbar } from "../../../NotificationSnackbar";
-import { RequestDeposit } from "../../../../api";
+import { DepositRequest } from "../../../../api";
 import { LoadingButton } from "@mui/lab";
 
 export function ChangeRequestDepositStatusDialog({
@@ -40,10 +40,10 @@ export function ChangeRequestDepositStatusDialog({
   };
 
   const handleAccept = async () => {
-    const requestDepositController = new RequestDeposit();
+    const depositRequestController = new DepositRequest();
     try {
       setLoading(true);
-      await requestDepositController.updateRequestDepositStatus(
+      await depositRequestController.updateRequestDepositStatus(
         accessToken,
         selectedRequestDeposit.id,
         requestDepositStatus

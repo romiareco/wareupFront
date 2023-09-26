@@ -1,7 +1,7 @@
 
 import { ENV } from "../utils/constant";
 
-export class Booking {
+export class BookingRequest {
     baseApi = ENV.BASE_API;
 
     async registerBookingRequest(accessToken, data) {

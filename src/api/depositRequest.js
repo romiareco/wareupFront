@@ -1,6 +1,6 @@
 import { ENV } from "../utils";
 
-export class RequestDeposit {
+export class DepositRequest {
   baseApi = ENV.BASE_API;
 
   async requestDepositPublication(accessToken, data, user) {

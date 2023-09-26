@@ -4,7 +4,7 @@ import { Grid, TextField, FormHelperText } from "@mui/material";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import InputLabel from "@mui/material/InputLabel";
-import { User, Common, RequestDeposit } from "../../../api";
+import { User, Common, DepositRequest } from "../../../api";
 import { initialValues, validationSchema } from "../Forms/RequestDeposit.form";
 import { ThemeProvider } from "@mui/material/styles";
 import { Typography, Paper, FormControl } from "@mui/material";
@@ -17,7 +17,7 @@ import theme from "../../../theme/theme"; // Importa el theme.js aquí
 import { NotificationSnackbar } from "../../NotificationSnackbar";
 
 const userController = new User();
-const requestDepositController = new RequestDeposit();
+const depositRequestController = new DepositRequest();
 const commonController = new Common();
 
 export function RegisterRequestDeposit() {
@@ -84,7 +84,7 @@ export function RegisterRequestDeposit() {
     validateOnChange: false,
     onSubmit: async (formValue, { resetForm }) => {
       try {
-        await requestDepositController.requestDepositPublication(
+        await depositRequestController.requestDepositPublication(
           accessToken,
           formValue,
           user
