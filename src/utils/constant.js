@@ -29,6 +29,7 @@ export const ENV = {
     DEPOSIT_SERVICES: "deposits/services",
     DEPOSIT_CALENDAR: "/depositCalendar",
     DEPOSIT_CALENDAR_INFO: "/depositCalendar/byDeposit",
+    BOOKING_REQUEST: "/bookingRequests",
   },
   CONSTANT_ROUTES: {
     GOOGLE_MAPS_LOCATION_COORDINATES:
