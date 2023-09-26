@@ -14,13 +14,14 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth } from "../../../hooks";
-import { forwardRef, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import Slide from "@mui/material/Slide";
 import { DepositDatePicker } from "../../DatePickers/DepositDatePicker";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
 import { BookingRequest } from "../../../api";
+import { ErrorDialog } from "../ErrorDialog";
 
 const validationSchema = Yup.object({
   totalM3: Yup.number()
@@ -39,6 +40,11 @@ export function BookingRequestDialog({ open, handleClose, depositId }) {
   const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
   const [loading, setLoading] = useState(false);
   const [dates, setDates] = useState({});
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleErrorDialogOpenChange = (isOpen) => {
+    setIsDialogOpen(isOpen);
+  };
 
   const handleDateChange = (startDate, endDate) => {
     const newDates = {
@@ -56,29 +62,33 @@ export function BookingRequestDialog({ open, handleClose, depositId }) {
     validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        const bookingRequestController = new BookingRequest();
+        if (user) {
+          const bookingRequestController = new BookingRequest();
 
-        const data = {
-          userId: user.id,
-          depositId: depositId,
-          totalM3: values.totalM3,
-          dateFrom: dates.startDate,
-          dateTo: dates.endDate,
-        };
+          const data = {
+            userId: user.id,
+            depositId: depositId,
+            totalM3: values.totalM3,
+            dateFrom: dates.startDate,
+            dateTo: dates.endDate,
+          };
 
-        await bookingRequestController.registerBookingRequest(
-          accessToken,
-          data
-        );
+          await bookingRequestController.registerBookingRequest(
+            accessToken,
+            data
+          );
 
-        console.log("Hola");
-        setNotificationMessage("Reserva realizada exitosamente");
-        setNotificationSeverity("success");
-        setNotificationOpen(true);
-        setLoading(false);
+          console.log("Hola");
+          setNotificationMessage("Reserva realizada exitosamente");
+          setNotificationSeverity("success");
+          setNotificationOpen(true);
+          setLoading(false);
 
-        // Cierra el diálogo o realiza otras acciones según tus necesidades
-        handleClose();
+          // Cierra el diálogo o realiza otras acciones según tus necesidades
+          handleClose();
+        } else {
+          setIsDialogOpen(true); // Mostrar el ErrorDialog
+        }
       } catch (error) {
         setNotificationMessage(error.message);
         setNotificationSeverity("error");
@@ -98,6 +108,13 @@ export function BookingRequestDialog({ open, handleClose, depositId }) {
       fullWidth
       maxWidth={"sm"}
     >
+      {isDialogOpen && (
+        <ErrorDialog
+          errorMessage={"Debe iniciar sesión para realizar esta operación."}
+          openDialog={isDialogOpen}
+          onDialogOpenChange={handleErrorDialogOpenChange}
+        />
+      )}
       <DialogTitle
         sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
       >
