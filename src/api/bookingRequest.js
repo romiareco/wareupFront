@@ -14,14 +14,11 @@ export class BookingRequest {
                     Authorization: `Bearer ${accessToken}`,
                 },
                 body: JSON.stringify({
-                    businessName: data.businessName,
-                    contactName: data.contactName,
-                    position: data.position,
-                    RUT: data.RUT,
-                    email: data.email,
-                    phone: data.phone,
-                    address: data.address,
-                    status: data.status,
+                    depositId: data.depositId,
+                    userId: data.userId,
+                    dateFrom: data.dateFrom,
+                    dateTo: data.dateTo,
+                    totalM3: data.totalM3,
                   }),
             };
 
