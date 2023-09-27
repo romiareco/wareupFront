@@ -5,3 +5,4 @@ export * from "./RegisteredDepositRequests";
 export * from "./UserRequestRegisterDeposit";
 export * from "./UserCompanies";
 export * from "./DepositAvailabilityCalendars";
+export * from "./UserBookingRequests";

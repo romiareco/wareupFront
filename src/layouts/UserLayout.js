@@ -29,6 +29,8 @@ export function UserLayout(props) {
       ],
     },
     { label: "Gestionar mis empresas", href: "/users/my-companies" },
+    { label: "Gestionar mis solicitudes de arrendamiento", href: "/users/booking-requests" },
+
   ];
 
   const handleClick = (event) => {

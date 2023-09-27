@@ -13,7 +13,8 @@ import {
   RegisterDeposits,
   UserListRequestDeposits,
   PublicationView,
-  Searcher
+  Searcher,
+  UserBookingRequests
 } from "../pages";
 import { ManageUsers, ManageRequests, ManageDeposits } from "../pages/admin";
 import {
@@ -63,7 +64,7 @@ export function WebRouter() {
     { path: "my-deposit-requests", component: UserListRequestDeposits },
     { path: "publication-view", component: PublicationView },
     { path: "search-deposits", component: Searcher },
-
+    { path: "booking-requests", component: UserBookingRequests },
   ];
 
   const adminRoutes = [
