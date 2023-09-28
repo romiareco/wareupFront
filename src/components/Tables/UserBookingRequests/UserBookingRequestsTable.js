@@ -13,7 +13,7 @@ import { useAuth } from "../../../hooks";
 import { useState, useEffect } from "react";
 import {
   mapBookingRequestInformation,
-  mapCompanyStatus,
+  mapDepositRequestStatus,
 } from "../../../utils/mapFunctions";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
@@ -26,6 +26,20 @@ export function UserBookingRequestsTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [bookingRequests, setBookingRequests] = useState([]);
+
+  const handlePreview = (row) => {
+    const queryParams = {
+      id: row.depositId,
+    };
+
+    const queryString = Object.keys(queryParams)
+      .map((key) => `${key}=${encodeURIComponent(queryParams[key])}`)
+      .join("&");
+
+    const url = `publication-view?${queryString}`;
+
+    window.open(url, "_blank");
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -69,7 +83,7 @@ export function UserBookingRequestsTable() {
           <Table stickyHeader style={{ backgroundColor: "transparent" }}>
             <TableHead>
               <TableRow>
-                {columns().map((column) => (
+                {columns(handlePreview).map((column) => (
                   <TableCell
                     key={column.id}
                     align="center" // Centra el título
@@ -101,7 +115,7 @@ export function UserBookingRequestsTable() {
                             index % 2 === 0 ? "lightgray" : "white",
                         }}
                       >
-                        {columns().map((column) => {
+                        {columns(handlePreview).map((column) => {
                           const value = row[column.id];
                           return (
                             <TableCell
@@ -111,7 +125,7 @@ export function UserBookingRequestsTable() {
                               {column.format
                                 ? column.format(value, row)
                                 : column.id === "status"
-                                ? mapCompanyStatus(value) //Cambiar esto! deberia ser para bookingRequest
+                                ? mapDepositRequestStatus(value) //Cambiar esto! deberia ser para bookingRequest
                                 : value}
                             </TableCell>
                           );
