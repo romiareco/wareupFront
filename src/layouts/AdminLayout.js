@@ -7,13 +7,14 @@ import { useTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import { Link } from 'react-router-dom';
-
+import { Link } from "react-router-dom";
 
 export function AdminLayout(props) {
   const { children } = props;
   const theme = useTheme();
-  const [anchorEl, setAnchorEl] = useState(null);
+
+  // Crear un estado de anclaje para cada botón con menú desplegable
+  const [anchorEl, setAnchorEl] = useState({});
 
   const buttons = [
     { label: "Gestionar usuarios", href: "/admin/manage-users" },
@@ -24,15 +25,29 @@ export function AdminLayout(props) {
         { label: "Listado de depósitos", href: "/admin/manage-deposits" },
       ],
     },
-    { label: "Gestionar solicitudes", href: "/admin/manage-requests" },
+    {
+      label: "Gestionar solicitudes",
+      menuItems: [
+        {
+          label: "Solicitudes de registro de depósito",
+          href: "/admin/manage-deposits-requests",
+        },
+        {
+          label: "Solicitudes de arrendamiento",
+          href: "/admin/manage-booking-requests",
+        },
+      ],
+    },
   ];
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleClick = (event, index) => {
+    // Establecer el estado de anclaje específico para este botón
+    setAnchorEl({ ...anchorEl, [index]: event.currentTarget });
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleClose = (index) => {
+    // Cerrar el menú desplegable específico para este botón
+    setAnchorEl({ ...anchorEl, [index]: null });
   };
 
   return (
@@ -52,7 +67,7 @@ export function AdminLayout(props) {
                     id={`menu-button-${index}`}
                     aria-controls={`menu-${index}`}
                     aria-haspopup="true"
-                    onClick={handleClick}
+                    onClick={(event) => handleClick(event, index)} // Pasar el índice del botón
                     sx={{
                       color:
                         theme.components.MuiButton.styleOverrides
@@ -79,9 +94,9 @@ export function AdminLayout(props) {
                 {button.menuItems && (
                   <Menu
                     id={`menu-${index}`}
-                    anchorEl={anchorEl}
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
+                    anchorEl={anchorEl[index]} // Usar el estado específico para este botón
+                    open={Boolean(anchorEl[index])}
+                    onClose={() => handleClose(index)} // Pasar el índice del botón
                     anchorOrigin={{
                       vertical: "bottom",
                       horizontal: "left",
@@ -95,10 +110,15 @@ export function AdminLayout(props) {
                       <MenuItem
                         key={menuItemIndex}
                         onClick={() => {
-                          handleClose();
+                          handleClose(index);
                         }}
                       >
-    <Link to={menuItem.href} style={{ textDecoration: 'none' }}>{menuItem.label}</Link>
+                        <Link
+                          to={menuItem.href}
+                          style={{ textDecoration: "none" }}
+                        >
+                          {menuItem.label}
+                        </Link>
                       </MenuItem>
                     ))}
                   </Menu>

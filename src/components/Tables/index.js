@@ -6,3 +6,4 @@ export * from "./UserRequestRegisterDeposit";
 export * from "./UserCompanies";
 export * from "./DepositAvailabilityCalendars";
 export * from "./UserBookingRequests";
+export * from "./RegisteredBookingRequests";
