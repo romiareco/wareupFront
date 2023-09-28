@@ -102,7 +102,7 @@ export function SearcherView({ filters }) {
         </Grid>
       </Stack>
       <Footer />
-      {isLoading && ( // Muestra CircularProgress mientras isLoading es true
+      {isLoading && (
         <Box
           sx={{
             position: "fixed",

@@ -6,26 +6,21 @@ import { Button } from "semantic-ui-react";
 import { Deposit } from "../../api";
 import { useAuth } from "../../hooks";
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
-import dayjs from "dayjs";
-import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { BookingRequestDialog } from "../Dialogs/BookingRequestDialog/BookingRequestDialog";
 
 const depositController = new Deposit();
 
 export function Description({ depositId }) {
   const { accessToken } = useAuth();
   const [deposit, setDeposit] = useState(null);
-  const [startDate, setStartDate] = useState(dayjs());
-  const [endDate, setEndDate] = useState(dayjs());
+  const [open, setOpen] = useState(false);
 
-  const handleStartDateChange = (date) => {
-    setStartDate(date);
-    if (date.isAfter(endDate)) {
-      setEndDate(date);
-    }
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   useEffect(() => {
@@ -73,7 +68,7 @@ export function Description({ depositId }) {
           <p>{deposit.totalM3} m³</p>
         </Box>
       </Box>
-    
+
       <p className="desc">{deposit.description}</p>
 
       <Box className="price">
@@ -93,33 +88,19 @@ export function Description({ depositId }) {
           <strong>{deposit.minimumBusinessVolume} m³ </strong>
         </p>
       </div>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DemoContainer components={["DatePicker"]}>
-          <DemoItem label="Desde">
-            <DatePicker
-              disablePast
-              defaultValue={dayjs()}
-              value={startDate}
-              onChange={handleStartDateChange}
-            />
-          </DemoItem>
-          <DemoItem label="Hasta">
-            <DatePicker
-              disablePast
-              defaultValue={dayjs()}
-              value={endDate}
-              minDate={startDate}
-              onChange={(date) => setEndDate(date)}
-            />
-          </DemoItem>
-        </DemoContainer>
-      </LocalizationProvider>
+
       <Box className="buttons">
-        <Button className="add-to-cart" onClick={() => {}}>
+        <Button className="booking-request"onClick={handleClickOpen}>
           <EventAvailableRoundedIcon />
-          Comprobar disponibilidad
+          Solicitar arrendamiento
         </Button>
       </Box>
+      <BookingRequestDialog
+          open={open}
+          handleClose={handleClose}
+          depositId={deposit.id}
+          maxTotalM3={deposit.totalM3}
+        />
     </Box>
   );
 }

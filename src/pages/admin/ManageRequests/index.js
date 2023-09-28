@@ -1,1 +1,2 @@
-export * from "./ManageRequests";
+export * from "./ManageDepositRequests";
+export * from "./ManageBookingRequests";

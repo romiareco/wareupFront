@@ -7,50 +7,38 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { DepositRequest } from "../../../api";
+import { columns } from "./UserBookingRequestsTableColumns";
+import { BookingRequest } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { useState, useEffect } from "react";
-import { columns } from "./RegisteredDepositRequestsTableColumns";
-import { ThemeProvider } from "@emotion/react";
-import theme from "../../../theme/theme";
 import {
-  mapDepositRequestInformation,
+  mapBookingRequestInformation,
   mapDepositRequestStatus,
 } from "../../../utils/mapFunctions";
-import { AcceptRequestDeposit, CancelRequestDeposit } from "../../Dialogs";
+import { ThemeProvider } from "@emotion/react";
+import theme from "../../../theme/theme";
 
-const controller = new DepositRequest();
+const bookingRequestsController = new BookingRequest();
 
-export function RegisteredDepositRequestsTable() {
-  const { accessToken } = useAuth();
+export function UserBookingRequestsTable() {
+  const { accessToken, user } = useAuth();
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [requestDeposits, setRequestDeposits] = useState(null);
-  const [isAcceptDialogOpen, setIsAcceptDialogOpen] = useState(false);
-  const [selectedAcceptRequest, setSelectedAcceptRequest] = useState(null);
-  const [selectedRejectRequest, setSelectedRejectRequest] = useState(null);
-  const [isRejectDialogOpen, setIsRejectDialogOpen] = useState(false);
+  const [bookingRequests, setBookingRequests] = useState([]);
 
-  const handleAccept = (row) => {
-    setSelectedAcceptRequest(row);
-    setSelectedRejectRequest(null); // Cerrar el diálogo de eliminación si está abierto
-    setIsAcceptDialogOpen(true);
-    setIsRejectDialogOpen(false);
-  };
+  const handlePreview = (row) => {
+    const queryParams = {
+      id: row.depositId,
+    };
 
-  const handleReject = (row) => {
-    setSelectedRejectRequest(row);
-    setSelectedAcceptRequest(null); // Cerrar el diálogo de edición si está abierto
-    setIsRejectDialogOpen(true);
-    setIsAcceptDialogOpen(false); // Ce
-  };
-  const handleAcceptDialogOpenChange = (isOpen) => {
-    setIsAcceptDialogOpen(isOpen);
-  };
+    const queryString = Object.keys(queryParams)
+      .map((key) => `${key}=${encodeURIComponent(queryParams[key])}`)
+      .join("&");
 
-  const handleRejectDialogOpenChange = (isOpen) => {
-    setIsRejectDialogOpen(isOpen);
+    const url = `publication-view?${queryString}`;
+
+    window.open(url, "_blank");
   };
 
   const handleChangePage = (event, newPage) => {
@@ -65,19 +53,23 @@ export function RegisteredDepositRequestsTable() {
   useEffect(() => {
     (async () => {
       try {
-        const response = await controller.getAllRequestDeposits(accessToken);
-
-        if (response.depositRequests) {
-          const filteredInformation = mapDepositRequestInformation(
-            response.depositRequests
+        const response =
+          await bookingRequestsController.getBookingRequestsByUserId(
+            accessToken,
+            user.id
           );
-          setRequestDeposits(filteredInformation);
+
+        if (response && response.bookingRequests) {
+          const filteredInformation = mapBookingRequestInformation(
+            response.bookingRequests
+          );
+          setBookingRequests(filteredInformation);
         }
       } catch (error) {
         console.error(error);
       }
     })();
-  }, [accessToken]);
+  }, [accessToken, user.id]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -87,11 +79,11 @@ export function RegisteredDepositRequestsTable() {
           overflow: "hidden",
         }}
       >
-        <TableContainer>
+        <TableContainer style={{ overflowX: "auto" }}>
           <Table stickyHeader style={{ backgroundColor: "transparent" }}>
             <TableHead>
               <TableRow>
-                {columns(handleAccept, handleReject).map((column) => (
+                {columns(handlePreview).map((column) => (
                   <TableCell
                     key={column.id}
                     align="center" // Centra el título
@@ -108,8 +100,8 @@ export function RegisteredDepositRequestsTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {requestDeposits && requestDeposits.length > 0 ? (
-                requestDeposits
+              {bookingRequests && bookingRequests.length > 0 ? (
+                bookingRequests
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     return (
@@ -123,14 +115,17 @@ export function RegisteredDepositRequestsTable() {
                             index % 2 === 0 ? "lightgray" : "white",
                         }}
                       >
-                        {columns(handleAccept, handleReject).map((column) => {
+                        {columns(handlePreview).map((column) => {
                           const value = row[column.id];
                           return (
-                            <TableCell key={column.id} align="center">
+                            <TableCell
+                              key={column.id}
+                              align="center" // Centra el contenido de las filas
+                            >
                               {column.format
                                 ? column.format(value, row)
                                 : column.id === "status"
-                                ? mapDepositRequestStatus(value)
+                                ? mapDepositRequestStatus(value) //Cambiar esto! deberia ser para bookingRequest
                                 : value}
                             </TableCell>
                           );
@@ -141,34 +136,24 @@ export function RegisteredDepositRequestsTable() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={columns.length}>
-                    {requestDeposits === null
+                    {bookingRequests === null
                       ? "Cargando datos..."
-                      : "No se han registrado depósitos."}
+                      : "No se han registrado solicitudes de arrendamiento."}
                   </TableCell>
                 </TableRow>
               )}
             </TableBody>
-            <AcceptRequestDeposit
-              selectedRequestDeposit={selectedAcceptRequest}
-              openDialog={isAcceptDialogOpen}
-              onDialogOpenChange={handleAcceptDialogOpenChange}
-            />
-            <CancelRequestDeposit
-              selectedRequestDeposit={selectedRejectRequest}
-              openDialog={isRejectDialogOpen}
-              onDialogOpenChange={handleRejectDialogOpenChange}
-            />
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[5, 10, 15]}
           component="div"
-          count={requestDeposits === null ? 0 : requestDeposits.length}
+          count={bookingRequests === null ? 0 : bookingRequests.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
-          labelRowsPerPage="Solicitudes de depósito por página:"
+          labelRowsPerPage="Solicitudes por página:"
         />
       </Paper>
     </ThemeProvider>

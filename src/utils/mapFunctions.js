@@ -80,30 +80,42 @@ export function mapUserRole(statusNumber) {
 
 export function mapDepositRequestInformation(depositRequests) {
   const filteredInformation = depositRequests.map((deposit) => {
-    const date = deposit.createdAt.split('T')[0]; // Divide la cadena en función del carácter 'T' y selecciona la primera parte (la fecha)
-
     return {
       id: deposit.id,
       title: deposit.title,
       description: deposit.description,
       email: deposit.email,
       phone: deposit.phone,
-      createdAt: date,
-      departmentName: deposit.city? deposit.city.department.title : null,
+      createdAt: mapDateFormat(deposit.createdAt),
+      departmentName: deposit.city ? deposit.city.department.title : null,
       cityId: deposit.city ? deposit.city.title : null,
       address: deposit.address,
       status: deposit.status,
       businessName: deposit.company ? deposit.company.businessName : null,
     };
   });
-  
+
+  return filteredInformation;
+}
+
+export function mapBookingRequestInformation(bookingRequests) {
+  const filteredInformation = bookingRequests.map((bookingRequest) => {
+    return {
+      id: bookingRequest.id,
+      totalM3: bookingRequest.totalM3,
+      status: bookingRequest.status,
+      createdAt: mapDateFormat(bookingRequest.createdAt),
+      dateTo: mapDateFormat(bookingRequest.dateTo),
+      dateFrom: mapDateFormat(bookingRequest.dateFrom),
+      depositId: bookingRequest.depositId,
+    };
+  });
+
   return filteredInformation;
 }
 
 export function mapDepositInformation(deposits) {
   const filteredInformation = deposits.map((deposit) => {
-    const date = deposit.createdAt.split('T')[0]; // Divide la cadena en función del carácter 'T' y selecciona la primera parte (la fecha)
-
     return {
       id: deposit.id,
       title: deposit.title,
@@ -114,10 +126,10 @@ export function mapDepositInformation(deposits) {
       address: deposit.address,
       cityName: deposit.city ? deposit.city.title : null,
       cityId: deposit.cityId,
-      departmentId: deposit.city? deposit.city.departmentId : null,
-      departmentName: deposit.city? deposit.city.department.title : null,
+      departmentId: deposit.city ? deposit.city.departmentId : null,
+      departmentName: deposit.city ? deposit.city.department.title : null,
       status: deposit.status,
-      createdAt: date,
+      createdAt: mapDateFormat(deposit.createdAt),
       businessName: deposit.company ? deposit.company.businessName : null,
       companyId: deposit.companyId,
       postalCode: deposit.postalCode,
@@ -130,4 +142,11 @@ export function mapDepositInformation(deposits) {
 
 export function mapBase64ToImage(base64String) {
   return `data:image/png;base64,${base64String}`;
+}
+
+export function mapDateFormat(date) {
+  if (date) {
+    return date.split("T")[0];
+  }
+  return null;
 }

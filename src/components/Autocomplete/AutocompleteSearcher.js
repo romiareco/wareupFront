@@ -40,7 +40,7 @@ export function AutocompleteSearcher({ setSearchedCity, onCitiesLoaded }) {
         console.error(error);
       }
     })();
-  }, [onCitiesLoaded]);
+  }, [onCitiesLoaded, citiesLoaded]);
 
   return (
     <Autocomplete

@@ -5,7 +5,7 @@ import banner from "../../../assets/official-images/banner-1.jpg";
 import theme from "../../../theme/theme";
 import { Footer } from "../../../components/Footer";
 
-export function ManageRequests() {
+export function ManageDepositRequests() {
   return (
     <ThemeProvider theme={theme}>
       <Box

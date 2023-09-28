@@ -6,7 +6,6 @@ import {
   Button,
   Divider,
   IconButton,
-  Typography,
   Box,
 } from "@mui/material";
 import { forwardRef, useState } from "react";

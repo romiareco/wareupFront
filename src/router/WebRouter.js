@@ -13,9 +13,10 @@ import {
   RegisterDeposits,
   UserListRequestDeposits,
   PublicationView,
-  Searcher
+  Searcher,
+  UserBookingRequests
 } from "../pages";
-import { ManageUsers, ManageRequests, ManageDeposits } from "../pages/admin";
+import { ManageUsers, ManageDepositRequests, ManageDeposits, ManageBookingRequests } from "../pages/admin";
 import {
   Login,
   RegisterUser,
@@ -63,14 +64,15 @@ export function WebRouter() {
     { path: "my-deposit-requests", component: UserListRequestDeposits },
     { path: "publication-view", component: PublicationView },
     { path: "search-deposits", component: Searcher },
-
+    { path: "booking-requests", component: UserBookingRequests },
   ];
 
   const adminRoutes = [
     { path: "home", component: AdminHome },
     { path: "manage-users", component: ManageUsers },
     { path: "manage-deposits", component: ManageDeposits },
-    { path: "manage-requests", component: ManageRequests },
+    { path: "manage-deposits-requests", component: ManageDepositRequests },
+    { path: "manage-booking-requests", component: ManageBookingRequests },
     { path: "register-deposit", component: RegisterDeposits },
     { path: "publication-view", component: PublicationView },
     { path: "search-deposits", component: Searcher },
