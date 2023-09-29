@@ -1,5 +1,18 @@
 import { LoadingButton } from "@mui/lab";
-import { Checkbox, Grid, TextField, FormHelperText } from "@mui/material";
+import {
+  Checkbox,
+  Grid,
+  TextField,
+  FormHelperText,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  ListItemText,
+  OutlinedInput,
+  Autocomplete,
+  Stack,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import { useState } from "react";
@@ -17,6 +30,9 @@ import { ThemeProvider } from "@mui/material/styles";
 import { Copyright } from "../../Copyright";
 import theme from "./../../../theme/theme"; // Importa el theme.js aquí
 import { NotificationSnackbar } from "../../NotificationSnackbar";
+import Popover from "@mui/material/Popover";
+import IconButton from "@mui/material/IconButton";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
 const userController = new User();
 
@@ -25,6 +41,16 @@ export function RegisterUser() {
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
+  const [anchorEl, setAnchorEl] = useState(null);
+  const isPopoverOpen = Boolean(anchorEl);
+
+  const handlePopoverOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
 
   const formik = useFormik({
     initialValues: initialValues(),
@@ -54,10 +80,11 @@ export function RegisterUser() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 3,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            marginBottom: 3,
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
@@ -83,6 +110,7 @@ export function RegisterUser() {
                   value={formik.values.name}
                   onChange={formik.handleChange}
                   error={formik.errors.name}
+                  helperText={formik.errors.name}
                 />
               </Grid>
               <Grid item md>
@@ -139,6 +167,52 @@ export function RegisterUser() {
                   error={formik.errors.repeatPassword}
                   helperText={formik.errors.repeatPassword}
                 />
+              </Grid>
+              <Grid item md={12}>
+              <Stack direction="row" alignItems="center">
+                  <TextField
+                    fullWidth
+                    name="industry"
+                    type="text"
+                    label="Industria con la que estoy familiarizada/o"
+                    variant="outlined"
+                    required
+                    value={formik.values.industry}
+                    onChange={formik.handleChange}
+                    error={formik.errors.industry}
+                    helperText={formik.errors.industry}
+                  />
+                  <IconButton
+                    aria-owns={isPopoverOpen ? "mouse-over-popover" : undefined}
+                    aria-haspopup="true"
+                    onMouseEnter={handlePopoverOpen}
+                    onMouseLeave={handlePopoverClose}
+                  >
+                    <HelpOutlineIcon />
+                  </IconButton>
+                  <Popover
+                    open={isPopoverOpen}
+                    sx={{
+                      pointerEvents: "none",
+                    }}
+                    anchorEl={anchorEl}
+                    onClose={handlePopoverClose}
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "left",
+                    }}
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "left",
+                    }}
+                    disableRestoreFocus
+                  >
+                    <Typography sx={theme.typography.montserratFont}>
+                      Agrega las industrias con las cuales estás familiarizada/o
+                      separadas por coma
+                    </Typography>
+                  </Popover>
+                </Stack>
               </Grid>
               <Grid item md={12}>
                 <FormControlLabel

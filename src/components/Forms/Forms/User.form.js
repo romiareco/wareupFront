@@ -7,6 +7,7 @@ export function initialValues(user = {}) {
     email: user.email || "",
     password: user.password || "",
     repeatPassword: user.repeatPassword || "",
+    industry: user.industry || "",
     conditionsAccepted: false,
   };
 }
@@ -15,8 +16,8 @@ export function validationSchema() {
   return Yup.object({
     name: Yup.string()
     .required("Campo obligatorio"),
-    lastName: Yup.string()
-    .required("Campo obligatorio"),
+    industry: Yup.string()
+    .required("Este campo es obligatorio."),
     email: Yup.string()
       .email("El email no es valido")
       .required("Campo obligatorio"),

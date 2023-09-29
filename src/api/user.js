@@ -1,4 +1,3 @@
-import { companyStatus } from "../utils";
 import { ENV } from "../utils/constant";
 
 export class User {
@@ -42,6 +41,7 @@ export class User {
           lastName: data.lastName,
           email: data.email,
           password: data.password,
+          industry: data.industry,
         }),
       };
 
@@ -196,6 +196,7 @@ export class User {
           name: data.name,
           email: data.email,
           lastName: data.lastName,
+          industry: data.industry,
         }),
       };
 
