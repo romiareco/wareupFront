@@ -31,8 +31,7 @@ export function EditDepositServices({ deposit }) {
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationSeverity, setNotificationSeverity] = useState("success");
   const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const open = Boolean(anchorEl);
+  const [loadingServices, setLoadingServices] = useState(true);
 
   const handlePopoverOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -64,6 +63,7 @@ export function EditDepositServices({ deposit }) {
   useEffect(() => {
     (async () => {
       try {
+        setLoadingServices(true);
         const servicesResponse = await serviceController.getAllServices();
 
         setServices(servicesResponse.serviceGroups);
@@ -73,11 +73,13 @@ export function EditDepositServices({ deposit }) {
             deposit.depositServices.map((item) => item.serviceId)
           );
         }
+        setLoadingServices(false);
       } catch (error) {
         console.error(error);
         setNotificationMessage(error);
         setNotificationSeverity("error");
         setNotificationOpen(true);
+        setLoadingServices(false);
       }
     })();
   }, [deposit.depositServices]);
@@ -85,7 +87,12 @@ export function EditDepositServices({ deposit }) {
   return (
     <ThemeProvider theme={theme}>
       <Box>
-        {services &&
+        {loadingServices ? (
+          <Box display="flex" alignItems="center" justifyContent="center">
+            <CircularProgress />
+          </Box>
+        ) : (
+          services &&
           services.map((group, index) => (
             <div key={group.id}>
               <Typography
@@ -135,38 +142,44 @@ export function EditDepositServices({ deposit }) {
               </FormGroup>
               {index < services.length - 1 && <Divider variant="middle" />}
             </div>
-          ))}
-      </Box>
-      <Box mt={2} display="flex" justifyContent="center">
-        <LoadingButton
-          variant="contained"
-          onClick={handleSubmit}
-          disabled={selectedServices.length === 0}
-          onMouseEnter={handlePopoverOpen}
-          onMouseLeave={handlePopoverClose}
-        >
-          Guardar cambios
-        </LoadingButton>
-        <Popover
-          id="mouse-over-popover"
-          sx={{
-            pointerEvents: "none",
-          }}
-          open={selectedServices.length === 0} // Abre el Popover si el botón está deshabilitado o no se han seleccionado servicios
-          anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "center",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "center",
-          }}
-          onClose={handlePopoverClose}
-          disableRestoreFocus
-        >
-          <Typography sx={{ p: 1 }}>Debe seleccionar al menos un servicio.</Typography>
-        </Popover>
+          ))
+        )}
+        {!loadingServices && (
+          <Box mt={2} display="flex" justifyContent="center">
+            <LoadingButton
+              variant="contained"
+              onClick={handleSubmit}
+              disabled={selectedServices.length === 0}
+              onMouseEnter={handlePopoverOpen}
+              onMouseLeave={handlePopoverClose}
+              loading={loading}
+            >
+              Guardar cambios
+            </LoadingButton>
+            <Popover
+              id="mouse-over-popover"
+              sx={{
+                pointerEvents: "none",
+              }}
+              open={selectedServices.length === 0} // Abre el Popover si el botón está deshabilitado o no se han seleccionado servicios
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "center",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "center",
+              }}
+              onClose={handlePopoverClose}
+              disableRestoreFocus
+            >
+              <Typography sx={{ p: 1 }}>
+                Debe seleccionar al menos un servicio.
+              </Typography>
+            </Popover>
+          </Box>
+        )}
       </Box>
       <NotificationSnackbar
         open={notificationOpen}

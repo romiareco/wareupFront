@@ -26,7 +26,6 @@ export function DepositImages({ deposit }) {
     const selectedFilesArray = Array.from(event.target.files);
     setSelectedFiles(selectedFilesArray);
 
-    // Convertir las imágenes a base64
     const convertedFiles = [];
 
     selectedFilesArray.forEach((file) => {
@@ -74,18 +73,16 @@ export function DepositImages({ deposit }) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid container justifyContent="center" alignItems="center">
-        <Grid item md={10}>
-          <DepositImageCarousel depositId={deposit.id} />
-        </Grid>
-      </Grid>
+      <Box>
+        <DepositImageCarousel depositId={deposit.id} />
+      </Box>
 
       <Box
         display="flex"
         justifyContent="center"
         alignItems="center"
         flexDirection="column"
-        mt={2} // Agregar espacio en la parte superior
+        mt={2}
       >
         <input
           type="file"

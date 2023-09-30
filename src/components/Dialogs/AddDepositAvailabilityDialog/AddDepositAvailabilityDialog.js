@@ -1,12 +1,23 @@
 import Dialog from "@mui/material/Dialog";
-import { DialogContent, DialogTitle, Grid } from "@mui/material";
+import {
+  DialogContent,
+  DialogTitle,
+  Grid,
+  Slide,
+  Stack,
+  ThemeProvider,
+} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { useState, useEffect } from "react";
+import { useState, useEffect, forwardRef } from "react";
 import { depositStatus } from "../../../utils";
 import { ErrorDialog } from "../ErrorDialog";
 import { AddDepositAvailability } from "../../Deposits";
-import { CardContent } from "semantic-ui-react";
+import theme from "../../../theme/theme";
+
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export function AddDepositAvailabilityDialog({
   selectedDeposit,
@@ -41,24 +52,35 @@ export function AddDepositAvailabilityDialog({
   }
 
   return (
-    <CardContent>
-      <Dialog open={isDialogOpen} onClose={handleCancel} maxWidth="lg">
-        <Grid container justifyContent="space-between" alignItems="center">
-          <Grid item>
-            <DialogTitle>Agregar disponibilidad</DialogTitle>
-          </Grid>
-          <Grid item>
-            <IconButton onClick={() => handleCancel()}>
-              <CloseIcon />
-            </IconButton>
-          </Grid>
-        </Grid>
+    <ThemeProvider theme={theme}>
+      <Dialog
+        TransitionComponent={Transition}
+        open={isDialogOpen}
+        onClose={handleCancel}
+        maxWidth="sm"
+      >
+        <Stack direction="row" alignItems="center" marginRight={1}>
+          <DialogTitle
+            sx={{
+              ...theme.typography.montserratFont,
+              fontWeight: "bold",
+              textAlign: "center",
+              flex: 1,
+            }}
+          >
+            Agregar disponibilidad
+          </DialogTitle>
+
+          <IconButton onClick={() => handleCancel()}>
+            <CloseIcon />
+          </IconButton>
+        </Stack>
         <DialogContent style={{ paddingTop: 0 }}>
           {selectedDeposit && (
             <AddDepositAvailability deposit={selectedDeposit} />
           )}
         </DialogContent>
       </Dialog>
-    </CardContent>
+    </ThemeProvider>
   );
 }

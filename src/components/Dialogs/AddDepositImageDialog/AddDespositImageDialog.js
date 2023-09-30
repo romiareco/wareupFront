@@ -7,6 +7,8 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { depositStatus } from "../../../utils";
 import { ErrorDialog } from "../ErrorDialog";
+import { Box, DialogTitle, Stack, ThemeProvider } from "@mui/material";
+import theme from "../../../theme/theme";
 
 export function AddDepositImageDialog({
   selectedDeposit,
@@ -27,22 +29,46 @@ export function AddDepositImageDialog({
     onDialogOpenChange(false);
   };
 
-  if(selectedDeposit && parseInt(selectedDeposit.status) === depositStatus.DELETED) {
-    return (<ErrorDialog 
-    errorMessage={"No se puede agregar imágenes a un depósito que fue eliminado."}
-    openDialog={openDialog}
-    onDialogOpenChange={onDialogOpenChange}/>);
+  if (
+    selectedDeposit &&
+    parseInt(selectedDeposit.status) === depositStatus.DELETED
+  ) {
+    return (
+      <ErrorDialog
+        errorMessage={
+          "No se puede agregar imágenes a un depósito que fue eliminado."
+        }
+        openDialog={openDialog}
+        onDialogOpenChange={onDialogOpenChange}
+      />
+    );
   }
 
-
   return (
-    <Dialog open={isDialogOpen} onClose={handleCancel}>
-      <DialogContent>
-        <IconButton onClick={() => handleCancel()}>
-          <CloseIcon />
-        </IconButton>
-        {selectedDeposit && <DepositImages deposit={selectedDeposit} />}
-      </DialogContent>
-    </Dialog>
+    <ThemeProvider theme={theme}>
+      <Dialog open={isDialogOpen} onClose={handleCancel} maxWidth="md">
+        <Stack direction="row" alignItems="center">
+          <DialogTitle
+            sx={{
+              ...theme.typography.montserratFont,
+              fontWeight: "bold",
+              textAlign: "center",
+              flex: 1,
+            }}
+          >
+            Agregar imágenes
+          </DialogTitle>
+
+          <Box flex={0} marginRight={1}>
+            <IconButton onClick={handleCancel}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
+        </Stack>
+        <DialogContent>
+          {selectedDeposit && <DepositImages deposit={selectedDeposit} />}
+        </DialogContent>
+      </Dialog>
+    </ThemeProvider>
   );
 }

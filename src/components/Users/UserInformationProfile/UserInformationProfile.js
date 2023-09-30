@@ -91,74 +91,71 @@ export function UserInformationProfile({ user }) {
           Datos personales
         </Typography>
         <Form onSubmit={formik.handleSubmit}>
-        
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              label="Nombre"
-              name="name"
-              fullWidth
-              value={formik.values.name}
-              error={formik.touched.name && formik.errors.name}
-              helperText={formik.touched.name && formik.errors.name}
-              disabled={!isEditing}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                label="Nombre"
+                name="name"
+                fullWidth
+                value={formik.values.name}
+                error={formik.touched.name && formik.errors.name}
+                helperText={formik.touched.name && formik.errors.name}
+                disabled={!isEditing}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Apellido"
+                name="lastName"
+                fullWidth
+                value={formik.values.lastName}
+                error={formik.touched.lastName && formik.errors.lastName}
+                helperText={formik.touched.lastName && formik.errors.lastName}
+                disabled={!isEditing}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Email"
+                name="email"
+                fullWidth
+                value={formik.values.email}
+                disabled
+                error={formik.touched.email && formik.errors.email}
+                helperText={formik.touched.email && formik.errors.email}
+                onBlur={formik.handleBlur}
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Apellido"
-              name="lastName"
-              fullWidth
-              value={formik.values.lastName}
-              error={formik.touched.lastName && formik.errors.lastName}
-              helperText={formik.touched.lastName && formik.errors.lastName}
-              disabled={!isEditing}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Email"
-              name="email"
-              fullWidth
-              value={formik.values.email}
-              disabled
-              error={formik.touched.email && formik.errors.email}
-              helperText={formik.touched.email && formik.errors.email}
-              onBlur={formik.handleBlur}
-            />
-          </Grid>
-        </Grid>
-        
-       
 
-        <Box mt={2} display="flex" justifyContent="center" gap={2}>
-          {!isEditing ? (
-            <Button
-              variant="contained"
-              onClick={handleEdit}
-              startIcon={<EditRoundedIcon />}
-            >
-              Editar perfil
-            </Button>
-          ) : (
-            <React.Fragment>
-              <LoadingButton
-                type="submit"
+          <Box mt={2} display="flex" justifyContent="center" gap={2}>
+            {!isEditing ? (
+              <Button
                 variant="contained"
-                loading={formik.isSubmitting}
+                onClick={handleEdit}
+                startIcon={<EditRoundedIcon />}
               >
-                Guardar cambios
-              </LoadingButton>
-              <Button variant="contained" onClick={handleCancel}>
-                Cancelar
+                Editar perfil
               </Button>
-            </React.Fragment>
-          )}
-        </Box>
+            ) : (
+              <React.Fragment>
+                <LoadingButton
+                  type="submit"
+                  variant="contained"
+                  loading={formik.isSubmitting}
+                >
+                  Guardar cambios
+                </LoadingButton>
+                <Button variant="contained" onClick={handleCancel}>
+                  Cancelar
+                </Button>
+              </React.Fragment>
+            )}
+          </Box>
         </Form>
       </CardContent>
       <NotificationSnackbar

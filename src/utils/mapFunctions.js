@@ -78,6 +78,22 @@ export function mapUserRole(statusNumber) {
   }
 }
 
+export function mapDepositCalendar(depositCalendars) {
+  const fileredInformation = depositCalendars.map((depositCalendar) => {
+    return {
+      id: depositCalendar.id,
+      dateFrom: mapDateFormat(depositCalendar.dateFrom),
+      dateTo: mapDateFormat(depositCalendar.dateTo),
+      totalM3: depositCalendar.totalM3,
+      depositId: depositCalendar.depositId,
+      createdAt: mapDateFormat(depositCalendar.createdAt),
+    }
+  })
+
+  return fileredInformation;
+}
+
+
 export function mapDepositRequestInformation(depositRequests) {
   const filteredInformation = depositRequests.map((deposit) => {
     return {

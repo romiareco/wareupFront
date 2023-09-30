@@ -44,7 +44,7 @@ export function AddDepositAvailability({ deposit }) {
 
   const formik = useFormik({
     initialValues: initialValues(deposit),
-    validationSchema: validationSchema(),
+    validationSchema: validationSchema(deposit),
     onSubmit: async (formValue) => {
       try {
         setLoading(true);
@@ -69,71 +69,74 @@ export function AddDepositAvailability({ deposit }) {
 
   return (
     <ThemeProvider theme={theme}>
-      <CardContent>
-        <Box marginBottom={2}>
-          {" "}
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer components={["DatePicker"]}>
-              <DemoItem label="Desde">
-                <DatePicker
-                  disablePast
-                  name="startDate"
-                  value={formik.values.startDate}
-                  onChange={(date) => {
-                    formik.setFieldValue("startDate", date); // Actualiza el valor de startDate en formik.values
-                    handleStartDateChange(date); // Llama a tu función handleStartDateChange si es necesario
-                  }}
-                />
-                {formik.touched.startDate && formik.errors.startDate ? (
-                  <div className="error">{formik.errors.startDate}</div>
-                ) : null}
-              </DemoItem>
-              <DemoItem label="Hasta">
-                <DatePicker
-                  disablePast
-                  name="endDate"
-                  value={formik.values.endDate}
-                  minDate={formik.values.startDate}
-                  onChange={(date) => {
-                    formik.setFieldValue("endDate", date); // Actualiza el valor de endDate en formik.values
-                    setEndDate(date); // Actualiza el estado si es necesario
-                  }}
-                />
-                {formik.touched.endDate && formik.errors.endDate ? (
-                  <div className="error">{formik.errors.endDate}</div>
-                ) : null}
-              </DemoItem>
-            </DemoContainer>
-          </LocalizationProvider>
-        </Box>
+      <Box marginBottom={2}>
+        {" "}
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DemoContainer components={["DatePicker"]}>
+            <DemoItem label="Desde">
+              <DatePicker
+                disablePast
+                name="startDate"
+                value={formik.values.startDate}
+                onChange={(date) => {
+                  formik.setFieldValue("startDate", date); // Actualiza el valor de startDate en formik.values
+                  handleStartDateChange(date); // Llama a tu función handleStartDateChange si es necesario
+                }}
+              />
+              {formik.touched.startDate && formik.errors.startDate ? (
+                <div className="error">{formik.errors.startDate}</div>
+              ) : null}
+            </DemoItem>
+            <DemoItem label="Hasta">
+              <DatePicker
+                disablePast
+                name="endDate"
+                value={formik.values.endDate}
+                minDate={formik.values.startDate}
+                onChange={(date) => {
+                  formik.setFieldValue("endDate", date); // Actualiza el valor de endDate en formik.values
+                  setEndDate(date); // Actualiza el estado si es necesario
+                }}
+              />
+              {formik.touched.endDate && formik.errors.endDate ? (
+                <div className="error">{formik.errors.endDate}</div>
+              ) : null}
+            </DemoItem>
+          </DemoContainer>
+        </LocalizationProvider>
+      </Box>
 
-        <Divider />
+      <Divider />
 
-        <Box marginTop={2}>
-          {" "}
-          <TextField
-            fullWidth
-            type="number"
-            name="totalM3"
-            label="Total metros cúbicos"
-            value={formik.values.totalM3}
-            onChange={(e) => {
-              formik.handleChange(e);
-            }}
-            onBlur={formik.handleBlur}
-            variant="outlined"
-            required
-            error={formik.errors.totalM3}
-            helperText={formik.errors.totalM3}
-          />
-        </Box>
+      <Box marginTop={2}>
+        {" "}
+        <TextField
+          fullWidth
+          type="number"
+          name="totalM3"
+          label="Total metros cúbicos"
+          value={formik.values.totalM3}
+          onChange={(e) => {
+            formik.handleChange(e);
+          }}
+          onBlur={formik.handleBlur}
+          variant="outlined"
+          required
+          error={formik.errors.totalM3}
+          helperText={formik.errors.totalM3}
+        />
+      </Box>
 
-        <Box mt={2} display="flex" justifyContent="center" gap={2}>
-          <LoadingButton variant="contained" onClick={formik.handleSubmit}>
-            Guardar cambios
-          </LoadingButton>
-        </Box>
-      </CardContent>
+      <Box mt={2} display="flex" justifyContent="center" gap={2}>
+        <LoadingButton
+          variant="contained"
+          loading={loading}
+          onClick={formik.handleSubmit}
+          size={"medium"}
+        >
+          Guardar
+        </LoadingButton>
+      </Box>
       <NotificationSnackbar
         open={notificationOpen}
         onClose={() => setNotificationOpen(false)}

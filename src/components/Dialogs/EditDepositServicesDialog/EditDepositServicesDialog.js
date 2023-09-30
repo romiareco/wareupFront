@@ -49,30 +49,32 @@ export function EditDepositServicesDialog({
 
   return (
     <ThemeProvider theme={theme}>
-    <Dialog open={isDialogOpen} onClose={handleCancel} maxWidth="md">
-      <Stack direction="row" alignItems="center">
-        <DialogTitle
-          sx={{
-            ...theme.typography.montserratFont,
-            fontWeight: "bold",
-            textAlign: "center",
-            flex: 1, // Asegura que el título ocupe todo el espacio restante
-          }}
-        >
-          Servicios del depósito
-        </DialogTitle>
-  
-        <Box flex={0}> {/* Espacio vacío para separar el CloseIcon */}
-          <IconButton onClick={handleCancel}>
-            <CloseIcon />
-          </IconButton>
-        </Box>
-      </Stack>
-  
-      <DialogContent>
-        {selectedDeposit && <EditDepositServices deposit={selectedDeposit} />}
-      </DialogContent>
-    </Dialog>
-  </ThemeProvider>
+      <Dialog open={isDialogOpen} onClose={handleCancel} maxWidth="md">
+        <Stack direction="row" alignItems="center">
+          <DialogTitle
+            sx={{
+              ...theme.typography.montserratFont,
+              fontWeight: "bold",
+              textAlign: "center",
+              flex: 1,
+            }}
+          >
+            Servicios del depósito
+          </DialogTitle>
+
+          <Box flex={0}>
+            {" "}
+            {/* Espacio vacío para separar el CloseIcon */}
+            <IconButton onClick={handleCancel}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
+        </Stack>
+
+        <DialogContent>
+          {selectedDeposit && <EditDepositServices deposit={selectedDeposit} />}
+        </DialogContent>
+      </Dialog>
+    </ThemeProvider>
   );
 }

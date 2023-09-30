@@ -1,5 +1,5 @@
 import * as React from "react";
-import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -238,12 +238,7 @@ export function UserDepositsTable() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Paper
-        sx={{
-          width: "90%",
-          overflow: "hidden",
-        }}
-      >
+      <Box width={"90%"}>
         <TableContainer>
           <Table stickyHeader style={{ backgroundColor: "transparent" }}>
             <TableHead>
@@ -357,8 +352,8 @@ export function UserDepositsTable() {
           </Table>
         </TableContainer>
         <TablePagination
+          component={"div"}
           rowsPerPageOptions={[5, 10, 15]}
-          component="div"
           count={deposits === null ? 0 : deposits.length}
           rowsPerPage={rowsPerPage}
           page={page}
@@ -366,7 +361,7 @@ export function UserDepositsTable() {
           onRowsPerPageChange={handleChangeRowsPerPage}
           labelRowsPerPage="Depósitos por página:"
         />
-      </Paper>
+      </Box>
     </ThemeProvider>
   );
 }
