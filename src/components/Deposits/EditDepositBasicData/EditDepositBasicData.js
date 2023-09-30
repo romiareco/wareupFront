@@ -2,9 +2,7 @@ import {
   Grid,
   Box,
   Button,
-  CardContent,
   TextField,
-  Typography,
   Divider,
   FormControl,
   InputLabel,
@@ -14,7 +12,6 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { ThemeProvider } from "@mui/system";
-import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import { useFormik } from "formik";
 import { useAuth } from "../../../hooks";
 import { Common, Deposit, User } from "../../../api";
@@ -25,7 +22,6 @@ import {
   validationSchema,
 } from "../../Forms/Forms/BasicDepositData.form";
 import { currencies } from "../../../utils/enums";
-import CircularProgress from "@mui/material/CircularProgress";
 import { LoadingButton } from "@mui/lab";
 import theme from "../../../theme/theme";
 
@@ -36,7 +32,6 @@ const userController = new User();
 export function EditDepositBasicData({ deposit }) {
   const { accessToken, user } = useAuth();
   const [loading, setLoading] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationSeverity, setNotificationSeverity] = useState("success");

@@ -150,6 +150,9 @@ export function mapDepositInformation(deposits) {
       companyId: deposit.companyId,
       postalCode: deposit.postalCode,
       depositServices: deposit.depositServices,
+      minimumBusinessVolume: deposit.minimumBusinessVolume,
+      minimumBusinessPeriod: deposit.minimumBusinessPeriod,
+
     };
   });
 

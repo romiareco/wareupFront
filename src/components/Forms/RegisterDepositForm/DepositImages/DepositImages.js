@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { DepositImageCarousel } from "../../../Carousel/DepositImageCarousel";
-import { Stack, Box, ThemeProvider, Typography } from "@mui/material";
+import { Stack, Box, ThemeProvider, Button } from "@mui/material";
 import { Deposit } from "../../../../api";
 import { useAuth } from "../../../../hooks";
 import { NotificationSnackbar } from "../../../NotificationSnackbar";
 import theme from "../../../../theme/theme";
-import { Grid } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 
 const depositController = new Deposit();
 
@@ -16,7 +15,7 @@ export function DepositImages({ deposit }) {
 
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [convertedImages, setConvertedImages] = useState([]);
-
+  const [loading, setLoading] = useState(false);
   const [notificationOpen, setNotificationOpen] = React.useState(false);
   const [notificationMessage, setNotificationMessage] = React.useState("");
   const [notificationSeverity, setNotificationSeverity] =
@@ -50,6 +49,7 @@ export function DepositImages({ deposit }) {
     (async () => {
       try {
         if (convertedImages) {
+          setLoading(true);
           await depositController.addDepositImages(
             accessToken,
             deposit.id,
@@ -61,12 +61,14 @@ export function DepositImages({ deposit }) {
           );
           setNotificationSeverity("success");
           setNotificationOpen(true);
+          setLoading(false);
         }
       } catch (error) {
         console.log(error.message);
         setNotificationMessage(error.message);
         setNotificationSeverity("error");
         setNotificationOpen(true);
+        setLoading(false);
       }
     })();
   };
@@ -92,34 +94,31 @@ export function DepositImages({ deposit }) {
           id="image-input"
           multiple
         />
-        <Grid container spacing={1} alignItems="center">
-          <Grid item>
-            <label htmlFor="image-input">
-              <Button
-                variant="contained"
-                color="primary"
-                component="span"
-                startIcon={<CloudUploadIcon />}
-              >
-                Seleccionar imágenes
-              </Button>
-            </label>
-          </Grid>
-          <Grid item>
+        <Stack direction={"row"} gap={2}>
+          <label htmlFor="image-input">
             <Button
-              variant="outlined"
-              disabled={!selectedFiles.length}
-              onClick={handleUpload}
+              variant="contained"
+              color="primary"
+              component="span"
+              startIcon={<CloudUploadIcon />}
             >
-              Subir imágenes
+              Seleccionar imágenes
             </Button>
-          </Grid>
-        </Grid>
-        <div>
+          </label>
+          <LoadingButton
+            variant="outlined"
+            disabled={!selectedFiles.length}
+            onClick={handleUpload}
+            loading={loading}
+          >
+            Subir
+          </LoadingButton>
+        </Stack>
+        <Box>
           {selectedFiles.map((file, index) => (
             <p key={index}>{file.name}</p>
           ))}
-        </div>
+        </Box>
       </Box>
 
       <NotificationSnackbar

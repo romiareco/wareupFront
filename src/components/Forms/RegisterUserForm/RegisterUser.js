@@ -174,7 +174,7 @@ export function RegisterUser() {
                     fullWidth
                     name="industry"
                     type="text"
-                    label="Industria con la que estoy familiarizada/o"
+                    label="Industrias con la que estoy familiarizada/o"
                     variant="outlined"
                     required
                     value={formik.values.industry}

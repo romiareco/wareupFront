@@ -12,10 +12,10 @@ import { User } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { useState, useEffect } from "react";
 import { RemoveCompanyDialog } from "../../Dialogs/RemoveCompanyDialog";
-import { EditCompanyDialog } from "../../Companies/EditCompanyDialog";
 import { mapCompanyStatus } from "../../../utils/mapFunctions";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
+import { EditCompanyDialog } from "../../Dialogs";
 
 const userController = new User();
 

@@ -12,7 +12,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useAuth } from "../../../hooks";
 import { User } from "../../../api/user";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
 import { initialValues } from "../../Forms/Forms/User.form";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
@@ -28,12 +28,14 @@ const CardContainer = styled(Card)`
 `;
 
 export function validationSchema() {
-  return Yup.object().shape({
-    name: Yup.string().required("Campo requerido"),
-    lastName: Yup.string().required("Campo requerido"),
-    password: Yup.string()
-      .min(6, "La contraseña debe tener al menos 6 caracteres")
-      .required("Campo obligatorio"),
+  return Yup.object({
+    name: Yup.string()
+    .required("Campo obligatorio"),
+    industry: Yup.string()
+    .required("Este campo es obligatorio."),
+    email: Yup.string()
+      .email("El email no es valido")
+      .required("Campo obligatorio")
   });
 }
 
@@ -52,7 +54,6 @@ export function UserInformationProfile({ user }) {
     validationSchema: validationSchema(),
     onSubmit: async (formValue) => {
       try {
-        setLoading(true);
         formValue.id = user.id;
         await userController.updateUser(accessToken, formValue);
 
@@ -66,7 +67,6 @@ export function UserInformationProfile({ user }) {
         setNotificationMessage(error.message);
         setNotificationSeverity("error");
         setNotificationOpen(true);
-        setLoading(false);
       }
     },
   });
@@ -130,6 +130,19 @@ export function UserInformationProfile({ user }) {
                 onBlur={formik.handleBlur}
               />
             </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Industrias con la que estoy familiarizada/o"
+                name="industry"
+                fullWidth
+                value={formik.values.industry}
+                error={formik.touched.industry && formik.errors.industry}
+                helperText={formik.touched.industry && formik.errors.industry}
+                disabled={!isEditing}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+            </Grid>
           </Grid>
 
           <Box mt={2} display="flex" justifyContent="center" gap={2}>
@@ -142,18 +155,18 @@ export function UserInformationProfile({ user }) {
                 Editar perfil
               </Button>
             ) : (
-              <React.Fragment>
+              <Fragment>
                 <LoadingButton
                   type="submit"
                   variant="contained"
                   loading={formik.isSubmitting}
                 >
-                  Guardar cambios
+                  Guardar
                 </LoadingButton>
                 <Button variant="contained" onClick={handleCancel}>
                   Cancelar
                 </Button>
-              </React.Fragment>
+              </Fragment>
             )}
           </Box>
         </Form>

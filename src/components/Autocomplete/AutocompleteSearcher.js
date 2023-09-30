@@ -51,7 +51,7 @@ export function AutocompleteSearcher({ setSearchedCity, onCitiesLoaded }) {
       }
       inputValue={searchCity}
       onInputChange={(event, newValue) => {
-        setSearchCity(newValue); // Actualiza el estado en el componente padre
+        setSearchCity(newValue);
         setSearchedCity(newValue);
       }}
       renderInput={(params) => (

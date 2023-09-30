@@ -58,7 +58,7 @@ export function DepositImageCarousel({ depositId }) {
           <Carousel
             sx={{
               width: "100%",
-              height: "300px",
+              height: "100%",
             }}
           >
             {images.map((image) => {

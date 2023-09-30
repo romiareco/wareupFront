@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { LoadingButton } from "@mui/lab";
 import { Grid, TextField, FormHelperText } from "@mui/material";
-import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import InputLabel from "@mui/material/InputLabel";
 import { User, Common, DepositRequest } from "../../../api";
 import { initialValues, validationSchema } from "../Forms/RequestDeposit.form";
 import { ThemeProvider } from "@mui/material/styles";
-import { Typography, Paper, FormControl } from "@mui/material";
-import Container from "@mui/material/Container";
-import { blue } from "@mui/material/colors";
-import { Select, MenuItem } from "@mui/material";
+import { Typography, Paper, FormControl, Divider } from "@mui/material";
+import { Select, MenuItem, Box } from "@mui/material";
 import { RegisterCompanyButton } from "../../Button";
 import { useAuth } from "../../../hooks";
 import theme from "../../../theme/theme"; // Importa el theme.js aquí
@@ -106,273 +103,255 @@ export function RegisterRequestDeposit() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main">
-        <Box
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        margin={3}
+      >
+        <Paper
+          elevation={3}
           sx={{
-            marginTop: 2,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            minHeight: "100vh",
-            padding: "16px",
-            width: "100%",
+            padding: "10px",
+            marginBottom: "20px",
+            backgroundColor: "#F2F2F2",
           }}
         >
-          <Paper
+          <Typography variant="body1" sx={theme.typography.montserratFont}>
+            Te ofrecemos oportunidades flexibles para ocupar tu espacio de forma
+            temporal y adecuada a tus necesidades
+          </Typography>
+        </Paper>
+
+        <Typography variant="h5" sx={theme.typography.montserratFont}>
+          Solicitud para crear nueva publicación de espacio{" "}
+        </Typography>
+        <Box
+          noValidate
+          onSubmit={formik.handleSubmit}
+          sx={{ mt: 3, width: "90%" }}
+        >
+          <Grid container spacing={2} alignItems="center">
+            <Grid item md={8}>
+              <FormControl
+                fullWidth
+                error={formik.touched.companyId && formik.errors.companyId}
+              >
+                <InputLabel>Empresa</InputLabel>
+                <Select
+                  label="Empresa"
+                  value={formik.values.companyId}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur} // Agregar esta línea
+                  name="companyId"
+                >
+                  {userCompanies.length > 0 ? (
+                    userCompanies.map((company) => (
+                      <MenuItem key={company.value} value={company.value}>
+                        {company.label}
+                      </MenuItem>
+                    ))
+                  ) : (
+                    <MenuItem disabled value="">
+                      {userCompanies.length === 0 &&
+                        "No hay compañías registradas"}
+                    </MenuItem>
+                  )}
+                </Select>
+                {formik.touched.companyId && formik.errors.companyId && (
+                  <FormHelperText>{formik.errors.companyId}</FormHelperText>
+                )}
+              </FormControl>
+            </Grid>
+            <Grid item md>
+              <RegisterCompanyButton />
+            </Grid>
+          </Grid>
+          <Typography
+            variant="h5"
             sx={{
-              padding: "16px",
-              width: "100%",
-              mb: 4,
-              backgroundColor: blue[100],
+              ...theme.typography.montserratFont,
+              marginTop: "16px",
+              marginBottom: "16px",
             }}
           >
-            <Typography
-              variant="subtitle1"
-              align="center"
-              color="textSecondary"
-            >
-              Te ofrecemos oportunidades flexibles para ocupar tu espacio de
-              forma temporal y adecuada a tus necesidades
-            </Typography>
-          </Paper>
-          <Typography component="h1" variant="h5">
-            Solicitud para crear nueva publicación de espacio{" "}
+            Datos del depósito
           </Typography>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={formik.handleSubmit}
-            sx={{ mt: 3, width: "100%" }}
-          >
-            <Grid container spacing={2} alignItems="center">
-              <Grid item md={8}>
-                <FormControl
-                  fullWidth
-                  error={formik.touched.companyId && formik.errors.companyId}
-                >
-                  <InputLabel>Empresa</InputLabel>
-                  <Select
-                    label="Empresa"
-                    value={formik.values.companyId}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur} // Agregar esta línea
-                    name="companyId"
-                  >
-                    {userCompanies.length > 0 ? (
-                      userCompanies.map((company) => (
-                        <MenuItem key={company.value} value={company.value}>
-                          {company.label}
-                        </MenuItem>
-                      ))
-                    ) : (
-                      <MenuItem disabled value="">
-                        {userCompanies.length === 0 &&
-                          "No hay compañías registradas"}
-                      </MenuItem>
-                    )}
-                  </Select>
-                  {formik.touched.companyId && formik.errors.companyId && (
-                    <FormHelperText>{formik.errors.companyId}</FormHelperText>
-                  )}
-                </FormControl>
-              </Grid>
-              <Grid item md>
-                <RegisterCompanyButton />
-              </Grid>
+          <Grid container spacing={2}>
+            <Grid item md={8}>
+              <TextField
+                fullWidth
+                type="text"
+                name="storageAddress"
+                label="Dirección"
+                variant="outlined"
+                required
+                value={formik.values.storageAddress}
+                onChange={formik.handleChange}
+                error={formik.errors.storageAddress}
+                helperText={formik.errors.storageAddress}
+                onBlur={formik.handleBlur}
+              />
             </Grid>
-            <Typography
-              component="h1"
-              variant="h5"
-              align="center"
-              sx={{ marginTop: "16px", marginBottom: "16px" }}
-            >
-              Datos del depósito
-            </Typography>
-            <Grid container spacing={2}>
-              <Grid item md={8}>
-                <TextField
-                  fullWidth
-                  type="text"
-                  name="storageAddress"
-                  label="Dirección"
-                  variant="outlined"
-                  required
-                  value={formik.values.storageAddress}
-                  onChange={formik.handleChange}
-                  error={formik.errors.storageAddress}
-                  helperText={formik.errors.storageAddress}
-                  onBlur={formik.handleBlur}
-                />
-              </Grid>
-              <Grid item md={4}>
-                <TextField
-                  fullWidth
-                  type="text"
-                  required
-                  name="storagePhoneNumber"
-                  label="Teléfono"
-                  variant="outlined"
-                  value={formik.values.storagePhoneNumber}
-                  onChange={formik.handleChange}
-                  error={formik.errors.storagePhoneNumber}
-                  helperText={formik.errors.storagePhoneNumber}
-                  onBlur={formik.handleBlur}
-                />
-              </Grid>
-              <Grid item md={6}>
-                <FormControl
-                  fullWidth
-                  error={
-                    formik.touched.departmentId && formik.errors.departmentId
-                  }
-                >
-                  <InputLabel>Departamento</InputLabel>
-                  <Select
-                    value={formik.values.departmentId}
-                    label="Departamento"
-                    onChange={(event) => {
-                      formik.handleChange(event);
-                      handleDepartmentChange(event);
-                    }}
-                    onBlur={formik.handleBlur} // Agregar esta línea
-                    name="departmentId"
-                  >
-                    {departments.length > 0 ? (
-                      departments.map((department) => (
-                        <MenuItem
-                          key={department.value}
-                          value={department.value}
-                        >
-                          {department.label}
-                        </MenuItem>
-                      ))
-                    ) : (
-                      <MenuItem disabled value="">
-                        {departments.length === 0 &&
-                          "No hay departamentos registrados"}
-                      </MenuItem>
-                    )}
-                  </Select>
-                  {formik.touched.departmentId &&
-                    formik.errors.departmentId && (
-                      <FormHelperText>
-                        {formik.errors.departmentId}
-                      </FormHelperText>
-                    )}
-                </FormControl>
-              </Grid>
-              <Grid item md={6}>
-                <FormControl
-                  fullWidth
-                  error={formik.touched.cityId && formik.errors.cityId}
-                >
-                  <InputLabel>Barrio/Ciudad</InputLabel>
-                  <Select
-                    value={formik.values.cityId}
-                    label="Barrio/Ciudad"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur} // Agregar esta línea
-                    name="cityId"
-                  >
-                    {cities.map((city) => (
-                      <MenuItem key={city.value} value={city.value}>
-                        {city.label}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                  {formik.touched.cityId && formik.errors.cityId && (
-                    <FormHelperText>{formik.errors.cityId}</FormHelperText>
-                  )}
-                </FormControl>
-              </Grid>
-              <Grid item md={12}>
-                <Grid container justifyContent="center">
-                  <Typography
-                    component="h1"
-                    variant="h5"
-                    align="center"
-                    sx={{ marginTop: "16px", marginBottom: "16px" }}
-                  >
-                    Cuéntanos un poco sobre tu solicitud
-                  </Typography>
-                </Grid>
-              </Grid>
-              <Grid item md>
-                <TextField
-                  fullWidth
-                  type="text"
-                  name="title"
-                  label="Título"
-                  variant="outlined"
-                  required
-                  value={formik.values.title}
-                  onChange={formik.handleChange}
-                  error={formik.errors.title}
-                  helperText={formik.errors.title}
-                  onBlur={formik.handleBlur} // Agregar esta línea
-                />
-              </Grid>
-              <Grid item md={12}>
-                <TextField
-                  fullWidth
-                  multiline
-                  minRows={4}
-                  maxRows={10}
-                  name="description"
-                  label="Descripción"
-                  variant="outlined"
-                  onBlur={formik.handleBlur} // Agregar esta línea
-                  required
-                  value={formik.values.description}
-                  onChange={formik.handleChange}
-                  error={formik.errors.description}
-                  helperText={formik.errors.description}
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      borderRadius: "4px",
-                    },
-                    "& .MuiOutlinedInput-input": {
-                      padding: "8px",
-                      fontSize: "16px",
-                      resize: "vertical",
-                      fontFamily: "inherit",
-                    },
-                    "& .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "#ccc",
-                    },
+            <Grid item md={4}>
+              <TextField
+                fullWidth
+                type="text"
+                required
+                name="storagePhoneNumber"
+                label="Teléfono"
+                variant="outlined"
+                value={formik.values.storagePhoneNumber}
+                onChange={formik.handleChange}
+                error={formik.errors.storagePhoneNumber}
+                helperText={formik.errors.storagePhoneNumber}
+                onBlur={formik.handleBlur}
+              />
+            </Grid>
+            <Grid item md={6}>
+              <FormControl
+                fullWidth
+                error={
+                  formik.touched.departmentId && formik.errors.departmentId
+                }
+              >
+                <InputLabel>Departamento</InputLabel>
+                <Select
+                  value={formik.values.departmentId}
+                  label="Departamento"
+                  onChange={(event) => {
+                    formik.handleChange(event);
+                    handleDepartmentChange(event);
                   }}
-                />
+                  onBlur={formik.handleBlur} // Agregar esta línea
+                  name="departmentId"
+                >
+                  {departments.length > 0 ? (
+                    departments.map((department) => (
+                      <MenuItem key={department.value} value={department.value}>
+                        {department.label}
+                      </MenuItem>
+                    ))
+                  ) : (
+                    <MenuItem disabled value="">
+                      {departments.length === 0 &&
+                        "No hay departamentos registrados"}
+                    </MenuItem>
+                  )}
+                </Select>
+                {formik.touched.departmentId && formik.errors.departmentId && (
+                  <FormHelperText>{formik.errors.departmentId}</FormHelperText>
+                )}
+              </FormControl>
+            </Grid>
+            <Grid item md={6}>
+              <FormControl
+                fullWidth
+                error={formik.touched.cityId && formik.errors.cityId}
+              >
+                <InputLabel>Barrio/Ciudad</InputLabel>
+                <Select
+                  value={formik.values.cityId}
+                  label="Barrio/Ciudad"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur} // Agregar esta línea
+                  name="cityId"
+                >
+                  {cities.map((city) => (
+                    <MenuItem key={city.value} value={city.value}>
+                      {city.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+                {formik.touched.cityId && formik.errors.cityId && (
+                  <FormHelperText>{formik.errors.cityId}</FormHelperText>
+                )}
+              </FormControl>
+            </Grid>
+            <Grid item md={12}>
+              <Grid container justifyContent="center">
+                <Typography
+                  variant="h5"
+                  sx={{
+                    ...theme.typography.montserratFont,
+                    marginTop: "16px",
+                    marginBottom: "16px",
+                  }}
+                >
+                  Cuéntanos un poco sobre tu solicitud
+                </Typography>
               </Grid>
             </Grid>
-            <Grid
-              container
-              spacing={2}
-              justifyContent="center"
-              sx={{ marginTop: "16px" }}
+            <Grid item md>
+              <TextField
+                fullWidth
+                type="text"
+                name="title"
+                label="Título"
+                variant="outlined"
+                required
+                value={formik.values.title}
+                onChange={formik.handleChange}
+                error={formik.errors.title}
+                helperText={formik.errors.title}
+                onBlur={formik.handleBlur} // Agregar esta línea
+              />
+            </Grid>
+            <Grid item md={12}>
+              <TextField
+                fullWidth
+                multiline
+                minRows={4}
+                maxRows={10}
+                name="description"
+                label="Descripción"
+                variant="outlined"
+                onBlur={formik.handleBlur} // Agregar esta línea
+                required
+                value={formik.values.description}
+                onChange={formik.handleChange}
+                error={formik.errors.description}
+                helperText={formik.errors.description}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "4px",
+                  },
+                  "& .MuiOutlinedInput-input": {
+                    padding: "8px",
+                    fontSize: "16px",
+                    resize: "vertical",
+                    fontFamily: "inherit",
+                  },
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#ccc",
+                  },
+                }}
+              />
+            </Grid>
+          </Grid>
+
+          <Box display="flex" justifyContent="center" gap={2}>
+            <LoadingButton
+              type="submit"
+              color="primary"
+              loading={formik.isSubmitting}
+              variant="contained"
+              size="medium"
             >
-              <Grid item>
-                <LoadingButton
-                  type="submit"
-                  color="primary"
-                  loading={formik.isSubmitting}
-                  variant="contained"
-                >
-                  Registrar
-                </LoadingButton>
-              </Grid>
-              <Grid item>
-                <LoadingButton
-                  color="primary"
-                  variant="outlined"
-                  onClick={handleCancelClick}
-                >
-                  Cancelar
-                </LoadingButton>
-              </Grid>
-            </Grid>
+              Registrar
+            </LoadingButton>
+
+            <LoadingButton
+              color="primary"
+              variant="outlined"
+              onClick={handleCancelClick}
+            >
+              Cancelar
+            </LoadingButton>
           </Box>
         </Box>
-      </Container>
+      </Box>
       <NotificationSnackbar
         open={notificationOpen}
         onClose={() => setNotificationOpen(false)}

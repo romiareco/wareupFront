@@ -1,6 +1,6 @@
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
-import { EditCompanyInformation } from "../EditCompanyInformation";
+import { EditCompanyInformation } from "../../Companies/EditCompanyInformation";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState, useEffect } from "react";
@@ -30,7 +30,9 @@ export function EditCompanyDialog({
         <IconButton onClick={() => handleCancel()}>
           <CloseIcon />
         </IconButton>
-        {selectedCompany && <EditCompanyInformation company={selectedCompany} />}
+        {selectedCompany && (
+          <EditCompanyInformation company={selectedCompany} />
+        )}
       </DialogContent>
     </Dialog>
   );
