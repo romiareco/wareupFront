@@ -167,6 +167,7 @@ export function UserRequestRegisterDepositTable() {
             />
           </Table>
         </TableContainer>
+        </Paper>
         <TablePagination
           rowsPerPageOptions={[5, 10, 15]}
           component="div"
@@ -177,7 +178,7 @@ export function UserRequestRegisterDepositTable() {
           onRowsPerPageChange={handleChangeRowsPerPage}
           labelRowsPerPage="Solicitudes de depósito por página:"
         />
-      </Paper>
+     
     </ThemeProvider>
   );
 }

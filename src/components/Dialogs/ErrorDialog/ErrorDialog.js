@@ -3,9 +3,10 @@ import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState, useEffect, forwardRef } from "react";
-import { DialogTitle, Typography, CardContent } from "@mui/material";
+import { DialogTitle, Typography, CardContent, ThemeProvider } from "@mui/material";
 import ErrorIcon from "@mui/icons-material/Error"; // Importa un icono de error rojo aquí
 import Slide from "@mui/material/Slide";
+import theme from "../../../theme/theme";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -27,7 +28,7 @@ export function ErrorDialog({ errorMessage, openDialog, onDialogOpenChange }) {
   };
 
   return (
-    <CardContent>
+    <ThemeProvider theme={theme}>
       <Dialog
         open={isDialogOpen}
         onClose={handleCancel}
@@ -44,14 +45,15 @@ export function ErrorDialog({ errorMessage, openDialog, onDialogOpenChange }) {
           <Typography
             variant="h6"
             style={{ color: "red", display: "flex", alignItems: "center" }}
+            sx={theme.typography.montserratFont}
           >
             <ErrorIcon style={{ marginRight: "8px" }} /> Error
           </Typography>
         </DialogTitle>
         <DialogContent>
-          <Typography>{errorMessage}</Typography>
+          <Typography sx={theme.typography.montserratFont}>{errorMessage}</Typography>
         </DialogContent>
       </Dialog>
-    </CardContent>
+    </ThemeProvider>
   );
 }

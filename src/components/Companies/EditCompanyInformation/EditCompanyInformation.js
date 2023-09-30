@@ -2,13 +2,10 @@ import {
   Grid,
   Box,
   Button,
-  Card,
-  CardContent,
   TextField,
   Typography,
   ThemeProvider,
 } from "@mui/material";
-import { styled } from "@mui/system";
 import { useFormik } from "formik";
 import { useAuth } from "../../../hooks";
 import { Company } from "../../../api";
@@ -18,9 +15,8 @@ import {
   initialValues,
   validationSchema,
 } from "../../Forms/Forms/Company.form";
-import CircularProgress from "@mui/material/CircularProgress";
 import { LoadingButton } from "@mui/lab";
-import { theme } from "@chakra-ui/react";
+import theme from "../../../theme/theme";
 
 const companyController = new Company();
 
@@ -61,12 +57,6 @@ export function EditCompanyInformation({ company }) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Typography
-        variant="h5"
-        style={{ marginTop: "8px", marginBottom: "16px" }}
-      >
-        Datos de la empresa{" "}
-      </Typography>
       <Grid container spacing={2}>
         <Grid item md>
           <TextField

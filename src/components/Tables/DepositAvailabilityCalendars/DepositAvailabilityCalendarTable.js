@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
+import {
+  Typography,
+  Box,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  ThemeProvider,
+} from "@mui/material";
 import { Deposit } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { columns } from "./DepositAvailabilityCalendarTableColumns";
-import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
 import { mapDepositCalendar } from "../../../utils/mapFunctions";
-import { Typography } from "@mui/material";
 
 const depositController = new Deposit();
 
@@ -25,7 +27,7 @@ export function DepositAvailabilityCalendarTable({ deposit }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [depositCalendars, setDepositCalendars] = useState([]);
-  const [loadingDepositCalendars, setLoadingDepositCalendars] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -39,7 +41,7 @@ export function DepositAvailabilityCalendarTable({ deposit }) {
   useEffect(() => {
     (async () => {
       try {
-        setLoadingDepositCalendars(true);
+        setLoading(true);
         const response =
           await depositController.getDepositAvailabilityByDepositId(
             accessToken,
@@ -53,18 +55,23 @@ export function DepositAvailabilityCalendarTable({ deposit }) {
           setDepositCalendars(customDepositCalendars);
         }
 
-        setLoadingDepositCalendars(false);
+        setLoading(false);
       } catch (error) {
         console.error(error);
-        setLoadingDepositCalendars(false);
+        setLoading(false);
       }
     })();
   }, [accessToken, deposit.id]);
 
   return (
     <ThemeProvider theme={theme}>
-      <Box>
-        {loadingDepositCalendars ? (
+      <Paper
+        sx={{
+          width: "90%",
+          overflow: "hidden",
+        }}
+      >
+        {loading ? (
           <Box display="flex" alignItems="center" justifyContent="center">
             <CircularProgress />
           </Box>
@@ -140,7 +147,7 @@ export function DepositAvailabilityCalendarTable({ deposit }) {
             labelRowsPerPage="Calendarios de disponibilidad por página:"
           />
         )}
-      </Box>
+      </Paper>
     </ThemeProvider>
   );
 }
