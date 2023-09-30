@@ -47,8 +47,6 @@ export function RegisteredDepositsTable() {
     useState(null);
   const [selectedViewAvailability, setSelectedViewAvailability] =
     useState(null);
-  const [selectedValidateAvailability, setSelectedValidateAvailability] =
-    useState(null);
 
   const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false);
   const [isEditBasicDataDialogOpen, setIsEditBasicDataDialogOpen] =
@@ -61,17 +59,12 @@ export function RegisteredDepositsTable() {
     useState(false);
   const [isViewAvailabilityDialogOpen, setIsViewAvailabilityDialogOpen] =
     useState(false);
-  const [
-    isValidateAvailabilityDialogOpen,
-    setIsValidationAvailabilityDialogOpen,
-  ] = useState(false);
 
   const handlePreview = (row) => {
     setSelectedEditBasicDataDeposit(null);
     setSelectedEditServicesDeposit(null);
     setSelectedAddAvailabilityDeposit(null);
     setSelectedViewAvailability(null);
-    setSelectedValidateAvailability(null);
     setSelectedDeleteDeposit(null);
     setSelectedAddImageDeposit(null);
 
@@ -81,7 +74,6 @@ export function RegisteredDepositsTable() {
     setIsAddImageDialogOpen(false);
     setIsAddAvailabilityDialogOpen(false);
     setIsViewAvailabilityDialogOpen(false);
-    setIsValidationAvailabilityDialogOpen(false);
 
     const queryParams = {
       id: row.id,
@@ -103,14 +95,12 @@ export function RegisteredDepositsTable() {
     setSelectedAddImageDeposit(row);
     setSelectedAddAvailabilityDeposit(null);
     setSelectedViewAvailability(null);
-    setSelectedValidateAvailability(null);
 
     setIsEditBasicDataDialogOpen(false);
     setIsEditServicesDialogOpen(false);
     setIsRemoveDialogOpen(false);
     setIsAddImageDialogOpen(true);
     setIsAddAvailabilityDialogOpen(false);
-    setIsValidationAvailabilityDialogOpen(false);
     setIsViewAvailabilityDialogOpen(false);
   };
 
@@ -121,14 +111,12 @@ export function RegisteredDepositsTable() {
     setSelectedAddImageDeposit(null);
     setSelectedAddAvailabilityDeposit(null);
     setSelectedViewAvailability(null);
-    setSelectedValidateAvailability(null);
 
     setIsEditBasicDataDialogOpen(true);
     setIsEditServicesDialogOpen(false);
     setIsRemoveDialogOpen(false);
     setIsAddImageDialogOpen(false);
     setIsAddAvailabilityDialogOpen(false);
-    setIsValidationAvailabilityDialogOpen(false);
     setIsViewAvailabilityDialogOpen(false);
   };
 
@@ -139,14 +127,12 @@ export function RegisteredDepositsTable() {
     setSelectedAddImageDeposit(null);
     setSelectedAddAvailabilityDeposit(null);
     setSelectedViewAvailability(null);
-    setSelectedValidateAvailability(null);
 
     setIsEditBasicDataDialogOpen(false);
     setIsEditServicesDialogOpen(true);
     setIsRemoveDialogOpen(false);
     setIsAddImageDialogOpen(false);
     setIsAddAvailabilityDialogOpen(false);
-    setIsValidationAvailabilityDialogOpen(false);
     setIsViewAvailabilityDialogOpen(false);
   };
 
@@ -157,14 +143,12 @@ export function RegisteredDepositsTable() {
     setSelectedAddImageDeposit(null);
     setSelectedAddAvailabilityDeposit(row);
     setSelectedViewAvailability(null);
-    setSelectedValidateAvailability(null);
 
     setIsEditBasicDataDialogOpen(false);
     setIsEditServicesDialogOpen(false);
     setIsRemoveDialogOpen(false);
     setIsAddImageDialogOpen(false);
     setIsAddAvailabilityDialogOpen(true);
-    setIsValidationAvailabilityDialogOpen(false);
     setIsViewAvailabilityDialogOpen(false);
   };
 
@@ -175,33 +159,13 @@ export function RegisteredDepositsTable() {
     setSelectedAddImageDeposit(null);
     setSelectedAddAvailabilityDeposit(null);
     setSelectedViewAvailability(row);
-    setSelectedValidateAvailability(null);
 
     setIsEditBasicDataDialogOpen(false);
     setIsEditServicesDialogOpen(false);
     setIsRemoveDialogOpen(false);
     setIsAddImageDialogOpen(false);
     setIsAddAvailabilityDialogOpen(false);
-    setIsValidationAvailabilityDialogOpen(false);
     setIsViewAvailabilityDialogOpen(true);
-  };
-
-  const handleValidateAvailability = (row) => {
-    setSelectedEditBasicDataDeposit(null);
-    setSelectedEditServicesDeposit(null);
-    setSelectedDeleteDeposit(null);
-    setSelectedAddImageDeposit(null);
-    setSelectedAddAvailabilityDeposit(null);
-    setSelectedViewAvailability(null);
-    setSelectedValidateAvailability(row);
-
-    setIsEditBasicDataDialogOpen(false);
-    setIsEditServicesDialogOpen(false);
-    setIsRemoveDialogOpen(false);
-    setIsAddImageDialogOpen(false);
-    setIsAddAvailabilityDialogOpen(false);
-    setIsValidationAvailabilityDialogOpen(true);
-    setIsViewAvailabilityDialogOpen(false);
   };
 
   const handleDelete = (row) => {
@@ -211,14 +175,12 @@ export function RegisteredDepositsTable() {
     setSelectedAddImageDeposit(null);
     setSelectedAddAvailabilityDeposit(null);
     setSelectedViewAvailability(null);
-    setSelectedValidateAvailability(null);
 
     setIsEditBasicDataDialogOpen(false);
     setIsEditServicesDialogOpen(false);
     setIsRemoveDialogOpen(true);
     setIsAddImageDialogOpen(false);
     setIsAddAvailabilityDialogOpen(false);
-    setIsValidationAvailabilityDialogOpen(false);
     setIsViewAvailabilityDialogOpen(false);
   };
 
@@ -236,10 +198,6 @@ export function RegisteredDepositsTable() {
 
   const handleViewAvailabilityDialogOpenChange = (isOpen) => {
     setIsViewAvailabilityDialogOpen(isOpen);
-  };
-
-  const handleValidateAvailabilityDialogOpenChange = (isOpen) => {
-    setIsValidationAvailabilityDialogOpen(isOpen);
   };
 
   const handleRemoveDialogOpenChange = (isOpen) => {
@@ -291,7 +249,6 @@ export function RegisteredDepositsTable() {
                   handleEditServices,
                   handleAddAvailability,
                   handleViewAvailability,
-                  handleValidateAvailability,
                   handleDelete,
                   handleImage,
                   handlePreview
@@ -332,7 +289,6 @@ export function RegisteredDepositsTable() {
                           handleEditServices,
                           handleAddAvailability,
                           handleViewAvailability,
-                          handleValidateAvailability,
                           handleDelete,
                           handleImage,
                           handlePreview

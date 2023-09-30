@@ -156,7 +156,7 @@ export class User {
     try {
       const url = `${this.baseApi}/${ENV.API_ROUTES.UPDATE_PASSWORD}`;
       const params = {
-        method: "PUT",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },

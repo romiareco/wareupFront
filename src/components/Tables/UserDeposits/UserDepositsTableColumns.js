@@ -5,7 +5,6 @@ export const columns = (
   handleEditServices,
   handleEditAvailability,
   handleViewAvailability,
-  handleValidateAvailability,
   handleDelete,
   handleImage,
   handlePreview
@@ -73,7 +72,6 @@ export const columns = (
         handleEditServices={handleEditServices}
         handleEditAvailability={handleEditAvailability}
         handleViewAvailability={handleViewAvailability}
-        handleValidateAvailability={handleValidateAvailability}
         handleDelete={handleDelete}
         handleImage={handleImage}
         handlePreview={handlePreview}

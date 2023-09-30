@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth } from "../../../hooks";
-import { forwardRef, useEffect, useState } from "react";
+import { forwardRef, useState } from "react";
 import Slide from "@mui/material/Slide";
 import { DepositDatePicker } from "../../DatePickers/DepositDatePicker";
 import { useFormik } from "formik";

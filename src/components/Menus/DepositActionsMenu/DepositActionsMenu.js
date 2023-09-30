@@ -10,7 +10,6 @@ import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateR
 import PreviewRoundedIcon from "@mui/icons-material/PreviewRounded";
 import AccessAlarmRoundedIcon from "@mui/icons-material/AccessAlarmRounded";
 import AlarmAddRoundedIcon from "@mui/icons-material/AlarmAddRounded";
-import TaskAltRoundedIcon from "@mui/icons-material/TaskAltRounded";
 
 export function DepositActionsMenu({
   row,
@@ -18,7 +17,6 @@ export function DepositActionsMenu({
   handleEditServices,
   handleEditAvailability,
   handleViewAvailability,
-  handleValidateAvailability,
   handleDelete,
   handleImage,
   handlePreview,
@@ -93,19 +91,6 @@ export function DepositActionsMenu({
           </ListItemIcon>
           Agregar disponibilidad
         </MenuItem>
-
-        <MenuItem
-          onClick={() => {
-            handleValidateAvailability(selectedRow);
-            setAnchorEl(null);
-          }}
-        >
-          <ListItemIcon>
-            <TaskAltRoundedIcon fontSize="small" />
-          </ListItemIcon>
-          Comprobar disponibilidad
-        </MenuItem>
-
         <MenuItem
           onClick={() => {
             handleDelete(selectedRow);
