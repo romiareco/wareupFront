@@ -179,7 +179,7 @@ export function mapDepositInformation(deposits) {
       cityId: deposit.cityId,
       departmentId: deposit.city ? deposit.city.departmentId : null,
       departmentName: deposit.city ? deposit.city.department.title : null,
-      status: deposit.status,
+      status: mapDepositStatus(deposit.status),
       createdAt: mapDateFormat(deposit.createdAt),
       businessName: deposit.company ? deposit.company.businessName : null,
       companyId: deposit.companyId,

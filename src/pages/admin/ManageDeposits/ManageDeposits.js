@@ -1,8 +1,6 @@
-import { RegisterDeposit } from "../../../components/Forms/RegisterDepositForm";
 import { ThemeProvider, Typography, Box } from "@mui/material";
 import { RegisteredDepositsTable } from "../../../components/Tables";
 import banner from "../../../assets/official-images/banner-1.jpg";
-import AddCircleOutlineTwoToneIcon from "@mui/icons-material/AddCircleOutlineTwoTone";
 import theme from "../../../theme/theme";
 import { Footer } from "../../../components/Footer";
 import { Divider } from "@mui/material";
@@ -15,14 +13,12 @@ export function ManageDeposits() {
           backgroundImage: `url(${banner})`,
           paddingBottom: "40px",
           paddingTop: "20px",
+          justifyContent: "center",
+          alignItems: "center", // Centra horizontalmente
+          textAlign: "center", // Centra el contenido del Typography
         }}
       >
-        <Typography
-          variant="h4"
-          sx={{
-            color: "white",
-          }}
-        >
+        <Typography variant="h4" color="white" marginBottom={3}>
           Depósitos registrados
         </Typography>
 

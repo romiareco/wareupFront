@@ -3,12 +3,14 @@ import theme from "../../theme/theme";
 import { Footer } from "../../components/Footer";
 import { Divider } from "@mui/material";
 import { UserBookingRequestsTable } from "../../components/Tables";
+import banner from "../../assets/official-images/banner-1.jpg";
 
 export function UserBookingRequests() {
   return (
     <ThemeProvider theme={theme}>
       <Box
         sx={{
+          backgroundImage: `url(${banner})`,
           paddingTop: "20px",
           justifyContent: "center",
           alignItems: "center",

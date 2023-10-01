@@ -22,6 +22,7 @@ import {
   mapDepositRequestStatus,
 } from "../../../utils/mapFunctions";
 import theme from "../../../theme/theme";
+import { SortColumnData } from "../Utils";
 
 const bookingRequestsController = new BookingRequest();
 
@@ -32,6 +33,14 @@ export function RegisteredBookingRequestsTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [bookingRequests, setBookingRequests] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [orderBy, setOrderBy] = useState("");
+  const [order, setOrder] = useState("asc");
+
+  const handleRequestSort = (property) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrderBy(property);
+    setOrder(isAsc ? "desc" : "asc");
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -78,9 +87,18 @@ export function RegisteredBookingRequestsTable() {
     })();
   }, [accessToken, user.id]);
 
+  const sortedData = bookingRequests
+    ? SortColumnData(bookingRequests, orderBy, order)
+    : [];
+
   return (
     <ThemeProvider theme={theme}>
-      <Box>
+      <Paper
+        sx={{
+          width: "90%",
+          overflow: "hidden",
+        }}
+      >
         {loading ? (
           <Box display="flex" alignItems="center" justifyContent="center">
             <CircularProgress />
@@ -90,7 +108,7 @@ export function RegisteredBookingRequestsTable() {
             No se han registrado solicitudes de arrendamiento.
           </Typography>
         ) : (
-          <TableContainer component={Paper}>
+          <TableContainer component={Paper} style={{ width: "100%" }}>
             <Table stickyHeader style={{ backgroundColor: "transparent" }}>
               <TableHead>
                 <TableRow>
@@ -103,27 +121,27 @@ export function RegisteredBookingRequestsTable() {
                         fontWeight: "bold",
                         fontFamily: "Montserrat, sans-serif", // Cambia la fuente aqu
                         backgroundColor: "lightgray", // Gris con 50% de opacidad
+                        cursor: "pointer",
                       }}
+                      onClick={() => handleRequestSort(column.id)}
                     >
                       {column.label}
+                      {orderBy === column.id && (
+                        <span>{order === "asc" ? "▲" : "▼"}</span>
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               </TableHead>
               <TableBody>
-                {bookingRequests
+                {sortedData
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     return (
                       <TableRow
                         hover
-                        role="checkbox"
                         tabIndex={-1}
                         key={row.id}
-                        sx={{
-                          backgroundColor:
-                            index % 2 === 0 ? "lightgray" : "white",
-                        }}
                       >
                         {columns(handlePreview).map((column) => {
                           const value = row[column.id];
@@ -157,7 +175,7 @@ export function RegisteredBookingRequestsTable() {
           onRowsPerPageChange={handleChangeRowsPerPage}
           labelRowsPerPage="Solicitudes por página:"
         />
-      </Box>
+      </Paper>
     </ThemeProvider>
   );
 }

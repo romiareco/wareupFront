@@ -4,12 +4,14 @@ import { RegisterCompanyButton } from "../../components/Button";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../theme/theme";
 import { Footer } from "../../components/Footer";
+import banner from "../../assets/official-images/banner-1.jpg";
 
 export function UserCompanies() {
   return (
     <ThemeProvider theme={theme}>
       <Box
         sx={{
+          backgroundImage: `url(${banner})`,
           paddingBottom: "40px",
           paddingTop: "20px",
           justifyContent: "center",

@@ -10,11 +10,11 @@ export const columns = (
   handlePreview
 ) => [
   { id: "id", label: "ID", minWidth: 25 },
-  { id: "title", label: "Título", minWidth: 200 },
+  { id: "title", label: "Título", minWidth: 300 },
   {
     id: "totalM3",
-    label: "Total m3",
-    minWidth: 100,
+    label: "Total m³",
+    minWidth: 150,
   },
   {
     id: "currency",
@@ -44,7 +44,7 @@ export const columns = (
   {
     id: "cityName",
     label: "Barrio/Ciudad",
-    minWidth: 150,
+    minWidth: 200,
   },
   { id: "departmentName", label: "Departamento", minWidth: 150 },
   {

@@ -21,10 +21,9 @@ import {
 } from "../../Dialogs";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
-import {
-  mapDepositInformation,
-  mapDepositStatus,
-} from "../../../utils/mapFunctions";
+import { mapDepositInformation } from "../../../utils/mapFunctions";
+import { SortColumnData } from "../Utils";
+import { Box, CircularProgress, Typography } from "@mui/material";
 
 const depositController = new Deposit();
 
@@ -59,6 +58,15 @@ export function RegisteredDepositsTable() {
     useState(false);
   const [isViewAvailabilityDialogOpen, setIsViewAvailabilityDialogOpen] =
     useState(false);
+  const [loading, setLoading] = useState(true);
+  const [orderBy, setOrderBy] = useState("");
+  const [order, setOrder] = useState("asc");
+
+  const handleRequestSort = (property) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrderBy(property);
+    setOrder(isAsc ? "desc" : "asc");
+  };
 
   const handlePreview = (row) => {
     setSelectedEditBasicDataDeposit(null);
@@ -220,17 +228,22 @@ export function RegisteredDepositsTable() {
   useEffect(() => {
     (async () => {
       try {
+        setLoading(true);
         const response = await depositController.getAllDeposits();
 
         if (response.deposits) {
           const filteredInformation = mapDepositInformation(response.deposits);
           setDeposits(filteredInformation);
+          setLoading(false);
         }
       } catch (error) {
         console.error(error);
+        setLoading(false);
       }
     })();
   }, [accessToken, user.id]);
+
+  const sortedData = deposits ? SortColumnData(deposits, orderBy, order) : [];
 
   return (
     <ThemeProvider theme={theme}>
@@ -240,37 +253,55 @@ export function RegisteredDepositsTable() {
           overflow: "hidden",
         }}
       >
-        <TableContainer>
-          <Table stickyHeader style={{ backgroundColor: "transparent" }}>
-            <TableHead>
-              <TableRow>
-                {columns(
-                  handleEditBasicData,
-                  handleEditServices,
-                  handleAddAvailability,
-                  handleViewAvailability,
-                  handleDelete,
-                  handleImage,
-                  handlePreview
-                ).map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align="center"
-                    style={{
-                      minWidth: column.minWidth,
-                      fontWeight: "bold",
-                      fontFamily: "Montserrat, sans-serif", // Cambia la fuente aqu
-                      backgroundColor: "lightgray", // Gris con 50% de opacidad
-                    }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {deposits && deposits.length > 0 ? (
-                deposits
+        {loading ? (
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            marginTop={3}
+          >
+            <CircularProgress />
+          </Box>
+        ) : deposits.length === 0 ? (
+          <Typography variant="body1">
+            No se han registrado usuarios.
+          </Typography>
+        ) : (
+          <TableContainer>
+            <Table stickyHeader style={{ backgroundColor: "transparent" }}>
+              <TableHead>
+                <TableRow>
+                  {columns(
+                    handleEditBasicData,
+                    handleEditServices,
+                    handleAddAvailability,
+                    handleViewAvailability,
+                    handleDelete,
+                    handleImage,
+                    handlePreview
+                  ).map((column) => (
+                    <TableCell
+                      key={column.id}
+                      align="center"
+                      style={{
+                        minWidth: column.minWidth,
+                        fontWeight: "bold",
+                        fontFamily: "Montserrat, sans-serif", // Cambia la fuente aqu
+                        backgroundColor: "lightgray", // Gris con 50% de opacidad
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handleRequestSort(column.id)}
+                    >
+                      {column.label}
+                      {orderBy === column.id && (
+                        <span>{order === "asc" ? "▲" : "▼"}</span>
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {sortedData
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     return (
@@ -298,57 +329,47 @@ export function RegisteredDepositsTable() {
                             <TableCell key={column.id} align="center">
                               {column.format
                                 ? column.format(value, row)
-                                : column.id === "status"
-                                ? mapDepositStatus(value)
                                 : value}
                             </TableCell>
                           );
                         })}
                       </TableRow>
                     );
-                  })
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={columns.length}>
-                    {deposits === null
-                      ? "Cargando datos..."
-                      : "No se han registrado depósitos."}
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-            <EditDepositBasicDataDialog
-              selectedDeposit={selectedEditBasicDataDeposit}
-              openDialog={isEditBasicDataDialogOpen}
-              onDialogOpenChange={handleEditBasicDataDialogOpenChange}
-            />
-            <RemoveUserDepositDialog
-              selectedDeposit={selectedDeleteDeposit}
-              openDialog={isRemoveDialogOpen}
-              onDialogOpenChange={handleRemoveDialogOpenChange}
-            />
-            <AddDepositImageDialog
-              selectedDeposit={selectedAddImageDeposit}
-              openDialog={isAddImageDialogOpen}
-              onDialogOpenChange={handleAddImageDialogOpenChange}
-            />
-            <EditDepositServicesDialog
-              selectedDeposit={selectedEditServicesDeposit}
-              openDialog={isEditServicesDialogOpen}
-              onDialogOpenChange={handleEditServicesDialogOpenChange}
-            />
-            <AddDepositAvailabilityDialog
-              selectedDeposit={selectedAddAvailabilityDeposit}
-              openDialog={isAddAvailabilityDialogOpen}
-              onDialogOpenChange={handleAddAvailabilityDialogOpenChange}
-            />
-            <ViewDepositCalendarAvailabilityDialog
-              selectedDeposit={selectedViewAvailability}
-              openDialog={isViewAvailabilityDialogOpen}
-              onDialogOpenChange={handleViewAvailabilityDialogOpenChange}
-            />
-          </Table>
-        </TableContainer>
+                  })}
+              </TableBody>
+              <EditDepositBasicDataDialog
+                selectedDeposit={selectedEditBasicDataDeposit}
+                openDialog={isEditBasicDataDialogOpen}
+                onDialogOpenChange={handleEditBasicDataDialogOpenChange}
+              />
+              <RemoveUserDepositDialog
+                selectedDeposit={selectedDeleteDeposit}
+                openDialog={isRemoveDialogOpen}
+                onDialogOpenChange={handleRemoveDialogOpenChange}
+              />
+              <AddDepositImageDialog
+                selectedDeposit={selectedAddImageDeposit}
+                openDialog={isAddImageDialogOpen}
+                onDialogOpenChange={handleAddImageDialogOpenChange}
+              />
+              <EditDepositServicesDialog
+                selectedDeposit={selectedEditServicesDeposit}
+                openDialog={isEditServicesDialogOpen}
+                onDialogOpenChange={handleEditServicesDialogOpenChange}
+              />
+              <AddDepositAvailabilityDialog
+                selectedDeposit={selectedAddAvailabilityDeposit}
+                openDialog={isAddAvailabilityDialogOpen}
+                onDialogOpenChange={handleAddAvailabilityDialogOpenChange}
+              />
+              <ViewDepositCalendarAvailabilityDialog
+                selectedDeposit={selectedViewAvailability}
+                openDialog={isViewAvailabilityDialogOpen}
+                onDialogOpenChange={handleViewAvailabilityDialogOpenChange}
+              />
+            </Table>
+          </TableContainer>
+        )}
         <TablePagination
           rowsPerPageOptions={[5, 10, 15]}
           component="div"
