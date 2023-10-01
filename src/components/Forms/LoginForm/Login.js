@@ -35,7 +35,14 @@ export function Login() {
   const navigate = useNavigate();
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
-  const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
+  const [notificationSeverity, setNotificationSeverity] = useState("success");
+
+  const startSessionTimer = () => {
+    const sessionTimeout = 3600000;
+    setTimeout(() => {
+      navigate("/");
+    }, sessionTimeout);
+  };
 
   const formik = useFormik({
     initialValues: inititalValues(),
@@ -51,6 +58,7 @@ export function Login() {
         const userLogged = await login(response.tokens.access);
 
         if (userLogged) {
+          startSessionTimer();
           if (parseInt(userLogged.role) === role.ADMIN) {
             navigate("/admin/home");
           } else {
@@ -159,7 +167,7 @@ export function Login() {
                 >
                   Cancelar
                 </LoadingButton>
-                  <Box>
+                <Box>
                   ¿No tienes una cuenta?
                   <NavLink
                     to="/users/register"
@@ -167,7 +175,7 @@ export function Login() {
                   >
                     Registrarse
                   </NavLink>
-                  </Box>
+                </Box>
               </Form>
             </ContentBox>
           </Box>

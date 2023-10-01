@@ -51,7 +51,6 @@ export function QuickSearcher() {
       queryParams.set("department", currentLocation.department);
     }
 
-    // Construir la URL con los parámetros de consulta
     const searchString = queryParams.toString().replace(/%2C/g, ",");
     const newURL = `/search-deposits?${searchString}`;
     navigate(newURL);

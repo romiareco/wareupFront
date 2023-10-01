@@ -7,58 +7,93 @@ import { IconButton, Box, Button, Menu, MenuItem } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import { Link } from "react-router-dom";
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import BusinessRoundedIcon from "@mui/icons-material/BusinessRounded";
-import theme from "../theme/theme";
+import WatchLaterRoundedIcon from "@mui/icons-material/WatchLaterRounded";
 import WarehouseRoundedIcon from "@mui/icons-material/WarehouseRounded";
-import HourglassEmptyRoundedIcon from "@mui/icons-material/HourglassEmptyRounded";
 import AddBusinessRoundedIcon from "@mui/icons-material/AddBusinessRounded";
+import PeopleAltRoundedIcon from "@mui/icons-material/PeopleAltRounded";
+import theme from "../theme/theme";
 
-export function UserLayout(props) {
-  const { children } = props;
-  const [anchorEl, setAnchorEl] = useState(null);
+export function MainLayout(props) {
+  const { children, isAdmin } = props;
+  const [anchorEl, setAnchorEl] = useState({});
 
-  const buttons = [
-    {
-      label: "Tengo espacio",
-      href: "/users/request-deposit",
-      icon: <AddBusinessRoundedIcon />,
-    },
-    {
-      label: "Depósitos",
-      href: "/users/my-deposits",
-      icon: <WarehouseRoundedIcon />,
-    },
-    {
-      label: "Empresas",
-      href: "/users/my-companies",
-      icon: <BusinessRoundedIcon />,
-    },
-    {
-      label: "Solicitudes",
-      icon: <HourglassEmptyRoundedIcon />,
-
-      menuItems: [
-        {
-          label: "Solicitudes de registro",
-          href: "/users/my-deposit-requests",
-        },
-        {
-          label: "Solicitudes de arrendamiento",
-          href: "/users/booking-requests",
-        },
-      ],
-    },
-  ];
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleClick = (event, index) => {
+    // Establecer el estado de anclaje específico para este botón
+    setAnchorEl({ ...anchorEl, [index]: event.currentTarget });
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleClose = (index) => {
+    // Cerrar el menú desplegable específico para este botón
+    setAnchorEl({ ...anchorEl, [index]: null });
   };
+
+
+  const buttons = isAdmin
+    ? [
+        {
+          label: "Usuarios",
+          href: "/admin/manage-users",
+          icon: <PeopleAltRoundedIcon />,
+        },
+        {
+          label: "Depósitos",
+          icon: <WarehouseRoundedIcon />,
+          menuItems: [
+            { label: "Publicar depósito", href: "/admin/register-deposit" },
+            { label: "Listado de depósitos", href: "/admin/manage-deposits" },
+          ],
+        },
+        {
+          label: "Solicitudes",
+          icon: <WatchLaterRoundedIcon />,
+          menuItems: [
+            {
+              label: "Solicitudes de registro de depósito",
+              href: "/admin/manage-deposits-requests",
+            },
+            {
+              label: "Solicitudes de arrendamiento",
+              href: "/admin/manage-booking-requests",
+            },
+          ],
+        },
+      ]
+    : [
+        {
+          label: "Tengo espacio",
+          href: "/users/request-deposit",
+          icon: <AddBusinessRoundedIcon />,
+        },
+        {
+          label: "Depósitos",
+          href: "/users/my-deposits",
+          icon: <WarehouseRoundedIcon />,
+        },
+        {
+          label: "Empresas",
+          href: "/users/my-companies",
+          icon: <BusinessRoundedIcon />,
+        },
+        {
+          label: "Solicitudes",
+          icon: <WatchLaterRoundedIcon />,
+
+          menuItems: [
+            {
+              label: "Solicitudes de registro",
+              href: "/users/my-deposit-requests",
+            },
+            {
+              label: "Solicitudes de arrendamiento",
+              href: "/users/booking-requests",
+            },
+          ],
+        },
+      ];
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -66,7 +101,10 @@ export function UserLayout(props) {
         <CssBaseline />
         <AppBar component="nav">
           <Toolbar>
-            <IconButton href="/users/home" color="inherit">
+            <IconButton
+              href={isAdmin ? "/admin/home" : "/users/home"}
+              color={"inherit"}
+            >
               <HomeRoundedIcon sx={{ fontSize: "36px" }} />
             </IconButton>
 
@@ -77,7 +115,7 @@ export function UserLayout(props) {
                     id={`menu-button-${index}`}
                     aria-controls={`menu-${index}`}
                     aria-haspopup="true"
-                    onClick={handleClick}
+                    onClick={(event) => handleClick(event, index)} // Pasar el índice del botón
                     sx={{
                       color:
                         theme.components.MuiButton.styleOverrides
@@ -115,9 +153,9 @@ export function UserLayout(props) {
                 {button.menuItems && (
                   <Menu
                     id={`menu-${index}`}
-                    anchorEl={anchorEl}
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
+                    anchorEl={anchorEl[index]} // Usar el estado específico para este botón
+                    open={Boolean(anchorEl[index])}
+                    onClose={() => handleClose(index)} // Pasar el índice del botón
                     anchorOrigin={{
                       vertical: "bottom",
                       horizontal: "left",
