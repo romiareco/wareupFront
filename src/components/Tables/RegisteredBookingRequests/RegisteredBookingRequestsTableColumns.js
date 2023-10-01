@@ -2,6 +2,7 @@ import { IconButton } from "@mui/material";
 import PreviewRoundedIcon from "@mui/icons-material/PreviewRounded";
 
 export const columns = (handlePreview) => [
+  {id: "id", label: "ID"},
     { id: "depositId", label: "Depósito" },
     {
       id: "publicationLink",

@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { UserLayout, AdminLayout, PublicLayout } from "../layouts";
+import { MainLayout } from "../layouts";
 import {
   Welcome,
   UserProfile,
@@ -14,14 +14,19 @@ import {
   UserListRequestDeposits,
   PublicationView,
   Searcher,
-  UserBookingRequests
+  UserBookingRequests,
+  UserRegisterCompany,
 } from "../pages";
-import { ManageUsers, ManageDepositRequests, ManageDeposits, ManageBookingRequests } from "../pages/admin";
+import {
+  ManageUsers,
+  ManageDepositRequests,
+  ManageDeposits,
+  ManageBookingRequests,
+} from "../pages/admin";
 import {
   Login,
   RegisterUser,
   ForgotPassword,
-  RegisterCompany,
   PasswordRecovery,
 } from "../components/Forms";
 import { NotFound } from "../components";
@@ -33,10 +38,10 @@ export function WebRouter() {
 
   const isAdmin = parseInt(user?.role) === role.ADMIN;
 
-  const loadLayout = (Layout, Page) => (
-    <Layout>
+  const loadLayout = (Page) => (
+    <MainLayout isAdmin={isAdmin}>
       <Page />
-    </Layout>
+    </MainLayout>
   );
 
   const renderRoutes = (routes, isAdmin) => (
@@ -45,10 +50,7 @@ export function WebRouter() {
         <Route
           key={route.path}
           path={`/${isAdmin ? "admin/" : "users/"}${route.path}`}
-          element={loadLayout(
-            isAdmin ? AdminLayout : UserLayout,
-            route.component
-          )}
+          element={loadLayout(route.component)}
         />
       ))}
     </>
@@ -60,7 +62,7 @@ export function WebRouter() {
     { path: "my-deposits", component: UserDeposits },
     { path: "request-deposit", component: UserRequestDeposit },
     { path: "my-companies", component: UserCompanies },
-    { path: "my-companies/register", component: RegisterCompany },
+    { path: "my-companies/register", component: UserRegisterCompany },
     { path: "my-deposit-requests", component: UserListRequestDeposits },
     { path: "publication-view", component: PublicationView },
     { path: "search-deposits", component: Searcher },

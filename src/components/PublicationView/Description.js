@@ -7,7 +7,8 @@ import { Deposit } from "../../api";
 import { useAuth } from "../../hooks";
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
 import { BookingRequestDialog } from "../Dialogs/BookingRequestDialog/BookingRequestDialog";
-
+import { depositStatus } from "../../utils";
+import DoDisturbAltRoundedIcon from "@mui/icons-material/DoDisturbAltRounded";
 const depositController = new Deposit();
 
 export function Description({ depositId }) {
@@ -90,17 +91,30 @@ export function Description({ depositId }) {
       </div>
 
       <Box className="buttons">
-        <Button className="booking-request"onClick={handleClickOpen}>
-          <EventAvailableRoundedIcon />
-          Solicitar arrendamiento
+        <Button
+          className="booking-request"
+          onClick={handleClickOpen}
+          disabled={deposit.status === depositStatus.DELETED}
+        >
+          {deposit.status === depositStatus.DELETED ? (
+            <>
+              <DoDisturbAltRoundedIcon />
+              Publicación pausada
+            </>
+          ) : (
+            <>
+              <EventAvailableRoundedIcon />
+              Solicitar arrendamiento
+            </>
+          )}
         </Button>
       </Box>
       <BookingRequestDialog
-          open={open}
-          handleClose={handleClose}
-          depositId={deposit.id}
-          maxTotalM3={deposit.totalM3}
-        />
+        open={open}
+        handleClose={handleClose}
+        depositId={deposit.id}
+        maxTotalM3={deposit.totalM3}
+      />
     </Box>
   );
 }

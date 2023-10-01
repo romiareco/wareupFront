@@ -7,10 +7,12 @@ import {
   FormGroup,
   FormControlLabel,
   Typography,
-  Stack,
   Box,
   Button,
   Popover,
+  Grid,
+  Divider,
+  DialogTitle,
 } from "@mui/material";
 import theme from "../../../theme/theme";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -28,17 +30,15 @@ export function EditDepositServices({ deposit }) {
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationSeverity, setNotificationSeverity] = useState("success");
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [loadingServices, setLoadingServices] = useState(true);
 
-  const [popoverOpen, setPopoverOpen] = useState(false);
-
-  const handleMouseEnter = () => {
-    if (selectedServices.length === 0) {
-      setPopoverOpen(true);
-    }
+  const handlePopoverOpen = (event) => {
+    setAnchorEl(event.currentTarget);
   };
 
-  const handleMouseLeave = () => {
-    setPopoverOpen(false);
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
   };
 
   const handleSubmit = async () => {
@@ -63,9 +63,8 @@ export function EditDepositServices({ deposit }) {
   useEffect(() => {
     (async () => {
       try {
-        const servicesResponse = await serviceController.getAllServices(
-          
-        );
+        setLoadingServices(true);
+        const servicesResponse = await serviceController.getAllServices();
 
         setServices(servicesResponse.serviceGroups);
 
@@ -74,11 +73,13 @@ export function EditDepositServices({ deposit }) {
             deposit.depositServices.map((item) => item.serviceId)
           );
         }
+        setLoadingServices(false);
       } catch (error) {
         console.error(error);
         setNotificationMessage(error);
         setNotificationSeverity("error");
         setNotificationOpen(true);
+        setLoadingServices(false);
       }
     })();
   }, [deposit.depositServices]);
@@ -86,63 +87,81 @@ export function EditDepositServices({ deposit }) {
   return (
     <ThemeProvider theme={theme}>
       <Box>
-        {services &&
-          services.map((group) => (
+        {loadingServices ? (
+          <Box display="flex" alignItems="center" justifyContent="center">
+            <CircularProgress />
+          </Box>
+        ) : (
+          services &&
+          services.map((group, index) => (
             <div key={group.id}>
-              <Typography variant="h6">{group.title}</Typography>
+              <Typography
+                variant="h6"
+                sx={{
+                  textAlign: "left",
+                }}
+                gutterBottom
+              >
+                {group.title}
+              </Typography>
               <FormGroup>
-                <Stack direction="row">
+                <Grid container spacing={2}>
                   {group.services.map((service) => (
-                    <FormControlLabel
-                      key={service.id}
-                      control={
-                        <Checkbox
-                          onChange={(e) => {
-                            const selectedServiceId = service.id;
-                            const isSelected = e.target.checked;
+                    <Grid item xs={12} sm={6} md={4} key={service.id}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            onChange={(e) => {
+                              const selectedServiceId = service.id;
+                              const isSelected = e.target.checked;
 
-                            if (isSelected) {
-                              setSelectedServices((prevSelectedServices) => [
-                                ...prevSelectedServices,
-                                selectedServiceId,
-                              ]);
-                            } else {
-                              setSelectedServices((prevSelectedServices) =>
-                                prevSelectedServices.filter(
-                                  (id) => id !== selectedServiceId
-                                )
-                              );
+                              if (isSelected) {
+                                setSelectedServices((prevSelectedServices) => [
+                                  ...prevSelectedServices,
+                                  selectedServiceId,
+                                ]);
+                              } else {
+                                setSelectedServices((prevSelectedServices) =>
+                                  prevSelectedServices.filter(
+                                    (id) => id !== selectedServiceId
+                                  )
+                                );
+                              }
+                            }}
+                            checked={
+                              selectedServices.includes(service.id) // Marcado si se seleccionó manualmente
                             }
-                          }}
-                          checked={
-                            selectedServices.includes(service.id) // Marcado si se seleccionó manualmente
-                          }
-                        />
-                      }
-                      label={service.title}
-                    />
+                          />
+                        }
+                        label={service.title}
+                      />
+                    </Grid>
                   ))}
-                </Stack>
+                </Grid>
               </FormGroup>
+              {index < services.length - 1 && <Divider variant="middle" />}
             </div>
-          ))}
-      </Box>
-      <Box mt={2} display="flex" justifyContent="center" gap={2}>
-        <React.Fragment>
-          <Box mt={2}>
+          ))
+        )}
+        {!loadingServices && (
+          <Box mt={2} display="flex" justifyContent="center">
             <LoadingButton
               variant="contained"
               onClick={handleSubmit}
               disabled={selectedServices.length === 0}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
+              onMouseEnter={handlePopoverOpen}
+              onMouseLeave={handlePopoverClose}
+              loading={loading}
             >
               Guardar cambios
             </LoadingButton>
             <Popover
-              open={popoverOpen}
-              anchorEl={null}
-              onClose={() => setPopoverOpen(false)}
+              id="mouse-over-popover"
+              sx={{
+                pointerEvents: "none",
+              }}
+              open={selectedServices.length === 0} // Abre el Popover si el botón está deshabilitado o no se han seleccionado servicios
+              anchorEl={anchorEl}
               anchorOrigin={{
                 vertical: "bottom",
                 horizontal: "center",
@@ -151,14 +170,15 @@ export function EditDepositServices({ deposit }) {
                 vertical: "top",
                 horizontal: "center",
               }}
-              style={{ zIndex: 9999 }} // Ajusta el valor según sea necesario
+              onClose={handlePopoverClose}
+              disableRestoreFocus
             >
-              <Typography sx={{ p: 2 }}>
+              <Typography sx={{ p: 1 }}>
                 Debe seleccionar al menos un servicio.
               </Typography>
             </Popover>
           </Box>
-        </React.Fragment>
+        )}
       </Box>
       <NotificationSnackbar
         open={notificationOpen}

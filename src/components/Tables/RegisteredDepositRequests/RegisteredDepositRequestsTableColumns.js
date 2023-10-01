@@ -2,8 +2,8 @@ import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';impo
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 export const columns = (handleAccept, handleReject) => [
   { id: "id", label: "ID", minWidth: 25 },
-  { id: "title", label: "Título", minWidth: 100 },
-  { id: "description", label: "Descripción", minWidth: 250 },
+  { id: "title", label: "Título", minWidth: 200 },
+  { id: "description", label: "Descripción", minWidth: 300 },
   {
     id: "email",
     label: "Email",
@@ -27,7 +27,7 @@ export const columns = (handleAccept, handleReject) => [
   {
     id: "cityId",
     label: "Barrio/Ciudad",
-    minWidth: 150,
+    minWidth: 250,
   },
   {
     id: "departmentName",
@@ -61,5 +61,3 @@ export const columns = (handleAccept, handleReject) => [
     ),
   },
 ];
-
-//TODO: mover estos botones a otro componente asi le ponemos el Popover

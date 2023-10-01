@@ -78,6 +78,57 @@ export function mapUserRole(statusNumber) {
   }
 }
 
+export function mapUserInformation(users) {
+  const filteredInformation = users.map((user) => {
+    return {
+      id: user.id,
+      name: user.name,
+      lastName: user.lastName,
+      email: user.email,
+      role: user.role,
+      industry: user.industry,
+      createdAt: mapDateFormat(user.createdAt),
+      status: user.status,
+    }
+  })
+
+  return filteredInformation;
+}
+export function mapCompanyInformation(companies) {
+  const fileredInformation = companies.map((company) => {
+    return {
+      id: company.id,
+      businessName: company.businessName,
+      RUT: company.RUT,
+      createdAt: mapDateFormat(company.createdAt),
+      position: company.position,
+      email: company.email,
+      address: company.address,
+      phone : company.phone,
+      status: company.status,
+      contactName: company.contactName,
+    }
+  })
+
+  return fileredInformation;
+}
+
+export function mapDepositCalendar(depositCalendars) {
+  const fileredInformation = depositCalendars.map((depositCalendar) => {
+    return {
+      id: depositCalendar.id,
+      dateFrom: mapDateFormat(depositCalendar.dateFrom),
+      dateTo: mapDateFormat(depositCalendar.dateTo),
+      totalM3: depositCalendar.totalM3,
+      depositId: depositCalendar.depositId,
+      createdAt: mapDateFormat(depositCalendar.createdAt),
+    }
+  })
+
+  return fileredInformation;
+}
+
+
 export function mapDepositRequestInformation(depositRequests) {
   const filteredInformation = depositRequests.map((deposit) => {
     return {
@@ -134,6 +185,9 @@ export function mapDepositInformation(deposits) {
       companyId: deposit.companyId,
       postalCode: deposit.postalCode,
       depositServices: deposit.depositServices,
+      minimumBusinessVolume: deposit.minimumBusinessVolume,
+      minimumBusinessPeriod: deposit.minimumBusinessPeriod,
+
     };
   });
 

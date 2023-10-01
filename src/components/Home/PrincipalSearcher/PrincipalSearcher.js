@@ -31,12 +31,18 @@ export function PrincipalSearcher() {
 
     const foundCity = cities.find((city) => city.label === searchCity);
 
-    if (foundCity) {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
+    if (foundCity) {
       navigate(
         `/search-deposits?city=${foundCity.cityName}&department=${foundCity.departmentName}`
       );
+    } else {
+      if (searchCity === "") {
+        navigate(`/search-deposits`);
+      } else {
+        navigate(`/search-deposits?city=${searchCity}`);
+      }
     }
     setIsLoading(false);
   };
@@ -55,17 +61,10 @@ export function PrincipalSearcher() {
           color: "white",
         }}
       >
-        <Typography
-          variant="h4"
-          sx={{ ...theme.typography.montserratFont, marginBottom: 6 }}
-        >
+        <Typography variant="h4" sx={{ marginBottom: 6 }}>
           Comienza tu búsqueda
         </Typography>
-        <Stack
-          direction={"row"}
-          alignItems="stretch"
-          spacing={1}
-        >
+        <Stack direction={"row"} alignItems="stretch" spacing={1}>
           <AutocompleteSearcher
             setSearchedCity={setSearchCity}
             onCitiesLoaded={handleCitiesLoaded}
@@ -78,8 +77,8 @@ export function PrincipalSearcher() {
               display: "flex",
               alignItems: "center",
               color: "white",
-              border: "1px solid white", 
-              borderRadius: "10px", 
+              border: "1px solid white",
+              borderRadius: "10px",
               width: "150px",
               transition: "width 0.3s ease-in-out",
               justifyContent: "center",

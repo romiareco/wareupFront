@@ -149,7 +149,7 @@ export function BasicDepositData({ formInformation, initialValues }) {
           <Grid item md={12}>
             <Divider> Datos geográficos </Divider>
           </Grid>
-          <Grid item md={10}>
+          <Grid item md={9}>
             <TextField
               fullWidth
               type="text"

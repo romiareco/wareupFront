@@ -2,7 +2,7 @@ import IconButton from "@mui/material/IconButton";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 export const columns = (handleReject) => [
   { id: "id", label: "ID", minWidth: 25 },
-  { id: "title", label: "Título", minWidth: 100 },
+  { id: "title", label: "Título", minWidth: 200 },
   { id: "description", label: "Descripción", minWidth: 250 },
   {
     id: "email",

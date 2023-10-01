@@ -1,4 +1,3 @@
-import { companyStatus } from "../utils";
 import { ENV } from "../utils/constant";
 
 export class User {
@@ -42,6 +41,7 @@ export class User {
           lastName: data.lastName,
           email: data.email,
           password: data.password,
+          industry: data.industry,
         }),
       };
 
@@ -156,7 +156,7 @@ export class User {
     try {
       const url = `${this.baseApi}/${ENV.API_ROUTES.UPDATE_PASSWORD}`;
       const params = {
-        method: "PUT",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -196,6 +196,7 @@ export class User {
           name: data.name,
           email: data.email,
           lastName: data.lastName,
+          industry: data.industry,
         }),
       };
 
@@ -225,39 +226,6 @@ export class User {
       };
 
       const response = await fetch(url, params);
-      const result = await response.json();
-
-      if (response.status !== 200) throw response;
-      if (result && result.hasError) throw result;
-
-      return result;
-    } catch (error) {
-      console.error(
-        "Hubo un error en la respuesta del servidor. Error: " +
-          JSON.stringify(error.message)
-      );
-      throw error;
-    }
-  }
-
-  async getAllActiveUsers(accessToken) {
-    try {
-      const url = `${this.baseApi}/${ENV.API_ROUTES.USER}`;
-
-      const queryParams = {
-        status: "1",
-      };
-      const queryString = new URLSearchParams(queryParams).toString();
-
-      const fullUrl = `${url}?${queryString}`;
-
-      const params = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
-
-      const response = await fetch(fullUrl, params);
       const result = await response.json();
 
       if (response.status !== 200) throw response;
@@ -303,6 +271,32 @@ export class User {
       const url = `${this.baseApi}/${ENV.API_ROUTES.USER}/${userId}`;
       const params = {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+
+      const response = await fetch(url, params);
+      const result = await response.json();
+
+      if (response.status !== 200) throw response;
+      if (result && result.hasError) throw result;
+
+      return result;
+    } catch (error) {
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          JSON.stringify(error.message)
+      );
+      throw error;
+    }
+  }
+
+  async getAllUsers(accessToken) {
+    try {
+      const url = `${this.baseApi}/${ENV.API_ROUTES.USER}`;
+
+      const params = {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

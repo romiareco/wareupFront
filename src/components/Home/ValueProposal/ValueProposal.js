@@ -38,16 +38,10 @@ export function ValueProposal() {
           backgroundImage: `url(${backgroundImage})`,
         }}
       >
-        <Typography
-          variant="h4"
-          sx={{ ...theme.typography.montserratFont, color: "white" }}
-        >
+        <Typography variant="h4" sx={{ color: "white" }}>
           PROPUESTA DE VALOR
         </Typography>
-        <Typography
-          variant="subtitle1"
-          sx={{ ...theme.typography.montserratFont, color: "white" }}
-        >
+        <Typography variant="subtitle1" sx={{ color: "white" }}>
           Nuestra propuesta de valor se apoya en 5 pilares:
         </Typography>
 

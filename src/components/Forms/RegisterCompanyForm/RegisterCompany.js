@@ -16,6 +16,7 @@ import { blue } from "@mui/material/colors";
 import { useAuth } from "../../../hooks";
 import theme from "./../../../theme/theme"; // Importa el theme.js aquí
 import { NotificationSnackbar } from "../../NotificationSnackbar";
+import banner from "../../../assets/official-images/wms-top-header-1-1.jpg";
 
 const companyController = new Company();
 
@@ -34,9 +35,6 @@ export function RegisterCompany() {
     onSubmit: async (formValue, {resetForm}) => {
       try {
         await companyController.register(accessToken, user, formValue);
-        //TODO: redirigirnos a las empresas
-        //TODO: definir que debe pasar cuando se registra un nuevo espacio. Seguimos en registrar espacios? O redireccionamos a otro lado?
-
         setNotificationMessage(
           "Empresa registrada exitosamente"
         );
@@ -64,9 +62,10 @@ export function RegisterCompany() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            minHeight: "100vh",
-            padding: "16px",
             width: "100%",
+            backgroundColor: "rgba(242, 242, 242, 0.9)", // Color de fondo opaco
+            padding: "20px", // Ajusta el relleno según tus preferencias
+        
           }}
         >
           <Paper
@@ -96,7 +95,7 @@ export function RegisterCompany() {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
-              <Grid item md={12}>
+              <Grid item md={6}>
                 <TextField
                   fullWidth
                   type="text"
@@ -110,7 +109,7 @@ export function RegisterCompany() {
                   helperText={formik.errors.contactName}
                 />
               </Grid>
-              <Grid item md={12}>
+              <Grid item md={6}>
                 <TextField
                   fullWidth
                   type="text"
@@ -124,7 +123,7 @@ export function RegisterCompany() {
                   helperText={formik.errors.position}
                 />
               </Grid>
-              <Grid item md={12}>
+              <Grid item md={6}>
                 <TextField
                   fullWidth
                   type="email"
@@ -138,7 +137,7 @@ export function RegisterCompany() {
                   helperText={formik.errors.email}
                 />
               </Grid>
-              <Grid item md={12}>
+              <Grid item md={6}>
                 <TextField
                   fullWidth
                   type="text"
@@ -152,7 +151,7 @@ export function RegisterCompany() {
                   helperText={formik.errors.RUT}
                 />
               </Grid>
-              <Grid item md={12}>
+              <Grid item md>
                 <TextField
                   fullWidth
                   name="businessName"
@@ -166,7 +165,7 @@ export function RegisterCompany() {
                   helperText={formik.errors.businessName}
                 />
               </Grid>
-              <Grid item md={12}>
+              <Grid item md>
                 <TextField
                   fullWidth
                   name="address"
@@ -180,7 +179,7 @@ export function RegisterCompany() {
                   helperText={formik.errors.address}
                 />
               </Grid>
-              <Grid item md={12}>
+              <Grid item md>
                 <TextField
                   fullWidth
                   name="phone"

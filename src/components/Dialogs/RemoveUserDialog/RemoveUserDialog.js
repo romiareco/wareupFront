@@ -5,12 +5,16 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
 import { User } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
 import { LoadingButton } from "@mui/lab";
+import { ThemeProvider, Typography } from "@mui/material";
+import theme from "../../../theme/theme";
+import { CustomTransition } from "../CustomTransition";
+import { userStatus } from "../../../utils";
+import { ErrorDialog } from "../ErrorDialog";
 
 export function RemoveUserDialog({
   selectedUser,
@@ -39,7 +43,7 @@ export function RemoveUserDialog({
   const handleAccept = async () => {
     const userController = new User();
     try {
-      setLoading(true); // Inicia la carga
+      setLoading(true);
 
       await userController.deleteUser(accessToken, selectedUser.id);
 
@@ -47,7 +51,7 @@ export function RemoveUserDialog({
       setNotificationSeverity("success");
       setNotificationOpen(true);
 
-      setLoading(false); // Finaliza la carga, sin importar el resultado
+      setLoading(false);
       setIsDialogOpen(false);
       onDialogOpenChange(false);
     } catch (error) {
@@ -55,34 +59,66 @@ export function RemoveUserDialog({
       setNotificationSeverity("error");
       setNotificationOpen(true);
 
-      setLoading(false); // Finaliza la carga, sin importar el resultado
+      setLoading(false);
     }
   };
 
+  if (selectedUser && parseInt(selectedUser.status) === userStatus.DELETED) {
+    return (
+      <ErrorDialog
+        errorMessage={"El usuario ya se encuentra eliminado."}
+        openDialog={openDialog}
+        onDialogOpenChange={onDialogOpenChange}
+      />
+    );
+  }
+
   return (
-    <Box>
+    <ThemeProvider theme={theme}>
       <Dialog
         open={isDialogOpen}
         onClose={handleCancel}
-        aria-labelledby="responsive-dialog-title"
+        TransitionComponent={CustomTransition}
       >
-        <DialogTitle id="responsive-dialog-title">
+        <DialogTitle
+          sx={{
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          }}
+        >
           {"Eliminar usuario"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {selectedUser
-              ? `¿Desea eliminar el usuario ${selectedUser.name}?`
-              : ""}
+            {selectedUser ? (
+              <>
+                <Typography
+                  variant="body1"
+                  style={{
+                    textAlign: "center", // Centra el texto horizontalmente
+                    marginBottom: "8px", // Espacio en la parte inferior
+                  }}
+                >
+                  {`¿Desea eliminar el usuario ${selectedUser.name}?`}
+                </Typography>
+              </>
+            ) : (
+              ""
+            )}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <DialogActions>
-            
-              <LoadingButton onClick={handleAccept} autoFocus disabled={loading}>
-                Aceptar
-              </LoadingButton>
-           
+            <LoadingButton
+              onClick={handleAccept}
+              autoFocus
+              disabled={loading}
+              loading={loading}
+            >
+              Aceptar
+            </LoadingButton>
+
             <Button autoFocus onClick={handleCancel}>
               Cancelar
             </Button>
@@ -95,6 +131,6 @@ export function RemoveUserDialog({
         severity={notificationSeverity}
         message={notificationMessage}
       />
-    </Box>
+    </ThemeProvider>
   );
 }

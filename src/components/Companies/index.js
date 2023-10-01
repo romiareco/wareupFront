@@ -1,2 +1,1 @@
-export * from "./EditCompanyDialog";
-export * from "./EditCompanyInformation"
+export * from "./EditCompanyInformation";

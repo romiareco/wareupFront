@@ -1,26 +1,23 @@
 import { ThemeProvider, Typography, Box } from "@mui/material";
 import theme from "../../theme/theme";
 import { Footer } from "../../components/Footer";
-import { Button, Divider } from "@mui/material";
+import { Divider } from "@mui/material";
 import { UserBookingRequestsTable } from "../../components/Tables";
+import banner from "../../assets/official-images/banner-1.jpg";
 
 export function UserBookingRequests() {
   return (
     <ThemeProvider theme={theme}>
       <Box
         sx={{
-          paddingBottom: "40px",
+          backgroundImage: `url(${banner})`,
           paddingTop: "20px",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center", 
         }}
       >
-        <Typography
-          variant="h4"
-          sx={{
-            ...theme.typography.montserratFont,
-          }}
-        >
-          Solicitudes de arrendamiento
-        </Typography>
+        <Typography variant="h4" marginBottom={3}>Solicitudes de arrendamiento</Typography>
         <Divider light variant="middle" sx={{ borderBottomWidth: "3px" }} />
         <Box
           padding={2}

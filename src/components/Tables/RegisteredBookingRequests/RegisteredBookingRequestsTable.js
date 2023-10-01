@@ -1,23 +1,28 @@
 import * as React from "react";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
+import {
+  Box,
+  CircularProgress,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  ThemeProvider,
+  Typography,
+} from "@mui/material";
 import { columns } from "./RegisteredBookingRequestsTableColumns";
 import { BookingRequest } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { useState, useEffect } from "react";
 import {
   mapBookingRequestInformation,
-  mapCompanyStatus,
   mapDepositRequestStatus,
 } from "../../../utils/mapFunctions";
-import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
+import { SortColumnData } from "../Utils";
 
 const bookingRequestsController = new BookingRequest();
 
@@ -27,6 +32,15 @@ export function RegisteredBookingRequestsTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [bookingRequests, setBookingRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [orderBy, setOrderBy] = useState("");
+  const [order, setOrder] = useState("asc");
+
+  const handleRequestSort = (property) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrderBy(property);
+    setOrder(isAsc ? "desc" : "asc");
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -37,7 +51,6 @@ export function RegisteredBookingRequestsTable() {
     setPage(0);
   };
 
-  
   const handlePreview = (row) => {
     const queryParams = {
       id: row.depositId,
@@ -55,6 +68,7 @@ export function RegisteredBookingRequestsTable() {
   useEffect(() => {
     (async () => {
       try {
+        setLoading(true);
         const response = await bookingRequestsController.getBookingRequests(
           accessToken
         );
@@ -64,12 +78,18 @@ export function RegisteredBookingRequestsTable() {
             response.bookingRequests
           );
           setBookingRequests(filteredInformation);
+          setLoading(false);
         }
       } catch (error) {
         console.error(error);
+        setLoading(false);
       }
     })();
   }, [accessToken, user.id]);
+
+  const sortedData = bookingRequests
+    ? SortColumnData(bookingRequests, orderBy, order)
+    : [];
 
   return (
     <ThemeProvider theme={theme}>
@@ -79,42 +99,52 @@ export function RegisteredBookingRequestsTable() {
           overflow: "hidden",
         }}
       >
-        <TableContainer style={{ overflowX: "auto" }}>
-          <Table stickyHeader style={{ backgroundColor: "transparent" }}>
-            <TableHead>
-              <TableRow>
-                {columns(handlePreview).map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align="center" // Centra el título
-                    style={{
-                      minWidth: column.minWidth,
-                      fontWeight: "bold",
-                      fontFamily: "Montserrat, sans-serif", // Cambia la fuente aqu
-                      backgroundColor: "lightgray", // Gris con 50% de opacidad
-                    }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {bookingRequests && bookingRequests.length > 0 ? (
-                bookingRequests
+        {loading ? (
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            marginTop={3}
+            marginBottom={3}
+          >
+            <CircularProgress />
+          </Box>
+        ) : bookingRequests.length === 0 ? (
+          <Typography variant="body1">
+            No se han registrado solicitudes de arrendamiento.
+          </Typography>
+        ) : (
+          <TableContainer component={Paper} style={{ width: "100%" }}>
+            <Table stickyHeader style={{ backgroundColor: "transparent" }}>
+              <TableHead>
+                <TableRow>
+                  {columns(handlePreview).map((column) => (
+                    <TableCell
+                      key={column.id}
+                      align="center" // Centra el título
+                      style={{
+                        minWidth: column.minWidth,
+                        fontWeight: "bold",
+                        fontFamily: "Montserrat, sans-serif", // Cambia la fuente aqu
+                        backgroundColor: "lightgray", // Gris con 50% de opacidad
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handleRequestSort(column.id)}
+                    >
+                      {column.label}
+                      {orderBy === column.id && (
+                        <span>{order === "asc" ? "▲" : "▼"}</span>
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {sortedData
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        key={row.id}
-                        sx={{
-                          backgroundColor:
-                            index % 2 === 0 ? "lightgray" : "white",
-                        }}
-                      >
+                      <TableRow hover tabIndex={-1} key={row.id}>
                         {columns(handlePreview).map((column) => {
                           const value = row[column.id];
                           return (
@@ -132,19 +162,11 @@ export function RegisteredBookingRequestsTable() {
                         })}
                       </TableRow>
                     );
-                  })
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={columns.length}>
-                    {bookingRequests === null
-                      ? "Cargando datos..."
-                      : "No se han registrado solicitudes de arrendamiento."}
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
         <TablePagination
           rowsPerPageOptions={[5, 10, 15]}
           component="div"

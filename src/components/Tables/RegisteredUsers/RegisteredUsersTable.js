@@ -14,7 +14,13 @@ import { columns } from "./RegisteredUsersTableColumns";
 import { RemoveUserDialog, EditUserInformationDialog } from "../../Dialogs";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
-import { mapUserRole, mapUserStatus } from "../../../utils/mapFunctions";
+import {
+  mapUserInformation,
+  mapUserRole,
+  mapUserStatus,
+} from "../../../utils/mapFunctions";
+import { Box, CircularProgress, Typography } from "@mui/material";
+import { SortColumnData } from "../Utils";
 
 const userController = new User();
 
@@ -28,19 +34,28 @@ export function RegisteredUsersTable() {
   const [selectedEditUser, setSelectedEditUser] = useState(null);
   const [selectedDeleteUser, setSelectedDeleteUser] = useState(null);
   const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [orderBy, setOrderBy] = useState("");
+  const [order, setOrder] = useState("asc");
+
+  const handleRequestSort = (property) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrderBy(property);
+    setOrder(isAsc ? "desc" : "asc");
+  };
 
   const handleEdit = (row) => {
     setSelectedEditUser(row);
-    setSelectedDeleteUser(null); // Cerrar el diálogo de eliminación si está abierto
+    setSelectedDeleteUser(null);
     setIsEditDialogOpen(true);
     setIsRemoveDialogOpen(false);
   };
 
   const handleDelete = (row) => {
     setSelectedDeleteUser(row);
-    setSelectedEditUser(null); // Cerrar el diálogo de edición si está abierto
+    setSelectedEditUser(null);
     setIsRemoveDialogOpen(true);
-    setIsEditDialogOpen(false); // Ce
+    setIsEditDialogOpen(false);
   };
   const handleEditDialogOpenChange = (isOpen) => {
     setIsEditDialogOpen(isOpen);
@@ -62,13 +77,21 @@ export function RegisteredUsersTable() {
   useEffect(() => {
     (async () => {
       try {
-        const response = await userController.getAllActiveUsers(accessToken);
-        setUsers(response.users);
+        setLoading(true);
+        const response = await userController.getAllUsers(accessToken);
+
+        if (response.users) {
+          setUsers(mapUserInformation(response.users));
+          setLoading(false);
+        }
       } catch (error) {
         console.error(error);
+        setLoading(false);
       }
     })();
   }, [accessToken]);
+
+  const sortedData = users ? SortColumnData(users, orderBy, order) : [];
 
   return (
     <ThemeProvider theme={theme}>
@@ -78,45 +101,46 @@ export function RegisteredUsersTable() {
           overflow: "hidden",
         }}
       >
-        <TableContainer>
-          <Table stickyHeader>
-            <TableHead>
-              <TableRow>
-                {columns(handleEdit, handleDelete).map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align={column.align}
-                    style={{
-                      minWidth: column.minWidth,
-                      fontWeight: "bold",
-                      fontFamily: "Montserrat, sans-serif", // Cambia la fuente aqu
-                      backgroundColor: "lightgray", // Gris con 50% de opacidad
-                    }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {users && users.length > 0 ? (
-                users
+        {loading ? (
+          <Box display="flex" alignItems="center" justifyContent="center">
+            <CircularProgress />
+          </Box>
+        ) : users.length === 0 ? (
+          <Typography variant="body1">
+            No se han registrado usuarios.
+          </Typography>
+        ) : (
+          <TableContainer component={Paper}>
+            <Table stickyHeader>
+              <TableHead>
+                <TableRow>
+                  {columns(handleEdit, handleDelete).map((column) => (
+                    <TableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{
+                        minWidth: column.minWidth,
+                        fontWeight: "bold",
+                        fontFamily: "Montserrat, sans-serif", // Cambia la fuente aqu
+                        backgroundColor: "lightgray", // Gris con 50% de opacidad
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handleRequestSort(column.id)}
+                    >
+                      {column.label}
+                      {orderBy === column.id && (
+                        <span>{order === "asc" ? "▲" : "▼"}</span>
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {sortedData
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        key={row.id}
-                        sx={{
-                          "&:hover": {
-                            backgroundColor: "lightgray", // Color al pasar el mouse sobre la fila
-                          },
-                          backgroundColor:
-                            index % 2 === 0 ? "lightgray" : "white",
-                        }}
-                      >
+                      <TableRow hover tabIndex={-1} key={row.id}>
                         {columns(handleEdit, handleDelete).map((column) => {
                           const value = row[column.id];
                           return (
@@ -133,39 +157,33 @@ export function RegisteredUsersTable() {
                         })}
                       </TableRow>
                     );
-                  })
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={columns.length}>
-                    {users === null
-                      ? "Cargando datos..."
-                      : "No se han registrado usuarios."}
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-            <EditUserInformationDialog
-              selectedUser={selectedEditUser}
-              openDialog={isEditDialogOpen}
-              onDialogOpenChange={handleEditDialogOpenChange} // Pasa la función de devolución de llamada
-            />
-            <RemoveUserDialog
-              selectedUser={selectedDeleteUser}
-              openDialog={isRemoveDialogOpen}
-              onDialogOpenChange={handleRemoveDialogOpenChange} // Pasa la función de devolución de llamada
-            />
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 15]}
-          component="div"
-          count={users === null ? 0 : users.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          labelRowsPerPage="Usuarios por página:"
-        />
+                  })}
+              </TableBody>
+              <EditUserInformationDialog
+                selectedUser={selectedEditUser}
+                openDialog={isEditDialogOpen}
+                onDialogOpenChange={handleEditDialogOpenChange} // Pasa la función de devolución de llamada
+              />
+              <RemoveUserDialog
+                selectedUser={selectedDeleteUser}
+                openDialog={isRemoveDialogOpen}
+                onDialogOpenChange={handleRemoveDialogOpenChange} // Pasa la función de devolución de llamada
+              />
+            </Table>
+          </TableContainer>
+        )}
+        {users && users.length > 0 && (
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 15]}
+            component="div"
+            count={users.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            labelRowsPerPage="Usuarios por página:"
+          />
+        )}
       </Paper>
     </ThemeProvider>
   );

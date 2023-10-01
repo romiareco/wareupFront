@@ -134,7 +134,22 @@ export function RegisterDeposit() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ paddingLeft: "4%", paddingRight: "4%" }}>
+      <Box
+        sx={{
+          paddingLeft: "4%",
+          paddingRight: "4%",
+          backgroundColor: "rgba(242, 242, 242, 0.9)", // Color de fondo opaco
+          padding: "20px",
+          width: "80%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Typography variant="h4" paddingTop={2} marginBottom={2}>
+          Registro de nuevo depósito
+        </Typography>
+
         <Stepper
           alternativeLabel
           activeStep={activeStep}
@@ -163,10 +178,7 @@ export function RegisterDeposit() {
                 minHeight="100vh"
               >
                 <CircularProgress size={50} />
-                <Typography
-                  textAlign={"center"}
-                  sx={theme.typography.montserratFont}
-                >
+                <Typography textAlign={"center"}>
                   Registrando depósito...
                 </Typography>
               </Box>
@@ -179,10 +191,7 @@ export function RegisterDeposit() {
                     alignItems="center"
                     minHeight="100vh"
                   >
-                    <Typography
-                      textAlign={"center"}
-                      sx={theme.typography.montserratFont}
-                    >
+                    <Typography textAlign={"center"}>
                       ¡Un paso más! ¿Te gustaría registrar las imágenes del
                       depósito?
                     </Typography>
@@ -213,10 +222,7 @@ export function RegisterDeposit() {
                     alignItems="center"
                     minHeight="100vh" // Esto hace que el contenedor ocupe el 100% de la altura de la ventana
                   >
-                    <Typography
-                      textAlign={"center"}
-                      sx={theme.typography.montserratFont}
-                    >
+                    <Typography textAlign={"center"}>
                       Parece que hubo un error. Sugerimos realizar el registro
                       nuevamente
                     </Typography>

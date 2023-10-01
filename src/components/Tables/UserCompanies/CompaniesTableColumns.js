@@ -3,11 +3,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 
 export const columns = (handleEdit, handleDelete) => [
-  { id: "businessName", label: "Razón social"},
+  {id: "id", label: "ID"},
+  { id: "businessName", label: "Razón social", minWidth: 200},
   { id: "RUT", label: "RUT" },
   {
     id: "contactName",
     label: "Nombre completo",
+    minWidth: 200,
   },
   {
     id: "position",
@@ -20,10 +22,16 @@ export const columns = (handleEdit, handleDelete) => [
   {
     id: "address",
     label: "Dirección de facturación",
+    minWidth: 250,
   },
   {
     id: "phone",
     label: "Celular/Teléfono",
+  },
+  {
+    id: "createdAt",
+    label: "Fecha creación",
+    minWidth: 150
   },
   {
     id: "status",
@@ -33,6 +41,8 @@ export const columns = (handleEdit, handleDelete) => [
     id: "actions",
     label: "Acciones",
     align: "center",
+    minWidth: 150,
+
     format: (value, row) => (
       <div>
         <IconButton onClick={() => handleEdit(row)}>

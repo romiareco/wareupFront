@@ -31,7 +31,7 @@ export function WorkingWithUs() {
           padding: "30px",
         }}
       >
-        <Typography variant="h6" sx={theme.typography.montserratFont}>
+        <Typography variant="h6">
           Algunas de las empresas que trabajan con nosotros
         </Typography>
         <Box component="section" pt={3} pb={8}>

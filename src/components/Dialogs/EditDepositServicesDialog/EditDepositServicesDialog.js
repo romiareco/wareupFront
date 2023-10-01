@@ -1,11 +1,20 @@
 import Dialog from "@mui/material/Dialog";
-import {DialogContent, DialogTitle, Grid} from "@mui/material";
+import {
+  Box,
+  DialogContent,
+  DialogTitle,
+  Stack,
+  ThemeProvider,
+} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState, useEffect } from "react";
 import { depositStatus } from "../../../utils";
 import { ErrorDialog } from "../ErrorDialog";
 import { EditDepositServices } from "../../Deposits";
+import theme from "../../../theme/theme";
+import { CustomTransition } from "../CustomTransition";
+
 
 export function EditDepositServicesDialog({
   selectedDeposit,
@@ -26,32 +35,50 @@ export function EditDepositServicesDialog({
     onDialogOpenChange(false);
   };
 
-  if(selectedDeposit && parseInt(selectedDeposit.status) === depositStatus.DELETED) {
-    return (<ErrorDialog 
-    errorMessage={"No se puede editar un depósito ya eliminado."}
-    openDialog={openDialog}
-    onDialogOpenChange={onDialogOpenChange}/>);
+  if (
+    selectedDeposit &&
+    parseInt(selectedDeposit.status) === depositStatus.DELETED
+  ) {
+    return (
+      <ErrorDialog
+        errorMessage={"No se puede editar un depósito ya eliminado."}
+        openDialog={openDialog}
+        onDialogOpenChange={onDialogOpenChange}
+      />
+    );
   }
 
   return (
-    <Dialog
-      open={isDialogOpen}
-      onClose={handleCancel}
-      maxWidth="lg"
-    >
-      <Grid container justifyContent="space-between" alignItems="center">
-        <Grid item>
-          <DialogTitle>Servicios del depósito</DialogTitle>
-        </Grid>
-        <Grid item>
-          <IconButton onClick={() => handleCancel()}>
-            <CloseIcon />
-          </IconButton>
-        </Grid>
-      </Grid>
-      <DialogContent>
-        {selectedDeposit && <EditDepositServices deposit={selectedDeposit} />}
-      </DialogContent>
-    </Dialog>
+    <ThemeProvider theme={theme}>
+      <Dialog
+        open={isDialogOpen}
+        onClose={handleCancel}
+        maxWidth="md"
+        TransitionComponent={CustomTransition}
+      >
+        <Stack direction="row" alignItems="center">
+          <DialogTitle
+            sx={{
+              fontWeight: "bold",
+              textAlign: "center",
+              flex: 1,
+            }}
+          >
+            Servicios del depósito
+          </DialogTitle>
+
+          <Box flex={0}>
+            {" "}
+            <IconButton onClick={handleCancel}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
+        </Stack>
+
+        <DialogContent>
+          {selectedDeposit && <EditDepositServices deposit={selectedDeposit} />}
+        </DialogContent>
+      </Dialog>
+    </ThemeProvider>
   );
 }

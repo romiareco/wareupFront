@@ -1,12 +1,21 @@
-export * from "./AddDepositImageDialog";
-export * from "./EditUserInformationDialog";
-export * from "./RemoveUserDialog";
-export * from "./ChangeRequestDepositStatus";
-export * from "./RemoveUserDepositDialog";
+// Companies
+export * from "./EditCompanyDialog";
 export * from "./RemoveCompanyDialog";
-export * from "./EditDepositBasicDataDialog";
-export * from "./ErrorDialog";
-export * from "./EditDepositServicesDialog";
-export * from "./AddDepositAvailabilityDialog";
+
+// Deposits
 export * from "./ViewDepositCalendarAvailabilityDialog";
+export * from "./AddDepositAvailabilityDialog";
+export * from "./EditDepositServicesDialog";
+export * from "./EditDepositBasicDataDialog";
+export * from "./RemoveUserDepositDialog";
+export * from "./ChangeRequestDepositStatus";
+export * from "./AddDepositImageDialog";
+
+// Users
+export * from "./RemoveUserDialog";
+export * from "./EditUserInformationDialog";
+
+// General
 export * from "./SearchFiltersDialog";
+export * from "./ErrorDialog";
+export * from "./CustomTransition";

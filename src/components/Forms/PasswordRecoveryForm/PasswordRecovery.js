@@ -103,6 +103,7 @@ export function PasswordRecovery() {
                 />
               </Grid>
             </Grid>
+            <Box marginTop={2}>
             <Grid container spacing={2} justifyContent="center">
               <Grid item>
                 <LoadingButton
@@ -124,9 +125,14 @@ export function PasswordRecovery() {
                 </LoadingButton>
               </Grid>
             </Grid>
+            </Box>
+            
           </Box>
         </Box>
+        <Box marginTop={4}>
         <Copyright sx={{ mt: 5 }} />
+
+        </Box>
       </Container>
       <NotificationSnackbar
         open={notificationOpen}

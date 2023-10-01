@@ -23,15 +23,17 @@ export function SearcherView({ filters }) {
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationSeverity, setNotificationSeverity] = useState("success");
   const [deposits, setDeposits] = useState([]);
-  const [dataLoaded, setDataLoaded] = useState(false); // Nuevo estado
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   useEffect(() => {
     try {
+      setDataLoaded(false);
+      setIsLoading(true);
       const fetchData = async () => {
         const response = await depositController.getAllDeposits(filters);
         setDeposits(response.deposits);
         setIsLoading(false);
-        setDataLoaded(true); // Marcar los datos como cargados
+        setDataLoaded(true);
       };
 
       fetchData();
@@ -44,7 +46,6 @@ export function SearcherView({ filters }) {
     }
   }, [filters]);
 
-  // Solo renderiza el contenido cuando los datos están cargados
   if (!dataLoaded) {
     return (
       <ThemeProvider theme={theme}>
@@ -64,7 +65,7 @@ export function SearcherView({ filters }) {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            height: "400px", // Ajusta la altura según tus necesidades
+            height: "400px",
           }}
         >
           <CircularProgress />
@@ -89,7 +90,7 @@ export function SearcherView({ filters }) {
       </Box>
       <Stack direction={"row"} marginLeft={4} marginRight={4}>
         <Grid container spacing={2}>
-          <Grid item  md={6}>
+          <Grid item md={6}>
             <Box>
               <DepositsSearch setIsLoading={setIsLoading} deposits={deposits} />
             </Box>
@@ -114,7 +115,7 @@ export function SearcherView({ filters }) {
             justifyContent: "center",
             alignItems: "center",
             backgroundColor: "white",
-            zIndex: 9999, // Asegura que esté por encima de otros elementos
+            zIndex: 9999,
           }}
         >
           <CircularProgress />

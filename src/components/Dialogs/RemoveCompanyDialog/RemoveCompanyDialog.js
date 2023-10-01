@@ -1,10 +1,13 @@
 import * as React from "react";
-import { Button, Typography } from "@mui/material";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import {
+  DialogContentText,
+  DialogTitle,
+  Dialog,
+  DialogActions,
+  Button,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { useState, useEffect } from "react";
 import { Company } from "../../../api";
 import { useAuth } from "../../../hooks";
@@ -13,6 +16,11 @@ import { LoadingButton } from "@mui/lab";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import { companyStatus } from "../../../utils";
 import { ErrorDialog } from "../ErrorDialog";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import { ThemeProvider } from "@emotion/react";
+import theme from "../../../theme/theme";
+import { CustomTransition } from "../CustomTransition";
 
 export function RemoveCompanyDialog({
   selectedCompany,
@@ -51,7 +59,7 @@ export function RemoveCompanyDialog({
         );
       }
 
-      setLoading(true); 
+      setLoading(true);
 
       await companyController.delete(accessToken, selectedCompany.id);
 
@@ -59,7 +67,7 @@ export function RemoveCompanyDialog({
       setNotificationSeverity("success");
       setNotificationOpen(true);
 
-      setLoading(false); 
+      setLoading(false);
     } catch (error) {
       setNotificationMessage(error.message);
       setNotificationSeverity("error");
@@ -68,27 +76,69 @@ export function RemoveCompanyDialog({
     }
   };
 
+  if (
+    selectedCompany &&
+    parseInt(selectedCompany.status) === companyStatus.DELETED
+  ) {
+    return (
+      <ErrorDialog
+        errorMessage={"La empresa ya se encuentra eliminada."}
+        openDialog={openDialog}
+        onDialogOpenChange={onDialogOpenChange}
+      />
+    );
+  }
+
   return (
-    <Dialog
-      open={isDialogOpen}
-      onClose={handleCancel}
-      aria-labelledby="responsive-dialog-title"
-    >
-      <DialogTitle id="responsive-dialog-title">
-        {"Eliminar empresa"}
-      </DialogTitle>
-      <DialogContent>
-        <DialogContentText>
+    <ThemeProvider theme={theme}>
+      <Dialog
+        open={isDialogOpen}
+        onClose={handleCancel}
+        maxWidth="md"
+        TransitionComponent={CustomTransition}
+      >
+        <Stack direction="row" alignItems="center">
+          <DialogTitle
+            sx={{
+              fontWeight: "bold",
+              textAlign: "center",
+              flex: 1,
+            }}
+          >
+            Eliminar empresa{" "}
+          </DialogTitle>
+
+          <IconButton onClick={() => handleCancel()}>
+            <CloseIcon />
+          </IconButton>
+        </Stack>
+        <DialogContentText marginBottom={1}>
           {selectedCompany ? (
             <>
-              <Typography variant="body1">
+              <Typography
+                variant="body1"
+                style={{
+                  textAlign: "center", // Centra el texto horizontalmente
+                  marginBottom: "8px", // Espacio en la parte inferior
+                }}
+              >
                 {`¿Desea eliminar la empresa ${selectedCompany.businessName}?`}
               </Typography>
-              <Typography variant="body1" paragraph>
+              <Typography
+                variant="body1"
+                paragraph
+                marginLeft={2}
+                marginRight={2}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
                 <WarningRoundedIcon
                   sx={{
                     verticalAlign: "middle", // Alinea verticalmente con el texto
-                    marginRight: "4px", // Opcional: agrega margen a la derecha para separar el icono del texto
+                    marginRight: "4px",
+                    color: "red", // Establece el color en "error" (rojo)
                   }}
                 />
                 Ten en cuenta que también se eliminarán los depósitos asociados.
@@ -98,21 +148,26 @@ export function RemoveCompanyDialog({
             ""
           )}
         </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <LoadingButton onClick={handleAccept} autoFocus disabled={loading}>
-          Aceptar
-        </LoadingButton>
-        <Button autoFocus onClick={handleCancel}>
-          Cancelar
-        </Button>
-      </DialogActions>
-      <NotificationSnackbar
-        open={notificationOpen}
-        onClose={() => setNotificationOpen(false)}
-        severity={notificationSeverity}
-        message={notificationMessage}
-      />
-    </Dialog>
+        <DialogActions sx={{ justifyContent: "center" }}>
+          <LoadingButton
+            variant="contained"
+            onClick={handleAccept}
+            autoFocus
+            loading={loading}
+          >
+            Aceptar
+          </LoadingButton>
+          <Button variant="outlined" autoFocus onClick={handleCancel}>
+            Cancelar
+          </Button>
+        </DialogActions>
+        <NotificationSnackbar
+          open={notificationOpen}
+          onClose={() => setNotificationOpen(false)}
+          severity={notificationSeverity}
+          message={notificationMessage}
+        />
+      </Dialog>
+    </ThemeProvider>
   );
 }

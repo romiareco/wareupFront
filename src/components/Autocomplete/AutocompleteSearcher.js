@@ -51,7 +51,7 @@ export function AutocompleteSearcher({ setSearchedCity, onCitiesLoaded }) {
       }
       inputValue={searchCity}
       onInputChange={(event, newValue) => {
-        setSearchCity(newValue); // Actualiza el estado en el componente padre
+        setSearchCity(newValue);
         setSearchedCity(newValue);
       }}
       renderInput={(params) => (
@@ -67,6 +67,12 @@ export function AutocompleteSearcher({ setSearchedCity, onCitiesLoaded }) {
         />
       )}
       renderOption={(props, option) => <li {...props}>{option}</li>}
+      ListboxProps={{
+        style: {
+          maxHeight: 200,
+          overflowY: "auto",
+        },
+      }}
     />
   );
 }

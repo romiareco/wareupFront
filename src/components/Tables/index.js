@@ -7,3 +7,4 @@ export * from "./UserCompanies";
 export * from "./DepositAvailabilityCalendars";
 export * from "./UserBookingRequests";
 export * from "./RegisteredBookingRequests";
+export * from "./Utils";

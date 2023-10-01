@@ -1,5 +1,5 @@
 import * as React from "react";
-import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -25,6 +25,8 @@ import {
   mapDepositInformation,
   mapDepositStatus,
 } from "../../../utils/mapFunctions";
+import { CircularProgress, Paper, Typography } from "@mui/material";
+import { SortColumnData } from "../Utils";
 
 const depositController = new Deposit();
 
@@ -34,7 +36,7 @@ export function UserDepositsTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [deposits, setDeposits] = useState(null);
-
+  const [loading, setLoading] = useState(true);
   const [selectedEditBasicDataDeposit, setSelectedEditBasicDataDeposit] =
     useState(null);
   const [selectedEditServicesDeposit, setSelectedEditServicesDeposit] =
@@ -46,8 +48,6 @@ export function UserDepositsTable() {
   const [selectedAddAvailabilityDeposit, setSelectedAddAvailabilityDeposit] =
     useState(null);
   const [selectedViewAvailability, setSelectedViewAvailability] =
-    useState(null);
-  const [selectedValidateAvailability, setSelectedValidateAvailability] =
     useState(null);
 
   const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false);
@@ -61,17 +61,21 @@ export function UserDepositsTable() {
     useState(false);
   const [isViewAvailabilityDialogOpen, setIsViewAvailabilityDialogOpen] =
     useState(false);
-  const [
-    isValidateAvailabilityDialogOpen,
-    setIsValidationAvailabilityDialogOpen,
-  ] = useState(false);
+
+  const [orderBy, setOrderBy] = useState("");
+  const [order, setOrder] = useState("asc");
+
+  const handleRequestSort = (property) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrderBy(property);
+    setOrder(isAsc ? "desc" : "asc");
+  };
 
   const handlePreview = (row) => {
     setSelectedEditBasicDataDeposit(null);
     setSelectedEditServicesDeposit(null);
     setSelectedAddAvailabilityDeposit(null);
     setSelectedViewAvailability(null);
-    setSelectedValidateAvailability(null);
     setSelectedDeleteDeposit(null);
     setSelectedAddImageDeposit(null);
 
@@ -81,7 +85,6 @@ export function UserDepositsTable() {
     setIsAddImageDialogOpen(false);
     setIsAddAvailabilityDialogOpen(false);
     setIsViewAvailabilityDialogOpen(false);
-    setIsValidationAvailabilityDialogOpen(false);
 
     const queryParams = {
       id: row.id,
@@ -103,14 +106,12 @@ export function UserDepositsTable() {
     setSelectedAddImageDeposit(row);
     setSelectedAddAvailabilityDeposit(null);
     setSelectedViewAvailability(null);
-    setSelectedValidateAvailability(null);
 
     setIsEditBasicDataDialogOpen(false);
     setIsEditServicesDialogOpen(false);
     setIsRemoveDialogOpen(false);
     setIsAddImageDialogOpen(true);
     setIsAddAvailabilityDialogOpen(false);
-    setIsValidationAvailabilityDialogOpen(false);
     setIsViewAvailabilityDialogOpen(false);
   };
 
@@ -121,14 +122,12 @@ export function UserDepositsTable() {
     setSelectedAddImageDeposit(null);
     setSelectedAddAvailabilityDeposit(null);
     setSelectedViewAvailability(null);
-    setSelectedValidateAvailability(null);
 
     setIsEditBasicDataDialogOpen(true);
     setIsEditServicesDialogOpen(false);
     setIsRemoveDialogOpen(false);
     setIsAddImageDialogOpen(false);
     setIsAddAvailabilityDialogOpen(false);
-    setIsValidationAvailabilityDialogOpen(false);
     setIsViewAvailabilityDialogOpen(false);
   };
 
@@ -139,14 +138,12 @@ export function UserDepositsTable() {
     setSelectedAddImageDeposit(null);
     setSelectedAddAvailabilityDeposit(null);
     setSelectedViewAvailability(null);
-    setSelectedValidateAvailability(null);
 
     setIsEditBasicDataDialogOpen(false);
     setIsEditServicesDialogOpen(true);
     setIsRemoveDialogOpen(false);
     setIsAddImageDialogOpen(false);
     setIsAddAvailabilityDialogOpen(false);
-    setIsValidationAvailabilityDialogOpen(false);
     setIsViewAvailabilityDialogOpen(false);
   };
 
@@ -157,14 +154,12 @@ export function UserDepositsTable() {
     setSelectedAddImageDeposit(null);
     setSelectedAddAvailabilityDeposit(row);
     setSelectedViewAvailability(null);
-    setSelectedValidateAvailability(null);
 
     setIsEditBasicDataDialogOpen(false);
     setIsEditServicesDialogOpen(false);
     setIsRemoveDialogOpen(false);
     setIsAddImageDialogOpen(false);
     setIsAddAvailabilityDialogOpen(true);
-    setIsValidationAvailabilityDialogOpen(false);
     setIsViewAvailabilityDialogOpen(false);
   };
 
@@ -175,33 +170,13 @@ export function UserDepositsTable() {
     setSelectedAddImageDeposit(null);
     setSelectedAddAvailabilityDeposit(null);
     setSelectedViewAvailability(row);
-    setSelectedValidateAvailability(null);
 
     setIsEditBasicDataDialogOpen(false);
     setIsEditServicesDialogOpen(false);
     setIsRemoveDialogOpen(false);
     setIsAddImageDialogOpen(false);
     setIsAddAvailabilityDialogOpen(false);
-    setIsValidationAvailabilityDialogOpen(false);
     setIsViewAvailabilityDialogOpen(true);
-  };
-
-  const handleValidateAvailability = (row) => {
-    setSelectedEditBasicDataDeposit(null);
-    setSelectedEditServicesDeposit(null);
-    setSelectedDeleteDeposit(null);
-    setSelectedAddImageDeposit(null);
-    setSelectedAddAvailabilityDeposit(null);
-    setSelectedViewAvailability(null);
-    setSelectedValidateAvailability(row);
-
-    setIsEditBasicDataDialogOpen(false);
-    setIsEditServicesDialogOpen(false);
-    setIsRemoveDialogOpen(false);
-    setIsAddImageDialogOpen(false);
-    setIsAddAvailabilityDialogOpen(false);
-    setIsValidationAvailabilityDialogOpen(true);
-    setIsViewAvailabilityDialogOpen(false);
   };
 
   const handleDelete = (row) => {
@@ -211,14 +186,12 @@ export function UserDepositsTable() {
     setSelectedAddImageDeposit(null);
     setSelectedAddAvailabilityDeposit(null);
     setSelectedViewAvailability(null);
-    setSelectedValidateAvailability(null);
 
     setIsEditBasicDataDialogOpen(false);
     setIsEditServicesDialogOpen(false);
     setIsRemoveDialogOpen(true);
     setIsAddImageDialogOpen(false);
     setIsAddAvailabilityDialogOpen(false);
-    setIsValidationAvailabilityDialogOpen(false);
     setIsViewAvailabilityDialogOpen(false);
   };
 
@@ -236,10 +209,6 @@ export function UserDepositsTable() {
 
   const handleViewAvailabilityDialogOpenChange = (isOpen) => {
     setIsViewAvailabilityDialogOpen(isOpen);
-  };
-
-  const handleValidateAvailabilityDialogOpenChange = (isOpen) => {
-    setIsValidationAvailabilityDialogOpen(isOpen);
   };
 
   const handleRemoveDialogOpenChange = (isOpen) => {
@@ -262,6 +231,7 @@ export function UserDepositsTable() {
   useEffect(() => {
     (async () => {
       try {
+        setLoading(true);
         const response = await depositController.getDepositsByUserId(
           accessToken,
           user.id
@@ -271,12 +241,16 @@ export function UserDepositsTable() {
           const filteredInformation = mapDepositInformation(response.deposits);
 
           setDeposits(filteredInformation);
+          setLoading(false);
         }
       } catch (error) {
         console.error(error);
+        setLoading(false);
       }
     })();
   }, [accessToken, user.id]);
+
+  const sortedData = deposits ? SortColumnData(deposits, orderBy, order) : [];
 
   return (
     <ThemeProvider theme={theme}>
@@ -286,57 +260,59 @@ export function UserDepositsTable() {
           overflow: "hidden",
         }}
       >
-        <TableContainer>
-          <Table stickyHeader style={{ backgroundColor: "transparent" }}>
-            <TableHead>
-              <TableRow>
-                {columns(
-                  handleEditBasicData,
-                  handleEditServices,
-                  handleAddAvailability,
-                  handleViewAvailability,
-                  handleValidateAvailability,
-                  handleDelete,
-                  handleImage,
-                  handlePreview
-                ).map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align="center" // Centra el título
-                    style={{
-                      minWidth: column.minWidth,
-                      fontWeight: "bold",
-                      fontFamily: "Montserrat, sans-serif", // Cambia la fuente aqu
-                      backgroundColor: "lightgray", // Gris con 50% de opacidad
-                    }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {deposits && deposits.length > 0 ? (
-                deposits
+        {loading ? (
+          <Box display="flex" alignItems="center" justifyContent="center" marginTop={3} marginBottom={3}>
+            <CircularProgress />
+          </Box>
+        ) : deposits.length === 0 ? (
+          <Typography variant="body1">
+            No se han registrado depósitos para este usuario.
+          </Typography>
+        ) : (
+          <TableContainer component={Paper}>
+            <Table stickyHeader style={{ backgroundColor: "transparent" }}>
+              <TableHead>
+                <TableRow>
+                  {columns(
+                    handleEditBasicData,
+                    handleEditServices,
+                    handleAddAvailability,
+                    handleViewAvailability,
+                    handleDelete,
+                    handleImage,
+                    handlePreview
+                  ).map((column) => (
+                    <TableCell
+                      key={column.id}
+                      align="center" // Centra el título
+                      style={{
+                        minWidth: column.minWidth,
+                        fontWeight: "bold",
+                        fontFamily: "Montserrat, sans-serif", // Cambia la fuente aqu
+                        backgroundColor: "lightgray", // Gris con 50% de opacidad
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handleRequestSort(column.id)}
+                    >
+                      {column.label}
+                      {orderBy === column.id && (
+                        <span>{order === "asc" ? "▲" : "▼"}</span>
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {sortedData
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        key={row.id}
-                        sx={{
-                          backgroundColor:
-                            index % 2 === 0 ? "lightgray" : "white",
-                        }}
-                      >
+                      <TableRow hover tabIndex={-1} key={row.id}>
                         {columns(
                           handleEditBasicData,
                           handleEditServices,
                           handleAddAvailability,
                           handleViewAvailability,
-                          handleValidateAvailability,
                           handleDelete,
                           handleImage,
                           handlePreview
@@ -357,59 +333,53 @@ export function UserDepositsTable() {
                         })}
                       </TableRow>
                     );
-                  })
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={columns.length}>
-                    {deposits === null
-                      ? "Cargando datos..."
-                      : "No se han registrado depósitos."}
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-            <EditDepositBasicDataDialog
-              selectedDeposit={selectedEditBasicDataDeposit}
-              openDialog={isEditBasicDataDialogOpen}
-              onDialogOpenChange={handleEditBasicDataDialogOpenChange}
-            />
-            <RemoveUserDepositDialog
-              selectedDeposit={selectedDeleteDeposit}
-              openDialog={isRemoveDialogOpen}
-              onDialogOpenChange={handleRemoveDialogOpenChange}
-            />
-            <AddDepositImageDialog
-              selectedDeposit={selectedAddImageDeposit}
-              openDialog={isAddImageDialogOpen}
-              onDialogOpenChange={handleAddImageDialogOpenChange}
-            />
-            <EditDepositServicesDialog
-              selectedDeposit={selectedEditServicesDeposit}
-              openDialog={isEditServicesDialogOpen}
-              onDialogOpenChange={handleEditServicesDialogOpenChange}
-            />
-            <AddDepositAvailabilityDialog
-              selectedDeposit={selectedAddAvailabilityDeposit}
-              openDialog={isAddAvailabilityDialogOpen}
-              onDialogOpenChange={handleAddAvailabilityDialogOpenChange}
-            />
-            <ViewDepositCalendarAvailabilityDialog
-              selectedDeposit={selectedViewAvailability}
-              openDialog={isViewAvailabilityDialogOpen}
-              onDialogOpenChange={handleViewAvailabilityDialogOpenChange}
-            />
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 15]}
-          component="div"
-          count={deposits === null ? 0 : deposits.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          labelRowsPerPage="Depósitos por página:"
-        />
+                  })}
+              </TableBody>
+              <EditDepositBasicDataDialog
+                selectedDeposit={selectedEditBasicDataDeposit}
+                openDialog={isEditBasicDataDialogOpen}
+                onDialogOpenChange={handleEditBasicDataDialogOpenChange}
+              />
+              <RemoveUserDepositDialog
+                selectedDeposit={selectedDeleteDeposit}
+                openDialog={isRemoveDialogOpen}
+                onDialogOpenChange={handleRemoveDialogOpenChange}
+              />
+              <AddDepositImageDialog
+                selectedDeposit={selectedAddImageDeposit}
+                openDialog={isAddImageDialogOpen}
+                onDialogOpenChange={handleAddImageDialogOpenChange}
+              />
+              <EditDepositServicesDialog
+                selectedDeposit={selectedEditServicesDeposit}
+                openDialog={isEditServicesDialogOpen}
+                onDialogOpenChange={handleEditServicesDialogOpenChange}
+              />
+              <AddDepositAvailabilityDialog
+                selectedDeposit={selectedAddAvailabilityDeposit}
+                openDialog={isAddAvailabilityDialogOpen}
+                onDialogOpenChange={handleAddAvailabilityDialogOpenChange}
+              />
+              <ViewDepositCalendarAvailabilityDialog
+                selectedDeposit={selectedViewAvailability}
+                openDialog={isViewAvailabilityDialogOpen}
+                onDialogOpenChange={handleViewAvailabilityDialogOpenChange}
+              />
+            </Table>
+          </TableContainer>
+        )}
+        {deposits && deposits.length > 0 && (
+          <TablePagination
+            component={"div"}
+            rowsPerPageOptions={[5, 10, 15]}
+            count={deposits === null ? 0 : deposits.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            labelRowsPerPage="Depósitos por página:"
+          />
+        )}
       </Paper>
     </ThemeProvider>
   );

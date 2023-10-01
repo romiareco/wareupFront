@@ -1,10 +1,16 @@
 import Dialog from "@mui/material/Dialog";
-import { DialogContent, DialogTitle, Grid } from "@mui/material";
+import {
+  DialogContent,
+  DialogTitle,
+  Stack,
+  ThemeProvider,
+} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState, useEffect } from "react";
-import { CardContent } from "semantic-ui-react";
 import { DepositAvailabilityCalendarTable } from "../../Tables";
+import theme from "../../../theme/theme";
+import { CustomTransition } from "../CustomTransition";
 
 export function ViewDepositCalendarAvailabilityDialog({
   selectedDeposit,
@@ -26,24 +32,35 @@ export function ViewDepositCalendarAvailabilityDialog({
   };
 
   return (
-    <CardContent>
-      <Dialog open={isDialogOpen} onClose={handleCancel} maxWidth="xl" fullWidth>
-        <Grid container justifyContent="space-between" alignItems="center">
-          <Grid item>
-            <DialogTitle>Disponibilidad del depósito</DialogTitle>
-          </Grid>
-          <Grid item>
-            <IconButton onClick={() => handleCancel()}>
-              <CloseIcon />
-            </IconButton>
-          </Grid>
-        </Grid>
+    <ThemeProvider theme={theme}>
+      <Dialog
+        open={isDialogOpen}
+        onClose={handleCancel}
+        maxWidth="sm"
+        fullWidth
+        TransitionComponent={CustomTransition}
+      >
+        <Stack direction="row" alignItems="center" marginRight={1}>
+          <DialogTitle
+            sx={{
+              fontWeight: "bold",
+              textAlign: "center",
+              flex: 1,
+            }}
+          >
+            Disponibilidad del depósito
+          </DialogTitle>
+
+          <IconButton onClick={() => handleCancel()}>
+            <CloseIcon />
+          </IconButton>
+        </Stack>
         <DialogContent style={{ paddingTop: 0 }} fullWidth>
           {selectedDeposit && (
             <DepositAvailabilityCalendarTable deposit={selectedDeposit} />
           )}
         </DialogContent>
       </Dialog>
-    </CardContent>
+    </ThemeProvider>
   );
 }

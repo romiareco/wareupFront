@@ -46,19 +46,16 @@ export function QuickSearcher() {
 
     const currentLocation = getUrlParams();
 
-    if (currentLocation) {
+    if (currentLocation && Object.keys(currentLocation).length > 0) {
       queryParams.set("city", currentLocation.city);
       queryParams.set("department", currentLocation.department);
     }
 
-    // Construir la URL con los parámetros de consulta
     const searchString = queryParams.toString().replace(/%2C/g, ",");
     const newURL = `/search-deposits?${searchString}`;
-
-    // Navegar a la nueva URL
     navigate(newURL);
 
-    setOpen(false); // Cierra el diálogo después de aplicar los filtros
+    setOpen(false);
   };
 
   const handleCitiesLoaded = (loadedCities) => {

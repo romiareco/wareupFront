@@ -5,7 +5,6 @@ export const columns = (
   handleEditServices,
   handleEditAvailability,
   handleViewAvailability,
-  handleValidateAvailability,
   handleDelete,
   handleImage,
   handlePreview
@@ -14,7 +13,7 @@ export const columns = (
   { id: "title", label: "Título", minWidth: 200 },
   {
     id: "totalM3",
-    label: "Total m3",
+    label: "Total m³",
     minWidth: 100,
   },
   {
@@ -73,7 +72,6 @@ export const columns = (
         handleEditServices={handleEditServices}
         handleEditAvailability={handleEditAvailability}
         handleViewAvailability={handleViewAvailability}
-        handleValidateAvailability={handleValidateAvailability}
         handleDelete={handleDelete}
         handleImage={handleImage}
         handlePreview={handlePreview}

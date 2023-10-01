@@ -13,15 +13,12 @@ export function ManageUsers() {
           backgroundImage: `url(${banner})`,
           paddingBottom: "40px",
           paddingTop: "20px",
+          justifyContent: "center",
+          alignItems: "center", // Centra horizontalmente
+          textAlign: "center", // Centra el contenido del Typography
         }}
       >
-        <Typography
-          variant="h4"
-          sx={{
-            ...theme.typography.montserratFont,
-            color: "white", // Alinea el texto a la izquierda
-          }}
-        >
+        <Typography variant="h4" color="white" marginBottom={3}>
           Usuarios registrados
         </Typography>
         <Divider light variant="middle" sx={{ borderBottomWidth: "3px" }} />
@@ -35,7 +32,7 @@ export function ManageUsers() {
             justifyContent: "center",
           }}
         >
-        <RegisteredUsersTable />
+          <RegisteredUsersTable />
         </Box>
       </Box>
       <Footer />

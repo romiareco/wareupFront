@@ -22,7 +22,6 @@ export function Slogan() {
           <Typography
             variant="h3"
             sx={{
-              ...theme.typography.montserratFont,
               textAlign: "right",
             }}
           >
@@ -31,7 +30,6 @@ export function Slogan() {
           <Typography
             variant="h4"
             sx={{
-              ...theme.typography.montserratFont,
               textAlign: "right",
               fontWeight: "bold",
             }}
