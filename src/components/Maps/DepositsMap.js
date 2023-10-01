@@ -7,7 +7,7 @@ import {
 } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import "./DepositsMap.css";
-import { ENV } from "../../utils";
+import { ENV, depositRequestStatus } from "../../utils";
 import { Google } from "../../api";
 import { Box } from "@mui/material";
 import { NotificationSnackbar } from "../NotificationSnackbar";
@@ -50,13 +50,11 @@ export function DepositsMap({ filters, deposits }) {
                   lng: location.lng,
                 };
 
-                // Retorna un nuevo objeto de depósito con 'depositCoordinates' actualizado
                 return {
                   ...deposit,
                   coordinates,
                 };
               }
-              // Si no se obtienen coordenadas válidas, se retorna el depósito original
               return deposit;
             })
           );
@@ -68,7 +66,8 @@ export function DepositsMap({ filters, deposits }) {
             currency: deposit.currency,
             price: deposit.expectedPrice,
             address: deposit.address,
-            coordinates: deposit.coordinates
+            coordinates: deposit.coordinates,
+            cityId: deposit.cityId,
           }));
 
           setCustomDeposits(filteresDeposits);
@@ -87,57 +86,59 @@ export function DepositsMap({ filters, deposits }) {
     googleMapsApiKey: ENV.API_KEY.GOOGLE_MAPS || "",
   });
 
-    // Efecto para actualizar el centro del mapa cuando no hay depósitos
-    useEffect(() => {
-      if (customDeposits.length === 0) {
-        setMapCenter({
-          lat: ENV.GOOGLE_DEFAULT_COORDINATES.INITIAL_LATITUDE,
-          lng: ENV.GOOGLE_DEFAULT_COORDINATES.INITIAL_LONGITUDE,
-        });
-      }
-    }, [customDeposits]);
-  
-    // Restablecer los valores cuando deposits cambia a un valor vacío
-    useEffect(() => {
-      if (deposits.length === 0) {
-        setCustomDeposits([]);
-        setMapCenter({
-          lat: ENV.GOOGLE_DEFAULT_COORDINATES.INITIAL_LATITUDE,
-          lng: ENV.GOOGLE_DEFAULT_COORDINATES.INITIAL_LONGITUDE,
-        });
-      }
-    }, [deposits]);
-  
-    // Restablecer valores cuando se desmonta el componente
-    useEffect(() => {
-      return () => {
-        setCustomDeposits([]);
-        setMapCenter({
-          lat: ENV.GOOGLE_DEFAULT_COORDINATES.INITIAL_LATITUDE,
-          lng: ENV.GOOGLE_DEFAULT_COORDINATES.INITIAL_LONGITUDE,
-        });
-      };
-    }, []);
+  // Restablecer los valores cuando deposits cambia a un valor vacío
+  useEffect(() => {
+    if (deposits.length === 0) {
+      setCustomDeposits([]);
+      setMapCenter({
+        lat: ENV.GOOGLE_DEFAULT_COORDINATES.INITIAL_LATITUDE,
+        lng: ENV.GOOGLE_DEFAULT_COORDINATES.INITIAL_LONGITUDE,
+      });
+    }
+  }, [deposits]);
+
+  // Restablecer valores cuando se desmonta el componente
+  useEffect(() => {
+    return () => {
+      setCustomDeposits([]);
+      setMapCenter({
+        lat: ENV.GOOGLE_DEFAULT_COORDINATES.INITIAL_LATITUDE,
+        lng: ENV.GOOGLE_DEFAULT_COORDINATES.INITIAL_LONGITUDE,
+      });
+    };
+  }, []);
 
   useEffect(() => {
     if (!userInteracting && customDeposits && customDeposits.length > 0) {
-      // Calcula el promedio de las coordenadas de todos los marcadores
-      let totalLat = 0;
-      let totalLng = 0;
+      const uniqueCityIds = [
+        ...new Set(customDeposits.map((deposit) => deposit.cityId)),
+      ];
 
-      customDeposits.forEach((deposit) => {
-        if (deposit.coordinates) {
-          // Verifica si deposit.depositCoordinates existe
-          totalLat += deposit.coordinates.lat;
-          totalLng += deposit.coordinates.lng;
-        }
-      });
+      if (uniqueCityIds.length === 1) {
+        // Calcula el promedio de las coordenadas de todos los marcadores
+        let totalLat = 0;
+        let totalLng = 0;
 
-      const newCenter = {
-        lat: totalLat / customDeposits.length,
-        lng: totalLng / customDeposits.length,
-      };
-      setMapCenter(newCenter); // Actualiza el centro del mapa
+        customDeposits.forEach((deposit) => {
+          if (deposit.coordinates) {
+            // Verifica si deposit.depositCoordinates existe
+            totalLat += deposit.coordinates.lat;
+            totalLng += deposit.coordinates.lng;
+          }
+        });
+
+        const newCenter = {
+          lat: totalLat / customDeposits.length,
+          lng: totalLng / customDeposits.length,
+        };
+        setMapCenter(newCenter); // Actualiza el centro del mapa
+      } else {
+        const newCenter = {
+          lat: ENV.GOOGLE_DEFAULT_COORDINATES.INITIAL_LATITUDE,
+          lng: ENV.GOOGLE_DEFAULT_COORDINATES.INITIAL_LONGITUDE
+        };
+        setMapCenter(newCenter);
+      }
     }
   }, [customDeposits, userInteracting]);
 

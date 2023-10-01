@@ -3,7 +3,7 @@ import { ENV } from "../utils";
 export class Google {
   async getLocationCoordinates(depositAddress, department) {
     try {
-      const buildAddress = depositAddress + ", " + department;
+      const buildAddress = depositAddress + ", " + department + ", Uruguay";
 
       const url = `${
         ENV.CONSTANT_ROUTES.GOOGLE_MAPS_LOCATION_COORDINATES
