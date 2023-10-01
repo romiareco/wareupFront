@@ -5,17 +5,14 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useState, useEffect, forwardRef } from "react";
+import { useState, useEffect } from "react";
 import { User } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
 import { LoadingButton } from "@mui/lab";
-import { Slide, ThemeProvider, Typography } from "@mui/material";
+import {  ThemeProvider, Typography } from "@mui/material";
 import theme from "../../../theme/theme";
-
-const Transition = forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+import { CustomTransition } from "../CustomTransition";
 
 export function RemoveUserDialog({
   selectedUser,
@@ -69,7 +66,7 @@ export function RemoveUserDialog({
       <Dialog
         open={isDialogOpen}
         onClose={handleCancel}
-        TransitionComponent={Transition}
+        TransitionComponent={CustomTransition}
       >
         <DialogTitle
           sx={{

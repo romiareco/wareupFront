@@ -3,20 +3,16 @@ import {
   DialogContent,
   DialogTitle,
   Stack,
-  Slide,
   ThemeProvider,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { useState, useEffect, forwardRef } from "react";
+import { useState, useEffect } from "react";
 import { EditDepositBasicData } from "../../Deposits/EditDepositBasicData";
 import { depositStatus } from "../../../utils";
 import { ErrorDialog } from "../ErrorDialog";
 import theme from "../../../theme/theme";
-
-const Transition = forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+import { CustomTransition } from "../CustomTransition";
 
 export function EditDepositBasicDataDialog({
   selectedDeposit,
@@ -56,7 +52,7 @@ export function EditDepositBasicDataDialog({
         open={isDialogOpen}
         onClose={handleCancel}
         maxWidth="md"
-        TransitionComponent={Transition}
+        TransitionComponent={CustomTransition}
       >
         <Stack direction="row" alignItems="center">
           <DialogTitle

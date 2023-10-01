@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect, forwardRef } from "react";
+import { useState, useEffect } from "react";
 import { DepositImages } from "../../Forms/RegisterDepositForm/DepositImages";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
@@ -9,15 +9,11 @@ import {
   DialogTitle,
   Stack,
   ThemeProvider,
-  Slide,
   Dialog,
   DialogContent,
 } from "@mui/material";
 import theme from "../../../theme/theme";
-
-const Transition = forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+import { CustomTransition } from "../CustomTransition";
 
 export function AddDepositImageDialog({
   selectedDeposit,
@@ -57,7 +53,7 @@ export function AddDepositImageDialog({
     <ThemeProvider theme={theme}>
       <Dialog
         open={isDialogOpen}
-        TransitionComponent={Transition}
+        TransitionComponent={CustomTransition}
         onClose={handleCancel}
         maxWidth="md"
       >

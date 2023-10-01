@@ -4,17 +4,13 @@ import {
   DialogTitle,
   Stack,
   ThemeProvider,
-  Slide,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { useState, useEffect, forwardRef } from "react";
+import { useState, useEffect } from "react";
 import { DepositAvailabilityCalendarTable } from "../../Tables";
 import theme from "../../../theme/theme";
-
-const Transition = forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+import { CustomTransition } from "../CustomTransition";
 
 export function ViewDepositCalendarAvailabilityDialog({
   selectedDeposit,
@@ -42,7 +38,7 @@ export function ViewDepositCalendarAvailabilityDialog({
         onClose={handleCancel}
         maxWidth="sm"
         fullWidth
-        TransitionComponent={Transition}
+        TransitionComponent={CustomTransition}
       >
         <Stack direction="row" alignItems="center" marginRight={1}>
           <DialogTitle

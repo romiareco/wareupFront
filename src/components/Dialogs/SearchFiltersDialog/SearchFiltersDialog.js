@@ -8,8 +8,7 @@ import {
   IconButton,
   Box,
 } from "@mui/material";
-import { forwardRef, useState } from "react";
-import Slide from "@mui/material/Slide";
+import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   CertificationsFilter,
@@ -20,9 +19,7 @@ import {
   TotalM3RangeFilter,
 } from "../../Filters";
 import { ENV } from "../../../utils";
-const Transition = forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+import { CustomTransition } from "../CustomTransition";
 
 export function SearchFiltersDialog({ open, handleClose, onApplyFilters }) {
   const [selectedPriceRange, setSelectedPriceRange] = useState([
@@ -107,7 +104,7 @@ export function SearchFiltersDialog({ open, handleClose, onApplyFilters }) {
   return (
     <Dialog
       open={open}
-      TransitionComponent={Transition}
+      TransitionComponent={CustomTransition}
       keepMounted
       onClose={handleClose}
       fullWidth

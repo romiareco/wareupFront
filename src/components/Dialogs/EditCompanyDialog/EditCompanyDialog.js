@@ -1,22 +1,19 @@
 import { EditCompanyInformation } from "../../Companies/EditCompanyInformation";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { useState, useEffect, forwardRef } from "react";
+import { useState, useEffect } from "react";
 import { companyStatus } from "../../../utils";
 import { ErrorDialog } from "../ErrorDialog";
 import {
   DialogTitle,
-  Slide,
   Stack,
   ThemeProvider,
   DialogContent,
   Dialog,
 } from "@mui/material";
 import theme from "../../../theme/theme";
+import { CustomTransition } from "../CustomTransition";
 
-const Transition = forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
 
 export function EditCompanyDialog({
   selectedCompany,
@@ -56,7 +53,7 @@ export function EditCompanyDialog({
         open={isDialogOpen}
         onClose={handleCancel}
         maxWidth="md"
-        TransitionComponent={Transition}
+        TransitionComponent={CustomTransition}
       >
         <Stack direction="row" alignItems="center">
           <DialogTitle

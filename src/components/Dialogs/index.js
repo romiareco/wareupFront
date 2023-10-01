@@ -18,3 +18,4 @@ export * from "./EditUserInformationDialog";
 // General
 export * from "./SearchFiltersDialog";
 export * from "./ErrorDialog";
+export * from "./CustomTransition";

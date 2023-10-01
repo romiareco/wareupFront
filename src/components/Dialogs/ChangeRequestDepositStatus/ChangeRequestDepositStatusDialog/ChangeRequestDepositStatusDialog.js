@@ -6,19 +6,15 @@ import {
   Button,
   DialogContentText,
   DialogTitle,
-  Slide,
   ThemeProvider,
 } from "@mui/material";
-import { useState, useEffect, forwardRef } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../../../hooks";
 import { NotificationSnackbar } from "../../../NotificationSnackbar";
 import { DepositRequest } from "../../../../api";
 import { LoadingButton } from "@mui/lab";
 import theme from "../../../../theme/theme";
-
-const Transition = forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+import { CustomTransition } from "../../CustomTransition";
 
 export function ChangeRequestDepositStatusDialog({
   selectedRequestDeposit,
@@ -77,7 +73,7 @@ export function ChangeRequestDepositStatusDialog({
       <Dialog
         open={isDialogOpen}
         onClose={handleCancel}
-        TransitionComponent={Transition}
+        TransitionComponent={CustomTransition}
       >
         <DialogTitle
           sx={{
@@ -104,7 +100,12 @@ export function ChangeRequestDepositStatusDialog({
         </DialogContent>
         <DialogActions>
           <DialogActions>
-            <LoadingButton onClick={handleAccept} loading={loading} autoFocus disabled={loading}>
+            <LoadingButton
+              onClick={handleAccept}
+              loading={loading}
+              autoFocus
+              disabled={loading}
+            >
               Aceptar
             </LoadingButton>
             <Button autoFocus onClick={handleCancel}>

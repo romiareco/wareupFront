@@ -6,7 +6,6 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
-  Grid,
   IconButton,
   InputAdornment,
   Stack,
@@ -15,8 +14,7 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth } from "../../../hooks";
-import { forwardRef, useState } from "react";
-import Slide from "@mui/material/Slide";
+import { useState } from "react";
 import { DepositDatePicker } from "../../DatePickers/DepositDatePicker";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -25,10 +23,7 @@ import { BookingRequest } from "../../../api";
 import { ErrorDialog } from "../ErrorDialog";
 import dayjs from "dayjs";
 import theme from "../../../theme/theme";
-
-const Transition = forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+import { CustomTransition } from "../CustomTransition";
 
 export function BookingRequestDialog({
   open,
@@ -107,7 +102,7 @@ export function BookingRequestDialog({
     <ThemeProvider theme={theme}>
       <Dialog
         open={open}
-        TransitionComponent={Transition}
+        TransitionComponent={CustomTransition}
         keepMounted
         onClose={handleClose}
         fullWidth

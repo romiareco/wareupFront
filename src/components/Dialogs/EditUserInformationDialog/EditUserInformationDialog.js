@@ -1,12 +1,9 @@
-import { DialogContent, Dialog, Slide } from "@mui/material";
+import { DialogContent, Dialog } from "@mui/material";
 import { UserInformationProfile } from "../../Users";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { useState, useEffect, forwardRef } from "react";
-
-const Transition = forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+import { useState, useEffect } from "react";
+import { CustomTransition } from "../CustomTransition";
 
 export function EditUserInformationDialog({
   selectedUser,
@@ -31,7 +28,7 @@ export function EditUserInformationDialog({
     <Dialog
       open={isDialogOpen}
       onClose={handleCancel}
-      TransitionComponent={Transition}
+      TransitionComponent={CustomTransition}
     >
       <DialogContent>
         <IconButton onClick={() => handleCancel()}>

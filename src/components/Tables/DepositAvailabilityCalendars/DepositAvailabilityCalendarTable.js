@@ -67,7 +67,7 @@ export function DepositAvailabilityCalendarTable({ deposit }) {
     <ThemeProvider theme={theme}>
       <Paper
         sx={{
-          width: "90%",
+          width: "100%",
           overflow: "hidden",
         }}
       >

@@ -2,15 +2,12 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { useState, useEffect, forwardRef } from "react";
+import { useState, useEffect } from "react";
 import { DialogTitle, Typography, ThemeProvider } from "@mui/material";
 import ErrorIcon from "@mui/icons-material/Error"; // Importa un icono de error rojo aquí
-import Slide from "@mui/material/Slide";
 import theme from "../../../theme/theme";
+import { CustomTransition } from "../CustomTransition";
 
-const Transition = forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
 
 export function ErrorDialog({ errorMessage, openDialog, onDialogOpenChange }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -32,7 +29,7 @@ export function ErrorDialog({ errorMessage, openDialog, onDialogOpenChange }) {
       <Dialog
         open={isDialogOpen}
         onClose={handleCancel}
-        TransitionComponent={Transition}
+        TransitionComponent={CustomTransition}
         keepMounted
       >
         <IconButton

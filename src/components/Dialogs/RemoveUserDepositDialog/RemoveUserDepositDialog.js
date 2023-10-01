@@ -5,12 +5,11 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  Slide,
   DialogContentText,
   DialogTitle,
   ThemeProvider,
 } from "@mui/material";
-import { useState, useEffect, forwardRef } from "react";
+import { useState, useEffect } from "react";
 import { Deposit } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
@@ -18,10 +17,7 @@ import { depositStatus } from "../../../utils";
 import { ErrorDialog } from "../ErrorDialog";
 import { LoadingButton } from "@mui/lab";
 import theme from "../../../theme/theme";
-
-const Transition = forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+import { CustomTransition } from "../CustomTransition";
 
 export function RemoveUserDepositDialog({
   selectedDeposit,
@@ -88,7 +84,7 @@ export function RemoveUserDepositDialog({
       <Dialog
         open={isDialogOpen}
         onClose={handleCancel}
-        TransitionComponent={Transition}
+        TransitionComponent={CustomTransition}
       >
         <DialogTitle
           sx={{

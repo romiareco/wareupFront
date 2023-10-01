@@ -7,9 +7,8 @@ import {
   Button,
   Stack,
   Typography,
-  Slide,
 } from "@mui/material";
-import { useState, useEffect, forwardRef } from "react";
+import { useState, useEffect } from "react";
 import { Company } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
@@ -21,10 +20,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
-
-const Transition = forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+import { CustomTransition } from "../CustomTransition";
 
 export function RemoveCompanyDialog({
   selectedCompany,
@@ -99,7 +95,7 @@ export function RemoveCompanyDialog({
         open={isDialogOpen}
         onClose={handleCancel}
         maxWidth="md"
-        TransitionComponent={Transition}
+        TransitionComponent={CustomTransition}
       >
         <Stack direction="row" alignItems="center">
           <DialogTitle
