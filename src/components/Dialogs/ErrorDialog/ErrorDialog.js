@@ -3,7 +3,7 @@ import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState, useEffect, forwardRef } from "react";
-import { DialogTitle, Typography, CardContent, ThemeProvider } from "@mui/material";
+import { DialogTitle, Typography, ThemeProvider } from "@mui/material";
 import ErrorIcon from "@mui/icons-material/Error"; // Importa un icono de error rojo aquí
 import Slide from "@mui/material/Slide";
 import theme from "../../../theme/theme";

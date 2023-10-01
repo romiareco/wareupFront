@@ -1,14 +1,23 @@
 import * as React from "react";
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import { useState, useEffect } from "react";
+import { useState, useEffect, forwardRef } from "react";
 import { DepositImages } from "../../Forms/RegisterDepositForm/DepositImages";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { depositStatus } from "../../../utils";
 import { ErrorDialog } from "../ErrorDialog";
-import { Box, DialogTitle, Stack, ThemeProvider } from "@mui/material";
+import {
+  DialogTitle,
+  Stack,
+  ThemeProvider,
+  Slide,
+  Dialog,
+  DialogContent,
+} from "@mui/material";
 import theme from "../../../theme/theme";
+
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export function AddDepositImageDialog({
   selectedDeposit,
@@ -46,7 +55,12 @@ export function AddDepositImageDialog({
 
   return (
     <ThemeProvider theme={theme}>
-      <Dialog open={isDialogOpen} onClose={handleCancel} maxWidth="md">
+      <Dialog
+        open={isDialogOpen}
+        TransitionComponent={Transition}
+        onClose={handleCancel}
+        maxWidth="md"
+      >
         <Stack direction="row" alignItems="center">
           <DialogTitle
             sx={{
@@ -59,13 +73,11 @@ export function AddDepositImageDialog({
             Agregar imágenes
           </DialogTitle>
 
-          <Box flex={0} marginRight={1}>
-            <IconButton onClick={handleCancel}>
-              <CloseIcon />
-            </IconButton>
-          </Box>
+          <IconButton onClick={() => handleCancel()}>
+            <CloseIcon />
+          </IconButton>
         </Stack>
-        <DialogContent>
+        <DialogContent style={{ paddingTop: 0 }}>
           {selectedDeposit && <DepositImages deposit={selectedDeposit} />}
         </DialogContent>
       </Dialog>

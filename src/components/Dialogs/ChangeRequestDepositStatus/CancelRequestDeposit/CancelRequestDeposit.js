@@ -2,7 +2,6 @@ import { depositRequestStatus } from "../../../../utils";
 import { ErrorDialog } from "../../ErrorDialog";
 import { ChangeRequestDepositStatusDialog } from "../ChangeRequestDepositStatusDialog";
 
-
 export function CancelRequestDeposit({
     selectedRequestDeposit,
     openDialog,

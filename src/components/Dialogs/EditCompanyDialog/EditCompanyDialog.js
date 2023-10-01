@@ -1,14 +1,22 @@
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
 import { EditCompanyInformation } from "../../Companies/EditCompanyInformation";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { useState, useEffect } from "react";
+import { useState, useEffect, forwardRef } from "react";
 import { companyStatus } from "../../../utils";
 import { ErrorDialog } from "../ErrorDialog";
-import { DialogTitle, Stack } from "@mui/material";
-import { ThemeProvider } from "@emotion/react";
+import {
+  DialogTitle,
+  Slide,
+  Stack,
+  ThemeProvider,
+  DialogContent,
+  Dialog,
+} from "@mui/material";
 import theme from "../../../theme/theme";
+
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export function EditCompanyDialog({
   selectedCompany,
@@ -44,7 +52,12 @@ export function EditCompanyDialog({
 
   return (
     <ThemeProvider theme={theme}>
-      <Dialog open={isDialogOpen} onClose={handleCancel} maxWidth="md">
+      <Dialog
+        open={isDialogOpen}
+        onClose={handleCancel}
+        maxWidth="md"
+        TransitionComponent={Transition}
+      >
         <Stack direction="row" alignItems="center">
           <DialogTitle
             sx={{

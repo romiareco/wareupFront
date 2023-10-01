@@ -1,4 +1,4 @@
-import { depositRequestStatus, depositStatus } from "../../../../utils";
+import { depositRequestStatus } from "../../../../utils";
 import { ChangeRequestDepositStatusDialog } from "../ChangeRequestDepositStatusDialog";
 import { ErrorDialog } from "../../ErrorDialog";
 

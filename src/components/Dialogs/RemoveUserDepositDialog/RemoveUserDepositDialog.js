@@ -1,19 +1,27 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
-import { useState, useEffect } from "react";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  Slide,
+  DialogContentText,
+  DialogTitle,
+  ThemeProvider,
+} from "@mui/material";
+import { useState, useEffect, forwardRef } from "react";
 import { Deposit } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
 import { depositStatus } from "../../../utils";
 import { ErrorDialog } from "../ErrorDialog";
 import { LoadingButton } from "@mui/lab";
+import theme from "../../../theme/theme";
+
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export function RemoveUserDepositDialog({
   selectedDeposit,
@@ -76,13 +84,20 @@ export function RemoveUserDepositDialog({
   }
 
   return (
-    <Box>
+    <ThemeProvider theme={theme}>
       <Dialog
         open={isDialogOpen}
         onClose={handleCancel}
-        aria-labelledby="responsive-dialog-title"
+        TransitionComponent={Transition}
       >
-        <DialogTitle id="responsive-dialog-title">
+        <DialogTitle
+          sx={{
+            ...theme.typography.montserratFont,
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          }}
+        >
           {"Eliminar depósito"}
         </DialogTitle>
         <DialogContent>
@@ -94,7 +109,12 @@ export function RemoveUserDepositDialog({
         </DialogContent>
         <DialogActions>
           <DialogActions>
-            <LoadingButton onClick={handleAccept} autoFocus disabled={loading}>
+            <LoadingButton
+              onClick={handleAccept}
+              autoFocus
+              loading={loading}
+              disabled={loading}
+            >
               Aceptar
             </LoadingButton>
             <Button autoFocus onClick={handleCancel}>
@@ -109,6 +129,6 @@ export function RemoveUserDepositDialog({
         severity={notificationSeverity}
         message={notificationMessage}
       />
-    </Box>
+    </ThemeProvider>
   );
 }

@@ -331,7 +331,7 @@ export function RegisterRequestDeposit() {
             </Grid>
           </Grid>
 
-          <Box display="flex" justifyContent="center" gap={2}>
+          <Box display="flex" justifyContent="center" gap={2} marginTop={2}>
             <LoadingButton
               type="submit"
               color="primary"

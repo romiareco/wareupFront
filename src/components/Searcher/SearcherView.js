@@ -44,7 +44,6 @@ export function SearcherView({ filters }) {
     }
   }, [filters]);
 
-  // Solo renderiza el contenido cuando los datos están cargados
   if (!dataLoaded) {
     return (
       <ThemeProvider theme={theme}>

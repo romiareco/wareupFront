@@ -1,11 +1,15 @@
 import * as React from "react";
-import { Button, Stack, Typography } from "@mui/material";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import { useState, useEffect } from "react";
+import {
+  DialogContentText,
+  DialogTitle,
+  Dialog,
+  DialogActions,
+  Button,
+  Stack,
+  Typography,
+  Slide,
+} from "@mui/material";
+import { useState, useEffect, forwardRef } from "react";
 import { Company } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
@@ -17,6 +21,10 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
+
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export function RemoveCompanyDialog({
   selectedCompany,
@@ -87,7 +95,12 @@ export function RemoveCompanyDialog({
 
   return (
     <ThemeProvider theme={theme}>
-      <Dialog open={isDialogOpen} onClose={handleCancel} maxWidth="md">
+      <Dialog
+        open={isDialogOpen}
+        onClose={handleCancel}
+        maxWidth="md"
+        TransitionComponent={Transition}
+      >
         <Stack direction="row" alignItems="center">
           <DialogTitle
             sx={{
@@ -142,8 +155,13 @@ export function RemoveCompanyDialog({
             ""
           )}
         </DialogContentText>
-        <DialogActions sx={{ justifyContent: 'center' }}>
-          <LoadingButton variant="contained" onClick={handleAccept} autoFocus loading={loading}>
+        <DialogActions sx={{ justifyContent: "center" }}>
+          <LoadingButton
+            variant="contained"
+            onClick={handleAccept}
+            autoFocus
+            loading={loading}
+          >
             Aceptar
           </LoadingButton>
           <Button variant="outlined" autoFocus onClick={handleCancel}>

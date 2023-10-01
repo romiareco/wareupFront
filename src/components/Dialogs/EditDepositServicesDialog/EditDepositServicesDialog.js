@@ -3,17 +3,21 @@ import {
   Box,
   DialogContent,
   DialogTitle,
-  Grid,
+  Slide,
   Stack,
   ThemeProvider,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { useState, useEffect } from "react";
+import { useState, useEffect, forwardRef } from "react";
 import { depositStatus } from "../../../utils";
 import { ErrorDialog } from "../ErrorDialog";
 import { EditDepositServices } from "../../Deposits";
 import theme from "../../../theme/theme";
+
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export function EditDepositServicesDialog({
   selectedDeposit,
@@ -49,7 +53,12 @@ export function EditDepositServicesDialog({
 
   return (
     <ThemeProvider theme={theme}>
-      <Dialog open={isDialogOpen} onClose={handleCancel} maxWidth="md">
+      <Dialog
+        open={isDialogOpen}
+        onClose={handleCancel}
+        maxWidth="md"
+        TransitionComponent={Transition}
+      >
         <Stack direction="row" alignItems="center">
           <DialogTitle
             sx={{
@@ -64,7 +73,6 @@ export function EditDepositServicesDialog({
 
           <Box flex={0}>
             {" "}
-            {/* Espacio vacío para separar el CloseIcon */}
             <IconButton onClick={handleCancel}>
               <CloseIcon />
             </IconButton>

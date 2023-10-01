@@ -1,17 +1,24 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
-import { useState, useEffect } from "react";
+import {
+  DialogContent,
+  DialogActions,
+  Dialog,
+  Button,
+  DialogContentText,
+  DialogTitle,
+  Slide,
+  ThemeProvider,
+} from "@mui/material";
+import { useState, useEffect, forwardRef } from "react";
 import { useAuth } from "../../../../hooks";
 import { NotificationSnackbar } from "../../../NotificationSnackbar";
 import { DepositRequest } from "../../../../api";
 import { LoadingButton } from "@mui/lab";
+import theme from "../../../../theme/theme";
+
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export function ChangeRequestDepositStatusDialog({
   selectedRequestDeposit,
@@ -66,17 +73,30 @@ export function ChangeRequestDepositStatusDialog({
   };
 
   return (
-    <Box>
+    <ThemeProvider theme={theme}>
       <Dialog
         open={isDialogOpen}
         onClose={handleCancel}
-        aria-labelledby="responsive-dialog-title"
+        TransitionComponent={Transition}
       >
-        <DialogTitle id="responsive-dialog-title">
+        <DialogTitle
+          sx={{
+            ...theme.typography.montserratFont,
+            fontWeight: "bold",
+            textAlign: "center",
+            flex: 1,
+          }}
+        >
           {"Actualizar solicitud de registro"}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          <DialogContentText
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              ...theme.typography.montserratFont,
+            }}
+          >
             {selectedRequestDeposit
               ? `¿Desea ${requestDepositStatusMessage} la solicitud de registro con id ${selectedRequestDeposit.id}?`
               : ""}
@@ -84,7 +104,7 @@ export function ChangeRequestDepositStatusDialog({
         </DialogContent>
         <DialogActions>
           <DialogActions>
-            <LoadingButton onClick={handleAccept} autoFocus disabled={loading}>
+            <LoadingButton onClick={handleAccept} loading={loading} autoFocus disabled={loading}>
               Aceptar
             </LoadingButton>
             <Button autoFocus onClick={handleCancel}>
@@ -99,6 +119,6 @@ export function ChangeRequestDepositStatusDialog({
         severity={notificationSeverity}
         message={notificationMessage}
       />
-    </Box>
+    </ThemeProvider>
   );
 }

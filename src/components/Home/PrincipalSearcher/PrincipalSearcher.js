@@ -31,11 +31,15 @@ export function PrincipalSearcher() {
 
     const foundCity = cities.find((city) => city.label === searchCity);
 
-    if (foundCity) {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
+    if (foundCity) {
       navigate(
         `/search-deposits?city=${foundCity.cityName}&department=${foundCity.departmentName}`
+      );
+    } else {
+      navigate(
+        `/search-deposits?city=${searchCity}`
       );
     }
     setIsLoading(false);
