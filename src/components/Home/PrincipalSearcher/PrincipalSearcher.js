@@ -38,9 +38,11 @@ export function PrincipalSearcher() {
         `/search-deposits?city=${foundCity.cityName}&department=${foundCity.departmentName}`
       );
     } else {
-      navigate(
-        `/search-deposits?city=${searchCity}`
-      );
+      if (searchCity === "") {
+        navigate(`/search-deposits`);
+      } else {
+        navigate(`/search-deposits?city=${searchCity}`);
+      }
     }
     setIsLoading(false);
   };
@@ -59,17 +61,10 @@ export function PrincipalSearcher() {
           color: "white",
         }}
       >
-        <Typography
-          variant="h4"
-          sx={{marginBottom: 6 }}
-        >
+        <Typography variant="h4" sx={{ marginBottom: 6 }}>
           Comienza tu búsqueda
         </Typography>
-        <Stack
-          direction={"row"}
-          alignItems="stretch"
-          spacing={1}
-        >
+        <Stack direction={"row"} alignItems="stretch" spacing={1}>
           <AutocompleteSearcher
             setSearchedCity={setSearchCity}
             onCitiesLoaded={handleCitiesLoaded}
@@ -82,8 +77,8 @@ export function PrincipalSearcher() {
               display: "flex",
               alignItems: "center",
               color: "white",
-              border: "1px solid white", 
-              borderRadius: "10px", 
+              border: "1px solid white",
+              borderRadius: "10px",
               width: "150px",
               transition: "width 0.3s ease-in-out",
               justifyContent: "center",

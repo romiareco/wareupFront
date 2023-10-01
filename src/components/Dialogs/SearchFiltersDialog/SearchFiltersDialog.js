@@ -37,18 +37,25 @@ export function SearchFiltersDialog({ open, handleClose, onApplyFilters }) {
   const [selectedHabilitations, setSelectedHabilitations] = useState([]);
 
   const handleApplyFilters = () => {
+    let filters = {};
+
     let laboralDays = [];
     if (selectedLaboralDays) {
       laboralDays = selectedLaboralDays.map((laboralDay) => laboralDay.id);
     }
 
-    const filters = {
-      servicesId: selectedDepositSpecifications.concat(
-        selectedHabilitations,
-        selectedCertifications,
-        laboralDays
-      ),
-    };
+    const selectedLists = [
+      selectedDepositSpecifications,
+      selectedHabilitations,
+      selectedCertifications,
+      laboralDays,
+    ];
+
+    const servicesId = selectedLists.filter((list) => list.length > 0).flat();
+
+    if (servicesId.length > 0) {
+      filters.servicesId = servicesId;
+    }
 
     if (selectedPriceRange) {
       if (selectedPriceRange[0] !== ENV.MIN_MAX_FILTERS.MIN_PRICE) {

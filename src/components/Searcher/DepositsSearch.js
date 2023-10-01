@@ -3,7 +3,7 @@ import { PublicationList } from "./PublicationList";
 import { Deposit } from "../../api";
 import { mapBase64ToImage } from "../../utils/mapFunctions";
 import noImage from "../../assets/deposit-images/sinimagen.jpg";
-import { Box, ThemeProvider, Typography } from "@mui/material";
+import { Box, Link, ThemeProvider, Typography } from "@mui/material";
 import { NotificationSnackbar } from "../NotificationSnackbar";
 import theme from "../../theme/theme";
 
@@ -73,6 +73,13 @@ export function DepositsSearch({ setIsLoading, deposits }) {
         <Box>
           <Typography variant="h6">
             No se encontraron resultados para su búsqueda.
+          </Typography>
+          <Typography variant="body1">
+            ¿No encuentras lo que buscas? Explora
+            <Link color="inherit" href="/search-deposits" sx={{ fontWeight: "bold" }}>
+              {" "}
+              todas nuestras publicaciones
+            </Link>
           </Typography>
         </Box>
       ) : (

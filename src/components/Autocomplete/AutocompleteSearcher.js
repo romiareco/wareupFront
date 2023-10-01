@@ -67,6 +67,12 @@ export function AutocompleteSearcher({ setSearchedCity, onCitiesLoaded }) {
         />
       )}
       renderOption={(props, option) => <li {...props}>{option}</li>}
+      ListboxProps={{
+        style: {
+          maxHeight: 200,
+          overflowY: "auto",
+        },
+      }}
     />
   );
 }

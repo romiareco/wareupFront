@@ -5,9 +5,7 @@ export function Searcher() {
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
 
-  let filters = {
-    status: 1,
-  };
+  let filters = {};
 
   const queryToFiltersMap = {
     city: "city",

@@ -1,18 +1,5 @@
 import { LoadingButton } from "@mui/lab";
-import {
-  Checkbox,
-  Grid,
-  TextField,
-  FormHelperText,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  ListItemText,
-  OutlinedInput,
-  Autocomplete,
-  Stack,
-} from "@mui/material";
+import { Checkbox, Grid, TextField, Stack } from "@mui/material";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import { useState } from "react";
@@ -169,7 +156,7 @@ export function RegisterUser() {
                 />
               </Grid>
               <Grid item md={12}>
-              <Stack direction="row" alignItems="center">
+                <Stack direction="row" alignItems="center">
                   <TextField
                     fullWidth
                     name="industry"
@@ -207,7 +194,7 @@ export function RegisterUser() {
                     }}
                     disableRestoreFocus
                   >
-                    <Typography >
+                    <Typography>
                       Agrega las industrias con las cuales estás familiarizada/o
                       separadas por coma
                     </Typography>
