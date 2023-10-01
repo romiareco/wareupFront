@@ -5,10 +5,9 @@ import banner from "../../../assets/official-images/banner-1.jpg";
 import AddCircleOutlineTwoToneIcon from "@mui/icons-material/AddCircleOutlineTwoTone";
 import theme from "../../../theme/theme";
 import { Footer } from "../../../components/Footer";
-import { Button, Divider } from "@mui/material";
+import { Divider } from "@mui/material";
 
 export function ManageDeposits() {
-
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -21,13 +20,11 @@ export function ManageDeposits() {
         <Typography
           variant="h4"
           sx={{
-            ...theme.typography.montserratFont,
-            color: "white", // Alinea el texto a la izquierda
+            color: "white",
           }}
         >
           Depósitos registrados
         </Typography>
-       
 
         <Divider light variant="middle" sx={{ borderBottomWidth: "3px" }} />
 

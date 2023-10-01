@@ -71,7 +71,7 @@ export function DepositsSearch({ setIsLoading, deposits }) {
     <ThemeProvider theme={theme}>
       {emptyResult ? (
         <Box>
-          <Typography variant="h6" sx={theme.typography.montserratFont}>
+          <Typography variant="h6">
             No se encontraron resultados para su búsqueda.
           </Typography>
         </Box>

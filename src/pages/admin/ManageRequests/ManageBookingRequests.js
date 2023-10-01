@@ -18,8 +18,7 @@ export function ManageBookingRequests() {
         <Typography
           variant="h4"
           sx={{
-            ...theme.typography.montserratFont,
-            color: "white", // Alinea el texto a la izquierda
+            color: "white",
           }}
         >
           Solicitudes de arrendamiento

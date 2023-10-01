@@ -165,7 +165,6 @@ export function RegisterDeposit() {
                 <CircularProgress size={50} />
                 <Typography
                   textAlign={"center"}
-                  sx={theme.typography.montserratFont}
                 >
                   Registrando depósito...
                 </Typography>
@@ -181,7 +180,6 @@ export function RegisterDeposit() {
                   >
                     <Typography
                       textAlign={"center"}
-                      sx={theme.typography.montserratFont}
                     >
                       ¡Un paso más! ¿Te gustaría registrar las imágenes del
                       depósito?
@@ -215,7 +213,6 @@ export function RegisterDeposit() {
                   >
                     <Typography
                       textAlign={"center"}
-                      sx={theme.typography.montserratFont}
                     >
                       Parece que hubo un error. Sugerimos realizar el registro
                       nuevamente

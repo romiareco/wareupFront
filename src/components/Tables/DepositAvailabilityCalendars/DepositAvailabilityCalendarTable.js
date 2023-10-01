@@ -89,7 +89,7 @@ export function DepositAvailabilityCalendarTable({ deposit }) {
             <CircularProgress />
           </Box>
         ) : depositCalendars.length === 0 ? (
-          <Typography sx={theme.typography.montserratFont} variant="body1">
+          <Typography variant="body1">
             No se registró disponibilidad para este depósito.
           </Typography>
         ) : (

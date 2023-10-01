@@ -99,7 +99,7 @@ export function UserRequestRegisterDepositTable() {
             <CircularProgress />
           </Box>
         ) : requestDeposits.length === 0 ? (
-          <Typography sx={theme.typography.montserratFont} variant="body1">
+          <Typography variant="body1">
             No se han registrado empresas.
           </Typography>
         ) : (
@@ -133,11 +133,7 @@ export function UserRequestRegisterDepositTable() {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     return (
-                      <TableRow
-                        hover
-                        tabIndex={-1}
-                        key={row.id}
-                      >
+                      <TableRow hover tabIndex={-1} key={row.id}>
                         {columns(handleChangeStatus).map((column) => {
                           const value = row[column.id];
                           return (

@@ -16,7 +16,7 @@ export function HowItWorks() {
           textAlign: "center",
         }}
       >
-        <Typography variant="h5" sx={theme.typography.montserratFont}>
+        <Typography variant="h5">
           Generamos un impacto positivo en resultados empresariales de nuestros
           clientes, en dos <span style={{ color: "#07259A" }}>segmentos</span>:
         </Typography>

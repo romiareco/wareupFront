@@ -88,7 +88,6 @@ export function RemoveUserDepositDialog({
       >
         <DialogTitle
           sx={{
-            ...theme.typography.montserratFont,
             fontWeight: "bold",
             textAlign: "center",
             flex: 1,

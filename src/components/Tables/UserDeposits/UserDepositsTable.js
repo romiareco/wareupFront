@@ -265,7 +265,7 @@ export function UserDepositsTable() {
             <CircularProgress />
           </Box>
         ) : deposits.length === 0 ? (
-          <Typography sx={theme.typography.montserratFont} variant="body1">
+          <Typography variant="body1">
             No se han registrado depósitos para este usuario.
           </Typography>
         ) : (

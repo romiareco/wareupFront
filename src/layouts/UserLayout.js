@@ -9,28 +9,47 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import { Link } from "react-router-dom";
-import { PublicationView } from "../pages";
+import BusinessRoundedIcon from "@mui/icons-material/BusinessRounded";
+import theme from "../theme/theme";
+import WarehouseRoundedIcon from "@mui/icons-material/WarehouseRounded";
+import HourglassEmptyRoundedIcon from "@mui/icons-material/HourglassEmptyRounded";
+import AddBusinessRoundedIcon from "@mui/icons-material/AddBusinessRounded";
 
 export function UserLayout(props) {
   const { children } = props;
-  const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState(null);
 
   const buttons = [
-    { label: "Tengo espacio", href: "/users/request-deposit" },
     {
-      label: "Gestionar mis espacios",
+      label: "Tengo espacio",
+      href: "/users/request-deposit",
+      icon: <AddBusinessRoundedIcon />,
+    },
+    {
+      label: "Depósitos",
+      href: "/users/my-deposits",
+      icon: <WarehouseRoundedIcon />,
+    },
+    {
+      label: "Empresas",
+      href: "/users/my-companies",
+      icon: <BusinessRoundedIcon />,
+    },
+    {
+      label: "Solicitudes",
+      icon: <HourglassEmptyRoundedIcon />,
+
       menuItems: [
         {
-          label: "Listado de solicitudes de depósito",
+          label: "Solicitudes de registro",
           href: "/users/my-deposit-requests",
         },
-        { label: "Listado de depósitos", href: "/users/my-deposits" },
+        {
+          label: "Solicitudes de arrendamiento",
+          href: "/users/booking-requests",
+        },
       ],
     },
-    { label: "Gestionar mis empresas", href: "/users/my-companies" },
-    { label: "Gestionar mis solicitudes de arrendamiento", href: "/users/booking-requests" },
-
   ];
 
   const handleClick = (event) => {
@@ -47,8 +66,8 @@ export function UserLayout(props) {
         <CssBaseline />
         <AppBar component="nav">
           <Toolbar>
-            <IconButton href="/users/home" color={"inherit"}>
-              <HomeRoundedIcon />
+            <IconButton href="/users/home" color="inherit">
+              <HomeRoundedIcon sx={{ fontSize: "36px" }} />
             </IconButton>
 
             {buttons.map((button, index) => (
@@ -63,9 +82,15 @@ export function UserLayout(props) {
                       color:
                         theme.components.MuiButton.styleOverrides
                           .containedPrimary,
+                      display: "flex", // Centra verticalmente los elementos
+                      alignItems: "center", // Centra verticalmente los elementos
                     }}
                   >
-                    {button.label}
+                    {button.icon && (
+                      <span style={{ marginRight: "8px" }}>{button.icon}</span>
+                    )}
+                    <span style={{ fontSize: "inherit" }}>{button.label}</span>{" "}
+                    {/* Ajusta el tamaño del texto */}
                   </Button>
                 ) : (
                   <Button
@@ -75,11 +100,16 @@ export function UserLayout(props) {
                       color:
                         theme.components.MuiButton.styleOverrides
                           .containedPrimary,
-                      display: "block",
                       ml: index > 0 ? 1 : 0,
+                      display: "flex", // Centra verticalmente los elementos
+                      alignItems: "center", // Centra verticalmente los elementos
                     }}
                   >
-                    {button.label}
+                    {button.icon && (
+                      <span style={{ marginRight: "8px" }}>{button.icon}</span>
+                    )}
+                    <span style={{ fontSize: "inherit" }}>{button.label}</span>{" "}
+                    {/* Ajusta el tamaño del texto */}
                   </Button>
                 )}
                 {button.menuItems && (

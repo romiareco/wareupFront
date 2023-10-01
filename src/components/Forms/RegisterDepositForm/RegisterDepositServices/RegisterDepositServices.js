@@ -53,7 +53,7 @@ export function RegisterDepositServices({ formInformation }) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline /> {/* Agrega CssBaseline */}
-      <Typography variant="subtitle1" sx={theme.typography.montserratFont}>
+      <Typography variant="subtitle1">
         Debe seleccionar al menos un servicio para poder continuar!
       </Typography>
       {services &&
@@ -62,7 +62,6 @@ export function RegisterDepositServices({ formInformation }) {
             <Typography
               variant="h6"
               sx={{
-                ...theme.typography.montserratFont,
                 textAlign: "left", // Alinea el texto a la izquierda
               }}
             >
@@ -96,7 +95,6 @@ export function RegisterDepositServices({ formInformation }) {
                       />
                     }
                     label={service.title}
-                    sx={theme.typography.montserratFont}
                   />
                 ))}
               </Stack>

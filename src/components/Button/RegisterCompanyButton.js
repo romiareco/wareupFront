@@ -18,7 +18,6 @@ export function RegisterCompanyButton() {
         "&:hover": {
           backgroundColor: theme.palette.primary.dark,
         },
-        ...theme.typography.montserratFont
       }}
     >
       Registrar nueva empresa

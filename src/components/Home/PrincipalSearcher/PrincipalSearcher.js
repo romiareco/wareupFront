@@ -61,7 +61,7 @@ export function PrincipalSearcher() {
       >
         <Typography
           variant="h4"
-          sx={{ ...theme.typography.montserratFont, marginBottom: 6 }}
+          sx={{marginBottom: 6 }}
         >
           Comienza tu búsqueda
         </Typography>

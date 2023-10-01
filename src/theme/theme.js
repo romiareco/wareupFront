@@ -14,16 +14,14 @@ const theme = createTheme({
   },
   typography: {
     // Puedes personalizar la tipografía según tus preferencias
-    fontFamily: "Arial, sans-serif",
+    fontFamily: "Montserrat, sans-serif",
+    margin: 1,
+    textAlign: "center",
+
     link: {
-      fontFamily: "Arial, sans-serif",
+      fontFamily: "Montserrat, sans-serif",
       fontSize: "14px", // Ajusta el tamaño de la fuente según tus preferencias
       // Otros estilos de fuente aquí
-    },
-    montserratFont: {
-      fontFamily: "Montserrat, sans-serif",
-      textAlign: "center",
-      margin: 1,
     },
   },
   welcomePage: {

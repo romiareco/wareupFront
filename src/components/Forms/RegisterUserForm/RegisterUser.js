@@ -207,7 +207,7 @@ export function RegisterUser() {
                     }}
                     disableRestoreFocus
                   >
-                    <Typography sx={theme.typography.montserratFont}>
+                    <Typography >
                       Agrega las industrias con las cuales estás familiarizada/o
                       separadas por coma
                     </Typography>

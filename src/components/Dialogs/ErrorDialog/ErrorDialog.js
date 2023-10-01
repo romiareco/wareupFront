@@ -42,13 +42,12 @@ export function ErrorDialog({ errorMessage, openDialog, onDialogOpenChange }) {
           <Typography
             variant="h6"
             style={{ color: "red", display: "flex", alignItems: "center" }}
-            sx={theme.typography.montserratFont}
           >
             <ErrorIcon style={{ marginRight: "8px" }} /> Error
           </Typography>
         </DialogTitle>
         <DialogContent>
-          <Typography sx={theme.typography.montserratFont}>{errorMessage}</Typography>
+          <Typography >{errorMessage}</Typography>
         </DialogContent>
       </Dialog>
     </ThemeProvider>

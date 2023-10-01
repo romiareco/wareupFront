@@ -18,8 +18,7 @@ export function ManageUsers() {
         <Typography
           variant="h4"
           sx={{
-            ...theme.typography.montserratFont,
-            color: "white", // Alinea el texto a la izquierda
+            color: "white",
           }}
         >
           Usuarios registrados
@@ -35,7 +34,7 @@ export function ManageUsers() {
             justifyContent: "center",
           }}
         >
-        <RegisteredUsersTable />
+          <RegisteredUsersTable />
         </Box>
       </Box>
       <Footer />

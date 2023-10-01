@@ -58,7 +58,7 @@ export function PublicationList({
         </Box>
       ) : (
         <Box>
-          <Typography variant="body1" sx={theme.typography.montserratFont}>
+          <Typography variant="body1">
             Se encontraron{" "}
             <span style={{ fontWeight: "bold" }}>{publications.length}</span>{" "}
             publicaciones en base a su búsqueda

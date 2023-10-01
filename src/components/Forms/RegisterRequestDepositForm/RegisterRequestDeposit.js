@@ -118,13 +118,13 @@ export function RegisterRequestDeposit() {
             backgroundColor: "#F2F2F2",
           }}
         >
-          <Typography variant="body1" sx={theme.typography.montserratFont}>
+          <Typography variant="body1">
             Te ofrecemos oportunidades flexibles para ocupar tu espacio de forma
             temporal y adecuada a tus necesidades
           </Typography>
         </Paper>
 
-        <Typography variant="h5" sx={theme.typography.montserratFont}>
+        <Typography variant="h5">
           Solicitud para crear nueva publicación de espacio{" "}
         </Typography>
         <Box
@@ -168,16 +168,18 @@ export function RegisterRequestDeposit() {
               <RegisterCompanyButton />
             </Grid>
           </Grid>
-          <Typography
-            variant="h5"
-            sx={{
-              ...theme.typography.montserratFont,
-              marginTop: "16px",
-              marginBottom: "16px",
-            }}
-          >
-            Datos del depósito
-          </Typography>
+          <Grid container justifyContent={"center"}>
+            <Typography
+              variant="h5"
+              sx={{
+                ...theme.typography.typography,
+                marginTop: "16px",
+                marginBottom: "16px",
+              }}
+            >
+              Datos del depósito
+            </Typography>
+          </Grid>
           <Grid container spacing={2}>
             <Grid item md={8}>
               <TextField
@@ -274,7 +276,7 @@ export function RegisterRequestDeposit() {
                 <Typography
                   variant="h5"
                   sx={{
-                    ...theme.typography.montserratFont,
+                    ...theme.typography.typography,
                     marginTop: "16px",
                     marginBottom: "16px",
                   }}

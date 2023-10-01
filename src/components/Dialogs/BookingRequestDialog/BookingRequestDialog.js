@@ -118,7 +118,6 @@ export function BookingRequestDialog({
         <Stack direction="row" alignItems="center" marginRight={1}>
           <DialogTitle
             sx={{
-              ...theme.typography.montserratFont,
               fontWeight: "bold",
               textAlign: "center",
               flex: 1,

@@ -9,9 +9,7 @@ export function RegisterDeposits() {
   return (
     <ThemeProvider theme={theme}>
       <Box padding={3}>
-        <Typography variant="h6" sx={theme.typography.montserratFont}>
-          Registro de nuevo depósito
-        </Typography>
+        <Typography variant="h6">Registro de nuevo depósito</Typography>
         <RegisterDeposit />
       </Box>
       <Footer />

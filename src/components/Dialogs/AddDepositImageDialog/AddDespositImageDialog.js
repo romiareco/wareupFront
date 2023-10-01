@@ -60,7 +60,6 @@ export function AddDepositImageDialog({
         <Stack direction="row" alignItems="center">
           <DialogTitle
             sx={{
-              ...theme.typography.montserratFont,
               fontWeight: "bold",
               textAlign: "center",
               flex: 1,

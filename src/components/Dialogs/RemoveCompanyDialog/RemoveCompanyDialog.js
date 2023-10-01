@@ -100,7 +100,6 @@ export function RemoveCompanyDialog({
         <Stack direction="row" alignItems="center">
           <DialogTitle
             sx={{
-              ...theme.typography.montserratFont,
               fontWeight: "bold",
               textAlign: "center",
               flex: 1,
@@ -122,7 +121,6 @@ export function RemoveCompanyDialog({
                   textAlign: "center", // Centra el texto horizontalmente
                   marginBottom: "8px", // Espacio en la parte inferior
                 }}
-                sx={theme.typography.montserratFont}
               >
                 {`¿Desea eliminar la empresa ${selectedCompany.businessName}?`}
               </Typography>
@@ -134,7 +132,6 @@ export function RemoveCompanyDialog({
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  ...theme.typography.montserratFont,
                 }}
               >
                 <WarningRoundedIcon

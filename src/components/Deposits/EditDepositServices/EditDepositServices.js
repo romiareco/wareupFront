@@ -98,7 +98,6 @@ export function EditDepositServices({ deposit }) {
               <Typography
                 variant="h6"
                 sx={{
-                  ...theme.typography.montserratFont,
                   textAlign: "left",
                 }}
                 gutterBottom

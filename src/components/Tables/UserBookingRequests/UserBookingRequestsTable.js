@@ -102,7 +102,7 @@ export function UserBookingRequestsTable() {
             <CircularProgress />
           </Box>
         ) : bookingRequests.length === 0 ? (
-          <Typography sx={theme.typography.montserratFont} variant="body1">
+          <Typography variant="body1">
             No se han registrado solicitudes de arrendamiento.
           </Typography>
         ) : (

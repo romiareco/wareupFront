@@ -77,7 +77,6 @@ export function ChangeRequestDepositStatusDialog({
       >
         <DialogTitle
           sx={{
-            ...theme.typography.montserratFont,
             fontWeight: "bold",
             textAlign: "center",
             flex: 1,
@@ -90,7 +89,6 @@ export function ChangeRequestDepositStatusDialog({
             sx={{
               display: "flex",
               alignItems: "center",
-              ...theme.typography.montserratFont,
             }}
           >
             {selectedRequestDeposit

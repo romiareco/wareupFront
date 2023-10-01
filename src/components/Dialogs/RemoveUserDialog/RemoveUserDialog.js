@@ -70,7 +70,6 @@ export function RemoveUserDialog({
       >
         <DialogTitle
           sx={{
-            ...theme.typography.montserratFont,
             fontWeight: "bold",
             textAlign: "center",
             flex: 1,
@@ -88,7 +87,6 @@ export function RemoveUserDialog({
                     textAlign: "center", // Centra el texto horizontalmente
                     marginBottom: "8px", // Espacio en la parte inferior
                   }}
-                  sx={theme.typography.montserratFont}
                 >
                   {`¿Desea eliminar el usuario ${selectedUser.name}?`}
                 </Typography>

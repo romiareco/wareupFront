@@ -58,7 +58,6 @@ export function EditCompanyDialog({
         <Stack direction="row" alignItems="center">
           <DialogTitle
             sx={{
-              ...theme.typography.montserratFont,
               fontWeight: "bold",
               textAlign: "center",
               flex: 1,

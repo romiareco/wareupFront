@@ -12,16 +12,12 @@ export function UserCompanies() {
         sx={{
           paddingBottom: "40px",
           paddingTop: "20px",
+          justifyContent: "center",
+          alignItems: "center", // Centra horizontalmente
+          textAlign: "center", // Centra el contenido del Typography
         }}
       >
-        <Typography
-          variant="h4"
-          sx={{
-            ...theme.typography.montserratFont,
-          }}
-        >
-          Mis empresas
-        </Typography>
+        <Typography variant="h4" marginBottom={3}>Mis empresas</Typography>
         <Divider light variant="middle" sx={{ borderBottomWidth: "3px" }} />
         <Box
           sx={{

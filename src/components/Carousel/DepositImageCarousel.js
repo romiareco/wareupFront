@@ -50,7 +50,7 @@ export function DepositImageCarousel({ depositId }) {
           </Box>
         ) : images.length === 0 ? (
           <Box marginBottom={6}>
-            <Typography sx={theme.typography.montserratFont}>
+            <Typography>
               No se han agregado imágenes aún..
             </Typography>
           </Box>
