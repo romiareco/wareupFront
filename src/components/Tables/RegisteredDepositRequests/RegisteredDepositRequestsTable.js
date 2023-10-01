@@ -106,7 +106,13 @@ export function RegisteredDepositRequestsTable() {
         }}
       >
         {loading ? (
-          <Box display="flex" alignItems="center" justifyContent="center">
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            marginTop={3}
+            marginBottom={3}
+          >
             <CircularProgress />
           </Box>
         ) : requestDeposits.length === 0 ? (
@@ -144,11 +150,7 @@ export function RegisteredDepositRequestsTable() {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     return (
-                      <TableRow
-                        hover
-                        tabIndex={-1}
-                        key={row.id}
-                      >
+                      <TableRow hover tabIndex={-1} key={row.id}>
                         {columns(handleAccept, handleReject).map((column) => {
                           const value = row[column.id];
                           return (

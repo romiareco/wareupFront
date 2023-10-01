@@ -85,7 +85,7 @@ export function mapUserInformation(users) {
       name: user.name,
       lastName: user.lastName,
       email: user.email,
-      role: mapUserRole(user.role),
+      role: user.role,
       industry: user.industry,
       createdAt: mapDateFormat(user.createdAt),
       status: user.status,

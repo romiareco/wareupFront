@@ -4,12 +4,19 @@ import { RegisterDeposit } from "../../components/Forms/RegisterDepositForm";
 import { Typography } from "@mui/material";
 import theme from "../../theme/theme";
 import { Footer } from "../../components/Footer";
+import banner from "../../assets/official-images/warehouse-1-scaled.jpg";
 
 export function RegisterDeposits() {
   return (
     <ThemeProvider theme={theme}>
-      <Box padding={3}>
-        <Typography variant="h6">Registro de nuevo depósito</Typography>
+      <Box
+        sx={{
+          backgroundImage: `url(${banner})`,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         <RegisterDeposit />
       </Box>
       <Footer />

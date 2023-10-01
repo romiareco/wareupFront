@@ -21,7 +21,10 @@ import {
 } from "../../Dialogs";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
-import { mapDepositInformation } from "../../../utils/mapFunctions";
+import {
+  mapDepositInformation,
+  mapDepositStatus,
+} from "../../../utils/mapFunctions";
 import { SortColumnData } from "../Utils";
 import { Box, CircularProgress, Typography } from "@mui/material";
 
@@ -259,6 +262,7 @@ export function RegisteredDepositsTable() {
             alignItems="center"
             justifyContent="center"
             marginTop={3}
+            marginBottom={3}
           >
             <CircularProgress />
           </Box>
@@ -329,6 +333,8 @@ export function RegisteredDepositsTable() {
                             <TableCell key={column.id} align="center">
                               {column.format
                                 ? column.format(value, row)
+                                : column.id === "status"
+                                ? mapDepositStatus(value)
                                 : value}
                             </TableCell>
                           );

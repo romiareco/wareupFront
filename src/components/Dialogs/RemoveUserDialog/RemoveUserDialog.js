@@ -10,9 +10,11 @@ import { User } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { NotificationSnackbar } from "../../NotificationSnackbar";
 import { LoadingButton } from "@mui/lab";
-import {  ThemeProvider, Typography } from "@mui/material";
+import { ThemeProvider, Typography } from "@mui/material";
 import theme from "../../../theme/theme";
 import { CustomTransition } from "../CustomTransition";
+import { userStatus } from "../../../utils";
+import { ErrorDialog } from "../ErrorDialog";
 
 export function RemoveUserDialog({
   selectedUser,
@@ -60,6 +62,16 @@ export function RemoveUserDialog({
       setLoading(false);
     }
   };
+
+  if (selectedUser && parseInt(selectedUser.status) === userStatus.DELETED) {
+    return (
+      <ErrorDialog
+        errorMessage={"El usuario ya se encuentra eliminado."}
+        openDialog={openDialog}
+        onDialogOpenChange={onDialogOpenChange}
+      />
+    );
+  }
 
   return (
     <ThemeProvider theme={theme}>

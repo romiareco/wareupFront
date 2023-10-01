@@ -14,7 +14,11 @@ import { columns } from "./RegisteredUsersTableColumns";
 import { RemoveUserDialog, EditUserInformationDialog } from "../../Dialogs";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
-import { mapUserInformation } from "../../../utils/mapFunctions";
+import {
+  mapUserInformation,
+  mapUserRole,
+  mapUserStatus,
+} from "../../../utils/mapFunctions";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { SortColumnData } from "../Utils";
 
@@ -143,6 +147,10 @@ export function RegisteredUsersTable() {
                             <TableCell key={column.id} align={column.align}>
                               {column.format
                                 ? column.format(value, row)
+                                : column.id === "status"
+                                ? mapUserStatus(value)
+                                : column.id === "role"
+                                ? mapUserRole(value)
                                 : value}
                             </TableCell>
                           );
