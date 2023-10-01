@@ -18,6 +18,7 @@ import { useAuth } from "../../../hooks";
 import { columns } from "./DepositAvailabilityCalendarTableColumns";
 import theme from "../../../theme/theme";
 import { mapDepositCalendar } from "../../../utils/mapFunctions";
+import { SortColumnData } from "../Utils";
 
 const depositController = new Deposit();
 
@@ -28,6 +29,14 @@ export function DepositAvailabilityCalendarTable({ deposit }) {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [depositCalendars, setDepositCalendars] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [orderBy, setOrderBy] = useState("");
+  const [order, setOrder] = useState("asc");
+
+  const handleRequestSort = (property) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrderBy(property);
+    setOrder(isAsc ? "desc" : "asc");
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -63,6 +72,10 @@ export function DepositAvailabilityCalendarTable({ deposit }) {
     })();
   }, [accessToken, deposit.id]);
 
+  const sortedData = depositCalendars
+    ? SortColumnData(depositCalendars, orderBy, order)
+    : [];
+
   return (
     <ThemeProvider theme={theme}>
       <Paper
@@ -93,31 +106,24 @@ export function DepositAvailabilityCalendarTable({ deposit }) {
                         fontWeight: "bold",
                         fontFamily: "Montserrat, sans-serif",
                         backgroundColor: "lightgray",
+                        cursor: "pointer",
                       }}
+                      onClick={() => handleRequestSort(column.id)}
                     >
                       {column.label}
+                      {orderBy === column.id && (
+                        <span>{order === "asc" ? "▲" : "▼"}</span>
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               </TableHead>
               <TableBody>
-                {depositCalendars
+                {sortedData
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        key={row.id}
-                        sx={{
-                          "&:hover": {
-                            backgroundColor: "lightgray",
-                          },
-                          backgroundColor:
-                            index % 2 === 0 ? "lightgray" : "white",
-                        }}
-                      >
+                      <TableRow hover tabIndex={-1} key={row.id}>
                         {columns().map((column) => {
                           const value = row[column.id];
                           return (

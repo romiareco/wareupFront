@@ -1,22 +1,30 @@
 import * as React from "react";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
 import { columns } from "./CompaniesTableColumns";
 import { User } from "../../../api";
 import { useAuth } from "../../../hooks";
 import { useState, useEffect } from "react";
 import { RemoveCompanyDialog } from "../../Dialogs/RemoveCompanyDialog";
-import { mapCompanyStatus } from "../../../utils/mapFunctions";
+import {
+  mapCompanyInformation,
+  mapCompanyStatus,
+} from "../../../utils/mapFunctions";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
 import { EditCompanyDialog } from "../../Dialogs";
-import { Box, CircularProgress, Typography } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Typography,
+  TableHead,
+  TablePagination,
+  TableRow,
+  TableContainer,
+  TableCell,
+  TableBody,
+  Table,
+  Paper,
+} from "@mui/material";
+import { SortColumnData } from "../Utils";
 
 const userController = new User();
 
@@ -31,19 +39,27 @@ export function UserCompaniesTable() {
   const [selectedEditCompany, setSelectedEditCompany] = useState(null);
   const [selectedDeleteCompany, setSelectedDeleteCompany] = useState(null);
   const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false);
+  const [orderBy, setOrderBy] = useState("");
+  const [order, setOrder] = useState("asc");
+
+  const handleRequestSort = (property) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrderBy(property);
+    setOrder(isAsc ? "desc" : "asc");
+  };
 
   const handleEdit = (row) => {
     setSelectedEditCompany(row);
-    setSelectedDeleteCompany(null); // Cerrar el diálogo de eliminación si está abierto
+    setSelectedDeleteCompany(null);
     setIsEditDialogOpen(true);
     setIsRemoveDialogOpen(false);
   };
 
   const handleDelete = (row) => {
     setSelectedDeleteCompany(row);
-    setSelectedEditCompany(null); // Cerrar el diálogo de edición si está abierto
+    setSelectedEditCompany(null);
     setIsRemoveDialogOpen(true);
-    setIsEditDialogOpen(false); // Ce
+    setIsEditDialogOpen(false);
   };
   const handleEditDialogOpenChange = (isOpen) => {
     setIsEditDialogOpen(isOpen);
@@ -70,14 +86,19 @@ export function UserCompaniesTable() {
           accessToken,
           user.id
         );
-        setCompanies(response.companies);
-        setLoading(false);
+
+        if (response.companies) {
+          setCompanies(mapCompanyInformation(response.companies));
+          setLoading(false);
+        }
       } catch (error) {
         console.error(error);
         setLoading(false);
       }
     })();
   }, [accessToken, user.id]);
+
+  const sortedData = companies ? SortColumnData(companies, orderBy, order) : [];
 
   return (
     <ThemeProvider theme={theme}>
@@ -109,15 +130,20 @@ export function UserCompaniesTable() {
                         fontWeight: "bold",
                         fontFamily: "Montserrat, sans-serif", // Cambia la fuente aqu
                         backgroundColor: "lightgray", // Gris con 50% de opacidad
+                        cursor: "pointer",
                       }}
+                      onClick={() => handleRequestSort(column.id)}
                     >
                       {column.label}
+                      {orderBy === column.id && (
+                        <span>{order === "asc" ? "▲" : "▼"}</span>
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               </TableHead>
               <TableBody>
-                {companies
+                {sortedData
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     return (

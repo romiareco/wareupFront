@@ -25,6 +25,8 @@ import {
   mapDepositInformation,
   mapDepositStatus,
 } from "../../../utils/mapFunctions";
+import { CircularProgress, Paper, Typography } from "@mui/material";
+import { SortColumnData } from "../Utils";
 
 const depositController = new Deposit();
 
@@ -34,7 +36,7 @@ export function UserDepositsTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [deposits, setDeposits] = useState(null);
-
+  const [loading, setLoading] = useState(true);
   const [selectedEditBasicDataDeposit, setSelectedEditBasicDataDeposit] =
     useState(null);
   const [selectedEditServicesDeposit, setSelectedEditServicesDeposit] =
@@ -59,6 +61,15 @@ export function UserDepositsTable() {
     useState(false);
   const [isViewAvailabilityDialogOpen, setIsViewAvailabilityDialogOpen] =
     useState(false);
+
+  const [orderBy, setOrderBy] = useState("");
+  const [order, setOrder] = useState("asc");
+
+  const handleRequestSort = (property) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrderBy(property);
+    setOrder(isAsc ? "desc" : "asc");
+  };
 
   const handlePreview = (row) => {
     setSelectedEditBasicDataDeposit(null);
@@ -220,6 +231,7 @@ export function UserDepositsTable() {
   useEffect(() => {
     (async () => {
       try {
+        setLoading(true);
         const response = await depositController.getDepositsByUserId(
           accessToken,
           user.id
@@ -229,60 +241,74 @@ export function UserDepositsTable() {
           const filteredInformation = mapDepositInformation(response.deposits);
 
           setDeposits(filteredInformation);
+          setLoading(false);
         }
       } catch (error) {
         console.error(error);
+        setLoading(false);
       }
     })();
   }, [accessToken, user.id]);
 
+  const sortedData = deposits ? SortColumnData(deposits, orderBy, order) : [];
+
   return (
     <ThemeProvider theme={theme}>
-      <Box width={"90%"}>
-        <TableContainer>
-          <Table stickyHeader style={{ backgroundColor: "transparent" }}>
-            <TableHead>
-              <TableRow>
-                {columns(
-                  handleEditBasicData,
-                  handleEditServices,
-                  handleAddAvailability,
-                  handleViewAvailability,
-                  handleDelete,
-                  handleImage,
-                  handlePreview
-                ).map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align="center" // Centra el título
-                    style={{
-                      minWidth: column.minWidth,
-                      fontWeight: "bold",
-                      fontFamily: "Montserrat, sans-serif", // Cambia la fuente aqu
-                      backgroundColor: "lightgray", // Gris con 50% de opacidad
-                    }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {deposits && deposits.length > 0 ? (
-                deposits
+      <Paper
+        sx={{
+          width: "90%",
+          overflow: "hidden",
+        }}
+      >
+        {loading ? (
+          <Box display="flex" alignItems="center" justifyContent="center">
+            <CircularProgress />
+          </Box>
+        ) : deposits.length === 0 ? (
+          <Typography sx={theme.typography.montserratFont} variant="body1">
+            No se han registrado depósitos para este usuario.
+          </Typography>
+        ) : (
+          <TableContainer component={Paper}>
+            <Table stickyHeader style={{ backgroundColor: "transparent" }}>
+              <TableHead>
+                <TableRow>
+                  {columns(
+                    handleEditBasicData,
+                    handleEditServices,
+                    handleAddAvailability,
+                    handleViewAvailability,
+                    handleDelete,
+                    handleImage,
+                    handlePreview
+                  ).map((column) => (
+                    <TableCell
+                      key={column.id}
+                      align="center" // Centra el título
+                      style={{
+                        minWidth: column.minWidth,
+                        fontWeight: "bold",
+                        fontFamily: "Montserrat, sans-serif", // Cambia la fuente aqu
+                        backgroundColor: "lightgray", // Gris con 50% de opacidad
+                        cursor: "pointer",
+
+                      }}
+                      onClick={() => handleRequestSort(column.id)}
+                    >
+                      {column.label}
+                      {orderBy === column.id && (
+                        <span>{order === "asc" ? "▲" : "▼"}</span>
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {sortedData
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        key={row.id}
-                        sx={{
-                          backgroundColor:
-                            index % 2 === 0 ? "lightgray" : "white",
-                        }}
-                      >
+                      <TableRow hover tabIndex={-1} key={row.id}>
                         {columns(
                           handleEditBasicData,
                           handleEditServices,
@@ -308,60 +334,54 @@ export function UserDepositsTable() {
                         })}
                       </TableRow>
                     );
-                  })
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={columns.length}>
-                    {deposits === null
-                      ? "Cargando datos..."
-                      : "No se han registrado depósitos."}
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-            <EditDepositBasicDataDialog
-              selectedDeposit={selectedEditBasicDataDeposit}
-              openDialog={isEditBasicDataDialogOpen}
-              onDialogOpenChange={handleEditBasicDataDialogOpenChange}
-            />
-            <RemoveUserDepositDialog
-              selectedDeposit={selectedDeleteDeposit}
-              openDialog={isRemoveDialogOpen}
-              onDialogOpenChange={handleRemoveDialogOpenChange}
-            />
-            <AddDepositImageDialog
-              selectedDeposit={selectedAddImageDeposit}
-              openDialog={isAddImageDialogOpen}
-              onDialogOpenChange={handleAddImageDialogOpenChange}
-            />
-            <EditDepositServicesDialog
-              selectedDeposit={selectedEditServicesDeposit}
-              openDialog={isEditServicesDialogOpen}
-              onDialogOpenChange={handleEditServicesDialogOpenChange}
-            />
-            <AddDepositAvailabilityDialog
-              selectedDeposit={selectedAddAvailabilityDeposit}
-              openDialog={isAddAvailabilityDialogOpen}
-              onDialogOpenChange={handleAddAvailabilityDialogOpenChange}
-            />
-            <ViewDepositCalendarAvailabilityDialog
-              selectedDeposit={selectedViewAvailability}
-              openDialog={isViewAvailabilityDialogOpen}
-              onDialogOpenChange={handleViewAvailabilityDialogOpenChange}
-            />
-          </Table>
-        </TableContainer>
-        <TablePagination
-          component={"div"}
-          rowsPerPageOptions={[5, 10, 15]}
-          count={deposits === null ? 0 : deposits.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          labelRowsPerPage="Depósitos por página:"
-        />
-      </Box>
+                  })}
+              </TableBody>
+              <EditDepositBasicDataDialog
+                selectedDeposit={selectedEditBasicDataDeposit}
+                openDialog={isEditBasicDataDialogOpen}
+                onDialogOpenChange={handleEditBasicDataDialogOpenChange}
+              />
+              <RemoveUserDepositDialog
+                selectedDeposit={selectedDeleteDeposit}
+                openDialog={isRemoveDialogOpen}
+                onDialogOpenChange={handleRemoveDialogOpenChange}
+              />
+              <AddDepositImageDialog
+                selectedDeposit={selectedAddImageDeposit}
+                openDialog={isAddImageDialogOpen}
+                onDialogOpenChange={handleAddImageDialogOpenChange}
+              />
+              <EditDepositServicesDialog
+                selectedDeposit={selectedEditServicesDeposit}
+                openDialog={isEditServicesDialogOpen}
+                onDialogOpenChange={handleEditServicesDialogOpenChange}
+              />
+              <AddDepositAvailabilityDialog
+                selectedDeposit={selectedAddAvailabilityDeposit}
+                openDialog={isAddAvailabilityDialogOpen}
+                onDialogOpenChange={handleAddAvailabilityDialogOpenChange}
+              />
+              <ViewDepositCalendarAvailabilityDialog
+                selectedDeposit={selectedViewAvailability}
+                openDialog={isViewAvailabilityDialogOpen}
+                onDialogOpenChange={handleViewAvailabilityDialogOpenChange}
+              />
+            </Table>
+          </TableContainer>
+        )}
+        {deposits && deposits.length > 0 && (
+          <TablePagination
+            component={"div"}
+            rowsPerPageOptions={[5, 10, 15]}
+            count={deposits === null ? 0 : deposits.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            labelRowsPerPage="Depósitos por página:"
+          />
+        )}
+      </Paper>
     </ThemeProvider>
   );
 }

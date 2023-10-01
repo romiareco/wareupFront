@@ -18,19 +18,22 @@ import {
   mapDepositRequestStatus,
 } from "../../../utils/mapFunctions";
 import { CancelRequestDeposit } from "../../Dialogs";
+import { SortColumnData } from "../Utils";
+import { Box, CircularProgress, Typography } from "@mui/material";
 
 const controller = new DepositRequest();
 
 export function UserRequestRegisterDepositTable() {
   const { accessToken, user } = useAuth();
-  const [orderBy, setOrderBy] = useState(""); // Columna seleccionada para ordenamiento
-  const [order, setOrder] = useState("asc"); // Dirección de ordenamiento (asc o desc)
+  const [orderBy, setOrderBy] = useState("");
+  const [order, setOrder] = useState("asc");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [requestDeposits, setRequestDeposits] = useState(null);
   const [selectedRequestDeposit, setSelectedRequestDeposit] = useState(null);
   const [isChangeStatusDialogOpen, setIsChangeStatusDialogOpen] =
     useState(false);
+  const [loading, setLoading] = useState(true);
 
   const handleRequestSort = (property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -59,6 +62,7 @@ export function UserRequestRegisterDepositTable() {
   useEffect(() => {
     (async () => {
       try {
+        setLoading(true);
         const response = await controller.getDepositsRequestsByUserId(
           accessToken,
           user.id
@@ -69,31 +73,17 @@ export function UserRequestRegisterDepositTable() {
             response.depositRequests
           );
           setRequestDeposits(filteredInformation);
+          setLoading(false);
         }
       } catch (error) {
         console.error(error);
+        setLoading(false);
       }
     })();
   }, [accessToken, user.id]);
 
-  // Dentro de la función handleRequestSort
   const sortedData = requestDeposits
-    ? [...requestDeposits].sort((a, b) => {
-        const aValue = a[orderBy];
-        const bValue = b[orderBy];
-
-        if (typeof aValue === "number" && typeof bValue === "number") {
-          // Si ambos valores son números, realiza una comparación numérica
-          return order === "asc" ? aValue - bValue : bValue - aValue;
-        } else {
-          // Si al menos uno de los valores no es un número, realiza una comparación de cadenas
-          const stringA = String(aValue || ""); // Convierte a cadena de texto y maneja valores nulos o indefinidos
-          const stringB = String(bValue || ""); // Convierte a cadena de texto y maneja valores nulos o indefinidos
-          return order === "asc"
-            ? stringA.localeCompare(stringB)
-            : stringB.localeCompare(stringA);
-        }
-      })
+    ? SortColumnData(requestDeposits, orderBy, order)
     : [];
 
   return (
@@ -104,81 +94,87 @@ export function UserRequestRegisterDepositTable() {
           overflow: "hidden",
         }}
       >
-        <TableContainer style={{ overflowX: "auto" }}>
-          <Table stickyHeader style={{ backgroundColor: "transparent" }}>
-            <TableHead>
-              <TableRow>
-                {columns(handleChangeStatus).map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align="center"
-                    style={{
-                      minWidth: column.minWidth,
-                      fontWeight: "bold",
-                      fontFamily: "Montserrat, sans-serif",
-                      backgroundColor: "lightgray",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => handleRequestSort(column.id)}
-                  >
-                    {column.label}
-                    {orderBy === column.id && (
-                      <span>{order === "asc" ? "▲" : "▼"}</span>
-                    )}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {sortedData
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={row.id}
-                      sx={{
-                        backgroundColor:
-                          index % 2 === 0 ? "lightgray" : "white",
+        {loading ? (
+          <Box display="flex" alignItems="center" justifyContent="center">
+            <CircularProgress />
+          </Box>
+        ) : requestDeposits.length === 0 ? (
+          <Typography sx={theme.typography.montserratFont} variant="body1">
+            No se han registrado empresas.
+          </Typography>
+        ) : (
+          <TableContainer component={Paper}>
+            <Table stickyHeader style={{ backgroundColor: "transparent" }}>
+              <TableHead>
+                <TableRow>
+                  {columns(handleChangeStatus).map((column) => (
+                    <TableCell
+                      key={column.id}
+                      align="center"
+                      style={{
+                        minWidth: column.minWidth,
+                        fontWeight: "bold",
+                        fontFamily: "Montserrat, sans-serif",
+                        backgroundColor: "lightgray",
+                        cursor: "pointer",
                       }}
+                      onClick={() => handleRequestSort(column.id)}
                     >
-                      {columns(handleChangeStatus).map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align="center">
-                            {column.format
-                              ? column.format(value, row)
-                              : column.id === "status"
-                              ? mapDepositRequestStatus(value)
-                              : value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-            <CancelRequestDeposit
-              selectedRequestDeposit={selectedRequestDeposit}
-              openDialog={isChangeStatusDialogOpen}
-              onDialogOpenChange={handleChangeStatusDialogOpenChange}
-            />
-          </Table>
-        </TableContainer>
-        </Paper>
+                      {column.label}
+                      {orderBy === column.id && (
+                        <span>{order === "asc" ? "▲" : "▼"}</span>
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {sortedData
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    return (
+                      <TableRow
+                        hover
+                        tabIndex={-1}
+                        key={row.id}
+                      >
+                        {columns(handleChangeStatus).map((column) => {
+                          const value = row[column.id];
+                          return (
+                            <TableCell key={column.id} align="center">
+                              {column.format
+                                ? column.format(value, row)
+                                : column.id === "status"
+                                ? mapDepositRequestStatus(value)
+                                : value}
+                            </TableCell>
+                          );
+                        })}
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+              <CancelRequestDeposit
+                selectedRequestDeposit={selectedRequestDeposit}
+                openDialog={isChangeStatusDialogOpen}
+                onDialogOpenChange={handleChangeStatusDialogOpenChange}
+              />
+            </Table>
+          </TableContainer>
+        )}
+      </Paper>
+      {requestDeposits && requestDeposits.length > 0 && (
         <TablePagination
-          rowsPerPageOptions={[5, 10, 15]}
+          rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={requestDeposits ? requestDeposits.length : 0}
+          count={requestDeposits.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
           labelRowsPerPage="Solicitudes de depósito por página:"
         />
-     
+      )}
     </ThemeProvider>
   );
 }

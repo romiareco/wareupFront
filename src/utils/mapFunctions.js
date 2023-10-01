@@ -78,6 +78,25 @@ export function mapUserRole(statusNumber) {
   }
 }
 
+export function mapCompanyInformation(companies) {
+  const fileredInformation = companies.map((company) => {
+    return {
+      id: company.id,
+      businessName: company.businessName,
+      RUT: company.RUT,
+      createdAt: mapDateFormat(company.createdAt),
+      position: company.position,
+      email: company.email,
+      address: company.address,
+      phone : company.phone,
+      status: company.status,
+      contactName: company.contactName,
+    }
+  })
+
+  return fileredInformation;
+}
+
 export function mapDepositCalendar(depositCalendars) {
   const fileredInformation = depositCalendars.map((depositCalendar) => {
     return {
