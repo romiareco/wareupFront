@@ -109,6 +109,10 @@ export function RegisterRequestDeposit() {
         alignItems="center"
         justifyContent="center"
         margin={3}
+        sx={{
+          backgroundColor: "rgba(242, 242, 242, 0.9)", // Color de fondo opaco
+          padding: "20px", // Ajusta el relleno según tus preferencias
+        }}
       >
         <Paper
           elevation={3}

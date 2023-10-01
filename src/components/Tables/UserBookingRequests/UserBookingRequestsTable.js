@@ -86,8 +86,8 @@ export function UserBookingRequestsTable() {
   }, [accessToken, user.id]);
 
   const sortedData = bookingRequests
-  ? SortColumnData(bookingRequests, orderBy, order)
-  : [];
+    ? SortColumnData(bookingRequests, orderBy, order)
+    : [];
 
   return (
     <ThemeProvider theme={theme}>
@@ -98,7 +98,13 @@ export function UserBookingRequestsTable() {
         }}
       >
         {loading ? (
-          <Box display="flex" alignItems="center" justifyContent="center">
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            marginTop={3}
+            marginBottom={3}
+          >
             <CircularProgress />
           </Box>
         ) : bookingRequests.length === 0 ? (
@@ -120,7 +126,6 @@ export function UserBookingRequestsTable() {
                         fontFamily: "Montserrat, sans-serif", // Cambia la fuente aqu
                         backgroundColor: "lightgray", // Gris con 50% de opacidad
                         cursor: "pointer",
-
                       }}
                       onClick={() => handleRequestSort(column.id)}
                     >

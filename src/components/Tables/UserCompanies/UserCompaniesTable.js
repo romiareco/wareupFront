@@ -109,7 +109,13 @@ export function UserCompaniesTable() {
         }}
       >
         {loading ? (
-          <Box display="flex" alignItems="center" justifyContent="center">
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            marginTop={3}
+            marginBottom={3}
+          >
             <CircularProgress />
           </Box>
         ) : companies.length === 0 ? (

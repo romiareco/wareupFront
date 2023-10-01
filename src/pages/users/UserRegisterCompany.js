@@ -1,12 +1,12 @@
-import { RegisterRequestDeposit } from "../../components/Forms/RegisterRequestDepositForm";
 import { Footer } from "../../components/Footer";
 import { Box } from "@mui/material";
 import banner from "../../assets/official-images/wms-top-header-1-1.jpg";
+import { RegisterCompany } from "../../components/Forms";
 
-export function UserRequestDeposit() {
+export function UserRegisterCompany() {
   return (
     <Box sx={{ backgroundImage: `url(${banner})` }}>
-      <RegisterRequestDeposit />
+      <RegisterCompany />
       <Footer />
     </Box>
   );

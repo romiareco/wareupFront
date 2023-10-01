@@ -95,7 +95,13 @@ export function UserRequestRegisterDepositTable() {
         }}
       >
         {loading ? (
-          <Box display="flex" alignItems="center" justifyContent="center">
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            marginTop={3}
+            marginBottom={3}
+          >
             <CircularProgress />
           </Box>
         ) : requestDeposits.length === 0 ? (
@@ -104,7 +110,7 @@ export function UserRequestRegisterDepositTable() {
           </Typography>
         ) : (
           <TableContainer component={Paper}>
-            <Table stickyHeader style={{ backgroundColor: "transparent" }}>
+            <Table stickyHeader>
               <TableHead>
                 <TableRow>
                   {columns(handleChangeStatus).map((column) => (
@@ -158,19 +164,19 @@ export function UserRequestRegisterDepositTable() {
             </Table>
           </TableContainer>
         )}
+        {requestDeposits && requestDeposits.length > 0 && (
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={requestDeposits.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            labelRowsPerPage="Solicitudes de depósito por página:"
+          />
+        )}
       </Paper>
-      {requestDeposits && requestDeposits.length > 0 && (
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={requestDeposits.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          labelRowsPerPage="Solicitudes de depósito por página:"
-        />
-      )}
     </ThemeProvider>
   );
 }

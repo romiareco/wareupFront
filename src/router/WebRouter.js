@@ -15,6 +15,7 @@ import {
   PublicationView,
   Searcher,
   UserBookingRequests,
+  UserRegisterCompany,
 } from "../pages";
 import {
   ManageUsers,
@@ -26,7 +27,6 @@ import {
   Login,
   RegisterUser,
   ForgotPassword,
-  RegisterCompany,
   PasswordRecovery,
 } from "../components/Forms";
 import { NotFound } from "../components";
@@ -62,7 +62,7 @@ export function WebRouter() {
     { path: "my-deposits", component: UserDeposits },
     { path: "request-deposit", component: UserRequestDeposit },
     { path: "my-companies", component: UserCompanies },
-    { path: "my-companies/register", component: RegisterCompany },
+    { path: "my-companies/register", component: UserRegisterCompany },
     { path: "my-deposit-requests", component: UserListRequestDeposits },
     { path: "publication-view", component: PublicationView },
     { path: "search-deposits", component: Searcher },

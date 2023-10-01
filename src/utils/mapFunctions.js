@@ -88,7 +88,7 @@ export function mapUserInformation(users) {
       role: mapUserRole(user.role),
       industry: user.industry,
       createdAt: mapDateFormat(user.createdAt),
-      status: mapUserStatus(user.status)
+      status: user.status,
     }
   })
 
@@ -179,7 +179,7 @@ export function mapDepositInformation(deposits) {
       cityId: deposit.cityId,
       departmentId: deposit.city ? deposit.city.departmentId : null,
       departmentName: deposit.city ? deposit.city.department.title : null,
-      status: mapDepositStatus(deposit.status),
+      status: deposit.status,
       createdAt: mapDateFormat(deposit.createdAt),
       businessName: deposit.company ? deposit.company.businessName : null,
       companyId: deposit.companyId,
