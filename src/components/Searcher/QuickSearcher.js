@@ -81,6 +81,12 @@ export function QuickSearcher() {
       navigate(
         `/search-deposits?city=${foundCity.cityName}&department=${foundCity.departmentName}`
       );
+    } else {
+      if (searchCity === "") {
+        navigate(`/search-deposits`);
+      } else {
+        navigate(`/search-deposits?city=${searchCity}`);
+      }
     }
     setIsLoading(false);
   };
