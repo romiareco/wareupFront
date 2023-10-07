@@ -2,14 +2,12 @@ import React from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
 import { MainLayout } from "../layouts";
 import {
-  Welcome,
   UserProfile,
   UserDeposits,
   UserRequestDeposit,
   Contact,
   UserCompanies,
-  UserHome,
-  AdminHome,
+  Home,
   RegisterDeposits,
   UserListRequestDeposits,
   PublicationView,
@@ -49,21 +47,24 @@ export function WebRouter() {
         }
       >
         {/* Rutas públicas */}
-        <Route index element={<Welcome />} />
+        <Route index element={<Home />} />
         <Route path="contacts" element={<Contact />} />
         <Route path="publication-view" element={<PublicationView />} />
         <Route path="search-deposits" element={<Searcher />} />
 
         {/* Rutas de autenticación */}
-        <Route path="register" element={<RegisterUser />} />
-        <Route path="login" element={<Login />} />
-        <Route path="forgot-password" element={<ForgotPassword />} />
-        <Route path="password-recovery" element={<PasswordRecovery />} />
+        {!isLoggedIn && (
+          <>
+            <Route path="register" element={<RegisterUser />} />
+            <Route path="login" element={<Login />} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
+            <Route path="password-recovery" element={<PasswordRecovery />} />
+          </>
+        )}
 
         {/* Rutas de usuario y admin */}
         {isLoggedIn && (
           <>
-            <Route path="home" element={<UserHome />} />
             <Route path="profile" element={<UserProfile />} />
             <Route path="my-deposits" element={<UserDeposits />} />
             <Route path="request-deposit" element={<UserRequestDeposit />} />
@@ -83,7 +84,6 @@ export function WebRouter() {
         {/* Rutas de admin */}
         {isAdmin && (
           <>
-            <Route path="home" element={<AdminHome />} />
             <Route path="admin/manage-users" element={<ManageUsers />} />
             <Route path="admin/manage-deposits" element={<ManageDeposits />} />
             <Route

@@ -1,16 +1,22 @@
-import React from "react";
-import { SiteUnderConstruction } from "../../components";
+import React, { Fragment } from "react";
 import { Footer } from "../../components/Footer";
-import { ThemeProvider } from "@mui/material/styles";
-import { Typography } from "@mui/material";
-import theme from "../../theme/theme";
+import {
+  HowItWorks,
+  PrincipalSearcher,
+  Slogan,
+  ValueProposal,
+  WorkingWithUs,
+} from "../../components/Home";
 
-export function AdminHome() {
+export function Home() {
   return (
-    <ThemeProvider theme={theme}>
-      <Typography variant="h5">Acá van a ir las métricas del sitio </Typography>
-      <SiteUnderConstruction />
+    <Fragment>
+      <PrincipalSearcher />
+      <Slogan />
+      <HowItWorks />
+      <ValueProposal />
+      <WorkingWithUs />
       <Footer />
-    </ThemeProvider>
+    </Fragment>
   );
 }
