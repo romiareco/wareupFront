@@ -20,6 +20,7 @@ import {
   ManageDepositRequests,
   ManageDeposits,
   ManageBookingRequests,
+  Metrics,
 } from "../pages/admin";
 import {
   Login,
@@ -34,7 +35,7 @@ import { role } from "../utils";
 export function WebRouter() {
   const { user } = useAuth();
   const isAdmin = parseInt(user?.role) === role.ADMIN;
-  const isLoggedIn = user !== null; // Usuario logueado si user no es null
+  const isLoggedIn = user !== null;
 
   return (
     <Routes>
@@ -101,6 +102,10 @@ export function WebRouter() {
             <Route
               path="admin/publication-view"
               element={<PublicationView />}
+            />
+            <Route
+              path="admin/metrics"
+              element={<Metrics />}
             />
           </>
         )}
