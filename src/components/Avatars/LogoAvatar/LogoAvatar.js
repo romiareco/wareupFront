@@ -1,13 +1,12 @@
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
-import WULogo from "../../../assets/official-images/logo.png";
 
-export function LogoAvatar({width}) {
+export function LogoAvatar({logo, width}) {
   return (
     <Stack direction="row">
       <Avatar
-        src={WULogo}
+        src={logo}
         alt="Ware Up"
         size="large"
         sx={{

@@ -6,7 +6,7 @@ export function SignUpButton({textName}) {
   return (
     <ThemeProvider theme={theme}>
       <Button
-        href="/users/register"
+        href="/register"
         variant="outlined"
         color="secondary" // Usa el color secundario definido en el theme.js
         sx={{

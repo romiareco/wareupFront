@@ -49,7 +49,6 @@ export function SearcherView({ filters }) {
   if (!dataLoaded) {
     return (
       <ThemeProvider theme={theme}>
-        <TopHomeBar />
         <Box
           sx={{
             padding: 2,
@@ -77,7 +76,6 @@ export function SearcherView({ filters }) {
 
   return (
     <ThemeProvider theme={theme}>
-      <TopHomeBar />
       <Box
         sx={{
           padding: 2,

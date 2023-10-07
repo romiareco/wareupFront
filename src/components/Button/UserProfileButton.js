@@ -24,7 +24,7 @@ export function UserProfileButton() {
   const open = Boolean(anchorEl);
 
   const userProfile = () => {
-    navigate("/users/profile");
+    navigate("/profile");
   };
 
   return (

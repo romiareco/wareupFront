@@ -7,7 +7,7 @@ export function RegisterCompanyButton() {
 
   return (
     <Button
-      href="/users/my-companies/register"
+      href="/my-companies/register"
       variant="outlined"
       color="primary"
       sx={{
