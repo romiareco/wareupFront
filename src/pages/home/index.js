@@ -1,2 +1,1 @@
-export * from "./AdminHome";
-export * from "./UserHome";
+export * from "./Home";

@@ -57,7 +57,6 @@ export function WebRouter() {
   );
 
   const userRoutes = [
-    { path: "home", component: UserHome },
     { path: "profile", component: UserProfile },
     { path: "my-deposits", component: UserDeposits },
     { path: "request-deposit", component: UserRequestDeposit },
