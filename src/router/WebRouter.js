@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Outlet } from "react-router-dom";
 import { MainLayout } from "../layouts";
 import {
   Welcome,
@@ -35,73 +35,77 @@ import { role } from "../utils";
 
 export function WebRouter() {
   const { user } = useAuth();
-
   const isAdmin = parseInt(user?.role) === role.ADMIN;
-
-  const loadLayout = (Page) => (
-    <MainLayout isAdmin={isAdmin}>
-      <Page />
-    </MainLayout>
-  );
-
-  const renderRoutes = (routes, isAdmin) => (
-    <>
-      {routes.map((route) => (
-        <Route
-          key={route.path}
-          path={`/${isAdmin ? "admin/" : "users/"}${route.path}`}
-          element={loadLayout(route.component)}
-        />
-      ))}
-    </>
-  );
-
-  const userRoutes = [
-    { path: "profile", component: UserProfile },
-    { path: "my-deposits", component: UserDeposits },
-    { path: "request-deposit", component: UserRequestDeposit },
-    { path: "my-companies", component: UserCompanies },
-    { path: "my-companies/register", component: UserRegisterCompany },
-    { path: "my-deposit-requests", component: UserListRequestDeposits },
-    { path: "publication-view", component: PublicationView },
-    { path: "search-deposits", component: Searcher },
-    { path: "booking-requests", component: UserBookingRequests },
-  ];
-
-  const adminRoutes = [
-    { path: "home", component: AdminHome },
-    { path: "manage-users", component: ManageUsers },
-    { path: "manage-deposits", component: ManageDeposits },
-    { path: "manage-deposits-requests", component: ManageDepositRequests },
-    { path: "manage-booking-requests", component: ManageBookingRequests },
-    { path: "register-deposit", component: RegisterDeposits },
-    { path: "publication-view", component: PublicationView },
-    { path: "search-deposits", component: Searcher },
-  ];
+  const isLoggedIn = user !== null; // Usuario logueado si user no es null
 
   return (
     <Routes>
-      <Route path="/contacts" element={<Contact />} />
-      <Route path="/publication-view" element={<PublicationView />} />
-      <Route path="/search-deposits" element={<Searcher />} />
-      <Route path="/" element={<Welcome />} />
-      {!user ? (
-        <>
-          <Route path="/users/register" element={<RegisterUser />} />
-          <Route path="/users/login" element={<Login />} />
-          <Route path="/users/forgot-password" element={<ForgotPassword />} />
-          <Route path="/users/404" element={<NotFound />} />
-          <Route
-            path="/users/password-recovery"
-            element={<PasswordRecovery />}
-          />
-        </>
-      ) : (
-        <>
-          {renderRoutes(userRoutes, false)}
-          {isAdmin && renderRoutes(adminRoutes, true)}
-        </>
-      )}
+      <Route
+        path="/"
+        element={
+          <MainLayout isAdmin={isAdmin} isLoggedIn={isLoggedIn}>
+            <Outlet />
+          </MainLayout>
+        }
+      >
+        {/* Rutas públicas */}
+        <Route index element={<Welcome />} />
+        <Route path="contacts" element={<Contact />} />
+        <Route path="publication-view" element={<PublicationView />} />
+        <Route path="search-deposits" element={<Searcher />} />
+
+        {/* Rutas de autenticación */}
+        <Route path="register" element={<RegisterUser />} />
+        <Route path="login" element={<Login />} />
+        <Route path="forgot-password" element={<ForgotPassword />} />
+        <Route path="password-recovery" element={<PasswordRecovery />} />
+
+        {/* Rutas de usuario y admin */}
+        {isLoggedIn && (
+          <>
+            <Route path="home" element={<UserHome />} />
+            <Route path="profile" element={<UserProfile />} />
+            <Route path="my-deposits" element={<UserDeposits />} />
+            <Route path="request-deposit" element={<UserRequestDeposit />} />
+            <Route path="my-companies" element={<UserCompanies />} />
+            <Route
+              path="my-companies/register"
+              element={<UserRegisterCompany />}
+            />
+            <Route
+              path="my-deposit-requests"
+              element={<UserListRequestDeposits />}
+            />
+            <Route path="booking-requests" element={<UserBookingRequests />} />
+          </>
+        )}
+
+        {/* Rutas de admin */}
+        {isAdmin && (
+          <>
+            <Route path="home" element={<AdminHome />} />
+            <Route path="admin/manage-users" element={<ManageUsers />} />
+            <Route path="admin/manage-deposits" element={<ManageDeposits />} />
+            <Route
+              path="admin/manage-deposits-requests"
+              element={<ManageDepositRequests />}
+            />
+            <Route
+              path="admin/manage-booking-requests"
+              element={<ManageBookingRequests />}
+            />
+            <Route
+              path="admin/register-deposit"
+              element={<RegisterDeposits />}
+            />
+            <Route
+              path="admin/publication-view"
+              element={<PublicationView />}
+            />
+          </>
+        )}
+      </Route>
+
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

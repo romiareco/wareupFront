@@ -44,7 +44,7 @@ export function ContactForm() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs" sx={{ width: "100%" }}>
+      <Box marginTop={3}>
         <CssBaseline />
         <Box
           sx={{
@@ -53,7 +53,7 @@ export function ContactForm() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }} />
+          <Avatar sx={{ m: 1, }} />
           <Typography component="h1" variant="h5">
             Contactanos
           </Typography>
@@ -179,7 +179,7 @@ export function ContactForm() {
             </Grid>
           </Box>
         </Box>
-      </Container>
+      </Box>
       <NotificationSnackbar
         open={notificationOpen}
         onClose={() => setNotificationOpen(false)}

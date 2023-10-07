@@ -6,7 +6,7 @@ export function LoginButton() {
   return (
     <ThemeProvider theme={theme}>
       <Button
-        href="/users/login"
+        href="/login"
         variant="outlined"
         color="secondary" // Usa el color secundario definido en el theme.js
         sx={{

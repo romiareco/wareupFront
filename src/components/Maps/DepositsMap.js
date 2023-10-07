@@ -7,7 +7,7 @@ import {
 } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import "./DepositsMap.css";
-import { ENV, depositRequestStatus } from "../../utils";
+import { ENV } from "../../utils";
 import { Google } from "../../api";
 import { Box } from "@mui/material";
 import { NotificationSnackbar } from "../NotificationSnackbar";
@@ -35,7 +35,9 @@ export function DepositsMap({ filters, deposits }) {
               const response =
                 await googleMapsController.getLocationCoordinates(
                   deposit.address,
-                  filters.department
+                  filters && filters.department
+                    ? filters.department
+                    : deposit.city.department.title
                 );
 
               if (
@@ -135,7 +137,7 @@ export function DepositsMap({ filters, deposits }) {
       } else {
         const newCenter = {
           lat: ENV.GOOGLE_DEFAULT_COORDINATES.INITIAL_LATITUDE,
-          lng: ENV.GOOGLE_DEFAULT_COORDINATES.INITIAL_LONGITUDE
+          lng: ENV.GOOGLE_DEFAULT_COORDINATES.INITIAL_LONGITUDE,
         };
         setMapCenter(newCenter);
       }
