@@ -15,9 +15,10 @@ import WarehouseRoundedIcon from "@mui/icons-material/WarehouseRounded";
 import AddBusinessRoundedIcon from "@mui/icons-material/AddBusinessRounded";
 import PeopleAltRoundedIcon from "@mui/icons-material/PeopleAltRounded";
 import theme from "../theme/theme";
+import { TopHomeBar } from "../components/Home";
 
 export function MainLayout(props) {
-  const { children, isAdmin } = props;
+  const { children, isAdmin, isLoggedIn } = props;
   const [anchorEl, setAnchorEl] = useState({});
 
   const handleClick = (event, index) => {
@@ -35,15 +36,15 @@ export function MainLayout(props) {
     ? [
         {
           label: "Usuarios",
-          href: "/admin/manage-users",
+          href: "admin/manage-users",
           icon: <PeopleAltRoundedIcon />,
         },
         {
           label: "Depósitos",
           icon: <WarehouseRoundedIcon />,
           menuItems: [
-            { label: "Publicar depósito", href: "/admin/register-deposit" },
-            { label: "Listado de depósitos", href: "/admin/manage-deposits" },
+            { label: "Publicar depósito", href: "admin/register-deposit" },
+            { label: "Listado de depósitos", href: "admin/manage-deposits" },
           ],
         },
         {
@@ -52,11 +53,11 @@ export function MainLayout(props) {
           menuItems: [
             {
               label: "Solicitudes de registro de depósito",
-              href: "/admin/manage-deposits-requests",
+              href: "admin/manage-deposits-requests",
             },
             {
               label: "Solicitudes de arrendamiento",
-              href: "/admin/manage-booking-requests",
+              href: "admin/manage-booking-requests",
             },
           ],
         },
@@ -64,17 +65,17 @@ export function MainLayout(props) {
     : [
         {
           label: "Tengo espacio",
-          href: "/users/request-deposit",
+          href: "/request-deposit",
           icon: <AddBusinessRoundedIcon />,
         },
         {
           label: "Depósitos",
-          href: "/users/my-deposits",
+          href: "/my-deposits",
           icon: <WarehouseRoundedIcon />,
         },
         {
           label: "Empresas",
-          href: "/users/my-companies",
+          href: "/my-companies",
           icon: <BusinessRoundedIcon />,
         },
         {
@@ -84,11 +85,11 @@ export function MainLayout(props) {
           menuItems: [
             {
               label: "Solicitudes de registro",
-              href: "/users/my-deposit-requests",
+              href: "/my-deposit-requests",
             },
             {
               label: "Solicitudes de arrendamiento",
-              href: "/users/booking-requests",
+              href: "/booking-requests",
             },
           ],
         },
@@ -97,12 +98,13 @@ export function MainLayout(props) {
 
   return (
     <ThemeProvider theme={theme}>
+       {isLoggedIn ? (
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <AppBar component="nav">
           <Toolbar>
             <IconButton
-              href={isAdmin ? "/admin/home" : "/users/home"}
+              href={"/"}
               color={"inherit"}
             >
               <HomeRoundedIcon sx={{ fontSize: "36px" }} />
@@ -192,6 +194,10 @@ export function MainLayout(props) {
         </AppBar>
         <Toolbar />
       </Box>
+      ) : (
+        // Si no está logueado, muestra la barra superior de TopBarPublic
+        <TopHomeBar />
+      )}
       <Box>{children}</Box>
     </ThemeProvider>
   );

@@ -9,6 +9,7 @@ import { LoginButton, SignUpButton } from "../../Button";
 import { LogoAvatar } from "../../Avatars";
 import { Card, CardActionArea, CardMedia } from "@mui/material";
 import { Link } from "react-router-dom";
+import logo from "../../../assets/official-images/logoblanco.png";
 
 export function TopHomeBar() {
   return (
@@ -21,7 +22,7 @@ export function TopHomeBar() {
               <Card sx={{ backgroundColor: "transparent" }}>
                 <CardActionArea>
                   <CardMedia>
-                    <LogoAvatar width={50} />
+                    <LogoAvatar logo={logo} width={50} />
                   </CardMedia>
                 </CardActionArea>
               </Card>

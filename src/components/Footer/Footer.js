@@ -6,7 +6,8 @@ import theme from "../../theme/theme";
 import { LinkedinLogo } from "../SocialMedia";
 import { LogoAvatar } from "../Avatars/LogoAvatar";
 import { LinkSpacer } from "../Links"; // Importa el nuevo componenteç
-
+import logo from "../../assets/official-images/logo.png";
+ 
 export function Footer() {
   return (
     <ThemeProvider theme={theme}>
@@ -27,7 +28,7 @@ export function Footer() {
           >
             <Grid container spacing={1}>
               <Grid item md={3}>
-                <LogoAvatar width={120} />
+                <LogoAvatar logo={logo} width={120} />
               </Grid>
               <Grid item md={3}>
                 <Typography variant="h6" gutterBottom>

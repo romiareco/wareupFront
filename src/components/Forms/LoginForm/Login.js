@@ -59,11 +59,7 @@ export function Login() {
 
         if (userLogged) {
           startSessionTimer();
-          if (parseInt(userLogged.role) === role.ADMIN) {
-            navigate("/admin/home");
-          } else {
-            navigate("/users/home");
-          }
+          navigate("/");
         }
       } catch (error) {
         const errorMessage =
@@ -142,7 +138,7 @@ export function Login() {
 
                 <FlexBox justifyContent="space-between">
                   <NavLink
-                    to="/users/forgot-password"
+                    to="/forgot-password"
                     style={{ color: "green" }}
                   >
                     ¿Olvidaste tu contraseña?
@@ -170,7 +166,7 @@ export function Login() {
                 <Box>
                   ¿No tienes una cuenta?
                   <NavLink
-                    to="/users/register"
+                    to="/register"
                     style={{ color: "green", marginLeft: 5 }}
                   >
                     Registrarse
