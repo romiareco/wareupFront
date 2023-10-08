@@ -87,12 +87,12 @@ export function SearcherView({ filters }) {
       </Box>
       <Stack direction={"row"} marginLeft={4} marginRight={4}>
         <Grid container spacing={2}>
-          <Grid item md={6}>
+          <Grid item md>
             <Box>
               <DepositsSearch setIsLoading={setIsLoading} deposits={deposits} />
             </Box>
           </Grid>
-          <Grid item md={6}>
+          <Grid item md>
             <Box>
               <DepositsMap filters={filters} deposits={deposits} />
             </Box>
