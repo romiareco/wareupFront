@@ -6,7 +6,6 @@ import {
   ThemeProvider,
 } from "@mui/material";
 import theme from "../../theme/theme";
-import { TopHomeBar } from "../Home";
 import { QuickSearcher } from "./QuickSearcher";
 import { DepositsSearch } from "./DepositsSearch";
 import { Footer } from "../Footer";

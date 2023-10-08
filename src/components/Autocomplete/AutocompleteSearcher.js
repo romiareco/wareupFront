@@ -1,4 +1,4 @@
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, Box, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Common } from "../../api";
 
@@ -43,36 +43,37 @@ export function AutocompleteSearcher({ setSearchedCity, onCitiesLoaded }) {
   }, [onCitiesLoaded, citiesLoaded]);
 
   return (
-    <Autocomplete
-      id="searchInput"
-      freeSolo
-      options={
-        cities.length > 0 ? cities.map((value) => value.label) : ["Cargando..."]
-      }
-      inputValue={searchCity}
-      onInputChange={(event, newValue) => {
-        setSearchCity(newValue);
-        setSearchedCity(newValue);
-      }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label="Barrio/Ciudad"
-          variant="filled"
-          disabled={cities.length === 0}
-          sx={{
-            width: "900px",
-            backgroundColor: "white",
-          }}
-        />
-      )}
-      renderOption={(props, option) => <li {...props}>{option}</li>}
-      ListboxProps={{
-        style: {
-          maxHeight: 200,
-          overflowY: "auto",
-        },
-      }}
-    />
+      <Autocomplete
+        id="searchInput"
+        freeSolo
+        options={
+          cities.length > 0
+            ? cities.map((value) => value.label)
+            : ["Cargando..."]
+        }
+        inputValue={searchCity}
+        onInputChange={(event, newValue) => {
+          setSearchCity(newValue);
+          setSearchedCity(newValue);
+        }}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="Barrio/Ciudad"
+            variant="filled"
+            disabled={cities.length === 0}
+            sx={{
+              backgroundColor: "white",
+            }}
+          />
+        )}
+        renderOption={(props, option) => <li {...props}>{option}</li>}
+        ListboxProps={{
+          style: {
+            maxHeight: 200,
+            overflowY: "auto",
+          },
+        }}
+      />
   );
 }

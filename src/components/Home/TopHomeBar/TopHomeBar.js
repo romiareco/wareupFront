@@ -29,7 +29,7 @@ export function TopHomeBar() {
             </Link>
             <Box
               sx={{
-                display: { xs: "none", sm: "block" },
+                display: "flex",
                 marginLeft: "auto",
               }}
             >

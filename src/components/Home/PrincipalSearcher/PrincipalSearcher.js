@@ -64,11 +64,14 @@ export function PrincipalSearcher() {
         <Typography variant="h4" sx={{ marginBottom: 6 }}>
           Comienza tu búsqueda
         </Typography>
-        <Stack direction={"row"} alignItems="stretch" spacing={1}>
-          <AutocompleteSearcher
-            setSearchedCity={setSearchCity}
-            onCitiesLoaded={handleCitiesLoaded}
-          />
+        <Stack direction={"row"} spacing={2} width={"50%"}>
+          <Box width={"80%"}>
+            <AutocompleteSearcher
+              setSearchedCity={setSearchCity}
+              onCitiesLoaded={handleCitiesLoaded}
+            />
+          </Box>
+
           <Button
             startIcon={<SearchRoundedIcon />}
             onClick={() => handleSearch(searchCity)}
@@ -79,7 +82,7 @@ export function PrincipalSearcher() {
               color: "white",
               border: "1px solid white",
               borderRadius: "10px",
-              width: "150px",
+              width: "20%",
               transition: "width 0.3s ease-in-out",
               justifyContent: "center",
             }}
