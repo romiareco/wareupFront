@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../../../hooks";
-import { NotificationSnackbar } from "../../../NotificationSnackbar";
+import { NotificationSnackbar } from "../../../Snackbar";
 import { DepositRequest } from "../../../../api";
 import { LoadingButton } from "@mui/lab";
 import theme from "../../../../theme/theme";

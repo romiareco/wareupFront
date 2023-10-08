@@ -10,7 +10,7 @@ import { useFormik } from "formik";
 import { useAuth } from "../../../hooks";
 import { Company } from "../../../api";
 import React, { useState } from "react";
-import { NotificationSnackbar } from "../../NotificationSnackbar";
+import { NotificationSnackbar } from "../../Snackbar";
 import {
   initialValues,
   validationSchema,

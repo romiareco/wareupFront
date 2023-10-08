@@ -15,7 +15,7 @@ import { Copyright } from "../../Copyright";
 import { blue } from "@mui/material/colors";
 import { useAuth } from "../../../hooks";
 import theme from "./../../../theme/theme"; // Importa el theme.js aquí
-import { NotificationSnackbar } from "../../NotificationSnackbar";
+import { NotificationSnackbar } from "../../Snackbar";
 import banner from "../../../assets/official-images/wms-top-header-1-1.jpg";
 
 const companyController = new Company();
@@ -44,7 +44,7 @@ export function RegisterCompany() {
         resetForm();
       } catch (error) {
         const errorMessage =
-        "Error en el servidor: " + JSON.stringify(error.message);
+        "Error: " + JSON.stringify(error.message);
         setNotificationMessage(errorMessage);
         setNotificationSeverity("error");
         setNotificationOpen(true);

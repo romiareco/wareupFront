@@ -10,10 +10,10 @@ import { TopHomeBar } from "../Home";
 import { QuickSearcher } from "./QuickSearcher";
 import { DepositsSearch } from "./DepositsSearch";
 import { Footer } from "../Footer";
-import { DepositsMap } from "../Maps";
+import { DepositsMap } from "../Map";
 import { useEffect, useState } from "react";
 import { Deposit } from "../../api";
-import { NotificationSnackbar } from "../NotificationSnackbar";
+import { NotificationSnackbar } from "../Snackbar";
 
 const depositController = new Deposit();
 

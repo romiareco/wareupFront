@@ -10,7 +10,7 @@ import "./DepositsMap.css";
 import { ENV } from "../../utils";
 import { Google } from "../../api";
 import { Box } from "@mui/material";
-import { NotificationSnackbar } from "../NotificationSnackbar";
+import { NotificationSnackbar } from "../Snackbar";
 
 const googleMapsController = new Google();
 

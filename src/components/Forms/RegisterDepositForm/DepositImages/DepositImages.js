@@ -4,7 +4,7 @@ import { DepositImageCarousel } from "../../../Carousel/DepositImageCarousel";
 import { Stack, Box, ThemeProvider, Button } from "@mui/material";
 import { Deposit } from "../../../../api";
 import { useAuth } from "../../../../hooks";
-import { NotificationSnackbar } from "../../../NotificationSnackbar";
+import { NotificationSnackbar } from "../../../Snackbar";
 import theme from "../../../../theme/theme";
 import { LoadingButton } from "@mui/lab";
 

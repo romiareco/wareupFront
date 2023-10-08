@@ -4,7 +4,7 @@ import { Deposit } from "../../api";
 import { mapBase64ToImage } from "../../utils/mapFunctions";
 import noImage from "../../assets/deposit-images/sinimagen.jpg";
 import { Box, Link, ThemeProvider, Typography } from "@mui/material";
-import { NotificationSnackbar } from "../NotificationSnackbar";
+import { NotificationSnackbar } from "../Snackbar";
 import theme from "../../theme/theme";
 
 const depositController = new Deposit();

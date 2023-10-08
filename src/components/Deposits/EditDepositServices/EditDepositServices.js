@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import theme from "../../../theme/theme";
 import CircularProgress from "@mui/material/CircularProgress";
-import { NotificationSnackbar } from "../../NotificationSnackbar";
+import { NotificationSnackbar } from "../../Snackbar";
 import { LoadingButton } from "@mui/lab";
 
 const serviceController = new Service();

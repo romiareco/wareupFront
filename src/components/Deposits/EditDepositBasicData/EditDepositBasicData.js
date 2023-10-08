@@ -16,7 +16,7 @@ import { useFormik } from "formik";
 import { useAuth } from "../../../hooks";
 import { Common, Deposit, User } from "../../../api";
 import React, { useState, useEffect } from "react";
-import { NotificationSnackbar } from "../../NotificationSnackbar";
+import { NotificationSnackbar } from "../../Snackbar";
 import {
   editValues,
   validationSchema,

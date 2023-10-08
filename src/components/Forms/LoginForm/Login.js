@@ -17,7 +17,7 @@ import Typography from "@mui/material/Typography";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../../../theme/theme";
 import { role } from "../../../utils";
-import { NotificationSnackbar } from "../../NotificationSnackbar";
+import { NotificationSnackbar } from "../../Snackbar";
 
 const FlexBox = styled(Box)(() => ({ display: "flex", alignItems: "center" }));
 
@@ -63,7 +63,7 @@ export function Login() {
         }
       } catch (error) {
         const errorMessage =
-          "Error en el servidor: " + JSON.stringify(error.message);
+          "Error: " + JSON.stringify(error.message);
         console.log(errorMessage);
         setNotificationMessage(errorMessage);
         setNotificationSeverity("error");

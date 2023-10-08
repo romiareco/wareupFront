@@ -14,7 +14,7 @@ import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import theme from "../../../theme/theme";
-import { NotificationSnackbar } from "../../NotificationSnackbar";
+import { NotificationSnackbar } from "../../Snackbar";
 
 const ContentBox = styled(Box)(({ theme }) => ({
   padding: 32,
@@ -46,7 +46,7 @@ export function ForgotPassword() {
         resetForm();
       } catch (error) {
         const errorMessage =
-          "Error en el servidor: " + JSON.stringify(error.message);
+          "Error: " + JSON.stringify(error.message);
         console.log(errorMessage);
         setNotificationMessage(errorMessage);
         setNotificationSeverity("error");
