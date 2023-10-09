@@ -6,14 +6,13 @@ import {
   ThemeProvider,
 } from "@mui/material";
 import theme from "../../theme/theme";
-import { TopHomeBar } from "../Home";
 import { QuickSearcher } from "./QuickSearcher";
 import { DepositsSearch } from "./DepositsSearch";
 import { Footer } from "../Footer";
-import { DepositsMap } from "../Maps";
+import { DepositsMap } from "../Map";
 import { useEffect, useState } from "react";
 import { Deposit } from "../../api";
-import { NotificationSnackbar } from "../NotificationSnackbar";
+import { NotificationSnackbar } from "../Snackbar";
 
 const depositController = new Deposit();
 
@@ -88,12 +87,12 @@ export function SearcherView({ filters }) {
       </Box>
       <Stack direction={"row"} marginLeft={4} marginRight={4}>
         <Grid container spacing={2}>
-          <Grid item md={6}>
+          <Grid item md>
             <Box>
               <DepositsSearch setIsLoading={setIsLoading} deposits={deposits} />
             </Box>
           </Grid>
-          <Grid item md={6}>
+          <Grid item md>
             <Box>
               <DepositsMap filters={filters} deposits={deposits} />
             </Box>

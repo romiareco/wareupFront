@@ -19,7 +19,7 @@ import {
   isStepValid,
 } from "./RegisterDeposit.utils";
 import { useAuth } from "../../../hooks";
-import { NotificationSnackbar } from "../../NotificationSnackbar";
+import { NotificationSnackbar } from "../../Snackbar";
 import { ThemeProvider } from "@emotion/react";
 import {
   AddDepositAvailabilityDialog,

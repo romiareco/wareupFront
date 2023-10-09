@@ -8,7 +8,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { useState, useEffect } from "react";
 import { User } from "../../../api";
 import { useAuth } from "../../../hooks";
-import { NotificationSnackbar } from "../../NotificationSnackbar";
+import { NotificationSnackbar } from "../../Snackbar";
 import { LoadingButton } from "@mui/lab";
 import { ThemeProvider, Typography } from "@mui/material";
 import theme from "../../../theme/theme";

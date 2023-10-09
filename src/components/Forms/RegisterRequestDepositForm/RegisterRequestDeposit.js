@@ -11,7 +11,7 @@ import { Select, MenuItem, Box } from "@mui/material";
 import { RegisterCompanyButton } from "../../Button";
 import { useAuth } from "../../../hooks";
 import theme from "../../../theme/theme"; // Importa el theme.js aquí
-import { NotificationSnackbar } from "../../NotificationSnackbar";
+import { NotificationSnackbar } from "../../Snackbar";
 
 const userController = new User();
 const depositRequestController = new DepositRequest();

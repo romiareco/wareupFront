@@ -6,7 +6,7 @@ import { Contact } from "../../../api";
 import { LoadingButton } from "@mui/lab";
 import { Avatar, CssBaseline, Typography, Container } from "@mui/material";
 import theme from "../../../theme/theme";
-import { NotificationSnackbar } from "../../NotificationSnackbar";
+import { NotificationSnackbar } from "../../Snackbar";
 import { useState } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
@@ -33,7 +33,7 @@ export function ContactForm() {
         resetForm();
       } catch (error) {
         const errorMessage =
-          "Error en el servidor: " + JSON.stringify(error.message);
+          "Error: " + JSON.stringify(error.message);
         console.log(errorMessage);
         setNotificationMessage(errorMessage);
         setNotificationSeverity("error");

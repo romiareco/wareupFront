@@ -12,7 +12,7 @@ import {
 import { useState, useEffect } from "react";
 import { Deposit } from "../../../api";
 import { useAuth } from "../../../hooks";
-import { NotificationSnackbar } from "../../NotificationSnackbar";
+import { NotificationSnackbar } from "../../Snackbar";
 import { depositStatus } from "../../../utils";
 import { ErrorDialog } from "../ErrorDialog";
 import { LoadingButton } from "@mui/lab";

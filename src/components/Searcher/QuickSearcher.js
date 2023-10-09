@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import theme from "../../theme/theme";
 import { AutocompleteSearcher } from "../Autocomplete";
-import { Button, CircularProgress, Stack } from "@mui/material";
+import { Button, CircularProgress, Stack, Box } from "@mui/material";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded";
 import { SearchFiltersDialog } from "../Dialogs";
@@ -99,10 +99,13 @@ export function QuickSearcher() {
         justifyContent="center"
         sx={{ width: "100%", height: "100%" }}
       >
-        <AutocompleteSearcher
-          setSearchedCity={setSearchCity}
-          onCitiesLoaded={handleCitiesLoaded}
-        />
+        <Box width={"40%"}>
+          <AutocompleteSearcher
+            setSearchedCity={setSearchCity}
+            onCitiesLoaded={handleCitiesLoaded}
+          />
+        </Box>
+
         <Button
           onClick={() => handleSearch(searchCity)}
           variant="contained"

@@ -14,6 +14,7 @@ import WatchLaterRoundedIcon from "@mui/icons-material/WatchLaterRounded";
 import WarehouseRoundedIcon from "@mui/icons-material/WarehouseRounded";
 import AddBusinessRoundedIcon from "@mui/icons-material/AddBusinessRounded";
 import PeopleAltRoundedIcon from "@mui/icons-material/PeopleAltRounded";
+import AnalyticsRoundedIcon from "@mui/icons-material/AnalyticsRounded";
 import theme from "../theme/theme";
 import { TopHomeBar } from "../components/Home";
 
@@ -31,12 +32,11 @@ export function MainLayout(props) {
     setAnchorEl({ ...anchorEl, [index]: null });
   };
 
-
   const buttons = isAdmin
     ? [
         {
           label: "Usuarios",
-          href: "admin/manage-users",
+          href: "/admin/manage-users",
           icon: <PeopleAltRoundedIcon />,
         },
         {
@@ -60,6 +60,11 @@ export function MainLayout(props) {
               href: "admin/manage-booking-requests",
             },
           ],
+        },
+        {
+          label: "Métricas",
+          href: "/admin/metrics",
+          icon: <AnalyticsRoundedIcon />,
         },
       ]
     : [
@@ -95,105 +100,109 @@ export function MainLayout(props) {
         },
       ];
 
-
   return (
     <ThemeProvider theme={theme}>
-       {isLoggedIn ? (
-      <Box sx={{ display: "flex" }}>
-        <CssBaseline />
-        <AppBar component="nav">
-          <Toolbar>
-            <IconButton
-              href={"/"}
-              color={"inherit"}
-            >
-              <HomeRoundedIcon sx={{ fontSize: "36px" }} />
-            </IconButton>
+      {isLoggedIn ? (
+        <Box sx={{ display: "flex" }}>
+          <CssBaseline />
+          <AppBar component="nav">
+            <Toolbar>
+              <IconButton href={"/"} color={"inherit"}>
+                <HomeRoundedIcon sx={{ fontSize: "36px" }} />
+              </IconButton>
 
-            {buttons.map((button, index) => (
-              <Box key={index}>
-                {button.menuItems ? (
-                  <Button
-                    id={`menu-button-${index}`}
-                    aria-controls={`menu-${index}`}
-                    aria-haspopup="true"
-                    onClick={(event) => handleClick(event, index)} // Pasar el índice del botón
-                    sx={{
-                      color:
-                        theme.components.MuiButton.styleOverrides
-                          .containedPrimary,
-                      display: "flex", // Centra verticalmente los elementos
-                      alignItems: "center", // Centra verticalmente los elementos
-                    }}
-                  >
-                    {button.icon && (
-                      <span style={{ marginRight: "8px" }}>{button.icon}</span>
-                    )}
-                    <span style={{ fontSize: "inherit" }}>{button.label}</span>{" "}
-                    {/* Ajusta el tamaño del texto */}
-                  </Button>
-                ) : (
-                  <Button
-                    href={button.href}
-                    sx={{
-                      my: 2,
-                      color:
-                        theme.components.MuiButton.styleOverrides
-                          .containedPrimary,
-                      ml: index > 0 ? 1 : 0,
-                      display: "flex", // Centra verticalmente los elementos
-                      alignItems: "center", // Centra verticalmente los elementos
-                    }}
-                  >
-                    {button.icon && (
-                      <span style={{ marginRight: "8px" }}>{button.icon}</span>
-                    )}
-                    <span style={{ fontSize: "inherit" }}>{button.label}</span>{" "}
-                    {/* Ajusta el tamaño del texto */}
-                  </Button>
-                )}
-                {button.menuItems && (
-                  <Menu
-                    id={`menu-${index}`}
-                    anchorEl={anchorEl[index]} // Usar el estado específico para este botón
-                    open={Boolean(anchorEl[index])}
-                    onClose={() => handleClose(index)} // Pasar el índice del botón
-                    anchorOrigin={{
-                      vertical: "bottom",
-                      horizontal: "left",
-                    }}
-                    transformOrigin={{
-                      vertical: "top",
-                      horizontal: "left",
-                    }}
-                  >
-                    {button.menuItems.map((menuItem, menuItemIndex) => (
-                      <MenuItem
-                        key={menuItemIndex}
-                        onClick={() => {
-                          handleClose();
-                        }}
-                      >
-                        <Link
-                          to={menuItem.href}
-                          style={{ textDecoration: "none" }}
+              {buttons.map((button, index) => (
+                <Box key={index}>
+                  {button.menuItems ? (
+                    <Button
+                      id={`menu-button-${index}`}
+                      aria-controls={`menu-${index}`}
+                      aria-haspopup="true"
+                      onClick={(event) => handleClick(event, index)} // Pasar el índice del botón
+                      sx={{
+                        color:
+                          theme.components.MuiButton.styleOverrides
+                            .containedPrimary,
+                        display: "flex", // Centra verticalmente los elementos
+                        alignItems: "center", // Centra verticalmente los elementos
+                      }}
+                    >
+                      {button.icon && (
+                        <span style={{ marginRight: "8px" }}>
+                          {button.icon}
+                        </span>
+                      )}
+                      <span style={{ fontSize: "inherit" }}>
+                        {button.label}
+                      </span>{" "}
+                      {/* Ajusta el tamaño del texto */}
+                    </Button>
+                  ) : (
+                    <Button
+                      href={button.href}
+                      sx={{
+                        my: 2,
+                        color:
+                          theme.components.MuiButton.styleOverrides
+                            .containedPrimary,
+                        ml: index > 0 ? 1 : 0,
+                        display: "flex", // Centra verticalmente los elementos
+                        alignItems: "center", // Centra verticalmente los elementos
+                      }}
+                    >
+                      {button.icon && (
+                        <span style={{ marginRight: "8px" }}>
+                          {button.icon}
+                        </span>
+                      )}
+                      <span style={{ fontSize: "inherit" }}>
+                        {button.label}
+                      </span>{" "}
+                      {/* Ajusta el tamaño del texto */}
+                    </Button>
+                  )}
+                  {button.menuItems && (
+                    <Menu
+                      id={`menu-${index}`}
+                      anchorEl={anchorEl[index]} // Usar el estado específico para este botón
+                      open={Boolean(anchorEl[index])}
+                      onClose={() => handleClose(index)} // Pasar el índice del botón
+                      anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "left",
+                      }}
+                      transformOrigin={{
+                        vertical: "top",
+                        horizontal: "left",
+                      }}
+                    >
+                      {button.menuItems.map((menuItem, menuItemIndex) => (
+                        <MenuItem
+                          key={menuItemIndex}
+                          onClick={() => {
+                            handleClose();
+                          }}
                         >
-                          {menuItem.label}
-                        </Link>
-                      </MenuItem>
-                    ))}
-                  </Menu>
-                )}
-              </Box>
-            ))}
+                          <Link
+                            to={menuItem.href}
+                            style={{ textDecoration: "none" }}
+                          >
+                            {menuItem.label}
+                          </Link>
+                        </MenuItem>
+                      ))}
+                    </Menu>
+                  )}
+                </Box>
+              ))}
 
-            <Box sx={{ flexGrow: 1 }} />
-            <UserProfileButton />
-            <Logout />
-          </Toolbar>
-        </AppBar>
-        <Toolbar />
-      </Box>
+              <Box sx={{ flexGrow: 1 }} />
+              <UserProfileButton />
+              <Logout />
+            </Toolbar>
+          </AppBar>
+          <Toolbar />
+        </Box>
       ) : (
         // Si no está logueado, muestra la barra superior de TopBarPublic
         <TopHomeBar />

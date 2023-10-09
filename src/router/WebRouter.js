@@ -2,14 +2,12 @@ import React from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
 import { MainLayout } from "../layouts";
 import {
-  Welcome,
   UserProfile,
   UserDeposits,
   UserRequestDeposit,
   Contact,
   UserCompanies,
-  UserHome,
-  AdminHome,
+  Home,
   RegisterDeposits,
   UserListRequestDeposits,
   PublicationView,
@@ -22,6 +20,7 @@ import {
   ManageDepositRequests,
   ManageDeposits,
   ManageBookingRequests,
+  Metrics,
 } from "../pages/admin";
 import {
   Login,
@@ -36,7 +35,8 @@ import { role } from "../utils";
 export function WebRouter() {
   const { user } = useAuth();
   const isAdmin = parseInt(user?.role) === role.ADMIN;
-  const isLoggedIn = user !== null; // Usuario logueado si user no es null
+  const isLoggedIn = user !== null;
+  const adminBasePath = isAdmin ? "admin" : "";
 
   return (
     <Routes>
@@ -49,21 +49,24 @@ export function WebRouter() {
         }
       >
         {/* Rutas públicas */}
-        <Route index element={<Welcome />} />
+        <Route index element={<Home />} />
         <Route path="contacts" element={<Contact />} />
         <Route path="publication-view" element={<PublicationView />} />
         <Route path="search-deposits" element={<Searcher />} />
 
         {/* Rutas de autenticación */}
-        <Route path="register" element={<RegisterUser />} />
-        <Route path="login" element={<Login />} />
-        <Route path="forgot-password" element={<ForgotPassword />} />
-        <Route path="password-recovery" element={<PasswordRecovery />} />
+        {!isLoggedIn && (
+          <>
+            <Route path="register" element={<RegisterUser />} />
+            <Route path="login" element={<Login />} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
+            <Route path="password-recovery" element={<PasswordRecovery />} />
+          </>
+        )}
 
         {/* Rutas de usuario y admin */}
         {isLoggedIn && (
           <>
-            <Route path="home" element={<UserHome />} />
             <Route path="profile" element={<UserProfile />} />
             <Route path="my-deposits" element={<UserDeposits />} />
             <Route path="request-deposit" element={<UserRequestDeposit />} />
@@ -83,25 +86,31 @@ export function WebRouter() {
         {/* Rutas de admin */}
         {isAdmin && (
           <>
-            <Route path="home" element={<AdminHome />} />
-            <Route path="admin/manage-users" element={<ManageUsers />} />
-            <Route path="admin/manage-deposits" element={<ManageDeposits />} />
             <Route
-              path="admin/manage-deposits-requests"
+              path={`${adminBasePath}/manage-users`}
+              element={<ManageUsers />}
+            />
+            <Route
+              path={`${adminBasePath}/manage-deposits`}
+              element={<ManageDeposits />}
+            />
+            <Route
+              path={`${adminBasePath}/manage-deposits-requests`}
               element={<ManageDepositRequests />}
             />
             <Route
-              path="admin/manage-booking-requests"
+              path={`${adminBasePath}/manage-booking-requests`}
               element={<ManageBookingRequests />}
             />
             <Route
-              path="admin/register-deposit"
+              path={`${adminBasePath}/register-deposit`}
               element={<RegisterDeposits />}
             />
             <Route
-              path="admin/publication-view"
+              path={`${adminBasePath}/publication-view`}
               element={<PublicationView />}
             />
+            <Route path={`${adminBasePath}/metrics`} element={<Metrics />} />
           </>
         )}
       </Route>

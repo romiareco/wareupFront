@@ -16,7 +16,7 @@ import Container from "@mui/material/Container";
 import { ThemeProvider } from "@mui/material/styles";
 import { Copyright } from "../../Copyright";
 import theme from "./../../../theme/theme"; // Importa el theme.js aquí
-import { NotificationSnackbar } from "../../NotificationSnackbar";
+import { NotificationSnackbar } from "../../Snackbar";
 import Popover from "@mui/material/Popover";
 import IconButton from "@mui/material/IconButton";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
@@ -53,7 +53,7 @@ export function RegisterUser() {
         resetForm();
       } catch (error) {
         const errorMessage =
-          "Error en el servidor: " + JSON.stringify(error.message);
+          "Error: " + JSON.stringify(error.message);
         setNotificationMessage(errorMessage);
         setNotificationSeverity("error");
         setNotificationOpen(true);

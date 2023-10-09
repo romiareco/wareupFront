@@ -12,7 +12,7 @@ import {
   ThemeProvider,
 } from "@mui/material";
 import { useState } from "react";
-import { NotificationSnackbar } from "../NotificationSnackbar";
+import { NotificationSnackbar } from "../Snackbar";
 import { motion } from "framer-motion";
 import theme from "../../theme/theme";
 

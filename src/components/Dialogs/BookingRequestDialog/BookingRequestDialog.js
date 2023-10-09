@@ -18,7 +18,7 @@ import { useState } from "react";
 import { DepositDatePicker } from "../../DatePickers/DepositDatePicker";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { NotificationSnackbar } from "../../NotificationSnackbar";
+import { NotificationSnackbar } from "../../Snackbar";
 import { BookingRequest } from "../../../api";
 import { ErrorDialog } from "../ErrorDialog";
 import dayjs from "dayjs";

@@ -16,7 +16,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { Copyright } from "../../Copyright";
 import { useLocation } from "react-router-dom";
 import theme from "../../../theme/theme";
-import { NotificationSnackbar } from "../../NotificationSnackbar";
+import { NotificationSnackbar } from "../../Snackbar";
 
 const userController = new User();
 
@@ -40,7 +40,7 @@ export function PasswordRecovery() {
         setNotificationOpen(true);
       } catch (error) {
         const errorMessage =
-          "Error en el servidor: " + JSON.stringify(error.message);
+          "Error: " + JSON.stringify(error.message);
           console.log(errorMessage);
         setNotificationMessage(errorMessage);
         setNotificationSeverity("error");

@@ -27,8 +27,6 @@ export function mapCompanyStatus(statusNumber) {
       return "Activa";
     case companyStatus.DELETED:
       return "Eliminada";
-    case companyStatus.PENDING:
-      return "Pendiente";
     default:
       return "Desconocido";
   }

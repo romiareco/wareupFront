@@ -1,6 +1,6 @@
 import React from "react";
 import { Snackbar } from "@mui/material";
-import Alert from "../Alerts/Alert";
+import Alert from "../Alert/Alert";
 
 export function NotificationSnackbar({ open, onClose, severity, message }) {
   return (

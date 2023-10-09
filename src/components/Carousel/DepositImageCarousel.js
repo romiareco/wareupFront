@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Carousel from "react-material-ui-carousel";
 import { Paper, Typography, Box, CircularProgress } from "@mui/material";
 import "./style/Settings.scss";
-import { NotificationSnackbar } from "../NotificationSnackbar";
+import { NotificationSnackbar } from "../Snackbar";
 import { Deposit } from "../../api";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../theme/theme";

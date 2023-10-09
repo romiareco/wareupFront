@@ -13,7 +13,7 @@ import * as Yup from "yup";
 import { useAuth } from "../../../hooks";
 import { User } from "../../../api/user";
 import React, { Fragment, useState } from "react";
-import { NotificationSnackbar } from "../../NotificationSnackbar";
+import { NotificationSnackbar } from "../../Snackbar";
 import { initialValues } from "../../Forms/Forms/User.form";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import CircularProgress from "@mui/material/CircularProgress";

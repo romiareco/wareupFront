@@ -11,7 +11,7 @@ import {
 import { useState, useEffect } from "react";
 import { Company } from "../../../api";
 import { useAuth } from "../../../hooks";
-import { NotificationSnackbar } from "../../NotificationSnackbar";
+import { NotificationSnackbar } from "../../Snackbar";
 import { LoadingButton } from "@mui/lab";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import { companyStatus } from "../../../utils";
