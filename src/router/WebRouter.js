@@ -36,6 +36,7 @@ export function WebRouter() {
   const { user } = useAuth();
   const isAdmin = parseInt(user?.role) === role.ADMIN;
   const isLoggedIn = user !== null;
+  const adminBasePath = isAdmin ? "admin" : "";
 
   return (
     <Routes>
@@ -85,28 +86,31 @@ export function WebRouter() {
         {/* Rutas de admin */}
         {isAdmin && (
           <>
-            <Route path="admin/manage-users" element={<ManageUsers />} />
-            <Route path="admin/manage-deposits" element={<ManageDeposits />} />
             <Route
-              path="admin/manage-deposits-requests"
+              path={`${adminBasePath}/manage-users`}
+              element={<ManageUsers />}
+            />
+            <Route
+              path={`${adminBasePath}/manage-deposits`}
+              element={<ManageDeposits />}
+            />
+            <Route
+              path={`${adminBasePath}/manage-deposits-requests`}
               element={<ManageDepositRequests />}
             />
             <Route
-              path="admin/manage-booking-requests"
+              path={`${adminBasePath}/manage-booking-requests`}
               element={<ManageBookingRequests />}
             />
             <Route
-              path="admin/register-deposit"
+              path={`${adminBasePath}/register-deposit`}
               element={<RegisterDeposits />}
             />
             <Route
-              path="admin/publication-view"
+              path={`${adminBasePath}/publication-view`}
               element={<PublicationView />}
             />
-            <Route
-              path="admin/metrics"
-              element={<Metrics />}
-            />
+            <Route path={`${adminBasePath}/metrics`} element={<Metrics />} />
           </>
         )}
       </Route>

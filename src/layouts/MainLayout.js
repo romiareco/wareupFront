@@ -36,7 +36,7 @@ export function MainLayout(props) {
     ? [
         {
           label: "Usuarios",
-          href: "admin/manage-users",
+          href: "/admin/manage-users",
           icon: <PeopleAltRoundedIcon />,
         },
         {
@@ -63,7 +63,7 @@ export function MainLayout(props) {
         },
         {
           label: "Métricas",
-          href: "admin/metrics",
+          href: "/admin/metrics",
           icon: <AnalyticsRoundedIcon />,
         },
       ]
