@@ -1,26 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Bar } from "react-chartjs-2";
+import { Pie } from "react-chartjs-2";
 import { User } from "../../../api";
 import { mapUserStatus } from "../../../utils/mapFunctions";
 import {
   Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
+  ArcElement,
   Tooltip,
   Legend,
 } from "chart.js";
 import { useAuth } from "../../../hooks";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(ArcElement, Tooltip, Legend);
+
 
 const options = {
   responsive: true,
@@ -37,11 +28,10 @@ const options = {
 
 const userController = new User();
 
-const labels = ["Activo", "Eliminado", "Bloqueado", "Pendiente", "Desconocido"];
-
 export function UserStatusChart() {
   const { accessToken } = useAuth();
   const [users, setUsers] = useState([]);
+  const [labels, setLabels] = useState([]); // Estado para almacenar los labels dinámicos
 
   useEffect(() => {
     async function fetchData() {
@@ -55,6 +45,14 @@ export function UserStatusChart() {
 
     fetchData();
   }, [accessToken]);
+
+  useEffect(() => {
+    // Obtener una lista de valores de estado únicos
+    const uniqueStatusValues = [...new Set(users.map((user) => mapUserStatus(user.status)))];
+
+    // Establecer los labels en función de los valores únicos de estado
+    setLabels(uniqueStatusValues);
+  }, [users]);
 
   // Inicializa un objeto para contar la cantidad de depósitos por estado
   const userCountByStatus = labels.reduce((acc, label) => {
@@ -70,16 +68,23 @@ export function UserStatusChart() {
     }
   });
 
+  const randomColors = labels.map(() => {
+    const randomColor = `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(
+      Math.random() * 256
+    )}, ${Math.floor(Math.random() * 256)}, 0.5)`;
+    return randomColor;
+  });
+
   const data = {
     labels,
     datasets: [
       {
         label: "# usuarios",
         data: labels.map((label) => userCountByStatus[label]),
-        backgroundColor: "rgba(153, 102, 255, 0.5)",
+        backgroundColor: randomColors,
       },
     ],
   };
 
-  return <Bar options={options} data={data} />;
+  return <Pie options={options} data={data} />;
 }

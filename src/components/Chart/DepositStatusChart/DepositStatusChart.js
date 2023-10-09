@@ -1,51 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { Bar } from "react-chartjs-2";
+import { Pie } from "react-chartjs-2";
 import { Deposit } from "../../../api";
 import { mapDepositStatus } from "../../../utils/mapFunctions";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const options = {
   responsive: true,
   plugins: {
     legend: {
-      position: 'top',
+      position: "top",
     },
     title: {
       display: true,
-      text: 'Cantidad de depósitos por status',
+      text: "Cantidad de depósitos por status",
     },
   },
 };
 
 const depositController = new Deposit();
 
-const labels = ["Activo", "Eliminado", "Pendiente", "Pausado", "Desconocido"];
-
 export function DepositStatusChart() {
-  const [depositData, setDepositData] = useState([]);
+  const [deposits, setDeposits] = useState([]);
+  const [labels, setLabels] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await depositController.getAllDeposits();
-        setDepositData(response.deposits);
+        setDeposits(response.deposits);
       } catch (error) {
         console.error("Error al obtener los datos de los depósitos:", error);
       }
@@ -54,18 +38,30 @@ export function DepositStatusChart() {
     fetchData();
   }, []);
 
-  // Inicializa un objeto para contar la cantidad de depósitos por estado
+  useEffect(() => {
+    const uniqueStatusValues = [
+      ...new Set(deposits.map((deposit) => mapDepositStatus(deposit.status))),
+    ];
+    setLabels(uniqueStatusValues);
+  }, [deposits]);
+
   const depositCountByStatus = labels.reduce((acc, label) => {
     acc[label] = 0;
     return acc;
   }, {});
 
-  // Procesa los datos de depósito para contar la cantidad por estado
-  depositData.forEach((deposit) => {
+  deposits.forEach((deposit) => {
     const status = mapDepositStatus(deposit.status);
     if (depositCountByStatus.hasOwnProperty(status)) {
       depositCountByStatus[status]++;
     }
+  });
+
+  const randomColors = labels.map(() => {
+    const randomColor = `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(
+      Math.random() * 256
+    )}, ${Math.floor(Math.random() * 256)}, 0.5)`;
+    return randomColor;
   });
 
   const data = {
@@ -74,12 +70,10 @@ export function DepositStatusChart() {
       {
         label: "# depósitos",
         data: labels.map((label) => depositCountByStatus[label]),
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        backgroundColor: randomColors,
       },
     ],
   };
 
-  return (
-    <Bar options={options} data={data} />
-  );
+  return <Pie options={options} data={data} />;
 }

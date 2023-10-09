@@ -1,26 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Bar } from "react-chartjs-2";
+import { Pie } from "react-chartjs-2";
 import { Company } from "../../../api";
 import { mapCompanyStatus } from "../../../utils/mapFunctions";
 import {
   Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
+  ArcElement,
   Tooltip,
   Legend,
 } from "chart.js";
 import { useAuth } from "../../../hooks";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(ArcElement, Tooltip, Legend);
+
 
 const options = {
   responsive: true,
@@ -37,11 +28,10 @@ const options = {
 
 const companyController = new Company();
 
-const labels = ["Activa", "Eliminada", "Desconocido"];
-
 export function CompanyStatusChart() {
   const { accessToken } = useAuth();
   const [companies, setCompanies] = useState([]);
+  const [labels, setLabels] = useState([]); 
 
   useEffect(() => {
     async function fetchData() {
@@ -56,18 +46,31 @@ export function CompanyStatusChart() {
     fetchData();
   }, [accessToken]);
 
-  // Inicializa un objeto para contar la cantidad de depósitos por estado
+  
+  useEffect(() => {
+    const uniqueStatusValues = [
+      ...new Set(companies.map((company) => mapCompanyStatus(company.status))),
+    ];
+    setLabels(uniqueStatusValues);
+  }, [companies]);
+
   const companyCountByStatus = labels.reduce((acc, label) => {
     acc[label] = 0;
     return acc;
   }, {});
 
-  // Procesa los datos de depósito para contar la cantidad por estado
   companies.forEach((company) => {
     const status = mapCompanyStatus(company.status);
     if (companyCountByStatus.hasOwnProperty(status)) {
       companyCountByStatus[status]++;
     }
+  });
+
+  const randomColors = labels.map(() => {
+    const randomColor = `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(
+      Math.random() * 256
+    )}, ${Math.floor(Math.random() * 256)}, 0.5)`;
+    return randomColor;
   });
 
   const data = {
@@ -76,10 +79,10 @@ export function CompanyStatusChart() {
       {
         label: "# empresas",
         data: labels.map((label) => companyCountByStatus[label]),
-        backgroundColor: "rgba(54, 162, 235, 0.5)",
+        backgroundColor: randomColors,
       },
     ],
   };
 
-  return <Bar options={options} data={data} />;
+  return <Pie options={options} data={data} />;
 }

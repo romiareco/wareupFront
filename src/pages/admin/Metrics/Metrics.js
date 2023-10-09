@@ -21,11 +21,10 @@ export function Metrics() {
         <DepositCharts />
         <Divider>
           <Typography variant="h6" fontWeight="bold">
-            Solicitudes de registro de depósitos
+            Usuarios{" "}
           </Typography>
         </Divider>
-
-        <DepositRequestCharts />
+        <UserCharts />
         <Divider>
           <Typography variant="h6" fontWeight="bold">
             Empresas{" "}
@@ -34,16 +33,15 @@ export function Metrics() {
         <CompanyCharts />
         <Divider>
           <Typography variant="h6" fontWeight="bold">
-            Usuarios{" "}
+            Solicitudes de registro de depósitos
           </Typography>
         </Divider>
-        <UserCharts />
+        <DepositRequestCharts />
         <Divider>
           <Typography variant="h6" fontWeight="bold">
             Solicitudes de arrendamiento{" "}
           </Typography>
         </Divider>
-
         <BookingRequestCharts />
       </Box>
       <Footer />

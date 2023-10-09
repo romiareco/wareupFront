@@ -1,29 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Bar } from "react-chartjs-2";
-import { Deposit, DepositRequest } from "../../../api";
-import {
-  mapDepositRequestStatus,
-  mapDepositStatus,
-} from "../../../utils/mapFunctions";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import { Pie } from "react-chartjs-2";
+import { DepositRequest } from "../../../api";
+import { mapDepositRequestStatus } from "../../../utils/mapFunctions";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { useAuth } from "../../../hooks";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const options = {
   responsive: true,
@@ -40,11 +22,10 @@ const options = {
 
 const depositRequestController = new DepositRequest();
 
-const labels = ["Pendiente", "Completada", "Cancelada", "Desconocido"];
-
 export function DepositRequestStatusChart() {
   const { accessToken } = useAuth();
   const [depositRequests, setDepositRequests] = useState([]);
+  const [labels, setLabels] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -61,18 +42,34 @@ export function DepositRequestStatusChart() {
     fetchData();
   }, [accessToken]);
 
-  // Inicializa un objeto para contar la cantidad de depósitos por estado
+  useEffect(() => {
+    const uniqueStatusValues = [
+      ...new Set(
+        depositRequests.map((depositRequest) =>
+          mapDepositRequestStatus(depositRequest.status)
+        )
+      ),
+    ];
+    setLabels(uniqueStatusValues);
+  }, [depositRequests]);
+
   const depositRequestsCountByStatus = labels.reduce((acc, label) => {
     acc[label] = 0;
     return acc;
   }, {});
 
-  // Procesa los datos de depósito para contar la cantidad por estado
   depositRequests.forEach((depositRequest) => {
     const status = mapDepositRequestStatus(depositRequest.status);
     if (depositRequestsCountByStatus.hasOwnProperty(status)) {
       depositRequestsCountByStatus[status]++;
     }
+  });
+
+  const randomColors = labels.map(() => {
+    const randomColor = `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(
+      Math.random() * 256
+    )}, ${Math.floor(Math.random() * 256)}, 0.5)`;
+    return randomColor;
   });
 
   const data = {
@@ -81,10 +78,10 @@ export function DepositRequestStatusChart() {
       {
         label: "# solicitudes de depósitos",
         data: labels.map((label) => depositRequestsCountByStatus[label]),
-        backgroundColor: "rgba(75, 192, 192, 0.5)",
+        backgroundColor: randomColors,
       },
     ],
   };
 
-  return <Bar options={options} data={data} />;
+  return <Pie options={options} data={data} />;
 }
