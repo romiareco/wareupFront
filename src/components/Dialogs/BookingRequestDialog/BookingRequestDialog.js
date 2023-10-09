@@ -15,7 +15,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth } from "../../../hooks";
 import { useState } from "react";
-import { DepositDatePicker } from "../../DatePickers/DepositDatePicker";
+import { DepositDatePicker } from "../../DatePicker";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { NotificationSnackbar } from "../../Snackbar";
