@@ -4,8 +4,13 @@ import banner from "../../../assets/official-images/banner-1.jpg";
 import theme from "../../../theme/theme";
 import { Footer } from "../../../components/Footer";
 import { RegisteredBookingRequestsTable } from "../../../components/Tables";
+import { useEffect } from "react";
 
 export function ManageBookingRequests() {
+  useEffect(() => {
+    document.title = "Solicitudes de arrendamiento";
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <Box

@@ -6,7 +6,7 @@ import InputLabel from "@mui/material/InputLabel";
 import { User, Common, DepositRequest } from "../../../api";
 import { initialValues, validationSchema } from "../Forms/RequestDeposit.form";
 import { ThemeProvider } from "@mui/material/styles";
-import { Typography, Paper, FormControl, Divider } from "@mui/material";
+import { Typography, Paper, FormControl } from "@mui/material";
 import { Select, MenuItem, Box } from "@mui/material";
 import { RegisterCompanyButton } from "../../Button";
 import { useAuth } from "../../../hooks";
@@ -90,6 +90,11 @@ export function RegisterRequestDeposit() {
         setNotificationMessage("Solicitud registrada exitosamente");
         setNotificationSeverity("success");
         setNotificationOpen(true);
+
+        window.gtag("event", "register", {
+          event_category: "Registrations",
+          event_label: "Deposit request registration",
+        });
 
         resetForm();
       } catch (error) {

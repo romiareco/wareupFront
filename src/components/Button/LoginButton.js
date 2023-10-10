@@ -8,6 +8,9 @@ export function LoginButton() {
   const [showLoginDialog, setShowLoginDialog] = useState(false);
 
   const handleButtonClick = () => {
+    window.gtag("event", "login_button_click", {
+      method: "click",
+    });
     setShowLoginDialog(true);
   };
 

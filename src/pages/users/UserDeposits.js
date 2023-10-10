@@ -4,8 +4,13 @@ import { Footer } from "../../components/Footer";
 import { Divider } from "@mui/material";
 import { UserDepositsTable } from "../../components/Tables";
 import banner from "../../assets/official-images/banner-1.jpg";
+import { useEffect } from "react";
 
 export function UserDeposits() {
+  useEffect(() => {
+    document.title = "Gestión de depósitos";
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <Box

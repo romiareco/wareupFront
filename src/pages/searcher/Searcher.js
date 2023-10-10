@@ -1,11 +1,16 @@
 import { useLocation } from "react-router-dom";
 import { SearcherView } from "../../components/Searcher";
+import { useEffect } from "react";
 
 export function Searcher() {
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
 
   let filters = {};
+
+  useEffect(() => {
+    document.title = "Buscador";
+  }, []);
 
   const queryToFiltersMap = {
     city: "city",

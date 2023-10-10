@@ -4,8 +4,13 @@ import { Footer } from "../../components/Footer";
 import { Divider } from "@mui/material";
 import { UserRequestRegisterDepositTable } from "../../components/Tables";
 import banner from "../../assets/official-images/banner-1.jpg";
+import { useEffect } from "react";
 
 export function UserListRequestDeposits() {
+  useEffect(() => {
+    document.title = "Solicitudes de registro de depósitos";
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <Box

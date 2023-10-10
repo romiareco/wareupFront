@@ -50,10 +50,14 @@ export function RegisterUser() {
         setNotificationSeverity("success");
         setNotificationOpen(true);
 
+        window.gtag("event", "register", {
+          event_category: "Registrations",
+          event_label: "User registration",
+        });
+
         resetForm();
       } catch (error) {
-        const errorMessage =
-          "Error: " + JSON.stringify(error.message);
+        const errorMessage = "Error: " + JSON.stringify(error.message);
         setNotificationMessage(errorMessage);
         setNotificationSeverity("error");
         setNotificationOpen(true);
@@ -212,7 +216,11 @@ export function RegisterUser() {
                       required
                     />
                   }
-                  label="He leído y acepto las políticas de privacidad."
+                  label={
+                    <span style={{ fontSize: "15px" }}>
+                      He leído y acepto las políticas de privacidad.
+                    </span>
+                  }
                 />
               </Grid>
             </Grid>

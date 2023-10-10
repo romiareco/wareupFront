@@ -37,6 +37,10 @@ export function SearchFiltersDialog({ open, handleClose, onApplyFilters }) {
   const [selectedHabilitations, setSelectedHabilitations] = useState([]);
 
   const handleApplyFilters = () => {
+    window.gtag("event", "apply_filters_button_click", {
+      method: "click",
+    });
+
     let filters = {};
 
     let laboralDays = [];

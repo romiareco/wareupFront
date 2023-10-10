@@ -8,8 +8,13 @@ import {
 } from "../../../components/Chart";
 import theme from "../../../theme/theme";
 import { Footer } from "../../../components/Footer";
+import { useEffect } from "react";
 
 export function Metrics() {
+  useEffect(() => {
+    document.title = "Métricas";
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <Box marginLeft={2} marginRight={2} marginTop={4}>

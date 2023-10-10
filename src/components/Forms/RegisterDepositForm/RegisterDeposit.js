@@ -78,6 +78,11 @@ export function RegisterDeposit() {
 
         setDepositCreated(response.deposit);
 
+        window.gtag("event", "register", {
+          event_category: "Registrations",
+          event_label: "Deposit registration",
+        });
+
         setIsRegistering(false);
       } catch (error) {
         console.log(error.message);

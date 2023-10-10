@@ -5,7 +5,7 @@ import {
   Services,
 } from "../../components/PublicationView";
 import { Footer } from "../../components/Footer";
-import React from "react";
+import React, { useEffect } from "react";
 import "../../theme/PublicationView.css";
 
 import { Box } from "@mui/system";
@@ -18,18 +18,21 @@ export function PublicationView() {
   const searchParams = new URLSearchParams(location.search);
   const depositId = searchParams.get("id");
 
-  
-const styles = {
-  backgroundImage: `url(${image})`,
-  backgroundSize: 'cover', // Ajusta el tamaño de la imagen para cubrir toda la caja
-  backgroundRepeat: 'no-repeat', // Evita que la imagen se repita
-  width: '100%', // Ancho de la caja
-};
+  useEffect(() => {
+    document.title = "Publicación";
+  }, []);
+
+  const styles = {
+    backgroundImage: `url(${image})`,
+    backgroundSize: "cover", // Ajusta el tamaño de la imagen para cubrir toda la caja
+    backgroundRepeat: "no-repeat", // Evita que la imagen se repita
+    width: "100%", // Ancho de la caja
+  };
 
   return (
     <Box sx={styles}>
-      <Container component="section" maxWidth={"lg"} >
-        <Box className="core" >
+      <Container component="section" maxWidth={"lg"}>
+        <Box className="core">
           <Gallery depositId={depositId} />
           <Description depositId={depositId} />
         </Box>

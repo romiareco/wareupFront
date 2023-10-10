@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { Footer } from "../../components/Footer";
 import {
   HowItWorks,
@@ -9,6 +9,10 @@ import {
 } from "../../components/Home";
 
 export function Home() {
+  useEffect(() => {
+    document.title = "Ware Up";
+  }, []);
+
   return (
     <Fragment>
       <PrincipalSearcher />

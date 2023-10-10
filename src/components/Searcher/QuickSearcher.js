@@ -71,6 +71,10 @@ export function QuickSearcher() {
   };
 
   const handleSearch = async (searchCity) => {
+    window.gtag("event", "quick_search_button_click", {
+      method: "click",
+    });
+
     setIsLoading(true);
 
     const foundCity = cities.find((city) => city.label === searchCity);

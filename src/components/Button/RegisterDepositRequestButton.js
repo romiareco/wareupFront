@@ -10,6 +10,10 @@ export function RegisterDepositRequestButton() {
   const [showLoginDialog, setShowLoginDialog] = useState(false);
 
   const handleButtonClick = () => {
+    window.gtag("event", "register_deposit_request_button_click", {
+      method: "click",
+    });
+
     if (user) {
       window.location.href = "/request-deposit";
     } else {

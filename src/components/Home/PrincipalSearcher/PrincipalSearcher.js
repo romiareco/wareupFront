@@ -27,6 +27,10 @@ export function PrincipalSearcher() {
   };
 
   const handleSearch = async (searchCity) => {
+    window.gtag("event", "principal_search_button_click", {
+      method: "click",
+    });
+
     setIsLoading(true);
 
     const foundCity = cities.find((city) => city.label === searchCity);
