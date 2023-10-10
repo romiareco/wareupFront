@@ -4,8 +4,13 @@ import banner from "../../../assets/official-images/banner-1.jpg";
 
 import theme from "../../../theme/theme";
 import { Footer } from "../../../components/Footer";
+import { useEffect } from "react";
 
 export function ManageDepositRequests() {
+  useEffect(() => {
+    document.title = "Solicitudes de registro";
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <Box

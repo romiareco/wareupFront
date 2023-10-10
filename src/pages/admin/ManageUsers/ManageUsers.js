@@ -4,8 +4,14 @@ import banner from "../../../assets/official-images/banner-1.jpg";
 
 import theme from "../../../theme/theme";
 import { Footer } from "../../../components/Footer";
+import { useEffect } from "react";
 
 export function ManageUsers() {
+
+  useEffect(() => {
+    document.title = "Gestión de usuarios";
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <Box

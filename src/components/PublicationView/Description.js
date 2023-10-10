@@ -9,15 +9,17 @@ import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
 import { BookingRequestDialog } from "../Dialogs/BookingRequestDialog/BookingRequestDialog";
 import { depositStatus } from "../../utils";
 import DoDisturbAltRoundedIcon from "@mui/icons-material/DoDisturbAltRounded";
-import { LoginDialog } from "../Dialogs/LoginDialog/LoginDialog";
 const depositController = new Deposit();
 
 export function Description({ depositId }) {
-  const { accessToken, user } = useAuth();
+  const { accessToken } = useAuth();
   const [deposit, setDeposit] = useState(null);
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
+    window.gtag("event", "request_booking_button_click", {
+      method: "click",
+    });
     setOpen(true);
   };
 

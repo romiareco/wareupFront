@@ -4,8 +4,13 @@ import { Footer } from "../../components/Footer";
 import { Divider } from "@mui/material";
 import { UserBookingRequestsTable } from "../../components/Tables";
 import banner from "../../assets/official-images/banner-1.jpg";
+import { useEffect } from "react";
 
 export function UserBookingRequests() {
+  useEffect(() => {
+    document.title = "Solicitudes de arrendamiento";
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <Box

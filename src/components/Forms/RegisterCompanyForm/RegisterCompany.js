@@ -16,7 +16,6 @@ import { blue } from "@mui/material/colors";
 import { useAuth } from "../../../hooks";
 import theme from "./../../../theme/theme"; // Importa el theme.js aquí
 import { NotificationSnackbar } from "../../Snackbar";
-import banner from "../../../assets/official-images/wms-top-header-1-1.jpg";
 
 const companyController = new Company();
 
@@ -32,19 +31,20 @@ export function RegisterCompany() {
     initialValues: initialValues(),
     validationSchema: validationSchema(),
     validateOnChange: false,
-    onSubmit: async (formValue, {resetForm}) => {
+    onSubmit: async (formValue, { resetForm }) => {
       try {
         await companyController.register(accessToken, user, formValue);
-        setNotificationMessage(
-          "Empresa registrada exitosamente"
-        );
+        setNotificationMessage("Empresa registrada exitosamente");
         setNotificationSeverity("success");
         setNotificationOpen(true);
 
+        window.gtag("event", "register", {
+          event_category: "Registrations",
+          event_label: "Company registration",
+        });
         resetForm();
       } catch (error) {
-        const errorMessage =
-        "Error: " + JSON.stringify(error.message);
+        const errorMessage = "Error: " + JSON.stringify(error.message);
         setNotificationMessage(errorMessage);
         setNotificationSeverity("error");
         setNotificationOpen(true);
@@ -65,7 +65,6 @@ export function RegisterCompany() {
             width: "100%",
             backgroundColor: "rgba(242, 242, 242, 0.9)", // Color de fondo opaco
             padding: "20px", // Ajusta el relleno según tus preferencias
-        
           }}
         >
           <Paper

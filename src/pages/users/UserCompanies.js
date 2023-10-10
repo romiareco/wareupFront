@@ -5,8 +5,13 @@ import { ThemeProvider } from "@emotion/react";
 import theme from "../../theme/theme";
 import { Footer } from "../../components/Footer";
 import banner from "../../assets/official-images/banner-1.jpg";
+import { useEffect } from "react";
 
 export function UserCompanies() {
+  useEffect(() => {
+    document.title = "Gestión de empresas";
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <Box
