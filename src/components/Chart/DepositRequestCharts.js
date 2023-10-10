@@ -12,11 +12,19 @@ export function DepositRequestCharts() {
           justifyContent: "center",
           alignItems: "center",
           width: "100%",
-          height: "100%"
         }}
       >
         <Grid container spacing={3} margin={2}>
-          <Grid item md={6}>
+          <Grid
+            item
+            md={6}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              maxHeight: "400px",
+            }}
+          >
             <DepositRequestStatusChart />
           </Grid>
           <Grid item md={6}>

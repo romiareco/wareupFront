@@ -22,7 +22,13 @@ export function UserCharts() {
           justifyContent="center"
           alignItems="center"
         >
-          <Grid item md={4}>
+          <Grid item md={4}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              maxHeight: "300px",
+            }}>
             <UserStatusChart />
           </Grid>
           <Grid

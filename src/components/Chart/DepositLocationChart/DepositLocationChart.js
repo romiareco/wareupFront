@@ -1,13 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { Common, Deposit } from "../../../api";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Pie } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";import { Bar } from "react-chartjs-2";
 
 const depositController = new Deposit();
 const commonController = new Common();
 
-ChartJS.register(ArcElement, Tooltip, Legend);
 
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 const options = {
   responsive: true,
   plugins: {
@@ -61,13 +75,6 @@ export function DepositLocationChart() {
     return acc;
   }, {});
 
-  const randomColors = labels.map(() => {
-    const randomColor = `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(
-      Math.random() * 256
-    )}, ${Math.floor(Math.random() * 256)}, 0.5)`;
-    return randomColor;
-  });
-
   depositData.forEach((deposit) => {
     const depositDepartment = deposit.city.department.title;
     if (depositCountByDepartment.hasOwnProperty(depositDepartment)) {
@@ -81,10 +88,10 @@ export function DepositLocationChart() {
       {
         label: "# depósitos",
         data: labels.map((label) => depositCountByDepartment[label]),
-        backgroundColor: randomColors,
+        backgroundColor: "rgba(74, 229, 232, 0.5)",
       },
     ],
   };
 
-  return <Pie options={options} data={data} />;
+  return <Bar options={options} data={data} />;
 }

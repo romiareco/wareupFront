@@ -1,30 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Bar } from "react-chartjs-2";
-import { BookingRequest, Company } from "../../../api";
-import {
-  mapBookingRequestInformation,
-  mapCompanyStatus,
-  mapDepositRequestStatus,
-} from "../../../utils/mapFunctions";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import { Pie } from "react-chartjs-2";
+import { BookingRequest } from "../../../api";
+import { mapDepositRequestStatus } from "../../../utils/mapFunctions";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { useAuth } from "../../../hooks";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const options = {
   responsive: true,
@@ -41,11 +22,10 @@ const options = {
 
 const bookingRequestController = new BookingRequest();
 
-const labels = ["Pendiente", "Completada", "Cancelada", "Desconocido"];
-
 export function BookingRequestStatusChart() {
   const { accessToken } = useAuth();
   const [bookingRequests, setBookingRequests] = useState([]);
+  const [labels, setLabels] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -62,18 +42,34 @@ export function BookingRequestStatusChart() {
     fetchData();
   }, [accessToken]);
 
-  // Inicializa un objeto para contar la cantidad de depósitos por estado
+  useEffect(() => {
+    const uniqueStatusValues = [
+      ...new Set(
+        bookingRequests.map((bookingRequest) =>
+          mapDepositRequestStatus(bookingRequest.status)
+        )
+      ),
+    ];
+    setLabels(uniqueStatusValues);
+  }, [bookingRequests]);
+
   const bookingRequestCountByStatus = labels.reduce((acc, label) => {
     acc[label] = 0;
     return acc;
   }, {});
 
-  // Procesa los datos de depósito para contar la cantidad por estado
   bookingRequests.forEach((bookingRequest) => {
     const status = mapDepositRequestStatus(bookingRequest.status);
     if (bookingRequestCountByStatus.hasOwnProperty(status)) {
       bookingRequestCountByStatus[status]++;
     }
+  });
+
+  const randomColors = labels.map(() => {
+    const randomColor = `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(
+      Math.random() * 256
+    )}, ${Math.floor(Math.random() * 256)}, 0.5)`;
+    return randomColor;
   });
 
   const data = {
@@ -82,10 +78,10 @@ export function BookingRequestStatusChart() {
       {
         label: "# solicitudes de arrendamiento",
         data: labels.map((label) => bookingRequestCountByStatus[label]),
-        backgroundColor: "rgba(230, 218, 76, 0.5)",
+        backgroundColor: randomColors,
       },
     ],
   };
 
-  return <Bar options={options} data={data} />;
+  return <Pie options={options} data={data} />;
 }

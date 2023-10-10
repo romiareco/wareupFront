@@ -30,19 +30,11 @@ const ContentBox = styled(Box)(() => ({
 
 const authController = new Auth();
 
-export function Login() {
+export function Login({ onLoginSuccess }) {
   const { login } = useAuth();
-  const navigate = useNavigate();
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationSeverity, setNotificationSeverity] = useState("success");
-
-  const startSessionTimer = () => {
-    const sessionTimeout = 3600000;
-    setTimeout(() => {
-      navigate("/");
-    }, sessionTimeout);
-  };
 
   const formik = useFormik({
     initialValues: inititalValues(),
@@ -58,12 +50,12 @@ export function Login() {
         const userLogged = await login(response.tokens.access);
 
         if (userLogged) {
-          startSessionTimer();
-          navigate("/");
+          if (typeof onLoginSuccess === "function") {
+            onLoginSuccess();
+          }
         }
       } catch (error) {
-        const errorMessage =
-          "Error: " + JSON.stringify(error.message);
+        const errorMessage = "Error: " + JSON.stringify(error.message);
         console.log(errorMessage);
         setNotificationMessage(errorMessage);
         setNotificationSeverity("error");
@@ -74,24 +66,8 @@ export function Login() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: "100vh" }}>
-        <CssBaseline />
-        <Grid
-          item
-          md={7}
-          sx={{
-            backgroundImage:
-              "url(https://wareup.com.uy/wp-content/uploads/2021/07/banner-1.jpg)",
-            backgroundRepeat: "no-repeat",
-            backgroundColor: (t) =>
-              t.palette.mode === "light"
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-        <Grid item md={5} component={Paper} elevation={6} square>
+      <Grid container>
+        <Grid item md>
           <Box
             sx={{
               my: 8,
@@ -137,10 +113,7 @@ export function Login() {
                 />
 
                 <FlexBox justifyContent="space-between">
-                  <NavLink
-                    to="/forgot-password"
-                    style={{ color: "green" }}
-                  >
+                  <NavLink to="/forgot-password" style={{ color: "green" }}>
                     ¿Olvidaste tu contraseña?
                   </NavLink>
                 </FlexBox>
@@ -153,15 +126,6 @@ export function Login() {
                   sx={{ my: 2 }}
                 >
                   Login
-                </LoadingButton>
-
-                <LoadingButton
-                  color="primary"
-                  variant="outlined"
-                  onClick={() => navigate("/")}
-                  sx={{ my: 2, ml: 1 }}
-                >
-                  Cancelar
                 </LoadingButton>
                 <Box>
                   ¿No tienes una cuenta?

@@ -3,3 +3,4 @@ export * from "./UserProfileButton";
 export * from "./LoginButton";
 export * from "./SignUpButton";
 export * from "./ComplexButton";
+export * from "./RegisterDepositRequestButton";

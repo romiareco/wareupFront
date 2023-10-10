@@ -15,7 +15,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth } from "../../../hooks";
 import { useState } from "react";
-import { DepositDatePicker } from "../../DatePickers/DepositDatePicker";
+import { DepositDatePicker } from "../../DatePicker";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { NotificationSnackbar } from "../../Snackbar";
@@ -24,26 +24,31 @@ import { ErrorDialog } from "../ErrorDialog";
 import dayjs from "dayjs";
 import theme from "../../../theme/theme";
 import { CustomTransition } from "../CustomTransition";
+import { LoginDialog } from "../LoginDialog/LoginDialog";
+import { LoadingButton } from "@mui/lab";
 
-export function BookingRequestDialog({
-  open,
-  handleClose,
-  depositId,
-  maxTotalM3,
-}) {
+export function BookingRequestDialog({ open, handleClose, deposit }) {
   const { accessToken, user } = useAuth();
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
-  const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
+  const [notificationSeverity, setNotificationSeverity] = useState("success");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [startDate, setStartDate] = useState(dayjs()); // Inicializa con la fecha por defecto
-  const [endDate, setEndDate] = useState(dayjs()); // Inicializa con la fecha por defecto
+  const [startDate, setStartDate] = useState(dayjs());
+  const [endDate, setEndDate] = useState(dayjs());
+  const [loading, setLoading] = useState(false);
 
   const validationSchema = Yup.object({
     totalM3: Yup.number()
       .required("El campo es obligatorio")
       .min(1, "El valor debe ser mayor a 0")
-      .max(maxTotalM3, `El valor debe ser menor o igual a ${maxTotalM3}`), // Agrega esta línea
+      .max(
+        deposit.totalM3,
+        `El valor debe ser menor o igual a ${deposit.totalM3}`
+      )
+      .min(
+        deposit.minimumBusinessVolume,
+        `El valor debe ser mayor o igual a ${deposit.minimumBusinessVolume}`
+      ),
   });
 
   const handleErrorDialogOpenChange = (isOpen) => {
@@ -66,11 +71,12 @@ export function BookingRequestDialog({
     onSubmit: async (values, { setSubmitting }) => {
       try {
         if (user) {
+          setLoading(true);
           const bookingRequestController = new BookingRequest();
 
           const data = {
             userId: user.id,
-            depositId: depositId,
+            depositId: deposit.id,
             totalM3: values.totalM3,
             dateFrom: startDate,
             dateTo: endDate,
@@ -85,7 +91,7 @@ export function BookingRequestDialog({
           setNotificationSeverity("success");
           setNotificationOpen(true);
 
-          handleClose();
+          setLoading(false);
         } else {
           setIsDialogOpen(true);
         }
@@ -93,6 +99,7 @@ export function BookingRequestDialog({
         setNotificationMessage(error.message);
         setNotificationSeverity("error");
         setNotificationOpen(true);
+        setLoading(false);
       }
       setSubmitting(false);
     },
@@ -109,8 +116,7 @@ export function BookingRequestDialog({
         maxWidth={"sm"}
       >
         {isDialogOpen && (
-          <ErrorDialog
-            errorMessage={"Debe iniciar sesión para realizar esta operación."}
+          <LoginDialog
             openDialog={isDialogOpen}
             onDialogOpenChange={handleErrorDialogOpenChange}
           />
@@ -180,13 +186,14 @@ export function BookingRequestDialog({
             justifyContent="center"
             alignItems="center"
           >
-            <Button
+            <LoadingButton
               size="medium"
               variant="contained"
+              loading={loading}
               onClick={formik.handleSubmit}
             >
               Confirmar
-            </Button>
+            </LoadingButton>
           </Box>
         </DialogActions>
         <NotificationSnackbar

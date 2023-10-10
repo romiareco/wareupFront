@@ -1,14 +1,20 @@
-import Button from "@mui/material/Button";
+import React, { useState } from "react";
+import { Button } from "@mui/material";
+import { ThemeProvider } from "@mui/system";
 import theme from "../../theme/theme";
-import { ThemeProvider } from "@mui/material/styles";
+import { useAuth } from "../../hooks";
 import { LoginDialog } from "../Dialogs/LoginDialog/LoginDialog";
-import { useState } from "react";
 
-export function LoginButton() {
+export function RegisterDepositRequestButton() {
+  const { user } = useAuth();
   const [showLoginDialog, setShowLoginDialog] = useState(false);
 
   const handleButtonClick = () => {
-    setShowLoginDialog(true);
+    if (user) {
+      window.location.href = "/request-deposit";
+    } else {
+      setShowLoginDialog(true);
+    }
   };
 
   const handleOpenLoginDialog = (isOpen) => {
@@ -19,18 +25,19 @@ export function LoginButton() {
     <ThemeProvider theme={theme}>
       <Button
         variant="outlined"
-        color="secondary"
+        color="primary"
         sx={{
-          borderColor: theme.palette.secondary.main,
-          mr: 1,
+          color: theme.palette.common.white,
+          borderColor: theme.palette.common.white,
+          backgroundColor: theme.palette.primary.main,
           ml: 1,
           "&:hover": {
-            backgroundColor: theme.palette.secondary.dark,
+            backgroundColor: theme.palette.primary.dark,
           },
         }}
         onClick={handleButtonClick}
       >
-        Acceder
+        Publica tu espacio
       </Button>
       <LoginDialog
         openDialog={showLoginDialog}
