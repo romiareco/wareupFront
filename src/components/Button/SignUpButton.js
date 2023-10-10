@@ -2,7 +2,7 @@ import Button from "@mui/material/Button";
 import theme from "../../theme/theme";
 import { ThemeProvider } from "@mui/material/styles";
 
-export function SignUpButton({textName}) {
+export function SignUpButton() {
   return (
     <ThemeProvider theme={theme}>
       <Button
@@ -17,7 +17,7 @@ export function SignUpButton({textName}) {
           },
         }}
       >
-        {textName}
+        Registrarse
       </Button>
     </ThemeProvider>
   );

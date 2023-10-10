@@ -30,7 +30,7 @@ const ContentBox = styled(Box)(() => ({
 
 const authController = new Auth();
 
-export function Login() {
+export function Login({onLoginSuccess }) {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [notificationOpen, setNotificationOpen] = useState(false);
@@ -60,6 +60,10 @@ export function Login() {
         if (userLogged) {
           startSessionTimer();
           navigate("/");
+
+          if (typeof onLoginSuccess === "function") {
+            onLoginSuccess();
+          }
         }
       } catch (error) {
         const errorMessage =
@@ -74,24 +78,8 @@ export function Login() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: "100vh" }}>
-        <CssBaseline />
-        <Grid
-          item
-          md={7}
-          sx={{
-            backgroundImage:
-              "url(https://wareup.com.uy/wp-content/uploads/2021/07/banner-1.jpg)",
-            backgroundRepeat: "no-repeat",
-            backgroundColor: (t) =>
-              t.palette.mode === "light"
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-        <Grid item md={5} component={Paper} elevation={6} square>
+      <Grid container>        
+        <Grid item md>
           <Box
             sx={{
               my: 8,
@@ -153,15 +141,6 @@ export function Login() {
                   sx={{ my: 2 }}
                 >
                   Login
-                </LoadingButton>
-
-                <LoadingButton
-                  color="primary"
-                  variant="outlined"
-                  onClick={() => navigate("/")}
-                  sx={{ my: 2, ml: 1 }}
-                >
-                  Cancelar
                 </LoadingButton>
                 <Box>
                   ¿No tienes una cuenta?

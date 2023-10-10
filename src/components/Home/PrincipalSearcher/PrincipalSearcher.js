@@ -10,7 +10,7 @@ import {
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import { SignUpButton } from "../../Button";
+import { RegisterDepositRequestButton, SignUpButton } from "../../Button";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -115,7 +115,7 @@ export function PrincipalSearcher() {
             transition={{ type: "spring", stiffness: 100 }}
             style={{ width: "100%" }}
           >
-            <SignUpButton textName={"Sé parte de la comunidad"} />
+            <RegisterDepositRequestButton />
           </motion.div>
         </Box>
       </Box>

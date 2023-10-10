@@ -34,7 +34,7 @@ export function TopHomeBar() {
               }}
             >
               <LoginButton />
-              <SignUpButton textName={"Registrarse"} />
+              <SignUpButton />
             </Box>
           </Toolbar>
         </AppBar>
