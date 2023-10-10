@@ -1,25 +1,42 @@
 import Button from "@mui/material/Button";
 import theme from "../../theme/theme";
 import { ThemeProvider } from "@mui/material/styles";
+import { LoginDialog } from "../Dialogs/LoginDialog/LoginDialog";
+import { useState } from "react";
 
 export function LoginButton() {
+  const [showLoginDialog, setShowLoginDialog] = useState(false);
+
+  const handleButtonClick = () => {
+    setShowLoginDialog(true);
+  };
+
+  const handleOpenLoginDialog = (isOpen) => {
+    setShowLoginDialog(isOpen);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Button
-        href="/login"
         variant="outlined"
-        color="secondary" // Usa el color secundario definido en el theme.js
+        color="secondary"
         sx={{
-          borderColor: theme.palette.secondary.main, // Establece el borde del botón al color secundario
+          borderColor: theme.palette.secondary.main,
           mr: 1,
           ml: 1,
           "&:hover": {
-            backgroundColor: theme.palette.secondary.dark, // Establece el color de fondo al color secundario oscuro al pasar el ratón por encima
+            backgroundColor: theme.palette.secondary.dark,
           },
         }}
+        onClick={handleButtonClick}
       >
         Acceder
       </Button>
+      <LoginDialog
+        openDialog={showLoginDialog}
+        onDialogOpenChange={handleOpenLoginDialog}
+        onClose={() => setShowLoginDialog(false)}
+      />
     </ThemeProvider>
   );
 }

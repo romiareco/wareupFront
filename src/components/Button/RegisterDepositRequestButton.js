@@ -11,10 +11,8 @@ export function RegisterDepositRequestButton() {
 
   const handleButtonClick = () => {
     if (user) {
-      // Si el usuario está logueado, redirige a /request-deposit
       window.location.href = "/request-deposit";
     } else {
-      // Si el usuario no está logueado, muestra el diálogo de inicio de sesión
       setShowLoginDialog(true);
     }
   };

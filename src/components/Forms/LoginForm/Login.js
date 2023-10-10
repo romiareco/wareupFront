@@ -30,19 +30,11 @@ const ContentBox = styled(Box)(() => ({
 
 const authController = new Auth();
 
-export function Login({onLoginSuccess }) {
+export function Login({ onLoginSuccess }) {
   const { login } = useAuth();
-  const navigate = useNavigate();
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationSeverity, setNotificationSeverity] = useState("success");
-
-  const startSessionTimer = () => {
-    const sessionTimeout = 3600000;
-    setTimeout(() => {
-      navigate("/");
-    }, sessionTimeout);
-  };
 
   const formik = useFormik({
     initialValues: inititalValues(),
@@ -58,16 +50,12 @@ export function Login({onLoginSuccess }) {
         const userLogged = await login(response.tokens.access);
 
         if (userLogged) {
-          startSessionTimer();
-          navigate("/");
-
           if (typeof onLoginSuccess === "function") {
             onLoginSuccess();
           }
         }
       } catch (error) {
-        const errorMessage =
-          "Error: " + JSON.stringify(error.message);
+        const errorMessage = "Error: " + JSON.stringify(error.message);
         console.log(errorMessage);
         setNotificationMessage(errorMessage);
         setNotificationSeverity("error");
@@ -78,7 +66,7 @@ export function Login({onLoginSuccess }) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid container>        
+      <Grid container>
         <Grid item md>
           <Box
             sx={{
@@ -125,10 +113,7 @@ export function Login({onLoginSuccess }) {
                 />
 
                 <FlexBox justifyContent="space-between">
-                  <NavLink
-                    to="/forgot-password"
-                    style={{ color: "green" }}
-                  >
+                  <NavLink to="/forgot-password" style={{ color: "green" }}>
                     ¿Olvidaste tu contraseña?
                   </NavLink>
                 </FlexBox>

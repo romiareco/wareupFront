@@ -58,7 +58,6 @@ export function WebRouter() {
         {!isLoggedIn && (
           <>
             <Route path="register" element={<RegisterUser />} />
-            <Route path="login" element={<Login />} />
             <Route path="forgot-password" element={<ForgotPassword />} />
             <Route path="password-recovery" element={<PasswordRecovery />} />
           </>
