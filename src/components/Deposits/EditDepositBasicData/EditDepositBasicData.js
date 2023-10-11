@@ -159,7 +159,7 @@ export function EditDepositBasicData({ deposit }) {
                 ))
               ) : (
                 <MenuItem disabled value="">
-                  {companies.length === 0 && "No hay compañías registradas"}
+                  {companies.length === 0 && "No hay empresas registradas"}
                 </MenuItem>
               )}
             </Select>
