@@ -32,8 +32,7 @@ export function ContactForm() {
 
         resetForm();
       } catch (error) {
-        const errorMessage =
-          "Error: " + JSON.stringify(error.message);
+        const errorMessage = "Error: " + JSON.stringify(error.message);
         console.log(errorMessage);
         setNotificationMessage(errorMessage);
         setNotificationSeverity("error");
@@ -53,7 +52,7 @@ export function ContactForm() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, }} />
+          <Avatar sx={{ m: 1 }} />
           <Typography component="h1" variant="h5">
             Contactanos
           </Typography>
@@ -74,7 +73,7 @@ export function ContactForm() {
                   variant="outlined"
                   value={formik.values.name}
                   onChange={formik.handleChange}
-                  error={formik.errors.name}
+                  error={!!formik.errors.name}
                   helperText={formik.errors.name}
                 />
               </Grid>
@@ -88,7 +87,7 @@ export function ContactForm() {
                   required
                   value={formik.values.email}
                   onChange={formik.handleChange}
-                  error={formik.errors.email}
+                  error={!!formik.errors.email}
                   helperText={formik.errors.email}
                 />
               </Grid>
@@ -101,7 +100,7 @@ export function ContactForm() {
                   variant="outlined"
                   value={formik.values.phoneNumber}
                   onChange={formik.handleChange}
-                  error={formik.errors.phoneNumber}
+                  error={!!formik.errors.phoneNumber}
                   helperText={formik.errors.phoneNumber}
                 />
               </Grid>
@@ -115,7 +114,7 @@ export function ContactForm() {
                   variant="outlined"
                   value={formik.values.subject}
                   onChange={formik.handleChange}
-                  error={formik.errors.subject}
+                  error={!!formik.errors.subject}
                   helperText={formik.errors.subject}
                 />
               </Grid>
@@ -131,7 +130,7 @@ export function ContactForm() {
                   required
                   value={formik.values.message}
                   onChange={formik.handleChange}
-                  error={formik.errors.message}
+                  error={!!formik.errors.message}
                   helperText={formik.errors.message}
                   sx={{
                     "& .MuiOutlinedInput-root": {
