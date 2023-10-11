@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -20,12 +19,12 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { NotificationSnackbar } from "../../Snackbar";
 import { BookingRequest } from "../../../api";
-import { ErrorDialog } from "../ErrorDialog";
 import dayjs from "dayjs";
 import theme from "../../../theme/theme";
 import { CustomTransition } from "../CustomTransition";
 import { LoginDialog } from "../LoginDialog/LoginDialog";
 import { LoadingButton } from "@mui/lab";
+import { RegisterConfirmationDialog } from "../RegisterConfirmationDialog";
 
 export function BookingRequestDialog({ open, handleClose, deposit }) {
   const { accessToken, user } = useAuth();
@@ -36,6 +35,7 @@ export function BookingRequestDialog({ open, handleClose, deposit }) {
   const [startDate, setStartDate] = useState(dayjs());
   const [endDate, setEndDate] = useState(dayjs());
   const [loading, setLoading] = useState(false);
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
 
   const validationSchema = Yup.object({
     totalM3: Yup.number()
@@ -50,6 +50,10 @@ export function BookingRequestDialog({ open, handleClose, deposit }) {
         `El valor debe ser mayor o igual a ${deposit.minimumBusinessVolume}`
       ),
   });
+
+  const handleShowSuccessDialogOpenChange = (isOpen) => {
+    setShowSuccessDialog(isOpen);
+  };
 
   const handleErrorDialogOpenChange = (isOpen) => {
     setIsDialogOpen(isOpen);
@@ -87,11 +91,9 @@ export function BookingRequestDialog({ open, handleClose, deposit }) {
             data
           );
 
-          setNotificationMessage("Reserva realizada exitosamente");
-          setNotificationSeverity("success");
-          setNotificationOpen(true);
-
           setLoading(false);
+          setShowSuccessDialog(true);
+
         } else {
           setIsDialogOpen(true);
         }
@@ -202,6 +204,15 @@ export function BookingRequestDialog({ open, handleClose, deposit }) {
           severity={notificationSeverity}
           message={notificationMessage}
         />
+        {showSuccessDialog && (
+          <RegisterConfirmationDialog
+            openDialog={showSuccessDialog}
+            onDialogOpenChange={handleShowSuccessDialogOpenChange}
+            message={
+              "Se ha registrado exitosamente la solicitud de arrendamiento."
+            }
+          />
+        )}
       </Dialog>
     </ThemeProvider>
   );
