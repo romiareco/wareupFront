@@ -48,12 +48,10 @@ export const columns = (handleReject) => [
     align: "center",
     format: (value, row) => (
       <div>
-        <IconButton onClick={() => handleReject(row)}>
+        <IconButton onClick={() => handleReject(row)} color="error">
           <CancelRoundedIcon />
         </IconButton>
       </div>
     ),
   },
 ];
-
-//TODO: mover estos botones a otro componente asi le ponemos el Popover
