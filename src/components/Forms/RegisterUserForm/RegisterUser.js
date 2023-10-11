@@ -20,6 +20,7 @@ import { NotificationSnackbar } from "../../Snackbar";
 import Popover from "@mui/material/Popover";
 import IconButton from "@mui/material/IconButton";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import { LoginDialog } from "../../Dialogs/LoginDialog/LoginDialog";
 
 const userController = new User();
 
@@ -30,6 +31,7 @@ export function RegisterUser() {
   const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
   const [anchorEl, setAnchorEl] = useState(null);
   const isPopoverOpen = Boolean(anchorEl);
+  const [showLoginDialog, setShowLoginDialog] = useState(false);
 
   const handlePopoverOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -56,6 +58,7 @@ export function RegisterUser() {
         });
 
         resetForm();
+        setShowLoginDialog(true);
       } catch (error) {
         const errorMessage = "Error: " + JSON.stringify(error.message);
         setNotificationMessage(errorMessage);
@@ -64,6 +67,10 @@ export function RegisterUser() {
       }
     },
   });
+
+  const handleOpenLoginDialog = (isOpen) => {
+    setShowLoginDialog(isOpen);
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -255,6 +262,11 @@ export function RegisterUser() {
         onClose={() => setNotificationOpen(false)}
         severity={notificationSeverity}
         message={notificationMessage}
+      />
+       <LoginDialog
+        openDialog={showLoginDialog}
+        onDialogOpenChange={handleOpenLoginDialog}
+        onClose={() => setShowLoginDialog(false)}
       />
     </ThemeProvider>
   );

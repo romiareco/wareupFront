@@ -12,6 +12,9 @@ import { RegisterCompanyButton } from "../../Button";
 import { useAuth } from "../../../hooks";
 import theme from "../../../theme/theme"; // Importa el theme.js aquí
 import { NotificationSnackbar } from "../../Snackbar";
+import {
+  RegisterConfirmationDialog,
+} from "../../Dialogs/RegisterConfirmationDialog";
 
 const userController = new User();
 const depositRequestController = new DepositRequest();
@@ -23,10 +26,14 @@ export function RegisterRequestDeposit() {
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationSeverity, setNotificationSeverity] = useState("success");
-
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [userCompanies, setUserCompanies] = React.useState([]);
   const [departments, setDepartments] = React.useState([]);
   const [cities, setCities] = React.useState([]);
+
+  const handleShowSuccessDialogOpenChange = (isOpen) => {
+    setShowSuccessDialog(isOpen);
+  };
 
   const handleDepartmentChange = (event) => {
     const selectedDepartmentId = event.target.value;
@@ -78,7 +85,6 @@ export function RegisterRequestDeposit() {
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: validationSchema(),
-    validateOnChange: false,
     onSubmit: async (formValue, { resetForm }) => {
       try {
         await depositRequestController.requestDepositPublication(
@@ -87,16 +93,14 @@ export function RegisterRequestDeposit() {
           user
         );
 
-        setNotificationMessage("Solicitud registrada exitosamente");
-        setNotificationSeverity("success");
-        setNotificationOpen(true);
-
         window.gtag("event", "register", {
           event_category: "Registrations",
           event_label: "Deposit request registration",
         });
 
         resetForm();
+
+        setShowSuccessDialog(true);
       } catch (error) {
         console.log(error.message);
         setNotificationMessage(error.message);
@@ -115,8 +119,8 @@ export function RegisterRequestDeposit() {
         justifyContent="center"
         margin={3}
         sx={{
-          backgroundColor: "rgba(242, 242, 242, 0.9)", // Color de fondo opaco
-          padding: "20px", // Ajusta el relleno según tus preferencias
+          backgroundColor: "rgba(242, 242, 242, 0.9)",
+          padding: "20px",
         }}
       >
         <Paper
@@ -137,6 +141,7 @@ export function RegisterRequestDeposit() {
           Solicitud para crear nueva publicación de espacio{" "}
         </Typography>
         <Box
+          component="form"
           noValidate
           onSubmit={formik.handleSubmit}
           sx={{ mt: 3, width: "90%" }}
@@ -145,14 +150,15 @@ export function RegisterRequestDeposit() {
             <Grid item md={8}>
               <FormControl
                 fullWidth
-                error={formik.touched.companyId && formik.errors.companyId}
+                error={Boolean(
+                  formik.touched.companyId && formik.errors.companyId
+                )}
               >
                 <InputLabel>Empresa</InputLabel>
                 <Select
                   label="Empresa"
                   value={formik.values.companyId}
                   onChange={formik.handleChange}
-                  onBlur={formik.handleBlur} // Agregar esta línea
                   name="companyId"
                 >
                   {userCompanies.length > 0 ? (
@@ -194,15 +200,14 @@ export function RegisterRequestDeposit() {
               <TextField
                 fullWidth
                 type="text"
-                name="storageAddress"
+                name="address"
                 label="Dirección"
                 variant="outlined"
                 required
-                value={formik.values.storageAddress}
+                value={formik.values.address}
                 onChange={formik.handleChange}
-                error={formik.errors.storageAddress}
-                helperText={formik.errors.storageAddress}
-                onBlur={formik.handleBlur}
+                error={Boolean(formik.errors.address)}
+                helperText={formik.errors.address}
               />
             </Grid>
             <Grid item md={4}>
@@ -210,22 +215,21 @@ export function RegisterRequestDeposit() {
                 fullWidth
                 type="text"
                 required
-                name="storagePhoneNumber"
+                name="phone"
                 label="Teléfono"
                 variant="outlined"
-                value={formik.values.storagePhoneNumber}
+                value={formik.values.phone}
                 onChange={formik.handleChange}
-                error={formik.errors.storagePhoneNumber}
-                helperText={formik.errors.storagePhoneNumber}
-                onBlur={formik.handleBlur}
+                error={Boolean(formik.errors.phone)}
+                helperText={formik.errors.phone}
               />
             </Grid>
             <Grid item md={6}>
               <FormControl
                 fullWidth
-                error={
+                error={Boolean(
                   formik.touched.departmentId && formik.errors.departmentId
-                }
+                )}
               >
                 <InputLabel>Departamento</InputLabel>
                 <Select
@@ -235,7 +239,6 @@ export function RegisterRequestDeposit() {
                     formik.handleChange(event);
                     handleDepartmentChange(event);
                   }}
-                  onBlur={formik.handleBlur} // Agregar esta línea
                   name="departmentId"
                 >
                   {departments.length > 0 ? (
@@ -259,14 +262,13 @@ export function RegisterRequestDeposit() {
             <Grid item md={6}>
               <FormControl
                 fullWidth
-                error={formik.touched.cityId && formik.errors.cityId}
+                error={Boolean(formik.touched.cityId && formik.errors.cityId)}
               >
                 <InputLabel>Barrio/Ciudad</InputLabel>
                 <Select
                   value={formik.values.cityId}
                   label="Barrio/Ciudad"
                   onChange={formik.handleChange}
-                  onBlur={formik.handleBlur} // Agregar esta línea
                   name="cityId"
                 >
                   {cities.map((city) => (
@@ -304,9 +306,8 @@ export function RegisterRequestDeposit() {
                 required
                 value={formik.values.title}
                 onChange={formik.handleChange}
-                error={formik.errors.title}
+                error={Boolean(formik.errors.title)}
                 helperText={formik.errors.title}
-                onBlur={formik.handleBlur} // Agregar esta línea
               />
             </Grid>
             <Grid item md={12}>
@@ -318,11 +319,10 @@ export function RegisterRequestDeposit() {
                 name="description"
                 label="Descripción"
                 variant="outlined"
-                onBlur={formik.handleBlur} // Agregar esta línea
                 required
                 value={formik.values.description}
                 onChange={formik.handleChange}
-                error={formik.errors.description}
+                error={Boolean(formik.errors.description)}
                 helperText={formik.errors.description}
                 sx={{
                   "& .MuiOutlinedInput-root": {
@@ -369,6 +369,15 @@ export function RegisterRequestDeposit() {
         severity={notificationSeverity}
         message={notificationMessage}
       />
+      {showSuccessDialog && (
+        <RegisterConfirmationDialog
+          openDialog={showSuccessDialog}
+          onDialogOpenChange={handleShowSuccessDialogOpenChange}
+          message={
+            "Se ha registrado exitosamente la solicitud para publicar su depósito."
+          }
+        />
+      )}
     </ThemeProvider>
   );
 }

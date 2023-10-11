@@ -2,9 +2,9 @@ import * as Yup from "yup";
 
 export function initialValues() {
   return {
-    storagePhoneNumber: "",
-    storageAddress: "",
-    userCompanyId: "",
+    phone: "",
+    address: "",
+    companyId: "",
     departmentId: "",
     cityId: "",
     title: "",
@@ -15,8 +15,8 @@ export function initialValues() {
 export function validationSchema(departments, cities, userCompanies) {
   return Yup.object({
     companyId: Yup.number().required("Debe seleccionar una empresa"),
-    storageAddress: Yup.string().required("La dirección es obligatoria."),
-    storagePhoneNumber: Yup.string()
+    address: Yup.string().required("La dirección es obligatoria."),
+    phone: Yup.string()
     .matches(
       /^[0-9()+-]*$/,
       "El número de teléfono contiene caracteres no válidos"

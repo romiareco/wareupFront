@@ -15,8 +15,8 @@ export class DepositRequest {
         body: JSON.stringify({
           userId: user.id,
           companyId: data.companyId,
-          address: data.storageAddress,
-          phone: data.storagePhoneNumber,
+          address: data.address,
+          phone: data.phone,
           cityId: data.cityId,
           email: user.email,
           title: data.title,

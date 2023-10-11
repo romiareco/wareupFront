@@ -11,8 +11,11 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { CustomTransition } from "../CustomTransition";
 import { Login } from "../../Forms";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export function LoginDialog({ openDialog, onDialogOpenChange }) {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
@@ -30,6 +33,12 @@ export function LoginDialog({ openDialog, onDialogOpenChange }) {
   const handleLoginSuccess = () => {
     setIsDialogOpen(false);
     onDialogOpenChange(false);
+
+    const currentPathname = location.pathname; // Ruta actual
+
+    if (currentPathname === "/register") {
+      navigate("/");
+    }
   };
 
   return (

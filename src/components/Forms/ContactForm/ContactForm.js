@@ -17,7 +17,7 @@ export function ContactForm() {
   const navigate = useNavigate();
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
-  const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
+  const [notificationSeverity, setNotificationSeverity] = useState("success");
 
   const formik = useFormik({
     initialValues: initialValues(),
