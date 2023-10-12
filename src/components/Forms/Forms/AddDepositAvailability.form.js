@@ -8,7 +8,8 @@ export function validationSchema(deposit) {
       .max(
         deposit.totalM3,
         `Total M³ no puede ser superior a ${deposit.totalM3}`
-      ),
+      )
+      .min(1, "Debe ser mayor a 0"),
     startDate: Yup.date().required("Fecha de inicio es requerida"),
     endDate: Yup.date()
       .required("Fecha de fin es requerida")
