@@ -31,7 +31,7 @@ export const columns = (handleAccept, handleReject) => [
   },
   {
     id: "departmentName",
-    label: "Departmento",
+    label: "Departamento",
     minWidth: 150,
   },
   {

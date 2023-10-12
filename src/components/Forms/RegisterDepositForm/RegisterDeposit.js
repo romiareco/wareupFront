@@ -12,6 +12,8 @@ import theme from "../../../theme/theme";
 import { ComplexButton } from "../../Button";
 import { Deposit } from "../../../api";
 import depositImages from "../../../assets/official-images/f683361f-8860-4902-b8ee-2331a81f03c2.jpg";
+import addAvailability from "../../../assets/button-images/add-availability.jpg";
+
 import CircularProgress from "@mui/material/CircularProgress";
 import {
   buildStructuredBodyData,
@@ -25,6 +27,8 @@ import {
   AddDepositAvailabilityDialog,
   AddDepositImageDialog,
 } from "../../Dialogs";
+import { Stack } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const steps = ["Agregar información del depósito", "Agregar servicios"];
 
@@ -32,7 +36,7 @@ const depositController = new Deposit();
 
 export function RegisterDeposit() {
   const { accessToken } = useAuth();
-
+  const navigate = useNavigate();
   const [activeStep, setActiveStep] = React.useState(0);
   const [formData, setFormData] = React.useState({}); // Almacena la información de todos los pasos
   const [stepData, setStepData] = React.useState({}); // Almacena los datos de cada paso
@@ -137,13 +141,17 @@ export function RegisterDeposit() {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+  const handleFinish = () => {
+    navigate("/");
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <Box
         sx={{
           paddingLeft: "4%",
           paddingRight: "4%",
-          backgroundColor: "rgba(242, 242, 242, 0.9)", // Color de fondo opaco
+          backgroundColor: "rgba(242, 242, 242, 0.9)",
           padding: "20px",
           width: "80%",
           display: "flex",
@@ -180,7 +188,7 @@ export function RegisterDeposit() {
                 display="flex"
                 flexDirection="column"
                 alignItems="center"
-                minHeight="100vh"
+                marginBottom={4}
               >
                 <CircularProgress size={50} />
                 <Typography textAlign={"center"}>
@@ -194,30 +202,37 @@ export function RegisterDeposit() {
                     display="flex"
                     flexDirection="column"
                     alignItems="center"
-                    minHeight="100vh"
                   >
-                    <Typography textAlign={"center"}>
+                    <Typography textAlign={"center"} variant="h6" marginBottom={3}>
                       ¡Un paso más! ¿Te gustaría registrar las imágenes del
                       depósito?
                     </Typography>
 
-                    <Box mt={2}>
-                      <ComplexButton
-                        imageTitle={"AGREGAR IMÁGENES"}
-                        imageUrl={depositImages}
-                        imageWidth={"500px"}
-                        onClick={() => handleAddImage()}
-                        deposit={depositCreated}
-                      />
-                    </Box>
-                    <Box mt={2}>
-                      <ComplexButton
-                        imageTitle={"AGREGAR DISPONIBILIDAD"}
-                        imageUrl={depositImages}
-                        imageWidth={"500px"}
-                        onClick={() => handleAddAvailability()}
-                        deposit={depositCreated}
-                      />
+                    <Stack direction={"row"} marginBottom={3}>
+                      <Box>
+                        <ComplexButton
+                          imageTitle={"AGREGAR IMÁGENES"}
+                          imageUrl={depositImages}
+                          imageWidth={"500px"}
+                          onClick={() => handleAddImage()}
+                          deposit={depositCreated}
+                        />
+                      </Box>
+                      <Box>
+                        <ComplexButton
+                          imageTitle={"AGREGAR DISPONIBILIDAD"}
+                          imageUrl={addAvailability}
+                          imageWidth={"500px"}
+                          onClick={() => handleAddAvailability()}
+                          deposit={depositCreated}
+                        />
+                      </Box>
+                    </Stack>
+
+                    <Box>
+                      <Button variant="contained" onClick={handleFinish}>
+                        Finalizar registro
+                      </Button>
                     </Box>
                   </Box>
                 ) : (
@@ -225,7 +240,7 @@ export function RegisterDeposit() {
                     display="flex"
                     flexDirection="column"
                     alignItems="center"
-                    minHeight="100vh" // Esto hace que el contenedor ocupe el 100% de la altura de la ventana
+                    marginBottom={3}
                   >
                     <Typography textAlign={"center"}>
                       Parece que hubo un error. Sugerimos realizar el registro
