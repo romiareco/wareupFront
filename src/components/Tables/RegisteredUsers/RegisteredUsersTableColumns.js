@@ -33,7 +33,7 @@ export const columns = (handleEdit, handleDelete) => [
         <IconButton onClick={() => handleEdit(row)} color="primary">
           <EditIcon />
         </IconButton>
-        <IconButton onClick={() => handleDelete(row)} color="secondary">
+        <IconButton onClick={() => handleDelete(row)} color="primary">
           <DeleteIcon />
         </IconButton>
       </div>

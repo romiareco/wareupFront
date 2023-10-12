@@ -47,8 +47,13 @@ export function QuickSearcher() {
     const currentLocation = getUrlParams();
 
     if (currentLocation && Object.keys(currentLocation).length > 0) {
-      queryParams.set("city", currentLocation.city);
-      queryParams.set("department", currentLocation.department);
+      if (queryParams.has("city")) {
+        queryParams.set("city", currentLocation.city);
+      }
+
+      if (queryParams.has("department")) {
+        queryParams.set("department", currentLocation.department);
+      }
     }
 
     const searchString = queryParams.toString().replace(/%2C/g, ",");
