@@ -49,7 +49,7 @@ export const columns = (
   { id: "departmentName", label: "Departamento", minWidth: 150 },
   {
     id: "createdAt",
-    label: "Fecha",
+    label: "Fecha creación",
     minWidth: 150,
   },
   {

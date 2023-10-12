@@ -132,7 +132,7 @@ export function UserInformationProfile({ user }) {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label="Industrias con la que estoy familiarizada/o"
+                label="Industrias con las que estoy familiarizada/o"
                 name="industry"
                 fullWidth
                 value={formik.values.industry}

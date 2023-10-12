@@ -170,7 +170,7 @@ export function RegisterRequestDeposit() {
                   ) : (
                     <MenuItem disabled value="">
                       {userCompanies.length === 0 &&
-                        "No hay compañías registradas"}
+                        "No hay empresas registradas"}
                     </MenuItem>
                   )}
                 </Select>

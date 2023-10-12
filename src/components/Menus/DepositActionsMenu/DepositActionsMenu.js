@@ -111,7 +111,7 @@ export function DepositActionsMenu({
           <ListItemIcon>
             <AddPhotoAlternateRoundedIcon fontSize="small" />
           </ListItemIcon>
-          Agregar imagen
+          Gestionar imágenes
         </MenuItem>
         <MenuItem
           onClick={() => {

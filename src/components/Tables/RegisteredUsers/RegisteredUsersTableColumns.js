@@ -30,10 +30,10 @@ export const columns = (handleEdit, handleDelete) => [
     align: "center",
     format: (value, row) => (
       <div>
-        <IconButton onClick={() => handleEdit(row)}>
+        <IconButton onClick={() => handleEdit(row)} color="primary">
           <EditIcon />
         </IconButton>
-        <IconButton onClick={() => handleDelete(row)}>
+        <IconButton onClick={() => handleDelete(row)} color="primary">
           <DeleteIcon />
         </IconButton>
       </div>

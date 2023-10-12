@@ -31,7 +31,7 @@ export const columns = (handleAccept, handleReject) => [
   },
   {
     id: "departmentName",
-    label: "Departmento",
+    label: "Departamento",
     minWidth: 150,
   },
   {
@@ -51,10 +51,10 @@ export const columns = (handleAccept, handleReject) => [
     align: "center",
     format: (value, row) => (
       <div>
-        <IconButton onClick={() => handleAccept(row)}>
+        <IconButton onClick={() => handleAccept(row)} color="success">
           <CheckCircleRoundedIcon />
         </IconButton>
-        <IconButton onClick={() => handleReject(row)}>
+        <IconButton onClick={() => handleReject(row)} color="error">
           <CancelRoundedIcon />
         </IconButton>
       </div>

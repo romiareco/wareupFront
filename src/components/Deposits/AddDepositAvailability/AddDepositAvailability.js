@@ -20,7 +20,6 @@ import {
   initialValues,
   validationSchema,
 } from "../../Forms/Forms/AddDepositAvailability.form";
-import CircularProgress from "@mui/material/CircularProgress";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import theme from "../../../theme/theme";
 import { LoadingButton } from "@mui/lab";

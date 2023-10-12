@@ -28,7 +28,7 @@ export function validationSchema() {
     totalM3: Yup.number().required("Debe cargar sus metros cúbicos"),
     currency: Yup.string().required("Debe seleccionar una moneda"),
     address: Yup.string().required("Debe completarse la dirección del depósito"),
-    minimumBusinessVolume: Yup.number().required("Debe cargar el volumen mínimo de arrendamiento"),
-    minimumBusinessPeriod: Yup.number().required("Debe cargar el período mínimo de arrendamiento"),
+    minimumBusinessVolume: Yup.number().typeError("Debe ser un número mayor que 0").required("Debe cargar el volumen mínimo de arrendamiento"),
+    minimumBusinessPeriod: Yup.number().typeError("Debe ser un número mayor que 0").required("Debe cargar el período mínimo de arrendamiento"),
   });
 }
