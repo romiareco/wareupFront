@@ -15,7 +15,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { ThemeProvider } from "@mui/material/styles";
 import { Copyright } from "../../Copyright";
-import theme from "./../../../theme/theme"; // Importa el theme.js aquí
+import theme from "./../../../theme/theme";
 import { NotificationSnackbar } from "../../Snackbar";
 import Popover from "@mui/material/Popover";
 import IconButton from "@mui/material/IconButton";

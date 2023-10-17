@@ -3,7 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import { WebRouter } from "./router";
 import { AuthProvider } from "./contexts";
 import { ThemeProvider } from "@mui/material/styles";
-import theme from "./theme/theme"; // Ajusta la ruta del import
+import theme from "./theme/theme";
 
 export default function App() {
   useEffect(() => {

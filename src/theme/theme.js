@@ -9,7 +9,7 @@ const theme = createTheme({
       main: "#fdede0", // Color secundario
     },
     footer: {
-      main: "#F2F2F2", // Ajusta el color de fondo que desees
+      main: "#F2F2F2",
     },
   },
   typography: {

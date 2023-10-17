@@ -14,7 +14,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { Copyright } from "../../Copyright";
 import { blue } from "@mui/material/colors";
 import { useAuth } from "../../../hooks";
-import theme from "./../../../theme/theme"; // Importa el theme.js aquí
+import theme from "./../../../theme/theme";
 import { NotificationSnackbar } from "../../Snackbar";
 
 const companyController = new Company();

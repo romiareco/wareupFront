@@ -10,7 +10,7 @@ import { Typography, Paper, FormControl } from "@mui/material";
 import { Select, MenuItem, Box } from "@mui/material";
 import { RegisterCompanyButton } from "../../Button";
 import { useAuth } from "../../../hooks";
-import theme from "../../../theme/theme"; // Importa el theme.js aquí
+import theme from "../../../theme/theme";
 import { NotificationSnackbar } from "../../Snackbar";
 import { RegisterConfirmationDialog } from "../../Dialogs/RegisterConfirmationDialog";
 
