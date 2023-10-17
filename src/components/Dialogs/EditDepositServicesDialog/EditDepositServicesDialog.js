@@ -15,7 +15,6 @@ import { EditDepositServices } from "../../Deposits";
 import theme from "../../../theme/theme";
 import { CustomTransition } from "../CustomTransition";
 
-
 export function EditDepositServicesDialog({
   selectedDeposit,
   openDialog,

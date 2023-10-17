@@ -120,5 +120,4 @@ export class DepositRequest {
       throw error;
     }
   }
-
 }

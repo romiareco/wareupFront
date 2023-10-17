@@ -3,14 +3,13 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import ButtonBase from "@mui/material/ButtonBase";
 import Typography from "@mui/material/Typography";
-import { Link, useNavigate } from 'react-router-dom';
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: "relative",
   height: 200,
-  marginRight: 20,  // Agrega un margen derecho
+  marginRight: 20,
   [theme.breakpoints.down("sm")]: {
-    width: "100% !important", // Overrides inline-style
+    width: "100% !important",
     height: 100,
   },
   "&:hover, &.Mui-focusVisible": {
@@ -47,7 +46,6 @@ const Image = styled("span")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "center",
   color: theme.palette.common.white,
-  
 }));
 
 const ImageBackdrop = styled("span")(({ theme }) => ({
@@ -71,8 +69,14 @@ const ImageMarked = styled("span")(({ theme }) => ({
   transition: theme.transitions.create("opacity"),
 }));
 
-export function ComplexButton({ imageTitle, imageUrl, imageWidth, onClick, targetUrl, deposit }) {
-
+export function ComplexButton({
+  imageTitle,
+  imageUrl,
+  imageWidth,
+  onClick,
+  targetUrl,
+  deposit,
+}) {
   const handleClick = () => {
     if (onClick) {
       onClick(deposit);
@@ -83,34 +87,33 @@ export function ComplexButton({ imageTitle, imageUrl, imageWidth, onClick, targe
     <Box
       sx={{ display: "flex", flexWrap: "wrap", minWidth: 300, width: "100%" }}
     >
-      
-        <ImageButton
-          focusRipple
-          key={imageTitle}
-          style={{
-            width: imageWidth,
-          }}
-          onClick={handleClick} // Agrega el evento de clic al botón
-        >
-          <ImageSrc style={{ backgroundImage: `url(${imageUrl})` }} />
-          <ImageBackdrop className="MuiImageBackdrop-root" />
-          <Image>
-            <Typography
-              component="span"
-              variant="subtitle1"
-              color="inherit"
-              sx={{
-                position: "relative",
-                p: 4,
-                pt: 2,
-                pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
-              }}
-            >
-              {imageTitle}
-              <ImageMarked className="MuiImageMarked-root" />
-            </Typography>
-          </Image>
-        </ImageButton>
+      <ImageButton
+        focusRipple
+        key={imageTitle}
+        style={{
+          width: imageWidth,
+        }}
+        onClick={handleClick}
+      >
+        <ImageSrc style={{ backgroundImage: `url(${imageUrl})` }} />
+        <ImageBackdrop className="MuiImageBackdrop-root" />
+        <Image>
+          <Typography
+            component="span"
+            variant="subtitle1"
+            color="inherit"
+            sx={{
+              position: "relative",
+              p: 4,
+              pt: 2,
+              pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
+            }}
+          >
+            {imageTitle}
+            <ImageMarked className="MuiImageMarked-root" />
+          </Typography>
+        </Image>
+      </ImageButton>
     </Box>
   );
 }

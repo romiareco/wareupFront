@@ -93,7 +93,6 @@ export function BookingRequestDialog({ open, handleClose, deposit }) {
 
           setLoading(false);
           setShowSuccessDialog(true);
-
         } else {
           setIsDialogOpen(true);
         }

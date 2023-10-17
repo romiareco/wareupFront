@@ -2,16 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Pie } from "react-chartjs-2";
 import { Company } from "../../../api";
 import { mapCompanyStatus } from "../../../utils/mapFunctions";
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { useAuth } from "../../../hooks";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
-
 
 const options = {
   responsive: true,
@@ -31,7 +25,7 @@ const companyController = new Company();
 export function CompanyStatusChart() {
   const { accessToken } = useAuth();
   const [companies, setCompanies] = useState([]);
-  const [labels, setLabels] = useState([]); 
+  const [labels, setLabels] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -46,7 +40,6 @@ export function CompanyStatusChart() {
     fetchData();
   }, [accessToken]);
 
-  
   useEffect(() => {
     const uniqueStatusValues = [
       ...new Set(companies.map((company) => mapCompanyStatus(company.status))),

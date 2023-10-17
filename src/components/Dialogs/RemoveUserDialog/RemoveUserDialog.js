@@ -24,7 +24,7 @@ export function RemoveUserDialog({
   const { accessToken } = useAuth();
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
-  const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
+  const [notificationSeverity, setNotificationSeverity] = useState("success");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -96,8 +96,8 @@ export function RemoveUserDialog({
                 <Typography
                   variant="body1"
                   style={{
-                    textAlign: "center", // Centra el texto horizontalmente
-                    marginBottom: "8px", // Espacio en la parte inferior
+                    textAlign: "center",
+                    marginBottom: "8px",
                   }}
                 >
                   {`¿Desea eliminar el usuario ${selectedUser.name}?`}

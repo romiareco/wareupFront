@@ -55,10 +55,8 @@ export function UserRegistrationByMonthChart() {
     fetchData();
   }, [accessToken]);
 
-  // Inicializa un objeto para contar la cantidad de empresas por mes
   const userCountByMonth = {};
 
-  // Procesa los datos de las empresas para contar la cantidad por mes
   users.forEach((user) => {
     const createdAt = new Date(user.createdAt);
     const monthYear = `${createdAt.getFullYear()}-${createdAt.getMonth() + 1}`;
@@ -69,7 +67,6 @@ export function UserRegistrationByMonthChart() {
     }
   });
 
-  // Convierte el objeto en dos arrays (labels y data) para usar en el gráfico
   const labels = Object.keys(userCountByMonth);
   const dataValues = Object.values(userCountByMonth);
 

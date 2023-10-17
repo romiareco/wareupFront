@@ -9,7 +9,7 @@ import {
   CategoryScale,
   LinearScale,
   PointElement,
-  LineElement
+  LineElement,
 } from "chart.js";
 import { useAuth } from "../../../hooks";
 
@@ -45,7 +45,9 @@ export function BookingRequestRegistrationByMonthChart() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await bookingRequestController.getBookingRequests(accessToken);
+        const response = await bookingRequestController.getBookingRequests(
+          accessToken
+        );
         setBookingRequests(response.bookingRequests);
       } catch (error) {
         console.error("Error: ", error);
@@ -55,21 +57,18 @@ export function BookingRequestRegistrationByMonthChart() {
     fetchData();
   }, [accessToken]);
 
-  // Inicializa un objeto para contar la cantidad de empresas por mes
   const bookingRequestCountByMonth = {};
 
-  // Procesa los datos de las empresas para contar la cantidad por mes
   bookingRequests.forEach((bookingRequest) => {
     const createdAt = new Date(bookingRequest.createdAt);
     const monthYear = `${createdAt.getFullYear()}-${createdAt.getMonth() + 1}`;
     if (bookingRequestCountByMonth.hasOwnProperty(monthYear)) {
-        bookingRequestCountByMonth[monthYear]++;
+      bookingRequestCountByMonth[monthYear]++;
     } else {
-        bookingRequestCountByMonth[monthYear] = 1;
+      bookingRequestCountByMonth[monthYear] = 1;
     }
   });
 
-  // Convierte el objeto en dos arrays (labels y data) para usar en el gráfico
   const labels = Object.keys(bookingRequestCountByMonth);
   const dataValues = Object.values(bookingRequestCountByMonth);
 

@@ -1,6 +1,6 @@
 import { Slide } from "@mui/material";
-import {forwardRef } from "react";
+import { forwardRef } from "react";
 
 export const CustomTransition = forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-  });
+  return <Slide direction="up" ref={ref} {...props} />;
+});

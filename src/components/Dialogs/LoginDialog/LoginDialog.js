@@ -1,10 +1,4 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  ThemeProvider,
-  Typography,
-} from "@mui/material";
+import { Dialog, DialogContent, ThemeProvider } from "@mui/material";
 import { useEffect, useState } from "react";
 import theme from "../../../theme/theme";
 import IconButton from "@mui/material/IconButton";
@@ -34,7 +28,7 @@ export function LoginDialog({ openDialog, onDialogOpenChange }) {
     setIsDialogOpen(false);
     onDialogOpenChange(false);
 
-    const currentPathname = location.pathname; // Ruta actual
+    const currentPathname = location.pathname;
 
     if (currentPathname === "/register") {
       navigate("/");

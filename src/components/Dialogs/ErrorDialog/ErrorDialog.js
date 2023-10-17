@@ -8,7 +8,6 @@ import ErrorIcon from "@mui/icons-material/Error"; // Importa un icono de error 
 import theme from "../../../theme/theme";
 import { CustomTransition } from "../CustomTransition";
 
-
 export function ErrorDialog({ errorMessage, openDialog, onDialogOpenChange }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -47,7 +46,7 @@ export function ErrorDialog({ errorMessage, openDialog, onDialogOpenChange }) {
           </Typography>
         </DialogTitle>
         <DialogContent>
-          <Typography >{errorMessage}</Typography>
+          <Typography>{errorMessage}</Typography>
         </DialogContent>
       </Dialog>
     </ThemeProvider>

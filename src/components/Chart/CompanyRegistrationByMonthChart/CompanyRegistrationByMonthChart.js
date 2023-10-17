@@ -9,7 +9,7 @@ import {
   CategoryScale,
   LinearScale,
   PointElement,
-  LineElement
+  LineElement,
 } from "chart.js";
 import { useAuth } from "../../../hooks";
 
@@ -55,10 +55,8 @@ export function CompanyRegistrationByMonthChart() {
     fetchData();
   }, [accessToken]);
 
-  // Inicializa un objeto para contar la cantidad de empresas por mes
   const companyCountByMonth = {};
 
-  // Procesa los datos de las empresas para contar la cantidad por mes
   companies.forEach((company) => {
     const createdAt = new Date(company.createdAt);
     const monthYear = `${createdAt.getFullYear()}-${createdAt.getMonth() + 1}`;
@@ -69,7 +67,6 @@ export function CompanyRegistrationByMonthChart() {
     }
   });
 
-  // Convierte el objeto en dos arrays (labels y data) para usar en el gráfico
   const labels = Object.keys(companyCountByMonth);
   const dataValues = Object.values(companyCountByMonth);
 

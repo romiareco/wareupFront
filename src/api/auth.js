@@ -22,7 +22,10 @@ export class Auth {
 
       return result;
     } catch (exception) {
-      console.error("Hubo un error en la respuesta del servidor. Error: " + exception.message)
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " +
+          exception.message
+      );
       throw exception;
     }
   }
@@ -48,7 +51,9 @@ export class Auth {
 
       return result;
     } catch (error) {
-      console.error("Hubo un error en la respuesta del servidor. Error: " + error.message)
+      console.error(
+        "Hubo un error en la respuesta del servidor. Error: " + error.message
+      );
       throw error;
     }
   }

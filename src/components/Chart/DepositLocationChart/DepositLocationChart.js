@@ -8,11 +8,11 @@ import {
   Title,
   Tooltip,
   Legend,
-} from "chart.js";import { Bar } from "react-chartjs-2";
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
 
 const depositController = new Deposit();
 const commonController = new Common();
-
 
 ChartJS.register(
   CategoryScale,
