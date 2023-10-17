@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Typography, Slider, Stack, TextField, Box } from "@mui/material";
-import InputAdornment from '@mui/material/InputAdornment';
+import InputAdornment from "@mui/material/InputAdornment";
 
 export function TotalM3RangeFilter({ onTotalM3RangeChange }) {
   const [totalM3Range, setTotalM3Range] = useState([0, 1000]);

@@ -17,7 +17,7 @@ export function AuthProvider(props) {
     (async () => {
       const accessToken = authController.getAccessToken();
       const refreshToken = authController.getRefreshToken();
-  
+
       if (!accessToken || !refreshToken) {
         logout();
         setLaoding(false);

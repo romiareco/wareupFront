@@ -49,14 +49,12 @@ export function Services({ depositId }) {
       <Box padding={2}>
         {serviceGroups &&
           serviceGroups.map((group) => {
-            // Verificar si depositServices no es null antes de filtrar
             const groupDepositServices =
               depositServices &&
               depositServices.filter(
                 (myService) => myService.service.serviceGroupId === group.id
               );
 
-            // Verificar si hay depositServices para este group
             if (groupDepositServices && groupDepositServices.length > 0) {
               return (
                 <div key={group.id}>
@@ -71,11 +69,7 @@ export function Services({ depositId }) {
                           <CheckRoundedIcon
                             style={{ marginRight: "1px", marginLeft: "20px" }}
                           />{" "}
-                          {/* Icono */}
-                          <Typography>
-                            {myService.service.title}
-                          </Typography>{" "}
-                          {/* Label del servicio */}
+                          <Typography>{myService.service.title}</Typography>{" "}
                         </div>
                       ))}
                     </Stack>
@@ -83,8 +77,6 @@ export function Services({ depositId }) {
                 </div>
               );
             }
-
-            // Si no hay depositServices para este group, no se renderiza nada
             return null;
           })}
       </Box>

@@ -1,5 +1,4 @@
 import React from "react";
-import { Link as MuiLink } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 export function LinkSpacer() {

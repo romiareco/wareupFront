@@ -82,7 +82,7 @@ export function DepositsMap({ filters, deposits }) {
         setNotificationOpen(true);
       }
     })();
-  }, [deposits, filters.department]);
+  }, [deposits, filters, filters.department]);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: ENV.API_KEY.GOOGLE_MAPS || "",
@@ -123,7 +123,6 @@ export function DepositsMap({ filters, deposits }) {
 
         customDeposits.forEach((deposit) => {
           if (deposit.coordinates) {
-            // Verifica si deposit.depositCoordinates existe
             totalLat += deposit.coordinates.lat;
             totalLng += deposit.coordinates.lng;
           }
@@ -133,7 +132,7 @@ export function DepositsMap({ filters, deposits }) {
           lat: totalLat / customDeposits.length,
           lng: totalLng / customDeposits.length,
         };
-        setMapCenter(newCenter); // Actualiza el centro del mapa
+        setMapCenter(newCenter);
       } else {
         const newCenter = {
           lat: ENV.GOOGLE_DEFAULT_COORDINATES.INITIAL_LATITUDE,
@@ -181,7 +180,6 @@ export function DepositsMap({ filters, deposits }) {
               onCloseClick={() => setSelectedMarker(null)}
             >
               <div>
-                {/* Agrega un hipervínculo en el título */}
                 <h2>
                   <a
                     href={`/publication-view?id=${selectedMarker.id}`}

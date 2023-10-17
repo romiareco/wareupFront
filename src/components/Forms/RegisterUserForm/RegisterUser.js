@@ -28,7 +28,7 @@ export function RegisterUser() {
   const navigate = useNavigate();
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
-  const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
+  const [notificationSeverity, setNotificationSeverity] = useState("success");
   const [anchorEl, setAnchorEl] = useState(null);
   const isPopoverOpen = Boolean(anchorEl);
   const [showLoginDialog, setShowLoginDialog] = useState(false);
@@ -263,7 +263,7 @@ export function RegisterUser() {
         severity={notificationSeverity}
         message={notificationMessage}
       />
-       <LoginDialog
+      <LoginDialog
         openDialog={showLoginDialog}
         onDialogOpenChange={handleOpenLoginDialog}
         onClose={() => setShowLoginDialog(false)}

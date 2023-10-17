@@ -25,7 +25,7 @@ export function buildStructuredBodyData(steps, data) {
 
 export function isStepValid(stepIndex, steps, formData) {
   const stepKey = steps[stepIndex];
-  const stepData = formData[stepKey]; // Datos del primer paso
+  const stepData = formData[stepKey];
 
   switch (stepIndex) {
     case 0:

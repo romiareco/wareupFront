@@ -261,7 +261,13 @@ export function UserDepositsTable() {
         }}
       >
         {loading ? (
-          <Box display="flex" alignItems="center" justifyContent="center" marginTop={3} marginBottom={3}>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            marginTop={3}
+            marginBottom={3}
+          >
             <CircularProgress />
           </Box>
         ) : deposits.length === 0 ? (
@@ -284,12 +290,12 @@ export function UserDepositsTable() {
                   ).map((column) => (
                     <TableCell
                       key={column.id}
-                      align="center" // Centra el título
+                      align="center"
                       style={{
                         minWidth: column.minWidth,
                         fontWeight: "bold",
-                        fontFamily: "Montserrat, sans-serif", // Cambia la fuente aqu
-                        backgroundColor: "lightgray", // Gris con 50% de opacidad
+                        fontFamily: "Montserrat, sans-serif",
+                        backgroundColor: "lightgray",
                         cursor: "pointer",
                       }}
                       onClick={() => handleRequestSort(column.id)}
@@ -319,10 +325,7 @@ export function UserDepositsTable() {
                         ).map((column) => {
                           const value = row[column.id];
                           return (
-                            <TableCell
-                              key={column.id}
-                              align="center" // Centra el título
-                            >
+                            <TableCell key={column.id} align="center">
                               {column.format
                                 ? column.format(value, row)
                                 : column.id === "status"

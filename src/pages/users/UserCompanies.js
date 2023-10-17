@@ -20,11 +20,13 @@ export function UserCompanies() {
           paddingBottom: "40px",
           paddingTop: "20px",
           justifyContent: "center",
-          alignItems: "center", // Centra horizontalmente
-          textAlign: "center", // Centra el contenido del Typography
+          alignItems: "center",
+          textAlign: "center",
         }}
       >
-        <Typography variant="h4" marginBottom={3}>Mis empresas</Typography>
+        <Typography variant="h4" marginBottom={3}>
+          Mis empresas
+        </Typography>
         <Divider light variant="middle" sx={{ borderBottomWidth: "3px" }} />
         <Box
           sx={{

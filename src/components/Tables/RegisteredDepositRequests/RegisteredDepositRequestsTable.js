@@ -45,16 +45,16 @@ export function RegisteredDepositRequestsTable() {
 
   const handleAccept = (row) => {
     setSelectedAcceptRequest(row);
-    setSelectedRejectRequest(null); // Cerrar el diálogo de eliminación si está abierto
+    setSelectedRejectRequest(null);
     setIsAcceptDialogOpen(true);
     setIsRejectDialogOpen(false);
   };
 
   const handleReject = (row) => {
     setSelectedRejectRequest(row);
-    setSelectedAcceptRequest(null); // Cerrar el diálogo de edición si está abierto
+    setSelectedAcceptRequest(null);
     setIsRejectDialogOpen(true);
-    setIsAcceptDialogOpen(false); // Ce
+    setIsAcceptDialogOpen(false);
   };
   const handleAcceptDialogOpenChange = (isOpen) => {
     setIsAcceptDialogOpen(isOpen);
@@ -127,12 +127,12 @@ export function RegisteredDepositRequestsTable() {
                   {columns(handleAccept, handleReject).map((column) => (
                     <TableCell
                       key={column.id}
-                      align="center" // Centra el título
+                      align="center"
                       style={{
                         minWidth: column.minWidth,
                         fontWeight: "bold",
-                        fontFamily: "Montserrat, sans-serif", // Cambia la fuente aqu
-                        backgroundColor: "lightgray", // Gris con 50% de opacidad
+                        fontFamily: "Montserrat, sans-serif",
+                        backgroundColor: "lightgray",
                         cursor: "pointer",
                       }}
                       onClick={() => handleRequestSort(column.id)}

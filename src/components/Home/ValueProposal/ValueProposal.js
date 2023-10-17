@@ -1,8 +1,4 @@
 import * as React from "react";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import { CardActionArea, Grid } from "@mui/material";
 import theme from "../../../theme/theme";
 import flexibility from "../../../assets/official-images/flexibility.png";
 import dedication from "../../../assets/official-images/dedication.png";
@@ -11,7 +7,7 @@ import humanQuality from "../../../assets/official-images/human-quality.png";
 import profitability from "../../../assets/official-images/profitability.png";
 import { CustomValueProposalAvatar } from "../../Avatars";
 import { CustomValueProposalTypography } from "../../Typography";
-import { ThemeProvider, Typography, Box, Stack } from "@mui/material";
+import { ThemeProvider, Typography, Box, Grid } from "@mui/material";
 
 import backgroundImage from "../../../assets/official-images/productCurvyLines.png";
 
@@ -28,13 +24,13 @@ export function ValueProposal() {
     <ThemeProvider theme={theme}>
       <Box
         sx={{
-          padding: "30px", // Ajusta el relleno superior según tus necesidades
+          padding: "30px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           textAlign: "center",
           backgroundColor: "#0B2C4D",
-          color: theme.welcomePage.palette.primary.contrastText, // Letras blancas
+          color: theme.welcomePage.palette.primary.contrastText,
           backgroundImage: `url(${backgroundImage})`,
         }}
       >

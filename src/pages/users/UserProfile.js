@@ -9,7 +9,7 @@ export function UserProfile() {
   useEffect(() => {
     document.title = "Mi perfil";
   }, []);
-  
+
   return (
     <Box>
       <UserInformationProfile user={user} />

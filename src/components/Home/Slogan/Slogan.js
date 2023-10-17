@@ -15,7 +15,7 @@ export function Slogan() {
         }}
       >
         <motion.div
-          initial={{ x: "100%" }} 
+          initial={{ x: "100%" }}
           animate={{ x: 0 }}
           transition={{ type: "spring", stiffness: 50, damping: 15 }}
         >

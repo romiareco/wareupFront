@@ -4,7 +4,7 @@ export function inititalValues() {
   return {
     email: "",
     password: "",
-    remember: true
+    remember: true,
   };
 }
 
@@ -13,6 +13,8 @@ export function validationSchema() {
     email: Yup.string()
       .email("El email no es valido")
       .required("Campo obligatorio"),
-    password: Yup.string().min(6, 'Contraseña debe tener al menos 6 caracteres').required("Campo obligatorio"),
+    password: Yup.string()
+      .min(6, "Contraseña debe tener al menos 6 caracteres")
+      .required("Campo obligatorio"),
   });
 }

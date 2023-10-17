@@ -130,12 +130,12 @@ export function UserCompaniesTable() {
                   {columns(handleEdit, handleDelete).map((column) => (
                     <TableCell
                       key={column.id}
-                      align="center" // Centra el título
+                      align="center"
                       style={{
                         minWidth: column.minWidth,
                         fontWeight: "bold",
-                        fontFamily: "Montserrat, sans-serif", // Cambia la fuente aqu
-                        backgroundColor: "lightgray", // Gris con 50% de opacidad
+                        fontFamily: "Montserrat, sans-serif",
+                        backgroundColor: "lightgray",
                         cursor: "pointer",
                       }}
                       onClick={() => handleRequestSort(column.id)}
@@ -165,10 +165,7 @@ export function UserCompaniesTable() {
                         {columns(handleEdit, handleDelete).map((column) => {
                           const value = row[column.id];
                           return (
-                            <TableCell
-                              key={column.id}
-                              align="center" // Centra el contenido de las filas
-                            >
+                            <TableCell key={column.id} align="center">
                               {column.format
                                 ? column.format(value, row)
                                 : column.id === "status"

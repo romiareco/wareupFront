@@ -14,10 +14,8 @@ export function initialValues(user = {}) {
 
 export function validationSchema() {
   return Yup.object({
-    name: Yup.string()
-    .required("Campo obligatorio"),
-    industry: Yup.string()
-    .required("Este campo es obligatorio."),
+    name: Yup.string().required("Campo obligatorio"),
+    industry: Yup.string().required("Este campo es obligatorio."),
     email: Yup.string()
       .email("El email no es valido")
       .required("Campo obligatorio"),
@@ -26,6 +24,6 @@ export function validationSchema() {
       .required("Campo obligatorio"),
     repeatPassword: Yup.string()
       .required("Campo obligatorio")
-      .oneOf([Yup.ref("password")], "Las contraseñas tienen que ser iguales")
+      .oneOf([Yup.ref("password")], "Las contraseñas tienen que ser iguales"),
   });
 }

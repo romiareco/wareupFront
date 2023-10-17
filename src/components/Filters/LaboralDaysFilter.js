@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {
   Typography,
-  Slider,
   Stack,
-  TextField,
   Box,
-  Divider,
   FormControl,
   InputLabel,
   Select,
@@ -33,15 +30,14 @@ export function LaboralDaysFilter({ onLaboralDaysChange }) {
   const [services, setServices] = useState([]);
   const [selectedLaboralDays, setSelectedLaboralDays] = useState([]);
 
-
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
-    
+
     setSelectedLaboralDays(
-      typeof value === 'string'
-        ? value.split(',').map((label) => ({
+      typeof value === "string"
+        ? value.split(",").map((label) => ({
             id: services.find((service) => service.title === label)?.id || null,
             title: label,
           }))
@@ -52,7 +48,6 @@ export function LaboralDaysFilter({ onLaboralDaysChange }) {
     );
   };
 
-  
   useEffect(() => {
     (async () => {
       try {
@@ -98,7 +93,7 @@ export function LaboralDaysFilter({ onLaboralDaysChange }) {
             onChange={handleChange}
             input={<OutlinedInput label="Días laborales" />}
             renderValue={(selected) => (
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                 {selected.map((service) => (
                   <Chip label={service} />
                 ))}

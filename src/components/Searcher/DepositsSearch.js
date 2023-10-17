@@ -76,7 +76,11 @@ export function DepositsSearch({ setIsLoading, deposits }) {
           </Typography>
           <Typography variant="body1">
             ¿No encuentras lo que buscas? Explora
-            <Link color="inherit" href="/search-deposits" sx={{ fontWeight: "bold" }}>
+            <Link
+              color="inherit"
+              href="/search-deposits"
+              sx={{ fontWeight: "bold" }}
+            >
               {" "}
               todas nuestras publicaciones
             </Link>

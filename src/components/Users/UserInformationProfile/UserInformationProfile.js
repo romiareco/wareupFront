@@ -16,7 +16,6 @@ import React, { Fragment, useState } from "react";
 import { NotificationSnackbar } from "../../Snackbar";
 import { initialValues } from "../../Forms/Forms/User.form";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
-import CircularProgress from "@mui/material/CircularProgress";
 import { LoadingButton } from "@mui/lab";
 import { Form } from "semantic-ui-react";
 
@@ -29,13 +28,11 @@ const CardContainer = styled(Card)`
 
 export function validationSchema() {
   return Yup.object({
-    name: Yup.string()
-    .required("Campo obligatorio"),
-    industry: Yup.string()
-    .required("Este campo es obligatorio."),
+    name: Yup.string().required("Campo obligatorio"),
+    industry: Yup.string().required("Este campo es obligatorio."),
     email: Yup.string()
       .email("El email no es valido")
-      .required("Campo obligatorio")
+      .required("Campo obligatorio"),
   });
 }
 
@@ -43,10 +40,10 @@ const userController = new User();
 
 export function UserInformationProfile({ user }) {
   const { accessToken } = useAuth();
-  const [isEditing, setIsEditing] = useState(false); // Nuevo estado para controlar la edición
+  const [isEditing, setIsEditing] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
-  const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
+  const [notificationSeverity, setNotificationSeverity] = useState("success");
   const [loading, setLoading] = useState(false);
 
   const formik = useFormik({

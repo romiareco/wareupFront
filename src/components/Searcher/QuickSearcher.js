@@ -26,11 +26,10 @@ export function QuickSearcher() {
   };
 
   const handleFiltersChange = (newFilters) => {
-    setOpen(false); // Cierra el diálogo después de aplicar los filtros
+    setOpen(false);
 
     const queryParams = new URLSearchParams();
 
-    // Agregar los filtros a los parámetros de consulta
     for (const key in newFilters) {
       if (newFilters[key]) {
         if (Array.isArray(newFilters[key])) {

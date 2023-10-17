@@ -5,10 +5,10 @@ export function initialValues(company = {}) {
     businessName: company.businessName || "",
     RUT: company.RUT || "",
     contactName: company.contactName || "",
-    position : company.position || "",
+    position: company.position || "",
     email: company.email || "",
     address: company.address || "",
-    phone : company.phone || ""
+    phone: company.phone || "",
   };
 }
 

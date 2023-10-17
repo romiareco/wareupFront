@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Typography,
-  Slider,
-  Stack,
-  TextField,
-  Box,
-  Divider,
-} from "@mui/material";
+import { Typography, Slider, Stack, TextField, Box } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 
 export function PriceRangeFilter({ onPriceRangeChange }) {

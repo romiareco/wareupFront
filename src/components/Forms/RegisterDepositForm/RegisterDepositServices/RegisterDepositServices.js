@@ -1,6 +1,5 @@
 import { Service } from "../../../../api";
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../../../hooks";
 import {
   Checkbox,
   FormGroup,
@@ -58,7 +57,13 @@ export function RegisterDepositServices({ formInformation }) {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       {loading ? (
-        <Box display="flex" alignItems="center" justifyContent="center" marginTop={3} marginBottom={3}>
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          marginTop={3}
+          marginBottom={3}
+        >
           <CircularProgress />
         </Box>
       ) : (
@@ -72,7 +77,7 @@ export function RegisterDepositServices({ formInformation }) {
                 <Typography
                   variant="h6"
                   sx={{
-                    textAlign: "left", // Alinea el texto a la izquierda
+                    textAlign: "left",
                   }}
                 >
                   {group.title}

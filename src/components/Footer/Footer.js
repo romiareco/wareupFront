@@ -7,11 +7,11 @@ import { LinkedinLogo } from "../SocialMedia";
 import { LogoAvatar } from "../Avatars/LogoAvatar";
 import { LinkSpacer } from "../Links"; // Importa el nuevo componenteç
 import logo from "../../assets/official-images/logo.png";
- 
+
 export function Footer() {
   return (
     <ThemeProvider theme={theme}>
-       <Box
+      <Box
         component="footer"
         sx={{
           paddingTop: theme.spacing(3),

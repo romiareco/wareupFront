@@ -24,7 +24,7 @@ export function RegisterCompany() {
 
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
-  const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
+  const [notificationSeverity, setNotificationSeverity] = useState("success");
   const navigate = useNavigate();
 
   const formik = useFormik({
@@ -63,8 +63,8 @@ export function RegisterCompany() {
             flexDirection: "column",
             alignItems: "center",
             width: "100%",
-            backgroundColor: "rgba(242, 242, 242, 0.9)", // Color de fondo opaco
-            padding: "20px", // Ajusta el relleno según tus preferencias
+            backgroundColor: "rgba(242, 242, 242, 0.9)",
+            padding: "20px",
           }}
         >
           <Paper

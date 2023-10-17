@@ -290,8 +290,8 @@ export function RegisteredDepositsTable() {
                       style={{
                         minWidth: column.minWidth,
                         fontWeight: "bold",
-                        fontFamily: "Montserrat, sans-serif", // Cambia la fuente aqu
-                        backgroundColor: "lightgray", // Gris con 50% de opacidad
+                        fontFamily: "Montserrat, sans-serif",
+                        backgroundColor: "lightgray",
                         cursor: "pointer",
                       }}
                       onClick={() => handleRequestSort(column.id)}
@@ -390,5 +390,3 @@ export function RegisteredDepositsTable() {
     </ThemeProvider>
   );
 }
-
-//TODO: eliminar estados innecesarios para la preview de la publicacion

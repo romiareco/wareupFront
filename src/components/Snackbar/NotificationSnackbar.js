@@ -5,7 +5,7 @@ import Alert from "../Alert/Alert";
 export function NotificationSnackbar({ open, onClose, severity, message }) {
   return (
     <Snackbar
-      anchorOrigin={{ vertical: "bottom", horizontal: "center" }} // Centra vertical y horizontalmente
+      anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       open={open}
       autoHideDuration={6000}
       onClose={onClose}
