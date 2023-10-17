@@ -6,7 +6,6 @@ export class Auth {
   async login(data) {
     try {
       const url = `${this.baseApi}/${ENV.API_ROUTES.LOGIN}`;
-      console.log(url);
       const params = {
         method: "POST",
         headers: {
