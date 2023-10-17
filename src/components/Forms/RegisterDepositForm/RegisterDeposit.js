@@ -38,14 +38,14 @@ export function RegisterDeposit() {
   const { accessToken } = useAuth();
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = React.useState(0);
-  const [formData, setFormData] = React.useState({}); // Almacena la información de todos los pasos
-  const [stepData, setStepData] = React.useState({}); // Almacena los datos de cada paso
+  const [formData, setFormData] = React.useState({});
+  const [stepData, setStepData] = React.useState({});
   const [notificationOpen, setNotificationOpen] = React.useState(false);
   const [notificationMessage, setNotificationMessage] = React.useState("");
   const [notificationSeverity, setNotificationSeverity] =
     React.useState("success");
   const [depositCreated, setDepositCreated] = React.useState(0);
-  const [isRegistering, setIsRegistering] = React.useState(false); // Agregar estado para el CircularProgress
+  const [isRegistering, setIsRegistering] = React.useState(false);
   const [isAddAvailabilityDialogOpen, setIsAddAvailabilityDialogOpen] =
     React.useState(false);
   const [isAddImageDialogOpen, setIsAddImageDialogOpen] = React.useState(false);
@@ -143,7 +143,7 @@ export function RegisterDeposit() {
 
   const handleFinish = () => {
     navigate("/");
-  }
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -167,7 +167,7 @@ export function RegisterDeposit() {
           alternativeLabel
           activeStep={activeStep}
           connector={<ColorlibConnector />}
-          sx={{ paddingBottom: "20px" }} // Agrega el padding inferior deseado
+          sx={{ paddingBottom: "20px" }}
         >
           {steps.map((label) => {
             const stepProps = {};
@@ -203,7 +203,11 @@ export function RegisterDeposit() {
                     flexDirection="column"
                     alignItems="center"
                   >
-                    <Typography textAlign={"center"} variant="h6" marginBottom={3}>
+                    <Typography
+                      textAlign={"center"}
+                      variant="h6"
+                      marginBottom={3}
+                    >
                       ¡Un paso más! ¿Te gustaría registrar las imágenes del
                       depósito?
                     </Typography>
@@ -272,7 +276,7 @@ export function RegisterDeposit() {
                 onClick={handleNext}
                 disabled={
                   !isStepValid(activeStep, steps, formData) || isRegistering
-                } // Desactiva el botón mientras se registra
+                }
               >
                 {isRegistering ? (
                   <CircularProgress size={24} />

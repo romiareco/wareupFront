@@ -121,8 +121,8 @@ export function RegisteredUsersTable() {
                       style={{
                         minWidth: column.minWidth,
                         fontWeight: "bold",
-                        fontFamily: "Montserrat, sans-serif", // Cambia la fuente aqu
-                        backgroundColor: "lightgray", // Gris con 50% de opacidad
+                        fontFamily: "Montserrat, sans-serif",
+                        backgroundColor: "lightgray",
                         cursor: "pointer",
                       }}
                       onClick={() => handleRequestSort(column.id)}
@@ -162,12 +162,12 @@ export function RegisteredUsersTable() {
               <EditUserInformationDialog
                 selectedUser={selectedEditUser}
                 openDialog={isEditDialogOpen}
-                onDialogOpenChange={handleEditDialogOpenChange} // Pasa la función de devolución de llamada
+                onDialogOpenChange={handleEditDialogOpenChange}
               />
               <RemoveUserDialog
                 selectedUser={selectedDeleteUser}
                 openDialog={isRemoveDialogOpen}
-                onDialogOpenChange={handleRemoveDialogOpenChange} // Pasa la función de devolución de llamada
+                onDialogOpenChange={handleRemoveDialogOpenChange}
               />
             </Table>
           </TableContainer>

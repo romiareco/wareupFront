@@ -14,7 +14,6 @@ import {
 import theme from "../../../theme/theme";
 import { CustomTransition } from "../CustomTransition";
 
-
 export function EditCompanyDialog({
   selectedCompany,
   openDialog,

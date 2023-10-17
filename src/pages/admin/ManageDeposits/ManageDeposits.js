@@ -19,8 +19,8 @@ export function ManageDeposits() {
           paddingBottom: "40px",
           paddingTop: "20px",
           justifyContent: "center",
-          alignItems: "center", // Centra horizontalmente
-          textAlign: "center", // Centra el contenido del Typography
+          alignItems: "center",
+          textAlign: "center",
         }}
       >
         <Typography variant="h4" color="white" marginBottom={3}>

@@ -30,7 +30,7 @@ export function RemoveCompanyDialog({
   const { accessToken } = useAuth();
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
-  const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
+  const [notificationSeverity, setNotificationSeverity] = useState("success");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -118,8 +118,8 @@ export function RemoveCompanyDialog({
               <Typography
                 variant="body1"
                 style={{
-                  textAlign: "center", // Centra el texto horizontalmente
-                  marginBottom: "8px", // Espacio en la parte inferior
+                  textAlign: "center",
+                  marginBottom: "8px",
                 }}
               >
                 {`¿Desea eliminar la empresa ${selectedCompany.businessName}?`}
@@ -136,9 +136,9 @@ export function RemoveCompanyDialog({
               >
                 <WarningRoundedIcon
                   sx={{
-                    verticalAlign: "middle", // Alinea verticalmente con el texto
+                    verticalAlign: "middle",
                     marginRight: "4px",
-                    color: "red", // Establece el color en "error" (rojo)
+                    color: "red",
                   }}
                 />
                 Ten en cuenta que también se eliminarán los depósitos asociados.

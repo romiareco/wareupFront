@@ -3,7 +3,7 @@ import { Button } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 export function RegisterCompanyButton() {
-  const theme = useTheme(); // Obtén el tema desde el hook useTheme()
+  const theme = useTheme();
 
   return (
     <Button

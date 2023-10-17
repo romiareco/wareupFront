@@ -26,10 +26,7 @@ export function EditUserInformationDialog({
     onDialogOpenChange(false);
   };
 
-  if (
-    selectedUser &&
-    parseInt(selectedUser.status) === userStatus.DELETED
-  ) {
+  if (selectedUser && parseInt(selectedUser.status) === userStatus.DELETED) {
     return (
       <ErrorDialog
         errorMessage={"No se puede editar un usuario que fue eliminado."}

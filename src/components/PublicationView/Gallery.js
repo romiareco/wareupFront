@@ -16,9 +16,7 @@ export function Gallery({ depositId }) {
   useEffect(() => {
     (async () => {
       try {
-        const response = await depositController.getDepositImages(
-          depositId
-        );
+        const response = await depositController.getDepositImages(depositId);
 
         if (response.depositImages.length > 0) {
           const processedImages = response.depositImages.map((depositImage) =>

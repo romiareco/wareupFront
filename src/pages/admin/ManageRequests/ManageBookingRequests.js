@@ -1,6 +1,5 @@
 import { ThemeProvider, Typography, Box, Divider } from "@mui/material";
 import banner from "../../../assets/official-images/banner-1.jpg";
-
 import theme from "../../../theme/theme";
 import { Footer } from "../../../components/Footer";
 import { RegisteredBookingRequestsTable } from "../../../components/Tables";
@@ -19,8 +18,8 @@ export function ManageBookingRequests() {
           paddingBottom: "40px",
           paddingTop: "20px",
           justifyContent: "center",
-          alignItems: "center", // Centra horizontalmente
-          textAlign: "center", // Centra el contenido del Typography
+          alignItems: "center",
+          textAlign: "center",
         }}
       >
         <Typography variant="h4" color="white" marginBottom={3}>

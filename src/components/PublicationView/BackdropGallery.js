@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Backdrop, IconButton } from "@mui/material";
-import NavigateNextRoundedIcon from '@mui/icons-material/NavigateNextRounded';
-import NavigateBeforeRoundedIcon from '@mui/icons-material/NavigateBeforeRounded';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import NavigateNextRoundedIcon from "@mui/icons-material/NavigateNextRounded";
+import NavigateBeforeRoundedIcon from "@mui/icons-material/NavigateBeforeRounded";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
-export function BackdropGallery({ open, handleClose, currentPassedImage, depositImages }) {
+export function BackdropGallery({
+  open,
+  handleClose,
+  currentPassedImage,
+  depositImages,
+}) {
   const [backdropImage, setBackdropImage] = useState(currentPassedImage);
   const [currentPassedImageIndex, setCurrentPassedImageIndex] = useState(1);
 
@@ -126,4 +131,4 @@ export function BackdropGallery({ open, handleClose, currentPassedImage, deposit
       </section>
     </Backdrop>
   );
-};
+}

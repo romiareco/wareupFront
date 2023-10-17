@@ -1,13 +1,11 @@
 import { ThemeProvider, Typography, Box, Divider } from "@mui/material";
 import { RegisteredUsersTable } from "../../../components/Tables";
 import banner from "../../../assets/official-images/banner-1.jpg";
-
 import theme from "../../../theme/theme";
 import { Footer } from "../../../components/Footer";
 import { useEffect } from "react";
 
 export function ManageUsers() {
-
   useEffect(() => {
     document.title = "Gestión de usuarios";
   }, []);
@@ -20,8 +18,8 @@ export function ManageUsers() {
           paddingBottom: "40px",
           paddingTop: "20px",
           justifyContent: "center",
-          alignItems: "center", // Centra horizontalmente
-          textAlign: "center", // Centra el contenido del Typography
+          alignItems: "center",
+          textAlign: "center",
         }}
       >
         <Typography variant="h4" color="white" marginBottom={3}>

@@ -5,7 +5,10 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { User } from "../../../api/user";
-import { initialValues, validationSchema } from "../Forms/PasswordRecovery.form";
+import {
+  initialValues,
+  validationSchema,
+} from "../Forms/PasswordRecovery.form";
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -23,10 +26,10 @@ const userController = new User();
 export function PasswordRecovery() {
   const navigate = useNavigate();
   const location = useLocation();
-  const tokenParam = location.search.substring(1); // Eliminar el primer caracter "?" de la búsqueda
+  const tokenParam = location.search.substring(1);
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
-  const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
+  const [notificationSeverity, setNotificationSeverity] = useState("success");
 
   const formik = useFormik({
     initialValues: initialValues(),
@@ -39,9 +42,8 @@ export function PasswordRecovery() {
         setNotificationSeverity("success");
         setNotificationOpen(true);
       } catch (error) {
-        const errorMessage =
-          "Error: " + JSON.stringify(error.message);
-          console.log(errorMessage);
+        const errorMessage = "Error: " + JSON.stringify(error.message);
+        console.log(errorMessage);
         setNotificationMessage(errorMessage);
         setNotificationSeverity("error");
         setNotificationOpen(true);
@@ -104,34 +106,32 @@ export function PasswordRecovery() {
               </Grid>
             </Grid>
             <Box marginTop={2}>
-            <Grid container spacing={2} justifyContent="center">
-              <Grid item>
-                <LoadingButton
-                  type="submit"
-                  color="primary"
-                  loading={formik.isSubmitting}
-                  variant="contained"
-                >
-                  Confirmar
-                </LoadingButton>
+              <Grid container spacing={2} justifyContent="center">
+                <Grid item>
+                  <LoadingButton
+                    type="submit"
+                    color="primary"
+                    loading={formik.isSubmitting}
+                    variant="contained"
+                  >
+                    Confirmar
+                  </LoadingButton>
+                </Grid>
+                <Grid item>
+                  <LoadingButton
+                    color="primary"
+                    variant="outlined"
+                    onClick={() => navigate("/")}
+                  >
+                    Cancelar
+                  </LoadingButton>
+                </Grid>
               </Grid>
-              <Grid item>
-                <LoadingButton
-                  color="primary"
-                  variant="outlined"
-                  onClick={() => navigate("/")}
-                >
-                  Cancelar
-                </LoadingButton>
-              </Grid>
-            </Grid>
             </Box>
-            
           </Box>
         </Box>
         <Box marginTop={4}>
-        <Copyright sx={{ mt: 5 }} />
-
+          <Copyright sx={{ mt: 5 }} />
         </Box>
       </Container>
       <NotificationSnackbar

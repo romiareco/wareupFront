@@ -1,5 +1,6 @@
-import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';import IconButton from "@mui/material/IconButton";
-import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
+import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
+import IconButton from "@mui/material/IconButton";
+import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 export const columns = (handleAccept, handleReject) => [
   { id: "id", label: "ID", minWidth: 25 },
   { id: "title", label: "Título", minWidth: 200 },

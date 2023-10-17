@@ -87,8 +87,8 @@ export function mapUserInformation(users) {
       industry: user.industry,
       createdAt: mapDateFormat(user.createdAt),
       status: user.status,
-    }
-  })
+    };
+  });
 
   return filteredInformation;
 }
@@ -102,11 +102,11 @@ export function mapCompanyInformation(companies) {
       position: company.position,
       email: company.email,
       address: company.address,
-      phone : company.phone,
+      phone: company.phone,
       status: company.status,
       contactName: company.contactName,
-    }
-  })
+    };
+  });
 
   return fileredInformation;
 }
@@ -120,12 +120,11 @@ export function mapDepositCalendar(depositCalendars) {
       totalM3: depositCalendar.totalM3,
       depositId: depositCalendar.depositId,
       createdAt: mapDateFormat(depositCalendar.createdAt),
-    }
-  })
+    };
+  });
 
   return fileredInformation;
 }
-
 
 export function mapDepositRequestInformation(depositRequests) {
   const filteredInformation = depositRequests.map((deposit) => {
@@ -185,7 +184,6 @@ export function mapDepositInformation(deposits) {
       depositServices: deposit.depositServices,
       minimumBusinessVolume: deposit.minimumBusinessVolume,
       minimumBusinessPeriod: deposit.minimumBusinessPeriod,
-
     };
   });
 

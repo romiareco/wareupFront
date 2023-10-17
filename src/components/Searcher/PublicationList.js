@@ -80,7 +80,7 @@ export function PublicationList({
                         display: "flex",
                         flexDirection: "column",
                         flexGrow: 1,
-                        padding: "8px", // Reducir el espaciado interno
+                        padding: "8px",
                       }}
                     >
                       <CardActionArea
@@ -91,10 +91,9 @@ export function PublicationList({
                           sx={{
                             pt: "50%",
                             display: "flex",
-                            justifyContent: "flex-end", // Alinea el contenido a la derecha
+                            justifyContent: "flex-end",
                             alignItems: "center",
-                            maxWidth: "100%", // Ajustar el ancho de la imagen
-                            // Alinea verticalmente al centro
+                            maxWidth: "100%",
                           }}
                           image={publication.depositImage}
                         >
@@ -102,9 +101,9 @@ export function PublicationList({
                             direction={"row"}
                             marginRight={1}
                             sx={{
-                              backgroundColor: "rgba(255, 255, 255, 0.8)", // Fondo opaco
-                              padding: "4px 8px", // Ajusta el espaciado interno según tus preferencias
-                              borderRadius: "4px", // Bordes redondeados
+                              backgroundColor: "rgba(255, 255, 255, 0.8)",
+                              padding: "4px 8px",
+                              borderRadius: "4px",
                             }}
                             marginBottom={1}
                           >
@@ -126,7 +125,7 @@ export function PublicationList({
                             display: "flex",
                             flexDirection: "column",
                             justifyContent: "space-between",
-                            padding: "8px", // Reducir el espaciado interno
+                            padding: "8px",
                           }}
                         >
                           <Typography gutterBottom variant="h6" component="h2">

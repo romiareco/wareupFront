@@ -119,7 +119,6 @@ export function EditDepositBasicData({ deposit }) {
         setNotificationSeverity("success");
         setNotificationOpen(true);
         setLoading(false);
-
       } catch (error) {
         setNotificationMessage(error.message);
         setNotificationSeverity("error");

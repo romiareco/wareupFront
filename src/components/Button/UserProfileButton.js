@@ -1,13 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Typography,
-  Box,
-  Popover,
-  IconButton,
-} from "@mui/material";
+import { Typography, Box, Popover, IconButton } from "@mui/material";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
-
 
 export function UserProfileButton() {
   const navigate = useNavigate();

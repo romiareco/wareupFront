@@ -6,7 +6,6 @@ export class Contact {
   async contact(data) {
     try {
       const url = `${this.baseApi}/${ENV.API_ROUTES.CONTACT}`;
-      console.log(url);
       const params = {
         method: "POST",
         headers: {

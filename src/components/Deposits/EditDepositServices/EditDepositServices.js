@@ -126,9 +126,7 @@ export function EditDepositServices({ deposit }) {
                                 );
                               }
                             }}
-                            checked={
-                              selectedServices.includes(service.id) // Marcado si se seleccionó manualmente
-                            }
+                            checked={selectedServices.includes(service.id)}
                           />
                         }
                         label={service.title}
@@ -158,7 +156,7 @@ export function EditDepositServices({ deposit }) {
               sx={{
                 pointerEvents: "none",
               }}
-              open={selectedServices.length === 0} // Abre el Popover si el botón está deshabilitado o no se han seleccionado servicios
+              open={selectedServices.length === 0}
               anchorEl={anchorEl}
               anchorOrigin={{
                 vertical: "bottom",

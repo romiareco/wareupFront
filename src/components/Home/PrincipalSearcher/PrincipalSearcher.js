@@ -1,16 +1,10 @@
 import * as React from "react";
 import Typography from "@mui/material/Typography";
-import {
-  Stack,
-  Box,
-  Divider,
-  Button,
-  CircularProgress, // Importa CircularProgress de Material-UI
-} from "@mui/material";
+import { Stack, Box, Divider, Button, CircularProgress } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../../theme/theme";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import { RegisterDepositRequestButton, SignUpButton } from "../../Button";
+import { RegisterDepositRequestButton } from "../../Button";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";

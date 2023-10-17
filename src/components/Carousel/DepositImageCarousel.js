@@ -43,16 +43,14 @@ export function DepositImageCarousel({ depositId }) {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              marginBottom: "6"
+              marginBottom: "6",
             }}
           >
             <CircularProgress />
           </Box>
         ) : images.length === 0 ? (
           <Box marginBottom={6}>
-            <Typography>
-              No se han agregado imágenes aún..
-            </Typography>
+            <Typography>No se han agregado imágenes aún..</Typography>
           </Box>
         ) : (
           <Carousel

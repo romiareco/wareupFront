@@ -9,51 +9,49 @@ const theme = createTheme({
       main: "#fdede0", // Color secundario
     },
     footer: {
-      main: "#F2F2F2", // Ajusta el color de fondo que desees
+      main: "#F2F2F2",
     },
   },
   typography: {
-    // Puedes personalizar la tipografía según tus preferencias
     fontFamily: "Montserrat, sans-serif",
     margin: 1,
     textAlign: "center",
 
     link: {
       fontFamily: "Montserrat, sans-serif",
-      fontSize: "14px", // Ajusta el tamaño de la fuente según tus preferencias
-      // Otros estilos de fuente aquí
+      fontSize: "14px",
     },
   },
   welcomePage: {
     palette: {
       primary: {
-        main: "#9BB8F2", // Color de fondo principal (negro)
+        main: "#9BB8F2",
       },
     },
     sloganPaper: {
       backgroundSize: "cover",
       backgroundPosition: "center",
-      padding: "50px", // Ajusta el padding según tus necesidades
-      textAlign: "left", // Cambia la alineación del texto a la izquierda
-      color: "white", // Color de texto en el fondo de imagen
-      minHeight: "500px", // Establece una altura mínima para el Paper
+      padding: "50px",
+      textAlign: "left",
+      color: "white",
+      minHeight: "500px",
       display: "flex",
       flexDirection: "column",
-      justifyContent: "center", // Centra verticalmente el contenido
+      justifyContent: "center",
     },
     divider: {
       width: "60%",
       bgcolor: "background.paper",
-      height: 1, // Ajusta el valor para aumentar el grosor
-      margin: "20px 0", // Agrega margen superior e inferior
+      height: 1,
+      margin: "20px 0",
     },
   },
   components: {
     MuiLink: {
       styleOverrides: {
         root: {
-          marginBottom: "20px", // Ajusta el valor según tus necesidades
-          textDecoration: "none", // Evita el subrayado por defecto
+          marginBottom: "20px",
+          textDecoration: "none",
           "&:hover": {
             textDecoration: "underline",
           },
@@ -62,30 +60,23 @@ const theme = createTheme({
     },
     MuiButton: {
       styleOverrides: {
-        // Estilos generales para todos los botones
         root: {
-          textTransform: "none", // Para mantener el texto en mayúscula y minúscula según lo ingresado
-          borderRadius: "8px", // Personaliza el radio de borde según lo que desees
+          textTransform: "none",
+          borderRadius: "8px",
         },
-        // Estilos para el botón con color primario
         containedPrimary: {
-          // Personaliza los estilos para los botones con fondo de color primario
-          color: "#ffffff", // Color del texto en los botones de color primario
+          color: "#ffffff",
           "&:hover": {
-            backgroundColor: "#003f5c", // Color de fondo al pasar el ratón por encima
+            backgroundColor: "#003f5c",
           },
         },
-        // Estilos para el botón con color secundario
         containedSecondary: {
-          // Personaliza los estilos para los botones con fondo de color secundario
-          color: "#02121f", // Color del texto en los botones de color secundario
+          color: "#02121f",
           "&:hover": {
-            backgroundColor: "#f95d6a", // Color de fondo al pasar el ratón por encima
+            backgroundColor: "#f95d6a",
           },
         },
-        // Estilos para los botones de tamaño "large"
         sizeLarge: {
-          // Ajusta el tamaño de fuente y el padding para los botones "large"
           fontSize: "1.2rem",
           padding: "14px 24px",
         },
@@ -93,18 +84,17 @@ const theme = createTheme({
     },
     MuiMenuItem: {
       styleOverrides: {
-        // Estilos generales para todos los MenuItem
         root: {
-          color: "inherit", // Color de texto del tema
+          color: "inherit",
           "&:hover": {
-            backgroundColor: "rgba(0, 0, 0, 0.04)", // Color de fondo de acción del tema
+            backgroundColor: "rgba(0, 0, 0, 0.04)",
           },
         },
       },
     },
     MuiLoadingButton: {
       defaultProps: {
-        size: "medium", // Hacer que todos los botones de LoadingButton sean de tamaño "medium" por defecto
+        size: "medium",
       },
     },
   },

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
-import { Company, Deposit, DepositRequest } from "../../../api";
+import { DepositRequest } from "../../../api";
 import {
   Chart as ChartJS,
   Title,
@@ -57,10 +57,8 @@ export function DepositRequestRegistrationByMonthChart() {
     fetchData();
   }, [accessToken]);
 
-  // Inicializa un objeto para contar la cantidad de empresas por mes
   const depositRequestCountByMonth = {};
 
-  // Procesa los datos de las empresas para contar la cantidad por mes
   depositRequests.forEach((depositRequest) => {
     const createdAt = new Date(depositRequest.createdAt);
     const monthYear = `${createdAt.getFullYear()}-${createdAt.getMonth() + 1}`;
@@ -71,7 +69,6 @@ export function DepositRequestRegistrationByMonthChart() {
     }
   });
 
-  // Convierte el objeto en dos arrays (labels y data) para usar en el gráfico
   const labels = Object.keys(depositRequestCountByMonth);
   const dataValues = Object.values(depositRequestCountByMonth);
 

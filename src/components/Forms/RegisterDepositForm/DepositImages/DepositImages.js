@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { DepositImageCarousel } from "../../../Carousel/DepositImageCarousel";
 import { Stack, Box, ThemeProvider, Button } from "@mui/material";

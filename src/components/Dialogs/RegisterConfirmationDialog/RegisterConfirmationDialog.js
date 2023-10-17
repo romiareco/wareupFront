@@ -62,7 +62,8 @@ export function RegisterConfirmationDialog({
             sx={{ whiteSpace: "pre-line", textAlign: "center" }}
           >
             ¡Muchas gracias por elegirnos!{"\n"}
-           {message}{"\n"}
+            {message}
+            {"\n"}
             El equipo de Ware Up en breve se pondrá en contacto contigo para
             continuar con el proceso.
           </Typography>

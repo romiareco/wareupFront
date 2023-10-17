@@ -1,11 +1,4 @@
-import {
-  Divider,
-  Box,
-  Button,
-  CardContent,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Divider, Box, TextField } from "@mui/material";
 import { ThemeProvider } from "@mui/system";
 import dayjs from "dayjs";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
@@ -78,8 +71,8 @@ export function AddDepositAvailability({ deposit }) {
                 name="startDate"
                 value={formik.values.startDate}
                 onChange={(date) => {
-                  formik.setFieldValue("startDate", date); // Actualiza el valor de startDate en formik.values
-                  handleStartDateChange(date); // Llama a tu función handleStartDateChange si es necesario
+                  formik.setFieldValue("startDate", date);
+                  handleStartDateChange(date);
                 }}
               />
               {formik.touched.startDate && formik.errors.startDate ? (
@@ -93,8 +86,8 @@ export function AddDepositAvailability({ deposit }) {
                 value={formik.values.endDate}
                 minDate={formik.values.startDate}
                 onChange={(date) => {
-                  formik.setFieldValue("endDate", date); // Actualiza el valor de endDate en formik.values
-                  setEndDate(date); // Actualiza el estado si es necesario
+                  formik.setFieldValue("endDate", date);
+                  setEndDate(date);
                 }}
               />
               {formik.touched.endDate && formik.errors.endDate ? (

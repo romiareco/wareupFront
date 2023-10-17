@@ -2,16 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Pie } from "react-chartjs-2";
 import { User } from "../../../api";
 import { mapUserStatus } from "../../../utils/mapFunctions";
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { useAuth } from "../../../hooks";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
-
 
 const options = {
   responsive: true,
@@ -31,7 +25,7 @@ const userController = new User();
 export function UserStatusChart() {
   const { accessToken } = useAuth();
   const [users, setUsers] = useState([]);
-  const [labels, setLabels] = useState([]); // Estado para almacenar los labels dinámicos
+  const [labels, setLabels] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -47,20 +41,18 @@ export function UserStatusChart() {
   }, [accessToken]);
 
   useEffect(() => {
-    // Obtener una lista de valores de estado únicos
-    const uniqueStatusValues = [...new Set(users.map((user) => mapUserStatus(user.status)))];
+    const uniqueStatusValues = [
+      ...new Set(users.map((user) => mapUserStatus(user.status))),
+    ];
 
-    // Establecer los labels en función de los valores únicos de estado
     setLabels(uniqueStatusValues);
   }, [users]);
 
-  // Inicializa un objeto para contar la cantidad de depósitos por estado
   const userCountByStatus = labels.reduce((acc, label) => {
     acc[label] = 0;
     return acc;
   }, {});
 
-  // Procesa los datos de depósito para contar la cantidad por estado
   users.forEach((user) => {
     const status = mapUserStatus(user.status);
     if (userCountByStatus.hasOwnProperty(status)) {

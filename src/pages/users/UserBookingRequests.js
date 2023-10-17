@@ -19,10 +19,12 @@ export function UserBookingRequests() {
           paddingTop: "20px",
           justifyContent: "center",
           alignItems: "center",
-          textAlign: "center", 
+          textAlign: "center",
         }}
       >
-        <Typography variant="h4" marginBottom={3}>Solicitudes de arrendamiento</Typography>
+        <Typography variant="h4" marginBottom={3}>
+          Solicitudes de arrendamiento
+        </Typography>
         <Divider light variant="middle" sx={{ borderBottomWidth: "3px" }} />
         <Box
           padding={2}

@@ -24,9 +24,9 @@ export function PublicationView() {
 
   const styles = {
     backgroundImage: `url(${image})`,
-    backgroundSize: "cover", // Ajusta el tamaño de la imagen para cubrir toda la caja
-    backgroundRepeat: "no-repeat", // Evita que la imagen se repita
-    width: "100%", // Ancho de la caja
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    width: "100%",
   };
 
   return (

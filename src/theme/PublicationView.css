@@ -623,28 +623,26 @@ footer a {
   }
 }
 
-/* Estilos para las imágenes de miniaturas en la galería */
 .thumbnail-image {
-  width: 100px; /* Cambia el valor al tamaño deseado */
-  height: 100px; /* Cambia el valor al tamaño deseado */
-  object-fit: cover; /* Ajusta la imagen manteniendo la relación de aspecto y recortándola si es necesario */
+  width: 100px; 
+  height: 100px; 
+  object-fit: cover; 
 }
 
-/* Estilos para las imágenes de miniaturas en la galería */
 .current-image {
-  width: 450px; /* Cambia el valor al tamaño deseado */
-  height: 450px; /* Cambia el valor al tamaño deseado */
-  object-fit: cover; /* Ajusta la imagen manteniendo la relación de aspecto y recortándola si es necesario */
+  width: 450px; 
+  height: 450px; 
+  object-fit: cover; 
 }
 
 .cuadro {
-  border: 2px solid #000; /* Borde de 2 píxeles sólido negro */
-  padding: 10px; /* Espaciado interno de 10 píxeles */
-  background-color: #f0f0f0; /* Color de fondo gris claro */
-  border-radius: 5px; /* Bordes redondeados */
-  margin: 20px; /* Margen exterior de 20 píxeles */
+  border: 2px solid #000; 
+  padding: 10px; 
+  background-color: #f0f0f0; 
+  border-radius: 5px; 
+  margin: 20px; 
 }
 
 .cuadro p {
-  margin: 5px 0; /* Margen superior e inferior de los párrafos */
+  margin: 5px 0;
 }

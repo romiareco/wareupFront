@@ -1,6 +1,5 @@
 import * as React from "react";
 import {
-  Box,
   Button,
   Dialog,
   DialogActions,
@@ -27,7 +26,7 @@ export function RemoveUserDepositDialog({
   const { accessToken } = useAuth();
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
-  const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
+  const [notificationSeverity, setNotificationSeverity] = useState("success");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -46,7 +45,7 @@ export function RemoveUserDepositDialog({
   const handleAccept = async () => {
     const depositController = new Deposit();
     try {
-      setLoading(true); // Inicia la carga
+      setLoading(true);
 
       await depositController.deleteDeposit(accessToken, selectedDeposit.id);
 
@@ -54,7 +53,7 @@ export function RemoveUserDepositDialog({
       setNotificationSeverity("success");
       setNotificationOpen(true);
 
-      setLoading(false); // Finaliza la carga, sin importar el resultado
+      setLoading(false);
       setIsDialogOpen(false);
       onDialogOpenChange(false);
     } catch (error) {
@@ -62,7 +61,7 @@ export function RemoveUserDepositDialog({
       setNotificationSeverity("error");
       setNotificationOpen(true);
 
-      setLoading(false); // Finaliza la carga, sin importar el resultado
+      setLoading(false);
     }
   };
 

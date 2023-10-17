@@ -8,12 +8,12 @@ export function SignUpButton() {
       <Button
         href="/register"
         variant="outlined"
-        color="secondary" // Usa el color secundario definido en el theme.js
+        color="secondary"
         sx={{
-          borderColor: theme.palette.secondary.main, // Establece el borde del botón al color secundario
+          borderColor: theme.palette.secondary.main,
           ml: 1,
           "&:hover": {
-            backgroundColor: theme.palette.secondary.dark, // Establece el color de fondo al color secundario oscuro al pasar el ratón por encima
+            backgroundColor: theme.palette.secondary.dark,
           },
         }}
       >

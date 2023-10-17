@@ -5,7 +5,7 @@ import IconButton from "@mui/material/IconButton";
 export const columns = (handleEdit, handleDelete) => [
   { id: "id", label: "ID", minWidth: 50 },
   { id: "name", label: "Nombre" },
-  { id: "lastName", label: "Apellido"},
+  { id: "lastName", label: "Apellido" },
   {
     id: "email",
     label: "Email",

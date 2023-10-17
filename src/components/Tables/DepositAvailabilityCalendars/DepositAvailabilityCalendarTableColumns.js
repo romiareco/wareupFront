@@ -1,6 +1,6 @@
 export const columns = () => [
-    { id: "dateFrom", label: "Desde"},
-    { id: "dateTo", label: "Hasta"},
-    { id: "totalM3", label: "Metros cúbicos"},
-    {id: "createdAt", label: "Fecha creación"},
-  ];
+  { id: "dateFrom", label: "Desde" },
+  { id: "dateTo", label: "Hasta" },
+  { id: "totalM3", label: "Metros cúbicos" },
+  { id: "createdAt", label: "Fecha creación" },
+];

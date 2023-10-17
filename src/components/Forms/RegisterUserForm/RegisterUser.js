@@ -15,7 +15,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { ThemeProvider } from "@mui/material/styles";
 import { Copyright } from "../../Copyright";
-import theme from "./../../../theme/theme"; // Importa el theme.js aquí
+import theme from "./../../../theme/theme";
 import { NotificationSnackbar } from "../../Snackbar";
 import Popover from "@mui/material/Popover";
 import IconButton from "@mui/material/IconButton";
@@ -28,7 +28,7 @@ export function RegisterUser() {
   const navigate = useNavigate();
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
-  const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
+  const [notificationSeverity, setNotificationSeverity] = useState("success");
   const [anchorEl, setAnchorEl] = useState(null);
   const isPopoverOpen = Boolean(anchorEl);
   const [showLoginDialog, setShowLoginDialog] = useState(false);
@@ -263,7 +263,7 @@ export function RegisterUser() {
         severity={notificationSeverity}
         message={notificationMessage}
       />
-       <LoginDialog
+      <LoginDialog
         openDialog={showLoginDialog}
         onDialogOpenChange={handleOpenLoginDialog}
         onClose={() => setShowLoginDialog(false)}

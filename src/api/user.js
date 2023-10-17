@@ -63,8 +63,6 @@ export class User {
 
   async recoverPassword(data) {
     try {
-      console.log(data);
-
       const url = `${this.baseApi}/${ENV.API_ROUTES.RECOVER_PASSWORD}`;
       const params = {
         method: "POST",
@@ -77,7 +75,6 @@ export class User {
       };
 
       const response = await fetch(url, params);
-      console.log(response);
       const result = await response.json();
 
       if (response.status !== 200) throw response;
@@ -152,7 +149,6 @@ export class User {
   }
 
   async updatePassword(data, tokenParam) {
-    console.log(data);
     try {
       const url = `${this.baseApi}/${ENV.API_ROUTES.UPDATE_PASSWORD}`;
       const params = {
@@ -167,7 +163,6 @@ export class User {
       };
 
       const response = await fetch(url, params);
-      console.log(response);
       const result = await response.json();
 
       if (response.status !== 200) throw response;

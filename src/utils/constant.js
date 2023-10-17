@@ -5,7 +5,6 @@ export const sidenavCompactWidth = 80;
 export const containedLayoutWidth = 1200;
 
 const SERVER_IP = "wareup-api-dev.onrender.com";
-//TODO: separar API_ROUTES por entidad
 export const ENV = {
   BASE_PATH: `https://${SERVER_IP}`,
   BASE_API: `https://${SERVER_IP}/api/v1`,
@@ -31,7 +30,6 @@ export const ENV = {
     DEPOSIT_CALENDAR_INFO: "/depositCalendar/byDeposit",
     BOOKING_REQUEST: "/bookingRequests",
     BOOKING_REQUESTS_BY_USER_ID: "/bookingRequests/byUser",
-
   },
   CONSTANT_ROUTES: {
     GOOGLE_MAPS_LOCATION_COORDINATES:
@@ -63,5 +61,5 @@ export const ENV = {
   },
   DEPOSITS_PARAMETERS_LIMIT: {
     MAX_DESCRIPTION_CHARACTERS: 200,
-  }
+  },
 };

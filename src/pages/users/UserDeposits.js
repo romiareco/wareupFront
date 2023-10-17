@@ -19,11 +19,13 @@ export function UserDeposits() {
           paddingBottom: "40px",
           paddingTop: "20px",
           justifyContent: "center",
-          alignItems: "center", 
+          alignItems: "center",
           textAlign: "center",
         }}
       >
-        <Typography variant="h4" marginBottom={3}>Mis depósitos</Typography>
+        <Typography variant="h4" marginBottom={3}>
+          Mis depósitos
+        </Typography>
         <Divider light variant="middle" sx={{ borderBottomWidth: "3px" }} />
         <Box
           padding={2}

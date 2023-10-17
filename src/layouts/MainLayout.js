@@ -4,7 +4,6 @@ import { UserProfileButton } from "../components/Button";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import { IconButton, Box, Button, Menu, MenuItem } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Link } from "react-router-dom";
@@ -23,12 +22,10 @@ export function MainLayout(props) {
   const [anchorEl, setAnchorEl] = useState({});
 
   const handleClick = (event, index) => {
-    // Establecer el estado de anclaje específico para este botón
     setAnchorEl({ ...anchorEl, [index]: event.currentTarget });
   };
 
   const handleClose = (index) => {
-    // Cerrar el menú desplegable específico para este botón
     setAnchorEl({ ...anchorEl, [index]: null });
   };
 
@@ -118,13 +115,13 @@ export function MainLayout(props) {
                       id={`menu-button-${index}`}
                       aria-controls={`menu-${index}`}
                       aria-haspopup="true"
-                      onClick={(event) => handleClick(event, index)} // Pasar el índice del botón
+                      onClick={(event) => handleClick(event, index)}
                       sx={{
                         color:
                           theme.components.MuiButton.styleOverrides
                             .containedPrimary,
-                        display: "flex", // Centra verticalmente los elementos
-                        alignItems: "center", // Centra verticalmente los elementos
+                        display: "flex",
+                        alignItems: "center",
                       }}
                     >
                       {button.icon && (
@@ -135,7 +132,6 @@ export function MainLayout(props) {
                       <span style={{ fontSize: "inherit" }}>
                         {button.label}
                       </span>{" "}
-                      {/* Ajusta el tamaño del texto */}
                     </Button>
                   ) : (
                     <Button
@@ -146,8 +142,8 @@ export function MainLayout(props) {
                           theme.components.MuiButton.styleOverrides
                             .containedPrimary,
                         ml: index > 0 ? 1 : 0,
-                        display: "flex", // Centra verticalmente los elementos
-                        alignItems: "center", // Centra verticalmente los elementos
+                        display: "flex",
+                        alignItems: "center",
                       }}
                     >
                       {button.icon && (
@@ -158,15 +154,14 @@ export function MainLayout(props) {
                       <span style={{ fontSize: "inherit" }}>
                         {button.label}
                       </span>{" "}
-                      {/* Ajusta el tamaño del texto */}
                     </Button>
                   )}
                   {button.menuItems && (
                     <Menu
                       id={`menu-${index}`}
-                      anchorEl={anchorEl[index]} // Usar el estado específico para este botón
+                      anchorEl={anchorEl[index]}
                       open={Boolean(anchorEl[index])}
-                      onClose={() => handleClose(index)} // Pasar el índice del botón
+                      onClose={() => handleClose(index)}
                       anchorOrigin={{
                         vertical: "bottom",
                         horizontal: "left",
@@ -204,7 +199,6 @@ export function MainLayout(props) {
           <Toolbar />
         </Box>
       ) : (
-        // Si no está logueado, muestra la barra superior de TopBarPublic
         <TopHomeBar />
       )}
       <Box>{children}</Box>

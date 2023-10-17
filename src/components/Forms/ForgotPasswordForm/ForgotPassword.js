@@ -27,7 +27,7 @@ export function ForgotPassword() {
   const navigate = useNavigate();
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
-  const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
+  const [notificationSeverity, setNotificationSeverity] = useState("success");
 
   const formik = useFormik({
     initialValues: inititalValues,
@@ -45,8 +45,7 @@ export function ForgotPassword() {
 
         resetForm();
       } catch (error) {
-        const errorMessage =
-          "Error: " + JSON.stringify(error.message);
+        const errorMessage = "Error: " + JSON.stringify(error.message);
         console.log(errorMessage);
         setNotificationMessage(errorMessage);
         setNotificationSeverity("error");

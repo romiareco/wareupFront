@@ -25,7 +25,7 @@ const userController = new User();
 export function UserRoleChart() {
   const { accessToken } = useAuth();
   const [users, setUsers] = useState([]);
-  const [labels, setLabels] = useState([]); // Estado para almacenar los labels dinámicos
+  const [labels, setLabels] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -41,20 +41,18 @@ export function UserRoleChart() {
   }, [accessToken]);
 
   useEffect(() => {
-    // Obtener una lista de valores de estado únicos
-    const uniqueRoleValues = [...new Set(users.map((user) => mapUserRole(user.role)))];
+    const uniqueRoleValues = [
+      ...new Set(users.map((user) => mapUserRole(user.role))),
+    ];
 
-    // Establecer los labels en función de los valores únicos de estado
     setLabels(uniqueRoleValues);
   }, [users]);
 
-  // Inicializa un objeto para contar la cantidad de depósitos por estado
   const userCountByRole = labels.reduce((acc, label) => {
     acc[label] = 0;
     return acc;
   }, {});
 
-  // Procesa los datos de depósito para contar la cantidad por estado
   users.forEach((user) => {
     const role = mapUserRole(user.role);
     if (userCountByRole.hasOwnProperty(role)) {

@@ -1,11 +1,4 @@
-import {
-  Grid,
-  Box,
-  Button,
-  TextField,
-  Typography,
-  ThemeProvider,
-} from "@mui/material";
+import { Grid, Box, Button, TextField, ThemeProvider } from "@mui/material";
 import { useFormik } from "formik";
 import { useAuth } from "../../../hooks";
 import { Company } from "../../../api";
@@ -24,7 +17,7 @@ export function EditCompanyInformation({ company }) {
   const { accessToken } = useAuth();
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
-  const [notificationSeverity, setNotificationSeverity] = useState("success"); // 'success' or 'error'
+  const [notificationSeverity, setNotificationSeverity] = useState("success");
   const [loading, setLoading] = useState(false);
 
   const formik = useFormik({

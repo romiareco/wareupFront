@@ -17,11 +17,11 @@ export function validationSchema(departments, cities, userCompanies) {
     companyId: Yup.number().required("Debe seleccionar una empresa"),
     address: Yup.string().required("La dirección es obligatoria."),
     phone: Yup.string()
-    .matches(
-      /^[0-9()+-]*$/,
-      "El número de teléfono contiene caracteres no válidos"
-    )
-    .required("Campo obligatorio"),
+      .matches(
+        /^[0-9()+-]*$/,
+        "El número de teléfono contiene caracteres no válidos"
+      )
+      .required("Campo obligatorio"),
     title: Yup.string().required(
       "Debe cargar un título para la solicitud de depósito."
     ),
